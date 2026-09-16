@@ -1,0 +1,85 @@
+import React from 'react';
+import { ArrowLeft, Search, Terminal, Sparkles, Filter } from 'lucide-react';
+
+export function BlogHeader({
+  onBackToHub,
+  searchQuery,
+  onSearchChange,
+  activeTab,
+  onSelectTab,
+  postCount,
+  thoughtCount
+}) {
+  const tabs = [
+    { id: 'all', label: 'Tudo' },
+    { id: 'article', label: 'Artigos' },
+    { id: 'story', label: 'Histórias' },
+    { id: 'thought', label: 'Pensamentos' },
+  ];
+
+  return (
+    <header className="mb-10 pb-6 border-b border-zinc-200 dark:border-zinc-800">
+      {/* Top backlink and counter */}
+      <div className="flex items-center justify-between gap-4 mb-4">
+        <button
+          onClick={onBackToHub}
+          className="inline-flex items-center gap-2 text-xs font-mono text-emerald-600 dark:text-emerald-400 hover:underline cursor-pointer group"
+        >
+          <ArrowLeft className="w-3.5 h-3.5 group-hover:-translate-x-1 transition-transform" />
+          <span>Voltar ao Hub Central</span>
+        </button>
+
+        <div className="hidden sm:flex items-center gap-3 text-xs font-mono text-zinc-500">
+          <span>{postCount} artigos & crônicas</span>
+          <span>•</span>
+          <span>{thoughtCount} pensamentos</span>
+        </div>
+      </div>
+
+      {/* Main Title & Search */}
+      <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
+        <div>
+          <div className="inline-flex items-center gap-2 text-xs font-mono text-emerald-600 dark:text-emerald-400 uppercase tracking-widest font-semibold mb-1">
+            <Terminal className="w-3.5 h-3.5" />
+            <span>Publicações & Notas</span>
+          </div>
+          <h1 className="text-3xl sm:text-5xl font-extrabold font-mono text-zinc-900 dark:text-white tracking-tight">
+            O Blog do Zero
+          </h1>
+          <p className="text-sm sm:text-base text-zinc-600 dark:text-zinc-400 font-sans mt-2 max-w-xl leading-relaxed">
+            Ensaios, crônicas, notas de terminal e cultura da internet.
+          </p>
+        </div>
+
+        {/* Search Input */}
+        <div className="relative w-full md:w-72">
+          <Search className="w-4 h-4 text-zinc-400 absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none" />
+          <input
+            type="text"
+            value={searchQuery}
+            onChange={(e) => onSearchChange(e.target.value)}
+            placeholder="Buscar por termo ou tag..."
+            className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-white dark:bg-zinc-900/80 border border-zinc-300 dark:border-zinc-800 text-xs font-mono focus:outline-none focus:border-emerald-500 transition-colors shadow-sm"
+          />
+        </div>
+      </div>
+
+      {/* Navigation Filter Tabs */}
+      <div className="flex flex-wrap items-center gap-2 mt-6 pt-4 border-t border-zinc-100 dark:border-zinc-800/60">
+        {tabs.map((tab) => (
+          <button
+            key={tab.id}
+            onClick={() => onSelectTab(tab.id)}
+            className={`px-4 py-1.5 rounded-xl text-xs font-mono transition-all cursor-pointer ${
+              activeTab === tab.id
+                ? 'bg-zinc-900 dark:bg-emerald-500 text-white dark:text-zinc-950 font-bold shadow-sm'
+                : 'bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 text-zinc-600 dark:text-zinc-400 hover:border-emerald-500/40 hover:text-zinc-900 dark:hover:text-white'
+            }`}
+          >
+            {tab.label}
+          </button>
+        ))}
+      </div>
+    </header>
+  );
+}

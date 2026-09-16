@@ -1,0 +1,95 @@
+import React from 'react';
+import { ArrowRight, Clock, Globe, Heart, MessageSquare, Sparkles } from 'lucide-react';
+
+export function FeaturedPost({ post, isLiked, onToggleLike, onSelect }) {
+  if (!post) return null;
+
+  const title = post.title || post.title_pt;
+  const formattedDate = new Date(post.createdAt).toLocaleDateString('pt-BR', {
+    day: '2-digit',
+    month: 'long',
+    year: 'numeric'
+  });
+
+  return (
+    <article
+      onClick={() => onSelect(post)}
+      className="group relative p-6 sm:p-8 rounded-3xl bg-gradient-to-br from-white via-zinc-50 to-zinc-100 dark:from-zinc-900/90 dark:via-zinc-900/60 dark:to-zinc-950 border border-zinc-200 dark:border-zinc-800 hover:border-emerald-500/50 transition-all duration-300 shadow-sm hover:shadow-xl cursor-pointer overflow-hidden mb-10"
+    >
+      <div className="absolute top-0 right-0 w-64 h-64 bg-emerald-500/5 group-hover:bg-emerald-500/10 rounded-full blur-3xl transition-all pointer-events-none" />
+
+      {/* Header bar */}
+      <div className="flex flex-wrap items-center justify-between gap-2 mb-4">
+        <div className="flex items-center gap-2">
+          <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-mono font-bold bg-emerald-500 text-white dark:text-zinc-950 shadow-sm">
+            <Sparkles className="w-3.5 h-3.5" />
+            <span>Destaque</span>
+          </span>
+          {post.bilingual && (
+            <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-mono bg-zinc-200/70 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300">
+              <Globe className="w-3 h-3 text-emerald-500" />
+              <span>PT / EN</span>
+            </span>
+          )}
+        </div>
+
+        <div className="flex items-center gap-2 text-xs font-mono text-zinc-500">
+          <span>{formattedDate}</span>
+          <span>•</span>
+          <span className="flex items-center gap-1">
+            <Clock className="w-3 h-3" />
+            {post.readingTime}
+          </span>
+        </div>
+      </div>
+
+      {/* Title & Subtitle */}
+      <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold font-mono text-zinc-900 dark:text-white group-hover:text-emerald-600 dark:group-hover:text-emerald-400 transition-colors leading-tight mb-3">
+        {title}
+      </h2>
+
+      <p className="text-base sm:text-lg text-zinc-600 dark:text-zinc-300 font-sans leading-relaxed mb-6 max-w-3xl">
+        {post.subtitle}
+      </p>
+
+      {/* Footer / Meta */}
+      <div className="flex flex-wrap items-center justify-between gap-4 pt-4 border-t border-zinc-200/80 dark:border-zinc-800/80 text-xs font-mono">
+        <div className="flex flex-wrap items-center gap-2">
+          {post.tags?.map((tag) => (
+            <span
+              key={tag}
+              className="px-2.5 py-1 rounded-lg bg-zinc-200/60 dark:bg-zinc-800/80 text-zinc-700 dark:text-zinc-300"
+            >
+              #{tag}
+            </span>
+          ))}
+        </div>
+
+        <div className="flex items-center gap-4">
+          <button
+            onClick={(e) => {
+              e.stopPropagation();
+              onToggleLike(post.id);
+            }}
+            className={`flex items-center gap-1.5 transition-colors cursor-pointer ${
+              isLiked ? 'text-rose-500 font-bold' : 'text-zinc-500 hover:text-rose-500'
+            }`}
+          >
+            <Heart className={`w-4 h-4 ${isLiked ? 'fill-rose-500' : ''}`} />
+            <span>{post.likes || 0}</span>
+          </button>
+
+          <span className="flex items-center gap-1.5 text-zinc-500">
+            <MessageSquare className="w-4 h-4" />
+            <span>{post.comments?.length || 0}</span>
+          </span>
+
+          <span className="inline-flex items-center gap-1 font-bold text-emerald-600 dark:text-emerald-400 group-hover:translate-x-1 transition-transform">
+            <span>Ler Artigo</span>
+            <ArrowRight className="w-4 h-4" />
+          </span>
+        </div>
+      </div>
+    </article>
+  );
+}

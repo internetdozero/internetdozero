@@ -1,13 +1,16 @@
-import React, { useState, useEffect } from 'react';
-import { ArrowLeft, Search, Sparkles, Terminal, BookOpen } from 'lucide-react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { blogApi } from './services/blogApi';
-import { ThoughtCard } from './components/ThoughtCard';
-import { PostCard } from './components/PostCard';
+import { BlogHeader } from './components/BlogHeader';
+import { FeaturedPost } from './components/FeaturedPost';
+import { PostListItem } from './components/PostListItem';
+import { BlogSidebar } from './components/BlogSidebar';
 import { PostDetail } from './components/PostDetail';
+import { ThoughtCard } from './components/ThoughtCard';
 
 export function BlogView({ onBackToHub }) {
   const [posts, setPosts] = useState([]);
   const [activeTab, setActiveTab] = useState('all');
+  const [activeTag, setActiveTag] = useState(null);
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedPost, setSelectedPost] = useState(null);
 
@@ -31,16 +34,35 @@ export function BlogView({ onBackToHub }) {
     }
   };
 
-  const filteredPosts = posts.filter((post) => {
-    const matchesTab = activeTab === 'all' || post.type === activeTab;
-    const q = searchQuery.toLowerCase();
-    const matchesSearch = !q ||
-      (post.content && post.content.toLowerCase().includes(q)) ||
-      (post.title && post.title.toLowerCase().includes(q)) ||
-      (post.title_pt && post.title_pt.toLowerCase().includes(q)) ||
-      (post.tags && post.tags.some((t) => t.toLowerCase().includes(q)));
-    return matchesTab && matchesSearch;
-  });
+  const thoughts = useMemo(() => posts.filter((p) => p.type === 'thought'), [posts]);
+  const longFormPosts = useMemo(() => posts.filter((p) => p.type !== 'thought'), [posts]);
+
+  // Tag extraction
+  const allTags = useMemo(() => {
+    const counts = {};
+    longFormPosts.forEach((p) => {
+      p.tags?.forEach((t) => {
+        counts[t] = (counts[t] || 0) + 1;
+      });
+    });
+    return Object.entries(counts).map(([name, count]) => ({ name, count }));
+  }, [longFormPosts]);
+
+  // Filtering
+  const filteredLongPosts = useMemo(() => {
+    return longFormPosts.filter((post) => {
+      const matchesTab = activeTab === 'all' || post.type === activeTab;
+      const matchesTag = !activeTag || (post.tags && post.tags.includes(activeTag));
+      const q = searchQuery.toLowerCase();
+      const matchesSearch = !q ||
+        (post.title && post.title.toLowerCase().includes(q)) ||
+        (post.title_pt && post.title_pt.toLowerCase().includes(q)) ||
+        (post.subtitle && post.subtitle.toLowerCase().includes(q)) ||
+        (post.tags && post.tags.some((t) => t.toLowerCase().includes(q)));
+
+      return matchesTab && matchesTag && matchesSearch;
+    });
+  }, [longFormPosts, activeTab, activeTag, searchQuery]);
 
   if (selectedPost) {
     return (
@@ -54,92 +76,93 @@ export function BlogView({ onBackToHub }) {
     );
   }
 
-  const tabs = [
-    { id: 'all', label: 'Tudo' },
-    { id: 'thought', label: '💭 Pensamentos' },
-    { id: 'story', label: '📖 Histórias' },
-    { id: 'article', label: '📰 Artigos' },
-  ];
+  const featured = activeTab === 'all' && !activeTag && !searchQuery ? filteredLongPosts[0] : null;
+  const feedPosts = featured ? filteredLongPosts.slice(1) : filteredLongPosts;
 
   return (
-    <div className="max-w-5xl mx-auto px-4 sm:px-6 py-8">
-      {/* Top Header */}
-      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 pb-6 border-b border-zinc-200 dark:border-zinc-800">
-        <div>
-          <button
-            onClick={onBackToHub}
-            className="inline-flex items-center gap-1.5 text-xs font-mono text-emerald-600 dark:text-emerald-400 hover:underline mb-2 cursor-pointer"
-          >
-            <ArrowLeft className="w-3.5 h-3.5" />
-            <span>Voltar ao Hub Central</span>
-          </button>
-          <h1 className="text-3xl font-extrabold font-mono text-zinc-900 dark:text-white">
-            O Blog do Zero
-          </h1>
-          <p className="text-sm text-zinc-500 font-sans mt-1">
-            Pensamentos rápidos, crônicas autorais e artigos sem censura de temas.
-          </p>
-        </div>
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+      <BlogHeader
+        onBackToHub={onBackToHub}
+        searchQuery={searchQuery}
+        onSearchChange={setSearchQuery}
+        activeTab={activeTab}
+        onSelectTab={(tab) => {
+          setActiveTab(tab);
+          setActiveTag(null);
+        }}
+        postCount={longFormPosts.length}
+        thoughtCount={thoughts.length}
+      />
 
-        {/* Search */}
-        <div className="relative w-full sm:w-64">
-          <Search className="w-4 h-4 text-zinc-400 absolute left-3 top-1/2 -translate-y-1/2" />
-          <input
-            type="text"
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            placeholder="Buscar publicações..."
-            className="w-full pl-9 pr-3 py-2 rounded-xl bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 text-xs font-mono focus:outline-none focus:border-emerald-500 transition-colors"
+      {/* Featured Lead Story */}
+      {featured && (
+        <FeaturedPost
+          post={featured}
+          isLiked={blogApi.isPostLiked(featured.id)}
+          onToggleLike={handleToggleLike}
+          onSelect={setSelectedPost}
+        />
+      )}
+
+      {/* Two Column Editorial Layout */}
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-10">
+        {/* Main Content Area */}
+        <main className="lg:col-span-8">
+          <div className="flex items-center justify-between pb-3 border-b border-zinc-200 dark:border-zinc-800 mb-2">
+            <h2 className="font-mono text-sm font-bold uppercase tracking-wider text-zinc-800 dark:text-zinc-200">
+              {activeTab === 'thought' ? 'Todos os Pensamentos' : 'Publicações Recentes'}
+            </h2>
+            {activeTag && (
+              <span className="text-xs font-mono text-emerald-600 dark:text-emerald-400">
+                Filtro: #{activeTag}
+              </span>
+            )}
+          </div>
+
+          {activeTab === 'thought' ? (
+            <div className="space-y-4 pt-4">
+              {thoughts.map((thought) => (
+                <ThoughtCard
+                  key={thought.id}
+                  thought={thought}
+                  isLiked={blogApi.isPostLiked(thought.id)}
+                  onToggleLike={handleToggleLike}
+                  onSelect={setSelectedPost}
+                />
+              ))}
+            </div>
+          ) : (
+            <div>
+              {feedPosts.length === 0 ? (
+                <div className="py-16 text-center text-sm font-mono text-zinc-500">
+                  Nenhuma publicação encontrada para o filtro atual.
+                </div>
+              ) : (
+                feedPosts.map((post) => (
+                  <PostListItem
+                    key={post.id}
+                    post={post}
+                    isLiked={blogApi.isPostLiked(post.id)}
+                    onToggleLike={handleToggleLike}
+                    onSelect={setSelectedPost}
+                  />
+                ))
+              )}
+            </div>
+          )}
+        </main>
+
+        {/* Sidebar */}
+        <div className="lg:col-span-4">
+          <BlogSidebar
+            thoughts={thoughts.slice(0, 4)}
+            tags={allTags}
+            activeTag={activeTag}
+            onSelectTag={setActiveTag}
+            onToggleLike={handleToggleLike}
+            onSelectThought={setSelectedPost}
           />
         </div>
-      </div>
-
-      {/* Tabs */}
-      <div className="flex flex-wrap gap-2 my-6">
-        {tabs.map((tab) => (
-          <button
-            key={tab.id}
-            onClick={() => setActiveTab(tab.id)}
-            className={`px-3.5 py-1.5 rounded-xl text-xs font-mono transition-all cursor-pointer ${
-              activeTab === tab.id
-                ? 'bg-emerald-600 dark:bg-emerald-500 text-white dark:text-black font-bold shadow-sm'
-                : 'bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 text-zinc-600 dark:text-zinc-400 hover:border-emerald-500/40'
-            }`}
-          >
-            {tab.label}
-          </button>
-        ))}
-      </div>
-
-      {/* Feed List */}
-      <div className="space-y-6">
-        {filteredPosts.length === 0 ? (
-          <div className="text-center py-16 p-6 rounded-2xl bg-zinc-50 dark:bg-zinc-900/40 border border-zinc-200 dark:border-zinc-800">
-            <p className="text-sm text-zinc-500 font-mono">
-              Nenhuma publicação encontrada para o filtro selecionado.
-            </p>
-          </div>
-        ) : (
-          filteredPosts.map((post) =>
-            post.type === 'thought' ? (
-              <ThoughtCard
-                key={post.id}
-                thought={post}
-                isLiked={blogApi.isPostLiked(post.id)}
-                onToggleLike={handleToggleLike}
-                onSelect={setSelectedPost}
-              />
-            ) : (
-              <PostCard
-                key={post.id}
-                post={post}
-                isLiked={blogApi.isPostLiked(post.id)}
-                onToggleLike={handleToggleLike}
-                onSelect={setSelectedPost}
-              />
-            )
-          )
-        )}
       </div>
     </div>
   );
