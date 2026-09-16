@@ -2,6 +2,7 @@ export const initialPosts = [
   {
     id: "thought-2",
     slug: "terminal-interface-honesta",
+    slug_en: "the-most-honest-interface",
     type: "thought",
     content: "O terminal continua sendo a interface mais honesta já inventada pela computação.",
     content_en: "The terminal remains the most honest interface ever invented in computing.",
@@ -13,6 +14,7 @@ export const initialPosts = [
   {
     id: "thought-1",
     slug: "preguica-reboot",
+    slug_en: "lazy-reboot",
     type: "thought",
     content: "Hoje eu 'tô com uma preguiça que nem reboot de servidor resolve.",
     content_en: "Today I'm lazy in a way that not even a cold server reboot can fix.",
@@ -26,6 +28,7 @@ export const initialPosts = [
   {
     id: "article-2",
     slug: "como-rodar-llms-locais",
+    slug_en: "running-local-llms",
     type: "article",
     title_pt: "Como rodar LLMs locais no seu próprio hardware sem loucura",
     title_en: "Running Local LLMs on Your Own Rig Without the Madness",
@@ -87,6 +90,7 @@ export const initialPosts = [
   {
     id: "story-1",
     slug: "madrugada-dos-modems-discados",
+    slug_en: "the-dialup-modem-dawn",
     type: "story",
     title: "A Madrugada dos Modems Discados",
     subtitle: "Uma crônica sobre o som de conexão às 00:01 do sábado",
@@ -126,6 +130,7 @@ export const initialPosts = [
   {
     id: "article-1",
     slug: "por-que-a-web-perdeu-a-espontaneidade",
+    slug_en: "why-the-web-lost-its-spontaneity",
     type: "article",
     title_pt: "Por que a Web perdeu a espontaneidade (e como resgatar)",
     title_en: "Why the Web Lost Its Spontaneity (And How to Reclaim It)",

@@ -23,23 +23,23 @@ export function App() {
 
   const handleSelectModule = useCallback((m) => {
     if (m.id === 'blog') {
-      navigate(lang === 'en' ? '/blog?lang=en' : '/blog');
+      navigate('/blog');
     } else {
       setSelectedModule(m);
     }
-  }, [navigate, lang]);
+  }, [navigate]);
 
   const handleScrollToModules = useCallback(() => {
-    if (currentView !== 'hub') navigate(lang === 'en' ? '/?lang=en' : '/');
+    if (currentView !== 'hub') navigate('/');
     setTimeout(() => {
       const el = document.getElementById('modulos');
       el?.scrollIntoView({ behavior: 'smooth' });
     }, 100);
-  }, [currentView, navigate, lang]);
+  }, [currentView, navigate]);
 
   const handleGoHome = useCallback(() => {
-    navigate(lang === 'en' ? '/?lang=en' : '/');
-  }, [navigate, lang]);
+    navigate('/');
+  }, [navigate]);
 
   const handleOpenCommand = useCallback(() => setIsCommandOpen(true), []);
   const handleCloseCommand = useCallback(() => setIsCommandOpen(false), []);
@@ -56,7 +56,7 @@ export function App() {
         readingPost={currentView === 'blog' && postSlug}
         lang={lang}
         onToggleLang={setLang}
-        onBackToBlog={() => navigate(lang === 'en' ? '/blog?lang=en' : '/blog')}
+        onBackToBlog={() => navigate('/blog')}
       />
 
       <main className="flex-1">

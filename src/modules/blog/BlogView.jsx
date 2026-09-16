@@ -23,24 +23,24 @@ export function BlogView({ postSlug, onNavigate, lang = 'pt', onToggleLang }) {
     window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
   }, [postSlug, activeTab]);
 
-  // Derive selectedPost from slug + posts (single source of truth)
+  // Derive selectedPost from slug + posts (matches both PT and EN slugs)
   const selectedPost = useMemo(() => {
     if (!postSlug || !posts.length) return null;
-    return posts.find((p) => p.slug === postSlug) || null;
+    return posts.find((p) => p.slug === postSlug || p.slug_en === postSlug) || null;
   }, [postSlug, posts]);
 
   const handleSelectPost = useCallback((post) => {
     if (post) {
-      const base = `/blog/${post.slug}`;
-      onNavigate(isEn ? `${base}?lang=en` : base);
+      const slug = isEn && post.slug_en ? post.slug_en : post.slug;
+      onNavigate(`/blog/${slug}`);
     } else {
-      onNavigate(isEn ? '/blog?lang=en' : '/blog');
+      onNavigate('/blog');
     }
   }, [isEn, onNavigate]);
 
   const handleBackToHub = useCallback(() => {
-    onNavigate(isEn ? '/?lang=en' : '/');
-  }, [isEn, onNavigate]);
+    onNavigate('/');
+  }, [onNavigate]);
 
   const handleToggleLike = useCallback(async (id) => {
     const { posts: updatedPosts } = await blogApi.toggleLike(id);
