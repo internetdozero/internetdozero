@@ -10,26 +10,27 @@ export function ArticleIndexPanel({
   onClose
 }) {
   const [indexSearch, setIndexSearch] = useState('');
+  const isEn = postLang === 'en';
 
-  // Agrupamento por categoria/primeira tag
   const groupedArticles = useMemo(() => {
     const q = indexSearch.toLowerCase().trim();
     const filtered = posts.filter((p) => {
       if (!q) return true;
-      const title = (p.title_pt || p.title || '').toLowerCase();
-      const tags = (p.tags || []).join(' ').toLowerCase();
+      const title = (isEn && p.title_en ? p.title_en : (p.title_pt || p.title || '')).toLowerCase();
+      const tags = (isEn && p.tags_en ? p.tags_en : (p.tags_pt || p.tags || [])).join(' ').toLowerCase();
       return title.includes(q) || tags.includes(q);
     });
 
     const groups = {};
     filtered.forEach((post) => {
-      const category = post.tags?.[0] || 'Geral';
+      const tags = isEn && post.tags_en ? post.tags_en : (post.tags_pt || post.tags || []);
+      const category = tags[0] || (isEn ? 'General' : 'Geral');
       if (!groups[category]) groups[category] = [];
       groups[category].push(post);
     });
 
     return groups;
-  }, [posts, indexSearch]);
+  }, [posts, indexSearch, isEn]);
 
   const totalCount = posts.length;
 
@@ -40,7 +41,7 @@ export function ArticleIndexPanel({
         <div className="flex items-center gap-2">
           <BookOpen className="w-4 h-4 text-emerald-500" />
           <h3 className="font-bold uppercase tracking-wider text-zinc-900 dark:text-zinc-100">
-            Índice de Artigos
+            {isEn ? 'Article Index' : 'Índice de Artigos'}
           </h3>
           <span className="px-1.5 py-0.5 rounded bg-zinc-100 dark:bg-zinc-800 text-[10px] text-zinc-500">
             {totalCount}
@@ -50,7 +51,7 @@ export function ArticleIndexPanel({
           <button
             onClick={onClose}
             className="p-1 rounded-lg hover:bg-zinc-100 dark:hover:bg-zinc-800 text-zinc-400 hover:text-zinc-200 transition-colors cursor-pointer"
-            title="Fechar índice"
+            title={isEn ? "Close index" : "Fechar índice"}
           >
             <X className="w-4 h-4" />
           </button>
@@ -64,7 +65,7 @@ export function ArticleIndexPanel({
           type="text"
           value={indexSearch}
           onChange={(e) => setIndexSearch(e.target.value)}
-          placeholder="Filtrar índice..."
+          placeholder={isEn ? "Filter index..." : "Filtrar índice..."}
           className="w-full pl-8 pr-3 py-1.5 rounded-lg bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 text-xs placeholder-zinc-500 focus:outline-none focus:border-emerald-500 font-mono transition-colors"
         />
       </div>
@@ -73,7 +74,7 @@ export function ArticleIndexPanel({
       <div className="flex-1 overflow-y-auto space-y-4 pr-1 max-h-[460px]">
         {Object.keys(groupedArticles).length === 0 ? (
           <p className="text-center py-6 text-zinc-500 text-xs">
-            Nenhum artigo encontrado.
+            {isEn ? 'No articles found.' : 'Nenhum artigo encontrado.'}
           </p>
         ) : (
           Object.entries(groupedArticles).map(([category, items]) => (
@@ -87,9 +88,7 @@ export function ArticleIndexPanel({
               <div className="space-y-1">
                 {items.map((post) => {
                   const isSelected = selectedPostId === post.id;
-                  const title = (post.bilingual && postLang === 'en')
-                    ? (post.title_en || post.title)
-                    : (post.title_pt || post.title);
+                  const title = (isEn && post.title_en) ? post.title_en : (post.title_pt || post.title);
 
                   return (
                     <button
@@ -110,7 +109,7 @@ export function ArticleIndexPanel({
 
                       <div className="flex items-center gap-2 text-[10px] text-zinc-400 font-mono">
                         <span className="uppercase text-[9px] px-1 py-0.2 rounded bg-zinc-100 dark:bg-zinc-800 text-zinc-500">
-                          {post.type === 'story' ? 'História' : 'Artigo'}
+                          {post.type === 'story' ? (isEn ? 'Story' : 'História') : (isEn ? 'Article' : 'Artigo')}
                         </span>
                         <span className="flex items-center gap-0.5">
                           <Clock className="w-2.5 h-2.5" />

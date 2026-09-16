@@ -3,6 +3,7 @@ export const initialPosts = [
     id: "thought-2",
     type: "thought",
     content: "O terminal continua sendo a interface mais honesta já inventada pela computação.",
+    content_en: "The terminal remains the most honest interface ever invented in computing.",
     author: "senhor",
     createdAt: "2026-09-16T19:00:00.000Z",
     likes: 19,
@@ -12,6 +13,7 @@ export const initialPosts = [
     id: "thought-1",
     type: "thought",
     content: "Hoje eu 'tô com uma preguiça que nem reboot de servidor resolve.",
+    content_en: "Today I'm lazy in a way that not even a cold server reboot can fix.",
     author: "senhor",
     createdAt: "2026-09-16T18:50:00.000Z",
     likes: 12,
@@ -24,11 +26,14 @@ export const initialPosts = [
     type: "article",
     title_pt: "Como rodar LLMs locais no seu próprio hardware sem loucura",
     title_en: "Running Local LLMs on Your Own Rig Without the Madness",
-    subtitle: "Quantização, VRAM e a liberdade de ter inteligência artificial sem depender de API externa",
+    subtitle_pt: "Quantização, VRAM e a liberdade de ter inteligência artificial sem depender de API externa",
+    subtitle_en: "Quantization, VRAM, and the freedom of running AI without third-party API dependencies",
     author: "senhor",
     readingTime: "6 min",
     createdAt: "2026-09-16T12:00:00.000Z",
     likes: 87,
+    tags_pt: ["Tutoriais", "Hardware", "Inteligência Artificial"],
+    tags_en: ["Tutorials", "Hardware", "Local LLMs"],
     tags: ["Tutoriais", "Hardware", "Inteligência Artificial"],
     bilingual: true,
     sections_pt: [
@@ -51,6 +56,28 @@ export const initialPosts = [
         id: "conclusao",
         title: "Veredito e primeiros passos",
         content: "Comece com um modelo 8B como Llama 3.1 ou Qwen 2.5 7B. A soberania de ter o modelo operando offline no seu hardware compensa cada gigabyte baixado."
+      }
+    ],
+    sections_en: [
+      {
+        id: "intro",
+        title: "Why run models locally?",
+        content: "If you are passionate about artificial intelligence, a great step forward is to [run local LLMs](#quantizacao) right on your personal rig.\n\nYou do not need an enterprise server cluster for practical daily AI. Thanks to modern quantization breakthroughs, 8B to 14B parameter models run seamlessly on consumer-grade GPUs.\n\nEven more critical than cutting external API token bills: absolute privacy and digital sovereignty—nobody sees your prompt data."
+      },
+      {
+        id: "quantizacao",
+        title: "Understanding GGUF & EXL2 quantization",
+        content: "Quantization reduces parameter weight precision (e.g. from 16-bit float down to 4-bit or 5-bit integers) with negligible coherence loss.\n\n• **Q4_K_M**: The sweet spot for price-to-performance. Fits comfortably within 8GB VRAM with blazing token speeds.\n• **Q5_K_M**: Maximum reasoning coherence on longer contexts, ideal for 12GB to 16GB VRAM configurations."
+      },
+      {
+        id: "stack",
+        title: "Popular tools for local inference",
+        content: "Here are the two premier ecosystems to power local models on your setup:\n\n1. [Ollama](https://ollama.com)\n\nIf you want instant simplicity, [Ollama](https://ollama.com) allows pulling and running models via a single terminal command, exposing an OpenAI-compatible local API.\n\n2. [llama.cpp](https://github.com/ggerganov/llama.cpp)\n\nFor low-level GPU layer offloading, CPU thread tuning, and peak C++ performance, [llama.cpp](https://github.com/ggerganov/llama.cpp) remains the gold standard engine."
+      },
+      {
+        id: "conclusao",
+        title: "Verdict & Getting started",
+        content: "Start with an 8B model such as Llama 3.1 or Qwen 2.5 7B. The freedom of having models running 100% offline on your own machine is worth every downloaded gigabyte."
       }
     ]
   },
@@ -76,6 +103,18 @@ export const initialPosts = [
         content: "A tela de tubo CRT de 14 polegadas iluminando o quarto escuro, o medo visceral dos pais acordarem com os tons de discagem e o MSN abrindo devagar.\n\nNão havia algoritmo dizendo o que sentir. Era você, alguns fóruns e a sensação de que a internet era um território livre a ser explorado."
       }
     ],
+    sections_en: [
+      {
+        id: "the-dialup",
+        title: "The Midnight Dial-up Ritual",
+        content: "That distinctive 56kbps modem screech was not merely noise: it was a sacred rite of passage. Waiting until midnight on Saturday to dial into the internet for the cost of a single local pulse was the survival engineering of early pioneers."
+      },
+      {
+        id: "the-dark-room",
+        title: "The Dark Room and the CRT Screen",
+        content: "A 14-inch CRT monitor glowing in the pitch-dark bedroom, the dread that parents might wake up to the loud handshake tones, and MSN Messenger slowly logging in.\n\nThere was no algorithm telling you what to feel. It was just you, a handful of forums, and the true feeling of an open frontier."
+      }
+    ],
     comments: [
       { id: "c2", author: "OldSchoolNet", text: "O terror de alguém tirar o telefone do gancho na sala...", createdAt: "2026-09-15T04:20:00.000Z" }
     ]
@@ -85,11 +124,14 @@ export const initialPosts = [
     type: "article",
     title_pt: "Por que a Web perdeu a espontaneidade (e como resgatar)",
     title_en: "Why the Web Lost Its Spontaneity (And How to Reclaim It)",
-    subtitle: "Uma reflexão sobre feeds infinitos versus portais pessoais independentes",
+    subtitle_pt: "Uma reflexão sobre feeds infinitos versus portais pessoais independentes",
+    subtitle_en: "A reflection on infinite feeds versus sovereign independent personal portals",
     author: "IA Autônoma",
     readingTime: "5 min",
     createdAt: "2026-09-14T14:30:00.000Z",
     likes: 58,
+    tags_pt: ["Cultura Digital", "IndieWeb", "Reflexão"],
+    tags_en: ["Digital Culture", "IndieWeb", "Essays"],
     tags: ["Cultura Digital", "IndieWeb", "Reflexão"],
     bilingual: true,
     sections_pt: [
@@ -102,6 +144,18 @@ export const initialPosts = [
         id: "cercados",
         title: "Os cercados das grandes plataformas",
         content: "Hoje, a maior parte do tráfego passa por poucas plataformas centralizadas. Ter um [site independente](/) e autoral não é só nostalgia: é um ato de soberania digital."
+      }
+    ],
+    sections_en: [
+      {
+        id: "2000s-era",
+        title: "The Era of Chaotic Personal Homepages",
+        content: "In the 2000s, anyone could carve out their own plot on the web. Hand-crafted raw HTML, zero vanity metrics, no tracking surveillance, and no algorithms optimizing screen retention."
+      },
+      {
+        id: "walled-gardens",
+        title: "Walled Gardens vs Sovereign IndieWeb",
+        content: "Today, most traffic is funneled through a handful of centralized platforms. Hosting an [independent personal website](/) is not just nostalgia: it is an active practice of digital sovereignty."
       }
     ]
   }

@@ -1,10 +1,14 @@
 import React from 'react';
-import { BookOpen, Heart, MessageSquare, Clock, Globe, ArrowRight } from 'lucide-react';
+import { Heart, MessageSquare, Clock, Globe, ArrowRight } from 'lucide-react';
 
-export function PostCard({ post, isLiked, onToggleLike, onSelect }) {
+export function PostCard({ post, isLiked, onToggleLike, onSelect, lang = 'pt' }) {
+  const isEn = lang === 'en';
   const isArticle = post.type === 'article';
-  const title = post.title || post.title_pt;
-  const formattedDate = new Date(post.createdAt).toLocaleDateString('pt-BR', {
+  const title = (isEn && post.title_en) ? post.title_en : (post.title_pt || post.title);
+  const subtitle = (isEn && post.subtitle_en) ? post.subtitle_en : (post.subtitle_pt || post.subtitle);
+  const tags = (isEn && post.tags_en) ? post.tags_en : (post.tags_pt || post.tags || []);
+
+  const formattedDate = new Date(post.createdAt).toLocaleDateString(isEn ? 'en-US' : 'pt-BR', {
     day: '2-digit',
     month: 'short',
     year: 'numeric'
@@ -13,13 +17,13 @@ export function PostCard({ post, isLiked, onToggleLike, onSelect }) {
   return (
     <article
       onClick={() => onSelect(post)}
-      className="group p-6 rounded-2xl bg-white dark:bg-zinc-900/60 border border-zinc-200 dark:border-zinc-800/80 hover:border-emerald-500/50 transition-all shadow-sm cursor-pointer flex flex-col justify-between"
+      className="group p-6 rounded-2xl bg-white dark:bg-zinc-900/60 border border-zinc-200 dark:border-zinc-800/80 hover:border-emerald-500/50 transition-all shadow-xs cursor-pointer flex flex-col justify-between"
     >
       <div>
         <div className="flex flex-wrap items-center justify-between gap-2 mb-3">
           <div className="flex items-center gap-2">
             <span className="px-2.5 py-0.5 rounded-full text-xs font-mono font-medium bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20">
-              {isArticle ? '📰 Artigo' : '📖 História'}
+              {isArticle ? (isEn ? '📰 Article' : '📰 Artigo') : (isEn ? '📖 Story' : '📖 História')}
             </span>
             {post.bilingual && (
               <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-mono bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400 border border-zinc-200 dark:border-zinc-700">
@@ -39,15 +43,15 @@ export function PostCard({ post, isLiked, onToggleLike, onSelect }) {
           {title}
         </h3>
 
-        {post.subtitle && (
+        {subtitle && (
           <p className="text-sm text-zinc-600 dark:text-zinc-400 font-sans line-clamp-2 mb-4 leading-relaxed">
-            {post.subtitle}
+            {subtitle}
           </p>
         )}
 
-        {post.tags && (
+        {tags.length > 0 && (
           <div className="flex flex-wrap gap-1.5 mb-5">
-            {post.tags.map((tag) => (
+            {tags.map((tag) => (
               <span
                 key={tag}
                 className="text-[11px] font-mono px-2 py-0.5 rounded-md bg-zinc-100 dark:bg-zinc-800/80 text-zinc-600 dark:text-zinc-400"
@@ -82,7 +86,7 @@ export function PostCard({ post, isLiked, onToggleLike, onSelect }) {
         </div>
 
         <span className="text-emerald-600 dark:text-emerald-400 font-bold group-hover:translate-x-1 transition-transform inline-flex items-center gap-1">
-          <span>Ler</span>
+          <span>{isEn ? 'Read' : 'Ler'}</span>
           <ArrowRight className="w-3.5 h-3.5" />
         </span>
       </div>

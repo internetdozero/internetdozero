@@ -2,28 +2,25 @@ import React, { useState, useEffect, useMemo } from 'react';
 import { blogApi } from './services/blogApi';
 import { BlogHeader } from './components/BlogHeader';
 import { FeaturedPost } from './components/FeaturedPost';
-import { PostListItem } from './components/PostListItem';
 import { BlogSidebar } from './components/BlogSidebar';
 import { PostDetail } from './components/PostDetail';
-import { ThoughtCard } from './components/ThoughtCard';
+import { BlogFeed } from './components/BlogFeed';
 
-export function BlogView({ onBackToHub, selectedPost, onSelectPost, postLang }) {
+export function BlogView({ onBackToHub, selectedPost, onSelectPost, postLang = 'pt', lang = 'pt', onToggleLang }) {
   const [posts, setPosts] = useState([]);
   const [activeTab, setActiveTab] = useState('all');
   const [activeTag, setActiveTag] = useState(null);
   const [searchQuery, setSearchQuery] = useState('');
+  const currentLang = lang || postLang;
+  const isEn = currentLang === 'en';
 
   useEffect(() => {
     window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
-    document.documentElement.scrollTop = 0;
-    document.body.scrollTop = 0;
     blogApi.getPosts().then(setPosts);
   }, []);
 
   useEffect(() => {
     window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
-    document.documentElement.scrollTop = 0;
-    document.body.scrollTop = 0;
   }, [selectedPost, activeTab]);
 
   const handleToggleLike = async (postId) => {
@@ -45,38 +42,37 @@ export function BlogView({ onBackToHub, selectedPost, onSelectPost, postLang }) 
   const thoughts = useMemo(() => posts.filter((p) => p.type === 'thought'), [posts]);
   const longFormPosts = useMemo(() => posts.filter((p) => p.type !== 'thought'), [posts]);
 
-  // Tag extraction
   const allTags = useMemo(() => {
     const counts = {};
     longFormPosts.forEach((p) => {
-      p.tags?.forEach((t) => {
+      const tags = isEn && p.tags_en ? p.tags_en : (p.tags_pt || p.tags || []);
+      tags.forEach((t) => {
         counts[t] = (counts[t] || 0) + 1;
       });
     });
     return Object.entries(counts).map(([name, count]) => ({ name, count }));
-  }, [longFormPosts]);
+  }, [longFormPosts, isEn]);
 
-  // Filtering
   const filteredLongPosts = useMemo(() => {
     return longFormPosts.filter((post) => {
       const matchesTab = activeTab === 'all' || post.type === activeTab;
-      const matchesTag = !activeTag || (post.tags && post.tags.includes(activeTag));
+      const tags = isEn && post.tags_en ? post.tags_en : (post.tags_pt || post.tags || []);
+      const matchesTag = !activeTag || tags.includes(activeTag);
       const q = searchQuery.toLowerCase();
-      const matchesSearch = !q ||
-        (post.title && post.title.toLowerCase().includes(q)) ||
-        (post.title_pt && post.title_pt.toLowerCase().includes(q)) ||
-        (post.subtitle && post.subtitle.toLowerCase().includes(q)) ||
-        (post.tags && post.tags.some((t) => t.toLowerCase().includes(q)));
+      const title = (isEn && post.title_en ? post.title_en : (post.title_pt || post.title || '')).toLowerCase();
+      const subtitle = (isEn && post.subtitle_en ? post.subtitle_en : (post.subtitle_pt || post.subtitle || '')).toLowerCase();
+      const matchesSearch = !q || title.includes(q) || subtitle.includes(q) || tags.some((t) => t.toLowerCase().includes(q));
 
       return matchesTab && matchesTag && matchesSearch;
     });
-  }, [longFormPosts, activeTab, activeTag, searchQuery]);
+  }, [longFormPosts, activeTab, activeTag, searchQuery, isEn]);
 
   if (selectedPost) {
     return (
       <PostDetail
         post={selectedPost}
-        postLang={postLang}
+        postLang={currentLang}
+        onToggleLang={onToggleLang}
         isLiked={blogApi.isPostLiked(selectedPost.id)}
         onToggleLike={handleToggleLike}
         onAddComment={handleAddComment}
@@ -101,67 +97,31 @@ export function BlogView({ onBackToHub, selectedPost, onSelectPost, postLang }) 
         }}
         postCount={longFormPosts.length}
         thoughtCount={thoughts.length}
+        lang={currentLang}
       />
 
-      {/* Featured Lead Story */}
       {featured && (
         <FeaturedPost
           post={featured}
           isLiked={blogApi.isPostLiked(featured.id)}
           onToggleLike={handleToggleLike}
           onSelect={onSelectPost}
+          lang={currentLang}
         />
       )}
 
-      {/* Two Column Editorial Layout */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-10">
-        {/* Main Content Area */}
-        <div className="lg:col-span-8">
-          <div className="flex items-center justify-between pb-3 border-b border-zinc-200 dark:border-zinc-800 mb-2">
-            <h2 className="font-mono text-sm font-bold uppercase tracking-wider text-zinc-800 dark:text-zinc-200">
-              {activeTab === 'thought' ? 'Todos os Pensamentos' : 'Publicações Recentes'}
-            </h2>
-            {activeTag && (
-              <span className="text-xs font-mono text-emerald-600 dark:text-emerald-400">
-                Filtro: #{activeTag}
-              </span>
-            )}
-          </div>
+        <BlogFeed
+          activeTab={activeTab}
+          thoughts={thoughts}
+          feedPosts={feedPosts}
+          activeTag={activeTag}
+          isLikedFn={(id) => blogApi.isPostLiked(id)}
+          onToggleLike={handleToggleLike}
+          onSelectPost={onSelectPost}
+          lang={currentLang}
+        />
 
-          {activeTab === 'thought' ? (
-            <div className="space-y-4 pt-4">
-              {thoughts.map((thought) => (
-                <ThoughtCard
-                  key={thought.id}
-                  thought={thought}
-                  isLiked={blogApi.isPostLiked(thought.id)}
-                  onToggleLike={handleToggleLike}
-                  onSelect={onSelectPost}
-                />
-              ))}
-            </div>
-          ) : (
-            <div>
-              {feedPosts.length === 0 ? (
-                <div className="py-16 text-center text-sm font-mono text-zinc-500">
-                  Nenhuma publicação encontrada para o filtro atual.
-                </div>
-              ) : (
-                feedPosts.map((post) => (
-                  <PostListItem
-                    key={post.id}
-                    post={post}
-                    isLiked={blogApi.isPostLiked(post.id)}
-                    onToggleLike={handleToggleLike}
-                    onSelect={onSelectPost}
-                  />
-                ))
-              )}
-            </div>
-          )}
-        </div>
-
-        {/* Sidebar */}
         <div className="lg:col-span-4">
           <BlogSidebar
             posts={longFormPosts}
@@ -173,7 +133,8 @@ export function BlogView({ onBackToHub, selectedPost, onSelectPost, postLang }) 
             onSelectThought={onSelectPost}
             onSelectPost={onSelectPost}
             selectedPostId={selectedPost?.id}
-            postLang={postLang}
+            postLang={currentLang}
+            lang={currentLang}
           />
         </div>
       </div>

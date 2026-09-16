@@ -1,10 +1,14 @@
 import React from 'react';
 import { ArrowRight, Clock, Globe, Heart, MessageSquare } from 'lucide-react';
 
-export function PostListItem({ post, isLiked, onToggleLike, onSelect }) {
+export function PostListItem({ post, isLiked, onToggleLike, onSelect, lang = 'pt' }) {
+  const isEn = lang === 'en';
   const isArticle = post.type === 'article';
-  const title = post.title || post.title_pt;
-  const formattedDate = new Date(post.createdAt).toLocaleDateString('pt-BR', {
+  const title = (isEn && post.title_en) ? post.title_en : (post.title_pt || post.title);
+  const subtitle = (isEn && post.subtitle_en) ? post.subtitle_en : (post.subtitle_pt || post.subtitle);
+  const tags = (isEn && post.tags_en) ? post.tags_en : (post.tags_pt || post.tags || []);
+
+  const formattedDate = new Date(post.createdAt).toLocaleDateString(isEn ? 'en-US' : 'pt-BR', {
     day: '2-digit',
     month: 'short'
   });
@@ -17,7 +21,7 @@ export function PostListItem({ post, isLiked, onToggleLike, onSelect }) {
       <div className="flex flex-col sm:flex-row sm:items-baseline justify-between gap-1 mb-2">
         <div className="flex items-center gap-2">
           <span className="text-xs font-mono font-bold text-emerald-600 dark:text-emerald-400">
-            {isArticle ? '[ARTIGO]' : '[HISTÓRIA]'}
+            {isArticle ? (isEn ? '[ARTICLE]' : '[ARTIGO]') : (isEn ? '[STORY]' : '[HISTÓRIA]')}
           </span>
           {post.bilingual && (
             <span className="inline-flex items-center gap-1 text-[10px] font-mono text-zinc-500">
@@ -32,7 +36,7 @@ export function PostListItem({ post, isLiked, onToggleLike, onSelect }) {
           <span>•</span>
           <span className="flex items-center gap-1">
             <Clock className="w-3 h-3" />
-            {post.readingTime}
+            {post.readingTime || '3 min'}
           </span>
         </div>
       </div>
@@ -41,15 +45,15 @@ export function PostListItem({ post, isLiked, onToggleLike, onSelect }) {
         {title}
       </h3>
 
-      {post.subtitle && (
+      {subtitle && (
         <p className="text-sm text-zinc-600 dark:text-zinc-400 font-sans line-clamp-2 leading-relaxed mb-3">
-          {post.subtitle}
+          {subtitle}
         </p>
       )}
 
       <div className="flex items-center justify-between text-xs font-mono pt-1">
         <div className="flex flex-wrap gap-1.5">
-          {post.tags?.map((tag) => (
+          {tags.map((tag) => (
             <span
               key={tag}
               className="text-[11px] px-2 py-0.5 rounded bg-zinc-100 dark:bg-zinc-800/80 text-zinc-600 dark:text-zinc-400"

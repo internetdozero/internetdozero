@@ -1,5 +1,6 @@
 import React from 'react';
-import { ArrowLeft, Search, Terminal, Sparkles, Filter } from 'lucide-react';
+import { ArrowLeft, Search, Terminal } from 'lucide-react';
+import { translations } from '../../../i18n/translations';
 
 export function BlogHeader({
   onBackToHub,
@@ -8,13 +9,17 @@ export function BlogHeader({
   activeTab,
   onSelectTab,
   postCount,
-  thoughtCount
+  thoughtCount,
+  lang = 'pt'
 }) {
+  const t = translations[lang] || translations.pt;
+  const isEn = lang === 'en';
+
   const tabs = [
-    { id: 'all', label: 'Tudo' },
-    { id: 'article', label: 'Artigos' },
-    { id: 'story', label: 'Histórias' },
-    { id: 'thought', label: 'Pensamentos' },
+    { id: 'all', label: t.blog.all },
+    { id: 'article', label: t.blog.articles },
+    { id: 'story', label: t.blog.stories },
+    { id: 'thought', label: t.blog.thoughts },
   ];
 
   return (
@@ -26,13 +31,13 @@ export function BlogHeader({
           className="inline-flex items-center gap-2 text-xs font-mono text-emerald-600 dark:text-emerald-400 hover:underline cursor-pointer group"
         >
           <ArrowLeft className="w-3.5 h-3.5 group-hover:-translate-x-1 transition-transform" />
-          <span>Voltar ao Hub Central</span>
+          <span>{isEn ? 'Back to Central Hub' : 'Voltar ao Hub Central'}</span>
         </button>
 
         <div className="hidden sm:flex items-center gap-3 text-xs font-mono text-zinc-500">
-          <span>{postCount} artigos & crônicas</span>
+          <span>{postCount} {isEn ? 'articles & stories' : 'artigos & crônicas'}</span>
           <span>•</span>
-          <span>{thoughtCount} pensamentos</span>
+          <span>{thoughtCount} {isEn ? 'thoughts' : 'pensamentos'}</span>
         </div>
       </div>
 
@@ -41,13 +46,13 @@ export function BlogHeader({
         <div>
           <div className="inline-flex items-center gap-2 text-xs font-mono text-emerald-600 dark:text-emerald-400 uppercase tracking-widest font-semibold mb-1">
             <Terminal className="w-3.5 h-3.5" />
-            <span>Publicações & Notas</span>
+            <span>{isEn ? 'Publications & Notes' : 'Publicações & Notas'}</span>
           </div>
           <h1 className="text-3xl sm:text-5xl font-extrabold font-mono text-zinc-900 dark:text-white tracking-tight">
-            O Blog do Zero
+            {isEn ? 'The Zero Blog' : 'O Blog do Zero'}
           </h1>
           <p className="text-sm sm:text-base text-zinc-600 dark:text-zinc-400 font-sans mt-2 max-w-xl leading-relaxed">
-            Ensaios, crônicas, notas de terminal e cultura da internet.
+            {t.blog.subtitle}
           </p>
         </div>
 
@@ -58,8 +63,8 @@ export function BlogHeader({
             type="text"
             value={searchQuery}
             onChange={(e) => onSearchChange(e.target.value)}
-            placeholder="Buscar por termo ou tag..."
-            className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-white dark:bg-zinc-900/80 border border-zinc-300 dark:border-zinc-800 text-xs font-mono focus:outline-none focus:border-emerald-500 transition-colors shadow-sm"
+            placeholder={t.blog.searchPlaceholder}
+            className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-white dark:bg-zinc-900/80 border border-zinc-300 dark:border-zinc-800 text-xs font-mono focus:outline-none focus:border-emerald-500 transition-colors shadow-xs"
           />
         </div>
       </div>
@@ -72,7 +77,7 @@ export function BlogHeader({
             onClick={() => onSelectTab(tab.id)}
             className={`px-4 py-1.5 rounded-xl text-xs font-mono transition-all cursor-pointer ${
               activeTab === tab.id
-                ? 'bg-zinc-900 dark:bg-emerald-500 text-white dark:text-zinc-950 font-bold shadow-sm'
+                ? 'bg-zinc-900 dark:bg-emerald-500 text-white dark:text-zinc-950 font-bold shadow-xs'
                 : 'bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 text-zinc-600 dark:text-zinc-400 hover:border-emerald-500/40 hover:text-zinc-900 dark:hover:text-white'
             }`}
           >

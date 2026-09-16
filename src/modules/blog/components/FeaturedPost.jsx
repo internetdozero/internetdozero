@@ -1,29 +1,33 @@
 import React from 'react';
 import { ArrowRight, Clock, Globe, Heart, MessageSquare, Sparkles } from 'lucide-react';
 
-export function FeaturedPost({ post, isLiked, onToggleLike, onSelect }) {
+export function FeaturedPost({ post, isLiked, onToggleLike, onSelect, lang = 'pt' }) {
   if (!post) return null;
 
-  const title = post.title || post.title_pt;
-  const formattedDate = new Date(post.createdAt).toLocaleDateString('pt-BR', {
+  const isEn = lang === 'en';
+  const title = (isEn && post.title_en) ? post.title_en : (post.title_pt || post.title);
+  const subtitle = (isEn && post.subtitle_en) ? post.subtitle_en : (post.subtitle_pt || post.subtitle);
+  const tags = (isEn && post.tags_en) ? post.tags_en : (post.tags_pt || post.tags || []);
+
+  const formattedDate = new Date(post.createdAt).toLocaleDateString(isEn ? 'en-US' : 'pt-BR', {
     day: '2-digit',
-    month: 'long',
+    month: 'short',
     year: 'numeric'
   });
 
   return (
     <article
       onClick={() => onSelect(post)}
-      className="group relative p-6 sm:p-8 rounded-3xl bg-gradient-to-br from-white via-zinc-50 to-zinc-100 dark:from-zinc-900/90 dark:via-zinc-900/60 dark:to-zinc-950 border border-zinc-200 dark:border-zinc-800 hover:border-emerald-500/50 transition-all duration-300 shadow-sm hover:shadow-xl cursor-pointer overflow-hidden mb-10"
+      className="group relative p-6 sm:p-8 rounded-3xl bg-gradient-to-br from-white via-zinc-50 to-zinc-100 dark:from-zinc-900/90 dark:via-zinc-900/60 dark:to-zinc-950 border border-zinc-200 dark:border-zinc-800 hover:border-emerald-500/50 transition-all duration-300 shadow-xs hover:shadow-xl cursor-pointer overflow-hidden mb-10"
     >
       <div className="absolute top-0 right-0 w-64 h-64 bg-emerald-500/5 group-hover:bg-emerald-500/10 rounded-full blur-3xl transition-all pointer-events-none" />
 
       {/* Header bar */}
       <div className="flex flex-wrap items-center justify-between gap-2 mb-4">
         <div className="flex items-center gap-2">
-          <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-mono font-bold bg-emerald-500 text-white dark:text-zinc-950 shadow-sm">
+          <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-mono font-bold bg-emerald-500 text-white dark:text-zinc-950 shadow-xs">
             <Sparkles className="w-3.5 h-3.5" />
-            <span>Destaque</span>
+            <span>{isEn ? 'Featured' : 'Destaque'}</span>
           </span>
           {post.bilingual && (
             <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-mono bg-zinc-200/70 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300">
@@ -38,7 +42,7 @@ export function FeaturedPost({ post, isLiked, onToggleLike, onSelect }) {
           <span>•</span>
           <span className="flex items-center gap-1">
             <Clock className="w-3 h-3" />
-            {post.readingTime}
+            {post.readingTime || '5 min'}
           </span>
         </div>
       </div>
@@ -48,14 +52,16 @@ export function FeaturedPost({ post, isLiked, onToggleLike, onSelect }) {
         {title}
       </h2>
 
-      <p className="text-base sm:text-lg text-zinc-600 dark:text-zinc-300 font-sans leading-relaxed mb-6 max-w-3xl">
-        {post.subtitle}
-      </p>
+      {subtitle && (
+        <p className="text-base sm:text-lg text-zinc-600 dark:text-zinc-300 font-sans leading-relaxed mb-6 max-w-3xl">
+          {subtitle}
+        </p>
+      )}
 
       {/* Footer / Meta */}
       <div className="flex flex-wrap items-center justify-between gap-4 pt-4 border-t border-zinc-200/80 dark:border-zinc-800/80 text-xs font-mono">
         <div className="flex flex-wrap items-center gap-2">
-          {post.tags?.map((tag) => (
+          {tags.map((tag) => (
             <span
               key={tag}
               className="px-2.5 py-1 rounded-lg bg-zinc-200/60 dark:bg-zinc-800/80 text-zinc-700 dark:text-zinc-300"
@@ -85,7 +91,7 @@ export function FeaturedPost({ post, isLiked, onToggleLike, onSelect }) {
           </span>
 
           <span className="inline-flex items-center gap-1 font-bold text-emerald-600 dark:text-emerald-400 group-hover:translate-x-1 transition-transform">
-            <span>Ler Artigo</span>
+            <span>{isEn ? 'Read Article' : 'Ler Artigo'}</span>
             <ArrowRight className="w-4 h-4" />
           </span>
         </div>
