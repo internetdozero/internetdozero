@@ -3,6 +3,16 @@ import { initialPosts } from '../data/initialPosts';
 const STORAGE_KEY = 'idz_blog_posts_v1';
 const LIKES_KEY = 'idz_blog_liked_ids';
 
+function slugify(text) {
+  return text
+    .normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+    .toLowerCase()
+    .replace(/[^a-z0-9\s-]/g, '')
+    .trim()
+    .replace(/[\s-]+/g, '-')
+    .slice(0, 80);
+}
+
 export const blogApi = {
   getPosts: async () => {
     try {
@@ -22,8 +32,10 @@ export const blogApi = {
 
   addPost: async (postData) => {
     const posts = await blogApi.getPosts();
+    const title = postData.title_pt || postData.title || '';
     const newPost = {
       id: `post-${Date.now()}`,
+      slug: postData.slug || slugify(title) || `post-${Date.now()}`,
       createdAt: new Date().toISOString(),
       likes: 0,
       comments: [],

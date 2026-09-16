@@ -7,7 +7,7 @@ import { BlogSidebar } from './components/BlogSidebar';
 import { PostDetail } from './components/PostDetail';
 import { BlogFeed } from './components/BlogFeed';
 
-export function BlogView({ postId, onNavigate, lang = 'pt', onToggleLang }) {
+export function BlogView({ postSlug, onNavigate, lang = 'pt', onToggleLang }) {
   const [posts, setPosts] = useState([]);
   const [activeTab, setActiveTab] = useState('all');
   const [activeTag, setActiveTag] = useState(null);
@@ -21,18 +21,18 @@ export function BlogView({ postId, onNavigate, lang = 'pt', onToggleLang }) {
 
   useEffect(() => {
     window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
-  }, [postId, activeTab]);
+  }, [postSlug, activeTab]);
 
-  // Derive selectedPost from postId + posts (single source of truth)
+  // Derive selectedPost from slug + posts (single source of truth)
   const selectedPost = useMemo(() => {
-    if (!postId || !posts.length) return null;
-    return posts.find((p) => p.id === postId) || null;
-  }, [postId, posts]);
+    if (!postSlug || !posts.length) return null;
+    return posts.find((p) => p.slug === postSlug) || null;
+  }, [postSlug, posts]);
 
   const handleSelectPost = useCallback((post) => {
     if (post) {
-      const url = isEn ? `/blog?p=${post.id}&lang=en` : `/blog?p=${post.id}`;
-      onNavigate(url);
+      const base = `/blog/${post.slug}`;
+      onNavigate(isEn ? `${base}?lang=en` : base);
     } else {
       onNavigate(isEn ? '/blog?lang=en' : '/blog');
     }

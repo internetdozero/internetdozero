@@ -52,7 +52,7 @@ export function PostDetail({ post, isLiked, onToggleLike, onAddComment, postLang
   const handleShare = async () => {
     try {
       if (navigator.clipboard) {
-        const shareUrl = `${window.location.origin}/blog?p=${post.id}${isEn ? '&lang=en' : ''}`;
+        const shareUrl = `${window.location.origin}/blog/${post.slug}${isEn ? '?lang=en' : ''}`;
         await navigator.clipboard.writeText(shareUrl);
         setCopied(true);
         setTimeout(() => setCopied(false), 2500);

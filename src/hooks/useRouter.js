@@ -2,15 +2,17 @@ import { useState, useEffect, useCallback } from 'react';
 
 export function useRouter() {
   const parseLocation = () => {
-    if (typeof window === 'undefined') return { view: 'hub', postId: null };
+    if (typeof window === 'undefined') return { view: 'hub', postSlug: null };
     const path = window.location.pathname;
     const params = new URLSearchParams(window.location.search);
-    const postId = params.get('p') || null;
 
     if (path.startsWith('/blog')) {
-      return { view: 'blog', postId };
+      // /blog/nome-do-artigo → postSlug = "nome-do-artigo"
+      const segments = path.replace(/\/+$/, '').split('/');
+      const postSlug = segments.length > 2 ? segments.slice(2).join('/') : null;
+      return { view: 'blog', postSlug };
     }
-    return { view: 'hub', postId: null };
+    return { view: 'hub', postSlug: null };
   };
 
   const [route, setRoute] = useState(parseLocation);
@@ -32,7 +34,7 @@ export function useRouter() {
 
   return {
     view: route.view,
-    postId: route.postId,
+    postSlug: route.postSlug,
     navigate
   };
 }

@@ -12,14 +12,14 @@ const ModuleModal = lazy(() => import('./components/ModuleModal').then((m) => ({
 
 export function App() {
   const { theme, toggleTheme } = useTheme();
-  const { view: currentView, postId, navigate } = useRouter();
+  const { view: currentView, postSlug, navigate } = useRouter();
   const { lang, setLang, toggleLang } = useLanguage();
   const [isCommandOpen, setIsCommandOpen] = useState(false);
   const [selectedModule, setSelectedModule] = useState(null);
 
   useEffect(() => {
     window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
-  }, [currentView, postId]);
+  }, [currentView, postSlug]);
 
   const handleSelectModule = useCallback((m) => {
     if (m.id === 'blog') {
@@ -53,7 +53,7 @@ export function App() {
         onOpenCommand={handleOpenCommand}
         onOpenArsenal={handleScrollToModules}
         onGoHome={handleGoHome}
-        readingPost={currentView === 'blog' && postId}
+        readingPost={currentView === 'blog' && postSlug}
         lang={lang}
         onToggleLang={setLang}
         onBackToBlog={() => navigate(lang === 'en' ? '/blog?lang=en' : '/blog')}
@@ -63,7 +63,7 @@ export function App() {
         {currentView === 'blog' ? (
           <Suspense fallback={<div className="flex items-center justify-center min-h-[60vh]"><span className="text-sm font-mono text-zinc-500 animate-pulse">Carregando…</span></div>}>
             <BlogView
-              postId={postId}
+              postSlug={postSlug}
               onNavigate={navigate}
               lang={lang}
               onToggleLang={setLang}
