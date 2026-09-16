@@ -1,12 +1,13 @@
 import React, { useState, useEffect, useMemo } from 'react';
-import { Share2, Check, Clock, Heart, Globe } from 'lucide-react';
+import { Share2, Clock, Heart, Globe } from 'lucide-react';
 import { TableOfContents } from './TableOfContents';
 import { PostComments } from './PostComments';
 import { RichContent } from './RichContent';
+import { ShareModal } from './ShareModal';
 import { translations } from '../../../i18n/translations';
 
 export function PostDetail({ post, isLiked, onToggleLike, onAddComment, postLang = 'pt', onToggleLang, onBack }) {
-  const [copied, setCopied] = useState(false);
+  const [isShareOpen, setIsShareOpen] = useState(false);
   const [activeSectionId, setActiveSectionId] = useState('');
   const t = translations[postLang] || translations.pt;
   const isEn = postLang === 'en';
@@ -80,8 +81,12 @@ export function PostDetail({ post, isLiked, onToggleLike, onAddComment, postLang
 
             <div className="flex items-center gap-2 text-zinc-500">
               <span className="text-[11px]">{t.blog.share}:</span>
-              <button onClick={handleShare} className="p-1.5 rounded-lg bg-zinc-100 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 text-zinc-600 dark:text-zinc-300 hover:border-emerald-500/50 transition-colors cursor-pointer" title="Share Link">
-                {copied ? <Check className="w-3.5 h-3.5 text-emerald-500" /> : <Share2 className="w-3.5 h-3.5" />}
+              <button
+                onClick={() => setIsShareOpen(true)}
+                className="p-1.5 rounded-lg bg-zinc-100 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 text-zinc-600 dark:text-zinc-300 hover:border-emerald-500/50 hover:text-emerald-500 transition-colors cursor-pointer"
+                title={t.blog.share}
+              >
+                <Share2 className="w-3.5 h-3.5" />
               </button>
             </div>
           </div>
@@ -135,15 +140,25 @@ export function PostDetail({ post, isLiked, onToggleLike, onAddComment, postLang
               <span>{post.likes || 0} {isEn ? 'Likes' : 'Curtidas'}</span>
             </button>
 
-            <button onClick={handleShare} className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-zinc-100 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 text-zinc-600 dark:text-zinc-400 hover:border-emerald-500/40 transition-all cursor-pointer">
-              {copied ? <Check className="w-4 h-4 text-emerald-500" /> : <Share2 className="w-4 h-4 text-emerald-500" />}
-              <span>{copied ? t.blog.copied : t.blog.share}</span>
+            <button
+              onClick={() => setIsShareOpen(true)}
+              className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-zinc-100 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 text-zinc-600 dark:text-zinc-400 hover:border-emerald-500/40 hover:text-emerald-500 transition-all cursor-pointer"
+            >
+              <Share2 className="w-4 h-4 text-emerald-500" />
+              <span>{t.blog.share}</span>
             </button>
           </div>
 
           <PostComments comments={post.comments || []} onAddComment={(data) => onAddComment(post.id, data)} lang={postLang} />
         </article>
       </div>
+
+      <ShareModal
+        isOpen={isShareOpen}
+        onClose={() => setIsShareOpen(false)}
+        post={post}
+        isEn={isEn}
+      />
     </div>
   );
 }
