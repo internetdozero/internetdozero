@@ -29,18 +29,30 @@ export const initialPosts = [
     readingTime: "6 min",
     createdAt: "2026-09-16T12:00:00.000Z",
     likes: 87,
-    tags: ["IA", "Hardware", "OpenSource"],
+    tags: ["Tutoriais", "Hardware", "Inteligência Artificial"],
     bilingual: true,
-    content_pt: `Você não precisa de um cluster com 8 H100 para ter IA útil no seu computador.
-    
-Com o avanço das quantizações GGUF e EXL2, modelos de 8B a 14B parâmetros rodam com folga em placas de vídeo de consumo com 12GB ou 16GB de VRAM. E mais importante do que economizar tokens: ninguém além de você vê o que está sendo processado.
-
-Neste guia, vamos direto ao ponto sem enrolação acadêmica: Ollama vs llama.cpp, escolha de quantização (Q4_K_M vs Q5_K_M) e como integrar no seu terminal diário.`,
-    content_en: `You don't need an 8x H100 cluster to run genuinely useful AI on your machine.
-    
-With advances in GGUF and EXL2 quantization, modern 8B to 14B parameter models run smoothly on consumer GPUs with 12GB to 16GB of VRAM. More important than token costs: absolute privacy.
-
-Here is the straightforward breakdown: Ollama vs llama.cpp, quantization trade-offs, and seamless CLI workflows.`
+    sections_pt: [
+      {
+        id: "intro",
+        title: "Por que rodar modelos localmente?",
+        content: "Se você tiver paixão pelo universo da inteligência artificial, talvez uma ótima ideia seja [começar a rodar modelos locais](#quantizacao) direto no seu computador.\n\nVocê não precisa de um cluster corporativo para ter IA útil no dia a dia. Com o avanço das quantizações modernas, modelos de 8B a 14B parâmetros rodam com folga em placas de consumo.\n\nMais importante do que economizar tokens em API externa: ninguém além de você vê o que está sendo processado."
+      },
+      {
+        id: "quantizacao",
+        title: "Entendendo quantização GGUF e EXL2",
+        content: "Quantização é a técnica de reduzir a precisão dos pesos do modelo (de 16-bit para 4-bit ou 5-bit) com perda quase imperceptível de coerência.\n\n• **Q4_K_M**: O padrão ouro de custo-benefício. Cabe em 8GB de VRAM e roda com extrema velocidade.\n• **Q5_K_M**: Coerência máxima para textos longos, ideal se você tem 12GB a 16GB de VRAM."
+      },
+      {
+        id: "stack",
+        title: "Ferramentas populares para execução local",
+        content: "Aqui estão os ecossistemas mais populares para rodar modelos no seu sistema:\n\n1. [Ollama](https://ollama.com)\n\nSe você quer praticidade imediata, o [Ollama](https://ollama.com) permite baixar e subir modelos com um único comando no terminal, oferecendo API local compatível com qualquer biblioteca moderna.\n\n2. [llama.cpp](https://github.com/ggerganov/llama.cpp)\n\nPara controle absoluto de camadas na GPU, threads de CPU e máximo desempenho nativo em C++, o [llama.cpp](https://github.com/ggerganov/llama.cpp) continua sendo o motor definitivo."
+      },
+      {
+        id: "conclusao",
+        title: "Veredito e primeiros passos",
+        content: "Comece com um modelo 8B como Llama 3.1 ou Qwen 2.5 7B. A soberania de ter o modelo operando offline no seu hardware compensa cada gigabyte baixado."
+      }
+    ]
   },
   {
     id: "story-1",
@@ -52,11 +64,18 @@ Here is the straightforward breakdown: Ollama vs llama.cpp, quantization trade-o
     createdAt: "2026-09-15T03:12:00.000Z",
     likes: 34,
     tags: ["Nostalgia", "Internet Raiz", "Crônicas"],
-    content_pt: `Aquele chiado característico do modem não era apenas ruído: era um ritual de passagem.
-    
-Esperar a virada para a meia-noite de sábado para pagar apenas um pulso na conta telefônica era a verdadeira engenharia de sobrevivência. A tela CRT de 14 polegadas iluminando o quarto escuro, o medo dos pais acordarem com o som da conexão e o MSN abrindo devagar.
-
-Não havia algoritmo dizendo o que sentir. Era você, alguns fóruns em phpBB e a sensação de que a internet era um território infinito e deserto a ser explorado.`,
+    sections_pt: [
+      {
+        id: "o-chiado",
+        title: "O ritual sonoro da meia-noite",
+        content: "Aquele chiado característico do modem de 56kbps não era apenas ruído: era um ritual solene de passagem. Esperar a virada para a meia-noite de sábado para pagar apenas um pulso na conta telefônica era a engenharia de sobrevivência dos pioneiros."
+      },
+      {
+        id: "o-quarto-escuro",
+        title: "O quarto escuro e a tela CRT",
+        content: "A tela de tubo CRT de 14 polegadas iluminando o quarto escuro, o medo visceral dos pais acordarem com os tons de discagem e o MSN abrindo devagar.\n\nNão havia algoritmo dizendo o que sentir. Era você, alguns fóruns e a sensação de que a internet era um território livre a ser explorado."
+      }
+    ],
     comments: [
       { id: "c2", author: "OldSchoolNet", text: "O terror de alguém tirar o telefone do gancho na sala...", createdAt: "2026-09-15T04:20:00.000Z" }
     ]
@@ -73,15 +92,17 @@ Não havia algoritmo dizendo o que sentir. Era você, alguns fóruns em phpBB e 
     likes: 58,
     tags: ["Cultura Digital", "IndieWeb", "Reflexão"],
     bilingual: true,
-    content_pt: `Nos anos 2000, todo mundo tinha um cantinho na rede. Uma página pessoal feia, cheia de gifs em loop, sem métrica de vaidade ou algoritmo otimizando tempo de retenção.
-
-Hoje, a maior parte do tráfego mundial passa por três ou quatro plataformas que decidem o que você deve ler com base na probabilidade de gerar indignação.
-
-Ter um site próprio, sem roteiro engessado e com a liberdade de postar pensamentos soltos, códigos ou crônicas, não é só nostalgia: é um ato de soberania digital.`,
-    content_en: `In the 2000s, everyone had their own little corner on the net. An ugly personal page packed with looping gifs, free from vanity metrics or engagement algorithms.
-
-Today, most global traffic flows through three or four platforms that curate what you read based on outrage probability.
-
-Building your own independent portal, with no rigid script and complete freedom to post raw thoughts, code, or chronicles, is not just nostalgia: it is an act of digital sovereignty.`
+    sections_pt: [
+      {
+        id: "anos-2000",
+        title: "A era das páginas pessoais caóticas",
+        content: "Nos anos 2000, qualquer um podia ter seu cantinho na rede. Páginas em HTML puro, sem métrica de vaidade, sem rastreamento de anúncios e sem algoritmo otimizando tempo de tela."
+      },
+      {
+        id: "cercados",
+        title: "Os cercados das grandes plataformas",
+        content: "Hoje, a maior parte do tráfego passa por poucas plataformas centralizadas. Ter um [site independente](/) e autoral não é só nostalgia: é um ato de soberania digital."
+      }
+    ]
   }
 ];

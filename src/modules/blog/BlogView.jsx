@@ -80,6 +80,7 @@ export function BlogView({ onBackToHub, selectedPost, onSelectPost, postLang }) 
         isLiked={blogApi.isPostLiked(selectedPost.id)}
         onToggleLike={handleToggleLike}
         onAddComment={handleAddComment}
+        onBack={() => onSelectPost(null)}
       />
     );
   }
@@ -163,12 +164,16 @@ export function BlogView({ onBackToHub, selectedPost, onSelectPost, postLang }) 
         {/* Sidebar */}
         <div className="lg:col-span-4">
           <BlogSidebar
+            posts={longFormPosts}
             thoughts={thoughts.slice(0, 4)}
             tags={allTags}
             activeTag={activeTag}
             onSelectTag={setActiveTag}
             onToggleLike={handleToggleLike}
             onSelectThought={onSelectPost}
+            onSelectPost={onSelectPost}
+            selectedPostId={selectedPost?.id}
+            postLang={postLang}
           />
         </div>
       </div>
