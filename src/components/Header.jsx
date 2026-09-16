@@ -1,7 +1,7 @@
 import React from 'react';
 import { Sun, Moon, Search, Terminal } from 'lucide-react';
 
-export function Header({ theme, toggleTheme, onOpenCommand, onOpenArsenal }) {
+export function Header({ theme, toggleTheme, onOpenCommand, onOpenArsenal, onGoHome }) {
   const isDark = theme === 'dark';
 
   return (
@@ -9,7 +9,10 @@ export function Header({ theme, toggleTheme, onOpenCommand, onOpenArsenal }) {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
         {/* Brand */}
         <div className="flex items-center gap-3">
-          <a href="/" className="flex items-center gap-2.5 group">
+          <button
+            onClick={onGoHome}
+            className="flex items-center gap-2.5 group cursor-pointer text-left focus:outline-none"
+          >
             <div className="w-9 h-9 rounded-lg bg-zinc-900 dark:bg-zinc-900 border border-emerald-500/40 flex items-center justify-center font-mono font-bold text-emerald-500 text-base shadow-[0_0_15px_rgba(16,185,129,0.2)] group-hover:border-emerald-400 group-hover:scale-105 transition-all">
               0x
             </div>
@@ -21,7 +24,7 @@ export function Header({ theme, toggleTheme, onOpenCommand, onOpenArsenal }) {
                 Hub & Lab
               </span>
             </div>
-          </a>
+          </button>
 
           {/* Clean system status pill */}
           <div className="hidden md:flex items-center gap-2 ml-4 px-2.5 py-1 rounded-full bg-zinc-100 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 text-zinc-700 dark:text-zinc-300 text-xs font-mono">
