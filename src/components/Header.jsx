@@ -1,13 +1,23 @@
 import React from 'react';
-import { Sun, Moon, Search, Terminal } from 'lucide-react';
+import { Sun, Moon, Search, Terminal, ArrowLeft, Globe } from 'lucide-react';
 
-export function Header({ theme, toggleTheme, onOpenCommand, onOpenArsenal, onGoHome }) {
+export function Header({
+  theme,
+  toggleTheme,
+  onOpenCommand,
+  onOpenArsenal,
+  onGoHome,
+  readingPost,
+  postLang = 'pt',
+  onTogglePostLang,
+  onBackToBlog
+}) {
   const isDark = theme === 'dark';
 
   return (
     <header className="sticky top-0 z-40 w-full border-b border-zinc-200/80 dark:border-zinc-800/80 bg-white/80 dark:bg-zinc-950/80 backdrop-blur-md transition-colors duration-300">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
-        {/* Brand */}
+        {/* Brand & Context */}
         <div className="flex items-center gap-3">
           <button
             onClick={onGoHome}
@@ -26,17 +36,52 @@ export function Header({ theme, toggleTheme, onOpenCommand, onOpenArsenal, onGoH
             </div>
           </button>
 
-          {/* Clean system status pill */}
-          <div className="hidden md:flex items-center gap-2 ml-4 px-2.5 py-1 rounded-full bg-zinc-100 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 text-zinc-700 dark:text-zinc-300 text-xs font-mono">
-            <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-            <span className="text-emerald-600 dark:text-emerald-400 font-semibold">online</span>
-            <span className="text-zinc-400 dark:text-zinc-600">|</span>
-            <span className="text-zinc-500 dark:text-zinc-400">v1.0</span>
-          </div>
+          {/* Reading Mode: Back to Blog button */}
+          {readingPost ? (
+            <div className="flex items-center gap-2 pl-3 border-l border-zinc-200 dark:border-zinc-800">
+              <button
+                onClick={onBackToBlog}
+                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-zinc-100 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 text-xs font-mono text-zinc-700 dark:text-zinc-300 hover:border-emerald-500/50 hover:text-emerald-600 dark:hover:text-emerald-400 transition-all cursor-pointer"
+                title="Voltar para a lista do Blog"
+              >
+                <ArrowLeft className="w-3.5 h-3.5 text-emerald-500" />
+                <span className="hidden sm:inline">Voltar ao Blog</span>
+              </button>
+            </div>
+          ) : (
+            <div className="hidden md:flex items-center gap-2 ml-4 px-2.5 py-1 rounded-full bg-zinc-100 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 text-zinc-700 dark:text-zinc-300 text-xs font-mono">
+              <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+              <span className="text-emerald-600 dark:text-emerald-400 font-semibold">online</span>
+              <span className="text-zinc-400 dark:text-zinc-600">|</span>
+              <span className="text-zinc-500 dark:text-zinc-400">v1.0</span>
+            </div>
+          )}
         </div>
 
         {/* Right Controls */}
         <div className="flex items-center gap-2 sm:gap-3">
+          {/* Bilingual Language Switcher (when reading bilingual article) */}
+          {readingPost?.bilingual && (
+            <div className="inline-flex items-center p-1 rounded-xl bg-zinc-100 dark:bg-zinc-900 border border-zinc-300 dark:border-zinc-800 font-mono text-xs">
+              <Globe className="w-3.5 h-3.5 text-emerald-500 ml-1.5 mr-1" />
+              <button
+                onClick={() => onTogglePostLang('pt')}
+                className={`px-2.5 py-1 rounded-lg transition-all cursor-pointer ${
+                  postLang === 'pt' ? 'bg-emerald-600 text-white font-bold' : 'text-zinc-500 hover:text-zinc-900 dark:hover:text-white'
+                }`}
+              >
+                PT
+              </button>
+              <button
+                onClick={() => onTogglePostLang('en')}
+                className={`px-2.5 py-1 rounded-lg transition-all cursor-pointer ${
+                  postLang === 'en' ? 'bg-emerald-600 text-white font-bold' : 'text-zinc-500 hover:text-zinc-900 dark:hover:text-white'
+                }`}
+              >
+                EN
+              </button>
+            </div>
+          )}
           {/* Quick Search / Command Palette Button */}
           <button
             onClick={onOpenCommand}

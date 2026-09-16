@@ -15,6 +15,8 @@ import { LayoutGrid, Sparkles } from 'lucide-react';
 export function App() {
   const { theme, toggleTheme } = useTheme();
   const [currentView, setCurrentView] = useState('hub');
+  const [selectedPost, setSelectedPost] = useState(null);
+  const [postLang, setPostLang] = useState('pt');
   const [isCommandOpen, setIsCommandOpen] = useState(false);
   const [selectedModule, setSelectedModule] = useState(null);
   const [activeCategory, setActiveCategory] = useState('all');
@@ -24,11 +26,12 @@ export function App() {
 
   React.useEffect(() => {
     window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
-  }, [currentView]);
+  }, [currentView, selectedPost]);
 
   const handleSelectModule = (m) => {
     if (m.id === 'blog') {
       setCurrentView('blog');
+      setSelectedPost(null);
     } else {
       setSelectedModule(m);
     }
@@ -60,12 +63,27 @@ export function App() {
         toggleTheme={toggleTheme}
         onOpenCommand={() => setIsCommandOpen(true)}
         onOpenArsenal={scrollToTerminal}
-        onGoHome={() => setCurrentView('hub')}
+        onGoHome={() => {
+          setCurrentView('hub');
+          setSelectedPost(null);
+        }}
+        readingPost={selectedPost}
+        postLang={postLang}
+        onTogglePostLang={setPostLang}
+        onBackToBlog={() => setSelectedPost(null)}
       />
 
       <main className="flex-1">
         {currentView === 'blog' ? (
-          <BlogView onBackToHub={() => setCurrentView('hub')} />
+          <BlogView
+            onBackToHub={() => {
+              setCurrentView('hub');
+              setSelectedPost(null);
+            }}
+            selectedPost={selectedPost}
+            onSelectPost={setSelectedPost}
+            postLang={postLang}
+          />
         ) : (
           <>
             {/* Atmospheric Hero */}

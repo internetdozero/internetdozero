@@ -2,13 +2,12 @@ import React, { useState } from 'react';
 import { ArrowLeft, Heart, Share2, Globe, Clock, Check } from 'lucide-react';
 import { PostComments } from './PostComments';
 
-export function PostDetail({ post, onBack, isLiked, onToggleLike, onAddComment }) {
-  const [lang, setLang] = useState('pt');
+export function PostDetail({ post, isLiked, onToggleLike, onAddComment, postLang = 'pt' }) {
   const [copied, setCopied] = useState(false);
 
   const isBilingual = Boolean(post.bilingual);
-  const title = isBilingual && lang === 'en' ? (post.title_en || post.title) : (post.title_pt || post.title);
-  const content = isBilingual && lang === 'en' ? (post.content_en || post.content_pt) : (post.content_pt || post.content);
+  const title = isBilingual && postLang === 'en' ? (post.title_en || post.title) : (post.title_pt || post.title);
+  const content = isBilingual && postLang === 'en' ? (post.content_en || post.content_pt) : (post.content_pt || post.content);
 
   const handleShare = async () => {
     try {
@@ -21,40 +20,7 @@ export function PostDetail({ post, onBack, isLiked, onToggleLike, onAddComment }
   };
 
   return (
-    <div className="max-w-3xl mx-auto px-4 sm:px-6 py-8">
-      {/* Navigation Top Bar */}
-      <div className="flex items-center justify-between gap-4 mb-8">
-        <button
-          onClick={onBack}
-          className="inline-flex items-center gap-2 px-3 py-1.5 rounded-xl bg-zinc-100 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 text-xs font-mono text-zinc-700 dark:text-zinc-300 hover:border-emerald-500/50 transition-colors cursor-pointer"
-        >
-          <ArrowLeft className="w-3.5 h-3.5 text-emerald-500" />
-          <span>Voltar ao Blog</span>
-        </button>
-
-        {isBilingual && (
-          <div className="inline-flex items-center p-1 rounded-xl bg-zinc-100 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 font-mono text-xs">
-            <Globe className="w-3.5 h-3.5 text-emerald-500 ml-2 mr-1.5" />
-            <button
-              onClick={() => setLang('pt')}
-              className={`px-2.5 py-1 rounded-lg transition-all cursor-pointer ${
-                lang === 'pt' ? 'bg-emerald-600 text-white font-bold' : 'text-zinc-500 hover:text-zinc-900 dark:hover:text-white'
-              }`}
-            >
-              PT
-            </button>
-            <button
-              onClick={() => setLang('en')}
-              className={`px-2.5 py-1 rounded-lg transition-all cursor-pointer ${
-                lang === 'en' ? 'bg-emerald-600 text-white font-bold' : 'text-zinc-500 hover:text-zinc-900 dark:hover:text-white'
-              }`}
-            >
-              EN
-            </button>
-          </div>
-        )}
-      </div>
-
+    <div className="max-w-3xl mx-auto px-4 sm:px-6 py-6 sm:py-10">
       {/* Post Header */}
       <header className="mb-8">
         <div className="flex flex-wrap items-center gap-3 text-xs font-mono text-zinc-500 mb-3">

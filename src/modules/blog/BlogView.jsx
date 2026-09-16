@@ -7,12 +7,11 @@ import { BlogSidebar } from './components/BlogSidebar';
 import { PostDetail } from './components/PostDetail';
 import { ThoughtCard } from './components/ThoughtCard';
 
-export function BlogView({ onBackToHub }) {
+export function BlogView({ onBackToHub, selectedPost, onSelectPost, postLang }) {
   const [posts, setPosts] = useState([]);
   const [activeTab, setActiveTab] = useState('all');
   const [activeTag, setActiveTag] = useState(null);
   const [searchQuery, setSearchQuery] = useState('');
-  const [selectedPost, setSelectedPost] = useState(null);
 
   useEffect(() => {
     window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
@@ -27,7 +26,7 @@ export function BlogView({ onBackToHub }) {
     const { posts: updatedPosts } = await blogApi.toggleLike(postId);
     setPosts(updatedPosts);
     if (selectedPost && selectedPost.id === postId) {
-      setSelectedPost(updatedPosts.find((p) => p.id === postId));
+      onSelectPost(updatedPosts.find((p) => p.id === postId));
     }
   };
 
@@ -35,7 +34,7 @@ export function BlogView({ onBackToHub }) {
     const { posts: updatedPosts } = await blogApi.addComment(postId, commentData);
     setPosts(updatedPosts);
     if (selectedPost && selectedPost.id === postId) {
-      setSelectedPost(updatedPosts.find((p) => p.id === postId));
+      onSelectPost(updatedPosts.find((p) => p.id === postId));
     }
   };
 
@@ -73,7 +72,7 @@ export function BlogView({ onBackToHub }) {
     return (
       <PostDetail
         post={selectedPost}
-        onBack={() => setSelectedPost(null)}
+        postLang={postLang}
         isLiked={blogApi.isPostLiked(selectedPost.id)}
         onToggleLike={handleToggleLike}
         onAddComment={handleAddComment}
@@ -105,7 +104,7 @@ export function BlogView({ onBackToHub }) {
           post={featured}
           isLiked={blogApi.isPostLiked(featured.id)}
           onToggleLike={handleToggleLike}
-          onSelect={setSelectedPost}
+          onSelect={onSelectPost}
         />
       )}
 
@@ -132,7 +131,7 @@ export function BlogView({ onBackToHub }) {
                   thought={thought}
                   isLiked={blogApi.isPostLiked(thought.id)}
                   onToggleLike={handleToggleLike}
-                  onSelect={setSelectedPost}
+                  onSelect={onSelectPost}
                 />
               ))}
             </div>
@@ -149,7 +148,7 @@ export function BlogView({ onBackToHub }) {
                     post={post}
                     isLiked={blogApi.isPostLiked(post.id)}
                     onToggleLike={handleToggleLike}
-                    onSelect={setSelectedPost}
+                    onSelect={onSelectPost}
                   />
                 ))
               )}
@@ -165,7 +164,7 @@ export function BlogView({ onBackToHub }) {
             activeTag={activeTag}
             onSelectTag={setActiveTag}
             onToggleLike={handleToggleLike}
-            onSelectThought={setSelectedPost}
+            onSelectThought={onSelectPost}
           />
         </div>
       </div>
