@@ -22,10 +22,13 @@ export function App() {
   const gridRef = useRef(null);
   const terminalRef = useRef(null);
 
+  React.useEffect(() => {
+    window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+  }, [currentView]);
+
   const handleSelectModule = (m) => {
     if (m.id === 'blog') {
       setCurrentView('blog');
-      window.scrollTo({ top: 0, behavior: 'smooth' });
     } else {
       setSelectedModule(m);
     }

@@ -15,8 +15,13 @@ export function BlogView({ onBackToHub }) {
   const [selectedPost, setSelectedPost] = useState(null);
 
   useEffect(() => {
+    window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
     blogApi.getPosts().then(setPosts);
   }, []);
+
+  useEffect(() => {
+    window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+  }, [selectedPost, activeTab]);
 
   const handleToggleLike = async (postId) => {
     const { posts: updatedPosts } = await blogApi.toggleLike(postId);
