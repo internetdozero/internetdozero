@@ -8,7 +8,8 @@ export function StatusRadar() {
     { type: 'system', text: 'Digite "help" ou "modulos" para explorar os comandos disponíveis.' },
   ]);
 
-  const bottomRef = useRef(null);
+  const terminalOutputRef = useRef(null);
+  const isFirstRender = useRef(true);
 
   const handleCommand = (e) => {
     e.preventDefault();
@@ -69,7 +70,13 @@ export function StatusRadar() {
   };
 
   useEffect(() => {
-    bottomRef.current?.scrollIntoView({ behavior: 'smooth' });
+    if (isFirstRender.current) {
+      isFirstRender.current = false;
+      return;
+    }
+    if (terminalOutputRef.current) {
+      terminalOutputRef.current.scrollTop = terminalOutputRef.current.scrollHeight;
+    }
   }, [history]);
 
   return (
@@ -99,7 +106,7 @@ export function StatusRadar() {
       </div>
 
       {/* Terminal History Output */}
-      <div className="min-h-[140px] max-h-[220px] overflow-y-auto space-y-2 text-xs leading-relaxed pr-2">
+      <div ref={terminalOutputRef} className="min-h-[140px] max-h-[220px] overflow-y-auto space-y-2 text-xs leading-relaxed pr-2">
         {history.map((line, idx) => (
           <div key={idx}>
             {line.type === 'system' && (
@@ -118,7 +125,6 @@ export function StatusRadar() {
             )}
           </div>
         ))}
-        <div ref={bottomRef} />
       </div>
 
       {/* Interactive Input Form */}
