@@ -21,34 +21,34 @@ export function StatusRadar() {
       case 'help':
         newHistory.push({
           type: 'output',
-          text: 'Comandos disponíveis:\n  • modulos   : Lista os módulos do portal\n  • blog      : Detalhes sobre a área de artigos e ensaios\n  • quizzes   : Detalhes sobre os testes e desafios de lógica\n  • sobre     : Sobre o Internet do Zero\n  • clear     : Limpa a tela do terminal'
+          text: 'Comandos disponíveis:\n  • modulos   : Lista os módulos do portal\n  • blog      : Detalhes sobre o blog e leituras\n  • quizzes   : Detalhes sobre os quizzes e passatempos\n  • sobre     : Sobre o Internet do Zero\n  • clear     : Limpa a tela do terminal'
         });
         break;
       case 'modulos':
       case 'modules':
         newHistory.push({
           type: 'output',
-          text: 'Módulos iniciais:\n  [1] Blog & Ensaios — Artigos práticos de engenharia e tutoriais\n  [2] Desafios & Quizzes — Testes dinâmicos de lógica e código'
+          text: 'Módulos iniciais:\n  [1] Blog & Ensaios — Ideias, leituras e variedades da web\n  [2] Desafios & Quizzes — Passatempos interativos e besteirol'
         });
         break;
       case 'blog':
         newHistory.push({
           type: 'output',
-          text: 'Blog & Ensaios: Publicações aprofundadas com código real, arquitetura limpa e análises técnicas.'
+          text: 'Blog & Ensaios: Textos livres sobre tecnologia, cultura digital, ideias e curiosidades da rede.'
         });
         break;
       case 'quizzes':
       case 'quiz':
         newHistory.push({
           type: 'output',
-          text: 'Desafios & Quizzes: Plataforma interativa para resolução de problemas e testes de lógica.'
+          text: 'Desafios & Quizzes: Passatempos descontraídos, perguntas aleatórias e testes leves pra passar o tempo.'
         });
         break;
       case 'sobre':
       case 'about':
         newHistory.push({
           type: 'output',
-          text: 'Internet do Zero: Hub digital focado em conhecimento prático de engenharia e desafios interativos.'
+          text: 'Internet do Zero: Um canto aberto na rede para ideias, variedades, curiosidades e o que der vontade de criar.'
         });
         break;
       case 'clear':

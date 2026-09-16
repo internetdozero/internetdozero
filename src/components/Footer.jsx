@@ -18,7 +18,7 @@ export function Footer({ onOpenArsenal }) {
               </span>
             </div>
             <p className="text-xs text-zinc-500 font-sans max-w-sm">
-              Laboratório de engenharia de software, áudio computacional e ferramentas modulares.
+              Espaço independente na rede para textos, variedades, passatempos e projetos autorais.
             </p>
           </div>
 
@@ -29,7 +29,7 @@ export function Footer({ onOpenArsenal }) {
               className="hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors flex items-center gap-1.5 cursor-pointer"
             >
               <Terminal className="w-3.5 h-3.5 text-emerald-500" />
-              <span>Ferramentas CLI</span>
+              <span>Console do Hub</span>
             </button>
 
             <a

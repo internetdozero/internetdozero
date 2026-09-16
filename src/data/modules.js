@@ -2,8 +2,8 @@ export const modulesData = [
   {
     id: 'blog',
     title: 'Blog & Ensaios',
-    subtitle: 'Artigos, Arquitetura & Engenharia',
-    description: 'Publicações aprofundadas sobre desenvolvimento de software, sistemas, computação prática e engenharia reversa.',
+    subtitle: 'Ideias, Leituras & Variedades',
+    description: 'Textos livres sobre o que acontece na internet, tecnologia, cultura digital e pensamentos sem roteiro engessado.',
     category: 'Conteúdo & Artigos',
     status: 'online',
     statusLabel: 'Em Breve',
@@ -12,15 +12,15 @@ export const modulesData = [
     featured: true,
     href: '#blog',
     internalLink: true,
-    tags: ['Artigos', 'Engenharia', 'Guias', 'Tech'],
+    tags: ['Textos', 'Internet', 'Variedades', 'Tech'],
     color: 'emerald',
     stats: { label: 'Status', value: 'Primeiro Módulo' }
   },
   {
     id: 'quizzes',
     title: 'Desafios & Quizzes',
-    subtitle: 'Testes de Lógica e Código',
-    description: 'Desafios dinâmicos e testes interativos para exercitar lógica de programação, arquitetura e fundamentos de tecnologia.',
+    subtitle: 'Passatempos & Besteirol',
+    description: 'Quizzes descompromissados, testes aleatórios e perguntas interativas pra passar o tempo e relaxar.',
     category: 'Interativo & Desafios',
     status: 'online',
     statusLabel: 'Em Breve',
@@ -29,7 +29,7 @@ export const modulesData = [
     featured: true,
     href: '#quizzes',
     internalLink: true,
-    tags: ['Lógica', 'Quizzes', 'Código', 'Interativo'],
+    tags: ['Quizzes', 'Passatempo', 'Interativo', 'Besteirol'],
     color: 'emerald',
     stats: { label: 'Formato', value: 'Interativo' }
   }
@@ -37,18 +37,18 @@ export const modulesData = [
 
 export const systemPillars = [
   {
-    title: 'Artigos & Engenharia Prática',
-    desc: 'Conteúdo técnico fundamentado, com código funcional e arquiteturas explicadas passo a passo.',
+    title: 'Textos & Variedades',
+    desc: 'Sem pauta fixa ou promessas: de coisas técnicas da web a curiosidades aleatórias que dão vontade de escrever.',
     icon: 'Sparkles'
   },
   {
-    title: 'Desafios & Lógica Interativa',
-    desc: 'Quizzes rápidos para fixar conceitos, testar raciocínio algorítmico e aprender na prática.',
+    title: 'Passatempos & Quizzes',
+    desc: 'Perguntas descontraídas e testes leves pra quebrar a rotina sem nenhuma seriedade acadêmica.',
     icon: 'BrainCircuit'
   },
   {
     title: 'Design Direto & Sem Ruído',
-    desc: 'Ambiente limpo, rápido e focado em leitura, aprendizado e resolução de problemas.',
+    desc: 'Interface ágil, estética de terminal limpa e navegação sem enrolação.',
     icon: 'Cpu'
   }
 ];

@@ -25,7 +25,7 @@ export function Hero({ onOpenArsenal, onScrollToGrid }) {
 
           {/* Subtitle */}
           <p className="max-w-2xl text-base sm:text-lg md:text-xl text-zinc-600 dark:text-zinc-400 font-sans leading-relaxed">
-            Portal dedicado a artigos de engenharia de software, guias práticos e desafios interativos de lógica e código.
+            Um canto aberto na rede para textos, curiosidades, variedades e o que mais der vontade de criar. Sem caixinhas e sem rótulos.
           </p>
 
           {/* Action CTAs */}
@@ -62,9 +62,9 @@ export function Hero({ onOpenArsenal, onScrollToGrid }) {
               </span>
             </div>
             <div className="border-r border-zinc-200 dark:border-zinc-800/60 pr-2">
-              <span className="text-[11px] text-zinc-500 dark:text-zinc-500 uppercase tracking-wider block">Interatividade</span>
+              <span className="text-[11px] text-zinc-500 dark:text-zinc-500 uppercase tracking-wider block">Passatempo</span>
               <span className="text-xs sm:text-sm font-semibold text-zinc-800 dark:text-zinc-200 flex items-center gap-1.5 mt-0.5">
-                <BrainCircuit className="w-3.5 h-3.5 text-emerald-500" /> Desafios Tech
+                <BrainCircuit className="w-3.5 h-3.5 text-emerald-500" /> Quizzes
               </span>
             </div>
             <div>
