@@ -2,7 +2,7 @@ import React from 'react';
 import { Terminal, Sparkles } from 'lucide-react';
 import { translations } from '../i18n/translations';
 
-export function Footer({ onOpenArsenal, lang = 'pt' }) {
+export const Footer = React.memo(function Footer({ onOpenArsenal, lang = 'pt' }) {
   const t = translations[lang] || translations.pt;
   const isEn = lang === 'en';
 
@@ -61,4 +61,4 @@ export function Footer({ onOpenArsenal, lang = 'pt' }) {
       </div>
     </footer>
   );
-}
+})

@@ -2,7 +2,7 @@ import React from 'react';
 import { Sun, Moon, Search, Terminal, ArrowLeft, Globe } from 'lucide-react';
 import { translations } from '../i18n/translations';
 
-export function Header({
+export const Header = React.memo(function Header({
   theme,
   toggleTheme,
   onOpenCommand,
@@ -124,4 +124,4 @@ export function Header({
       </div>
     </header>
   );
-}
+})

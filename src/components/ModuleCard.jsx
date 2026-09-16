@@ -2,7 +2,7 @@ import React from 'react';
 import { DynamicIcon } from './DynamicIcon';
 import { ArrowUpRight, Clock } from 'lucide-react';
 
-export function ModuleCard({ module, onSelect, lang = 'pt' }) {
+export const ModuleCard = React.memo(function ModuleCard({ module, onSelect, lang = 'pt' }) {
   const isOnline = module.status === 'online';
   const isInProgress = module.status === 'in_progress';
   const isPlanned = module.status === 'planned';
@@ -91,4 +91,4 @@ export function ModuleCard({ module, onSelect, lang = 'pt' }) {
       </div>
     </div>
   );
-}
+})
