@@ -18,7 +18,23 @@ export const blogApi = {
     try {
       const stored = localStorage.getItem(STORAGE_KEY);
       if (stored) {
-        return JSON.parse(stored);
+        const parsed = JSON.parse(stored);
+        if (Array.isArray(parsed) && parsed.length > 0) {
+          const initialMap = new Map(initialPosts.map((p) => [p.id, p]));
+          return parsed.map((post) => {
+            const base = initialMap.get(post.id) || {};
+            const titlePt = post.title_pt || post.title || post.content || '';
+            const titleEn = post.title_en || post.content_en || '';
+            const fallbackSlug = base.slug || slugify(titlePt) || post.id;
+            const fallbackSlugEn = base.slug_en || (titleEn ? slugify(titleEn) : undefined) || fallbackSlug;
+            return {
+              ...base,
+              ...post,
+              slug: post.slug || fallbackSlug,
+              slug_en: post.slug_en || fallbackSlugEn
+            };
+          });
+        }
       }
     } catch (_) {}
     return initialPosts;

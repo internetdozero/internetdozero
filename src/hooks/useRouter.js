@@ -7,9 +7,11 @@ export function useRouter() {
     const params = new URLSearchParams(window.location.search);
 
     if (path.startsWith('/blog')) {
-      // /blog/nome-do-artigo → postSlug = "nome-do-artigo"
       const segments = path.replace(/\/+$/, '').split('/');
-      const postSlug = segments.length > 2 ? segments.slice(2).join('/') : null;
+      let postSlug = segments.length > 2 && segments[2] ? decodeURIComponent(segments.slice(2).join('/')) : null;
+      if (!postSlug) {
+        postSlug = params.get('p') || null;
+      }
       return { view: 'blog', postSlug };
     }
     return { view: 'hub', postSlug: null };

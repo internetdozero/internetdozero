@@ -23,20 +23,36 @@ export function BlogView({ postSlug, onNavigate, lang = 'pt', onToggleLang }) {
     window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
   }, [postSlug, activeTab]);
 
-  // Derive selectedPost from slug + posts (matches both PT and EN slugs)
+  // Derive selectedPost from slug + posts (matches PT slug, EN slug, or id fallback)
   const selectedPost = useMemo(() => {
     if (!postSlug || !posts.length) return null;
-    return posts.find((p) => p.slug === postSlug || p.slug_en === postSlug) || null;
+    return (
+      posts.find(
+        (p) =>
+          p.slug === postSlug ||
+          p.slug_en === postSlug ||
+          p.id === postSlug ||
+          (p.slug && p.slug.toLowerCase() === postSlug.toLowerCase()) ||
+          (p.slug_en && p.slug_en.toLowerCase() === postSlug.toLowerCase())
+      ) || null
+    );
   }, [postSlug, posts]);
 
-  const handleSelectPost = useCallback((post) => {
-    if (post) {
-      const slug = isEn && post.slug_en ? post.slug_en : post.slug;
-      onNavigate(`/blog/${slug}`);
-    } else {
-      onNavigate('/blog');
-    }
-  }, [isEn, onNavigate]);
+  const handleSelectPost = useCallback(
+    (post) => {
+      if (post) {
+        const slug =
+          (isEn && post.slug_en ? post.slug_en : post.slug) ||
+          post.slug ||
+          post.slug_en ||
+          post.id;
+        onNavigate(`/blog/${encodeURIComponent(slug)}`);
+      } else {
+        onNavigate('/blog');
+      }
+    },
+    [isEn, onNavigate]
+  );
 
   const handleBackToHub = useCallback(() => {
     onNavigate('/');
