@@ -1,11 +1,19 @@
 import React from 'react';
 import { DynamicIcon } from './DynamicIcon';
-import { ArrowUpRight, Lock, CheckCircle2, Clock, Wrench } from 'lucide-react';
+import { ArrowUpRight, Clock } from 'lucide-react';
 
-export function ModuleCard({ module, onSelect }) {
+export function ModuleCard({ module, onSelect, lang = 'pt' }) {
   const isOnline = module.status === 'online';
   const isInProgress = module.status === 'in_progress';
   const isPlanned = module.status === 'planned';
+
+  const title = (lang === 'en' && module.title_en) ? module.title_en : (module.title_pt || module.title);
+  const subtitle = (lang === 'en' && module.subtitle_en) ? module.subtitle_en : (module.subtitle_pt || module.subtitle);
+  const category = (lang === 'en' && module.category_en) ? module.category_en : (module.category_pt || module.category);
+  const description = (lang === 'en' && module.description_en) ? module.description_en : (module.description_pt || module.description);
+  const statusLabel = (lang === 'en' && module.statusLabel_en) ? module.statusLabel_en : (module.statusLabel_pt || module.statusLabel);
+  const badge = (lang === 'en' && module.badge_en) ? module.badge_en : (module.badge_pt || module.badge);
+  const tags = (lang === 'en' && module.tags_en) ? module.tags_en : (module.tags_pt || module.tags);
 
   const statusBadgeClasses = isOnline
     ? 'bg-emerald-100 text-emerald-800 dark:bg-emerald-950/80 dark:text-emerald-300 border-emerald-300 dark:border-emerald-700/50'
@@ -25,13 +33,13 @@ export function ModuleCard({ module, onSelect }) {
         {/* Top bar: Category + Status */}
         <div className="flex items-center justify-between gap-2 mb-4">
           <span className="text-[11px] font-mono font-medium tracking-wider uppercase text-zinc-500 dark:text-zinc-500">
-            {module.category}
+            {category}
           </span>
           <span className={`inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-mono font-medium border ${statusBadgeClasses}`}>
             {isOnline && <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />}
             {isInProgress && <span className="w-1.5 h-1.5 rounded-full bg-amber-500" />}
             {isPlanned && <Clock className="w-3 h-3" />}
-            {module.statusLabel}
+            {statusLabel}
           </span>
         </div>
 
@@ -43,30 +51,30 @@ export function ModuleCard({ module, onSelect }) {
           <div className="flex-1">
             <div className="flex items-center gap-2">
               <h3 className="text-lg font-bold font-mono text-zinc-900 dark:text-white group-hover:text-emerald-600 dark:group-hover:text-emerald-400 transition-colors">
-                {module.title}
+                {title}
               </h3>
-              {module.badge && (
+              {badge && (
                 <span className="px-1.5 py-0.5 text-[10px] font-mono rounded bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-300 border border-zinc-300 dark:border-zinc-700">
-                  {module.badge}
+                  {badge}
                 </span>
               )}
             </div>
             <p className="text-xs font-mono text-emerald-600 dark:text-emerald-500 mt-0.5">
-              {module.subtitle}
+              {subtitle}
             </p>
           </div>
         </div>
 
         {/* Description */}
         <p className="text-sm text-zinc-600 dark:text-zinc-400 font-sans leading-relaxed line-clamp-3 mb-5">
-          {module.description}
+          {description}
         </p>
       </div>
 
       {/* Bottom bar: Tags + Action */}
       <div className="pt-4 border-t border-zinc-100 dark:border-zinc-800/60 flex items-center justify-between">
         <div className="flex flex-wrap gap-1.5">
-          {module.tags.map((tag) => (
+          {tags.map((tag) => (
             <span
               key={tag}
               className="text-[11px] font-mono px-2 py-0.5 rounded bg-zinc-100 dark:bg-zinc-800/60 text-zinc-600 dark:text-zinc-400"
@@ -77,7 +85,7 @@ export function ModuleCard({ module, onSelect }) {
         </div>
 
         <div className="flex items-center gap-1 text-xs font-mono font-medium text-emerald-600 dark:text-emerald-400 group-hover:translate-x-0.5 transition-transform">
-          <span>Abrir</span>
+          <span>{lang === 'en' ? 'Open' : 'Abrir'}</span>
           <ArrowUpRight className="w-4 h-4" />
         </div>
       </div>

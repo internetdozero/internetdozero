@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useTheme } from './hooks/useTheme';
 import { useRouter } from './hooks/useRouter';
+import { useLanguage } from './hooks/useLanguage';
 import { Header } from './components/Header';
 import { HubView } from './components/HubView';
 import { CommandPalette } from './components/CommandPalette';
@@ -12,8 +13,8 @@ import { blogApi } from './modules/blog/services/blogApi';
 export function App() {
   const { theme, toggleTheme } = useTheme();
   const { view: currentView, postId, navigate } = useRouter();
+  const { lang, setLang, toggleLang } = useLanguage();
   const [selectedPost, setSelectedPost] = useState(null);
-  const [postLang, setPostLang] = useState('pt');
   const [isCommandOpen, setIsCommandOpen] = useState(false);
   const [selectedModule, setSelectedModule] = useState(null);
 
@@ -34,7 +35,7 @@ export function App() {
 
   const handleSelectModule = (m) => {
     if (m.id === 'blog') {
-      navigate('/blog');
+      navigate(lang === 'en' ? '/blog?lang=en' : '/blog');
     } else {
       setSelectedModule(m);
     }
@@ -42,10 +43,11 @@ export function App() {
 
   const handleSelectPost = (post) => {
     if (post) {
-      navigate(`/blog?p=${post.id}`);
+      const url = lang === 'en' ? `/blog?p=${post.id}&lang=en` : `/blog?p=${post.id}`;
+      navigate(url);
       setSelectedPost(post);
     } else {
-      navigate('/blog');
+      navigate(lang === 'en' ? '/blog?lang=en' : '/blog');
       setSelectedPost(null);
     }
   };
@@ -57,35 +59,38 @@ export function App() {
         toggleTheme={toggleTheme}
         onOpenCommand={() => setIsCommandOpen(true)}
         onOpenArsenal={() => {
-          if (currentView !== 'hub') navigate('/');
+          if (currentView !== 'hub') navigate(lang === 'en' ? '/?lang=en' : '/');
           setTimeout(() => {
             const el = document.getElementById('modulos');
             el?.scrollIntoView({ behavior: 'smooth' });
           }, 100);
         }}
-        onGoHome={() => navigate('/')}
+        onGoHome={() => navigate(lang === 'en' ? '/?lang=en' : '/')}
         readingPost={selectedPost}
-        postLang={postLang}
-        onTogglePostLang={setPostLang}
+        lang={lang}
+        onToggleLang={setLang}
         onBackToBlog={() => handleSelectPost(null)}
       />
 
       <main className="flex-1">
         {currentView === 'blog' ? (
           <BlogView
-            onBackToHub={() => navigate('/')}
+            onBackToHub={() => navigate(lang === 'en' ? '/?lang=en' : '/')}
             selectedPost={selectedPost}
             onSelectPost={handleSelectPost}
-            postLang={postLang}
+            postLang={lang}
+            lang={lang}
+            onToggleLang={setLang}
           />
         ) : (
-          <HubView onSelectModule={handleSelectModule} />
+          <HubView onSelectModule={handleSelectModule} lang={lang} />
         )}
       </main>
 
       <Footer
+        lang={lang}
         onOpenArsenal={() => {
-          if (currentView !== 'hub') navigate('/');
+          if (currentView !== 'hub') navigate(lang === 'en' ? '/?lang=en' : '/');
           setTimeout(() => {
             const el = document.getElementById('modulos');
             el?.scrollIntoView({ behavior: 'smooth' });
@@ -99,11 +104,14 @@ export function App() {
         onSelectModule={handleSelectModule}
         theme={theme}
         toggleTheme={toggleTheme}
+        lang={lang}
+        toggleLang={toggleLang}
       />
 
       <ModuleModal
         module={selectedModule}
         onClose={() => setSelectedModule(null)}
+        lang={lang}
       />
     </div>
   );

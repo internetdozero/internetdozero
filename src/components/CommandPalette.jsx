@@ -1,10 +1,13 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Search, X, Sparkles, Sun, Moon, ArrowRight, BrainCircuit, Terminal } from 'lucide-react';
+import { Search, Sun, Moon, ArrowRight, Terminal, Globe } from 'lucide-react';
 import { modulesData } from '../data/modules';
+import { translations } from '../i18n/translations';
 
-export function CommandPalette({ isOpen, onClose, onSelectModule, theme, toggleTheme, onOpenArsenal }) {
+export function CommandPalette({ isOpen, onClose, onSelectModule, theme, toggleTheme, onOpenArsenal, lang = 'pt', toggleLang }) {
   const [query, setQuery] = useState('');
   const inputRef = useRef(null);
+  const t = translations[lang] || translations.pt;
+  const isEn = lang === 'en';
 
   useEffect(() => {
     const handleKeyDown = (e) => {
@@ -30,7 +33,11 @@ export function CommandPalette({ isOpen, onClose, onSelectModule, theme, toggleT
   if (!isOpen) return null;
 
   const filteredModules = modulesData.filter((m) => {
-    const text = `${m.title} ${m.subtitle} ${m.category} ${m.tags.join(' ')}`.toLowerCase();
+    const title = (isEn && m.title_en) ? m.title_en : (m.title_pt || m.title);
+    const subtitle = (isEn && m.subtitle_en) ? m.subtitle_en : (m.subtitle_pt || m.subtitle);
+    const category = (isEn && m.category_en) ? m.category_en : (m.category_pt || m.category);
+    const tags = (isEn && m.tags_en) ? m.tags_en : (m.tags_pt || m.tags);
+    const text = `${title} ${subtitle} ${category} ${tags.join(' ')}`.toLowerCase();
     return text.includes(query.toLowerCase());
   });
 
@@ -49,7 +56,7 @@ export function CommandPalette({ isOpen, onClose, onSelectModule, theme, toggleT
           <input
             ref={inputRef}
             type="text"
-            placeholder="Buscar artigos, quizzes, comandos ou temas..."
+            placeholder={t.command.placeholder}
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             className="w-full bg-transparent text-sm text-zinc-900 dark:text-zinc-100 placeholder-zinc-400 dark:placeholder-zinc-500 focus:outline-none font-mono"
@@ -65,8 +72,22 @@ export function CommandPalette({ isOpen, onClose, onSelectModule, theme, toggleT
           {/* Quick system actions */}
           <div className="py-2">
             <div className="px-3 py-1 text-[10px] font-mono font-semibold tracking-wider text-zinc-400 uppercase">
-              Ações Rápidas
+              {t.command.catActions}
             </div>
+
+            <button
+              onClick={() => {
+                toggleLang?.();
+                onClose();
+              }}
+              className="w-full flex items-center justify-between px-3 py-2 rounded-xl hover:bg-zinc-100 dark:hover:bg-zinc-800/80 text-xs font-mono text-left transition-colors group cursor-pointer"
+            >
+              <div className="flex items-center gap-2.5">
+                <Globe className="w-4 h-4 text-emerald-500" />
+                <span className="text-zinc-800 dark:text-zinc-200">{t.command.langAction} (Ativo: {lang.toUpperCase()})</span>
+              </div>
+              <span className="text-[10px] text-zinc-400 group-hover:text-emerald-500">{isEn ? 'Switch' : 'Alternar'}</span>
+            </button>
             
             <button
               onClick={() => {
@@ -77,56 +98,63 @@ export function CommandPalette({ isOpen, onClose, onSelectModule, theme, toggleT
             >
               <div className="flex items-center gap-2.5">
                 {theme === 'dark' ? <Sun className="w-4 h-4 text-emerald-400" /> : <Moon className="w-4 h-4 text-emerald-600" />}
-                <span className="text-zinc-800 dark:text-zinc-200">Alternar Tema ({theme === 'dark' ? 'Modo Claro' : 'Modo Escuro'})</span>
+                <span className="text-zinc-800 dark:text-zinc-200">{t.command.themeAction}</span>
               </div>
-              <span className="text-[10px] text-zinc-400 group-hover:text-emerald-500">Alternar</span>
+              <span className="text-[10px] text-zinc-400 group-hover:text-emerald-500">{isEn ? 'Toggle' : 'Alternar'}</span>
             </button>
 
-            <button
-              onClick={() => {
-                onClose();
-                onOpenArsenal();
-              }}
-              className="w-full flex items-center justify-between px-3 py-2 rounded-xl hover:bg-zinc-100 dark:hover:bg-zinc-800/80 text-xs font-mono text-left transition-colors group cursor-pointer"
-            >
-              <div className="flex items-center gap-2.5">
-                <Terminal className="w-4 h-4 text-emerald-500" />
-                <span className="text-zinc-800 dark:text-zinc-200">Abrir Console Interativo</span>
-              </div>
-              <span className="text-[10px] text-zinc-400 group-hover:text-emerald-500">Ir para Terminal</span>
-            </button>
+            {onOpenArsenal && (
+              <button
+                onClick={() => {
+                  onClose();
+                  onOpenArsenal();
+                }}
+                className="w-full flex items-center justify-between px-3 py-2 rounded-xl hover:bg-zinc-100 dark:hover:bg-zinc-800/80 text-xs font-mono text-left transition-colors group cursor-pointer"
+              >
+                <div className="flex items-center gap-2.5">
+                  <Terminal className="w-4 h-4 text-emerald-500" />
+                  <span className="text-zinc-800 dark:text-zinc-200">{t.command.openArsenal}</span>
+                </div>
+                <span className="text-[10px] text-zinc-400 group-hover:text-emerald-500">{isEn ? 'Open' : 'Abrir'}</span>
+              </button>
+            )}
           </div>
 
           {/* Modules section */}
           <div className="py-2">
             <div className="px-3 py-1 text-[10px] font-mono font-semibold tracking-wider text-zinc-400 uppercase">
-              Módulos ({filteredModules.length})
+              {t.command.catModules} ({filteredModules.length})
             </div>
 
             {filteredModules.length === 0 ? (
               <div className="px-4 py-6 text-center text-xs text-zinc-500 font-mono">
-                Nenhum módulo encontrado para "{query}"
+                {t.command.noResults}
               </div>
             ) : (
-              filteredModules.map((m) => (
-                <button
-                  key={m.id}
-                  onClick={() => {
-                    onSelectModule(m);
-                    onClose();
-                  }}
-                  className="w-full flex items-center justify-between px-3 py-2.5 rounded-xl hover:bg-zinc-100 dark:hover:bg-zinc-800/80 text-xs font-mono text-left transition-colors group cursor-pointer"
-                >
-                  <div className="flex items-center gap-2.5 min-w-0">
-                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 shrink-0" />
-                    <div className="truncate">
-                      <span className="font-bold text-zinc-900 dark:text-zinc-100 mr-2">{m.title}</span>
-                      <span className="text-zinc-500 dark:text-zinc-400">{m.subtitle}</span>
+              filteredModules.map((m) => {
+                const title = (isEn && m.title_en) ? m.title_en : (m.title_pt || m.title);
+                const subtitle = (isEn && m.subtitle_en) ? m.subtitle_en : (m.subtitle_pt || m.subtitle);
+
+                return (
+                  <button
+                    key={m.id}
+                    onClick={() => {
+                      onSelectModule(m);
+                      onClose();
+                    }}
+                    className="w-full flex items-center justify-between px-3 py-2.5 rounded-xl hover:bg-zinc-100 dark:hover:bg-zinc-800/80 text-xs font-mono text-left transition-colors group cursor-pointer"
+                  >
+                    <div className="flex items-center gap-2.5 min-w-0">
+                      <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 shrink-0" />
+                      <div className="truncate">
+                        <span className="font-bold text-zinc-900 dark:text-zinc-100 mr-2">{title}</span>
+                        <span className="text-zinc-500 dark:text-zinc-400">{subtitle}</span>
+                      </div>
                     </div>
-                  </div>
-                  <ArrowRight className="w-3.5 h-3.5 text-zinc-400 group-hover:text-emerald-500 group-hover:translate-x-0.5 transition-all shrink-0 ml-2" />
-                </button>
-              ))
+                    <ArrowRight className="w-3.5 h-3.5 text-zinc-400 group-hover:text-emerald-500 group-hover:translate-x-0.5 transition-all shrink-0 ml-2" />
+                  </button>
+                );
+              })
             )}
           </div>
         </div>
@@ -134,7 +162,7 @@ export function CommandPalette({ isOpen, onClose, onSelectModule, theme, toggleT
         {/* Footer info */}
         <div className="px-4 py-2 bg-zinc-50 dark:bg-zinc-950 border-t border-zinc-200 dark:border-zinc-800 flex items-center justify-between text-[11px] font-mono text-zinc-500">
           <span>Internet do Zero Quick Search</span>
-          <span>Navegue com Enter / Clique</span>
+          <span>{t.command.escToClose}</span>
         </div>
       </div>
     </div>

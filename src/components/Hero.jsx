@@ -1,7 +1,10 @@
 import React from 'react';
-import { Terminal, Sparkles, ArrowRight, BrainCircuit, BookOpen, Layers } from 'lucide-react';
+import { Terminal, ArrowRight, BrainCircuit, BookOpen, Layers } from 'lucide-react';
+import { translations } from '../i18n/translations';
 
-export function Hero({ onOpenArsenal, onScrollToGrid }) {
+export function Hero({ onOpenArsenal, onScrollToGrid, lang = 'pt' }) {
+  const t = translations[lang] || translations.pt;
+
   return (
     <section className="relative pt-12 pb-16 md:pt-20 md:pb-24 overflow-hidden">
       {/* Background ambient radial glow */}
@@ -13,7 +16,7 @@ export function Hero({ onOpenArsenal, onScrollToGrid }) {
           {/* Subtle Hub Tag */}
           <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-zinc-100 dark:bg-zinc-900/90 border border-zinc-300 dark:border-emerald-500/30 text-zinc-800 dark:text-zinc-200 text-xs font-mono shadow-sm">
             <span className="w-2 h-2 rounded-full bg-emerald-500" />
-            <span className="text-zinc-500 dark:text-zinc-400">Hub Central</span>
+            <span className="text-zinc-500 dark:text-zinc-400">{t.hero.badgeCentral}</span>
             <span className="text-zinc-300 dark:text-zinc-700">/</span>
             <span className="font-semibold text-emerald-600 dark:text-emerald-400">internetdozero</span>
           </div>
@@ -25,7 +28,7 @@ export function Hero({ onOpenArsenal, onScrollToGrid }) {
 
           {/* Subtitle */}
           <p className="max-w-2xl text-base sm:text-lg md:text-xl text-zinc-600 dark:text-zinc-400 font-sans leading-relaxed">
-            Um canto aberto na rede para textos, curiosidades, variedades e o que mais der vontade de criar. Sem caixinhas e sem rótulos.
+            {t.hero.subtitle}
           </p>
 
           {/* Action CTAs */}
@@ -34,7 +37,7 @@ export function Hero({ onOpenArsenal, onScrollToGrid }) {
               onClick={onScrollToGrid}
               className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-emerald-600 hover:bg-emerald-500 dark:bg-emerald-500 dark:hover:bg-emerald-400 text-white dark:text-zinc-950 font-mono font-bold text-sm shadow-[0_0_25px_rgba(16,185,129,0.3)] transition-all hover:scale-105 active:scale-95 cursor-pointer"
             >
-              <span>Ver Módulos</span>
+              <span>{t.hero.btnModules}</span>
               <ArrowRight className="w-4 h-4" />
             </button>
 
@@ -43,34 +46,34 @@ export function Hero({ onOpenArsenal, onScrollToGrid }) {
               className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-zinc-100 hover:bg-zinc-200 dark:bg-zinc-900/90 dark:hover:bg-zinc-800 border border-zinc-300 dark:border-zinc-800 text-zinc-800 dark:text-zinc-200 font-mono text-sm transition-all hover:border-emerald-500/50 hover:scale-105 active:scale-95 cursor-pointer"
             >
               <Terminal className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
-              <span>Console do Hub</span>
+              <span>{t.hero.btnConsole}</span>
             </button>
           </div>
 
           {/* Summary Indicator Bar */}
           <div className="w-full max-w-3xl mt-8 p-4 rounded-2xl bg-zinc-50/80 dark:bg-zinc-900/60 border border-zinc-200 dark:border-zinc-800/80 backdrop-blur-sm grid grid-cols-2 sm:grid-cols-4 gap-4 text-left font-mono">
             <div className="border-r border-zinc-200 dark:border-zinc-800/60 pr-2">
-              <span className="text-[11px] text-zinc-500 dark:text-zinc-500 uppercase tracking-wider block">Foco Inicial</span>
+              <span className="text-[11px] text-zinc-500 dark:text-zinc-500 uppercase tracking-wider block">{t.hero.statFocus}</span>
               <span className="text-xs sm:text-sm font-semibold text-zinc-800 dark:text-zinc-200 flex items-center gap-1.5 mt-0.5">
-                <Layers className="w-3.5 h-3.5 text-emerald-500" /> 2 Módulos
+                <Layers className="w-3.5 h-3.5 text-emerald-500" /> {t.hero.statModulesCount}
               </span>
             </div>
             <div className="border-r border-zinc-200 dark:border-zinc-800/60 pr-2">
-              <span className="text-[11px] text-zinc-500 dark:text-zinc-500 uppercase tracking-wider block">Conteúdo</span>
+              <span className="text-[11px] text-zinc-500 dark:text-zinc-500 uppercase tracking-wider block">{t.hero.statContent}</span>
               <span className="text-xs sm:text-sm font-semibold text-emerald-600 dark:text-emerald-400 flex items-center gap-1.5 mt-0.5">
-                <BookOpen className="w-3.5 h-3.5 inline" /> Blog & Ensaios
+                <BookOpen className="w-3.5 h-3.5 inline" /> {t.hero.statContentVal}
               </span>
             </div>
             <div className="border-r border-zinc-200 dark:border-zinc-800/60 pr-2">
-              <span className="text-[11px] text-zinc-500 dark:text-zinc-500 uppercase tracking-wider block">Passatempo</span>
+              <span className="text-[11px] text-zinc-500 dark:text-zinc-500 uppercase tracking-wider block">{t.hero.statHobbies}</span>
               <span className="text-xs sm:text-sm font-semibold text-zinc-800 dark:text-zinc-200 flex items-center gap-1.5 mt-0.5">
-                <BrainCircuit className="w-3.5 h-3.5 text-emerald-500" /> Quizzes
+                <BrainCircuit className="w-3.5 h-3.5 text-emerald-500" /> {t.hero.statHobbiesVal}
               </span>
             </div>
             <div>
-              <span className="text-[11px] text-zinc-500 dark:text-zinc-500 uppercase tracking-wider block">Status</span>
+              <span className="text-[11px] text-zinc-500 dark:text-zinc-500 uppercase tracking-wider block">{t.hero.statStatus}</span>
               <span className="text-xs sm:text-sm font-semibold text-emerald-600 dark:text-emerald-400 flex items-center gap-1.5 mt-0.5">
-                <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" /> Operacional
+                <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" /> {t.hero.statStatusVal}
               </span>
             </div>
           </div>

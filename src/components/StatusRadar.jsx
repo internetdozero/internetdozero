@@ -1,15 +1,25 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { Terminal, Send, Trash2, Sparkles, CheckCircle2, CornerDownLeft } from 'lucide-react';
+import { Terminal, Trash2, CornerDownLeft } from 'lucide-react';
 
-export function StatusRadar() {
+export function StatusRadar({ lang = 'pt' }) {
+  const isEn = lang === 'en';
+
   const [input, setInput] = useState('');
   const [history, setHistory] = useState([
-    { type: 'system', text: 'Internet do Zero Hub Console [v1.0.0]' },
-    { type: 'system', text: 'Digite "help" ou "modulos" para explorar os comandos disponíveis.' },
+    { type: 'system', text: isEn ? 'Internet do Zero Hub Console [v1.0.0]' : 'Internet do Zero Hub Console [v1.0.0]' },
+    { type: 'system', text: isEn ? 'Type "help" or "modules" to explore available commands.' : 'Digite "help" ou "modulos" para explorar os comandos disponíveis.' },
   ]);
 
   const terminalOutputRef = useRef(null);
   const isFirstRender = useRef(true);
+
+  // Update initial message when language changes
+  useEffect(() => {
+    setHistory([
+      { type: 'system', text: 'Internet do Zero Hub Console [v1.0.0]' },
+      { type: 'system', text: isEn ? 'Type "help" or "modules" to explore available commands.' : 'Digite "help" ou "modulos" para explorar os comandos disponíveis.' },
+    ]);
+  }, [isEn]);
 
   const handleCommand = (e) => {
     e.preventDefault();
@@ -22,46 +32,58 @@ export function StatusRadar() {
       case 'help':
         newHistory.push({
           type: 'output',
-          text: 'Comandos disponíveis:\n  • modulos   : Lista os módulos do portal\n  • blog      : Detalhes sobre o blog e leituras\n  • quizzes   : Detalhes sobre os quizzes e passatempos\n  • sobre     : Sobre o Internet do Zero\n  • clear     : Limpa a tela do terminal'
+          text: isEn
+            ? 'Available commands:\n  • modules   : List portal modules\n  • blog      : Info about blog & essays\n  • quizzes   : Info about quizzes & pastimes\n  • about     : About Internet do Zero\n  • clear     : Clear terminal screen'
+            : 'Comandos disponíveis:\n  • modulos   : Lista os módulos do portal\n  • blog      : Detalhes sobre o blog e leituras\n  • quizzes   : Detalhes sobre os quizzes e passatempos\n  • sobre     : Sobre o Internet do Zero\n  • clear     : Limpa a tela do terminal'
         });
         break;
       case 'modulos':
       case 'modules':
         newHistory.push({
           type: 'output',
-          text: 'Módulos iniciais:\n  [1] Blog & Ensaios — Ideias, leituras e variedades da web\n  [2] Desafios & Quizzes — Passatempos interativos e besteirol'
+          text: isEn
+            ? 'Initial modules:\n  [1] Blog & Essays — Spontaneous writing, essays, and web tech dives\n  [2] Challenges & Quizzes — Interactive trivia and pastimes'
+            : 'Módulos iniciais:\n  [1] Blog & Ensaios — Ideias, leituras e variedades da web\n  [2] Desafios & Quizzes — Passatempos interativos e besteirol'
         });
         break;
       case 'blog':
         newHistory.push({
           type: 'output',
-          text: 'Blog & Ensaios: Textos livres sobre tecnologia, cultura digital, ideias e curiosidades da rede.'
+          text: isEn
+            ? 'Blog & Essays: Free-form writing on technology, digital culture, independent projects, and web ideas.'
+            : 'Blog & Ensaios: Textos livres sobre tecnologia, cultura digital, ideias e curiosidades da rede.'
         });
         break;
       case 'quizzes':
       case 'quiz':
         newHistory.push({
           type: 'output',
-          text: 'Desafios & Quizzes: Passatempos descontraídos, perguntas aleatórias e testes leves pra passar o tempo.'
+          text: isEn
+            ? 'Challenges & Quizzes: Casual trivia, lighthearted questions, and interactive games.'
+            : 'Desafios & Quizzes: Passatempos descontraídos, perguntas aleatórias e testes leves pra passar o tempo.'
         });
         break;
       case 'sobre':
       case 'about':
         newHistory.push({
           type: 'output',
-          text: 'Internet do Zero: Um canto aberto na rede para ideias, variedades, curiosidades e o que der vontade de criar.'
+          text: isEn
+            ? 'Internet do Zero: An open web corner for ideas, essays, tech experiments, and spontaneous creations.'
+            : 'Internet do Zero: Um canto aberto na rede para ideias, variedades, curiosidades e o que der vontade de criar.'
         });
         break;
       case 'clear':
         setHistory([
-          { type: 'system', text: 'Console limpo. Digite "help" para ver os comandos.' }
+          { type: 'system', text: isEn ? 'Console cleared. Type "help" for commands.' : 'Console limpo. Digite "help" para ver os comandos.' }
         ]);
         setInput('');
         return;
       default:
         newHistory.push({
           type: 'error',
-          text: `Comando não reconhecido: "${input}". Digite "help" para ver as opções disponíveis.`
+          text: isEn
+            ? `Unrecognized command: "${input}". Type "help" to view available options.`
+            : `Comando não reconhecido: "${input}". Digite "help" para ver as opções disponíveis.`
         });
     }
 
@@ -96,12 +118,12 @@ export function StatusRadar() {
         </div>
 
         <button
-          onClick={() => setHistory([{ type: 'system', text: 'Console reiniciado.' }])}
+          onClick={() => setHistory([{ type: 'system', text: isEn ? 'Console reset.' : 'Console reiniciado.' }])}
           className="p-1.5 rounded-lg text-zinc-400 hover:text-zinc-200 hover:bg-zinc-800 transition-colors text-xs flex items-center gap-1 cursor-pointer"
-          title="Limpar terminal"
+          title={isEn ? "Clear terminal" : "Limpar terminal"}
         >
           <Trash2 className="w-3.5 h-3.5" />
-          <span className="hidden sm:inline">Limpar</span>
+          <span className="hidden sm:inline">{isEn ? 'Clear' : 'Limpar'}</span>
         </button>
       </div>
 
@@ -134,13 +156,13 @@ export function StatusRadar() {
           type="text"
           value={input}
           onChange={(e) => setInput(e.target.value)}
-          placeholder="Digite um comando (ex: help, modulos, blog, quizzes)..."
+          placeholder={isEn ? "Type a command (e.g. help, modules, blog, quizzes)..." : "Digite um comando (ex: help, modulos, blog, quizzes)..."}
           className="flex-1 bg-transparent text-xs sm:text-sm text-zinc-100 placeholder-zinc-500 focus:outline-none font-mono"
         />
         <button
           type="submit"
           className="p-2 rounded-lg bg-emerald-500/20 text-emerald-400 hover:bg-emerald-500 hover:text-black transition-colors cursor-pointer"
-          title="Executar comando"
+          title={isEn ? "Execute command" : "Executar comando"}
         >
           <CornerDownLeft className="w-4 h-4" />
         </button>
