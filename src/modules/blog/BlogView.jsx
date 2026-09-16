@@ -1,43 +1,57 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect, useMemo, useCallback } from 'react';
 import { blogApi } from './services/blogApi';
+import { useLikedPosts } from './hooks/useLikedPosts';
 import { BlogHeader } from './components/BlogHeader';
 import { FeaturedPost } from './components/FeaturedPost';
 import { BlogSidebar } from './components/BlogSidebar';
 import { PostDetail } from './components/PostDetail';
 import { BlogFeed } from './components/BlogFeed';
 
-export function BlogView({ onBackToHub, selectedPost, onSelectPost, postLang = 'pt', lang = 'pt', onToggleLang }) {
+export function BlogView({ postId, onNavigate, lang = 'pt', onToggleLang }) {
   const [posts, setPosts] = useState([]);
   const [activeTab, setActiveTab] = useState('all');
   const [activeTag, setActiveTag] = useState(null);
   const [searchQuery, setSearchQuery] = useState('');
-  const currentLang = lang || postLang;
-  const isEn = currentLang === 'en';
+  const { isLiked, syncAfterToggle } = useLikedPosts();
+  const isEn = lang === 'en';
 
   useEffect(() => {
-    window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
     blogApi.getPosts().then(setPosts);
   }, []);
 
   useEffect(() => {
     window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
-  }, [selectedPost, activeTab]);
+  }, [postId, activeTab]);
 
-  const handleToggleLike = async (postId) => {
-    const { posts: updatedPosts } = await blogApi.toggleLike(postId);
-    setPosts(updatedPosts);
-    if (selectedPost && selectedPost.id === postId) {
-      onSelectPost(updatedPosts.find((p) => p.id === postId));
-    }
-  };
+  // Derive selectedPost from postId + posts (single source of truth)
+  const selectedPost = useMemo(() => {
+    if (!postId || !posts.length) return null;
+    return posts.find((p) => p.id === postId) || null;
+  }, [postId, posts]);
 
-  const handleAddComment = async (postId, commentData) => {
-    const { posts: updatedPosts } = await blogApi.addComment(postId, commentData);
-    setPosts(updatedPosts);
-    if (selectedPost && selectedPost.id === postId) {
-      onSelectPost(updatedPosts.find((p) => p.id === postId));
+  const handleSelectPost = useCallback((post) => {
+    if (post) {
+      const url = isEn ? `/blog?p=${post.id}&lang=en` : `/blog?p=${post.id}`;
+      onNavigate(url);
+    } else {
+      onNavigate(isEn ? '/blog?lang=en' : '/blog');
     }
-  };
+  }, [isEn, onNavigate]);
+
+  const handleBackToHub = useCallback(() => {
+    onNavigate(isEn ? '/?lang=en' : '/');
+  }, [isEn, onNavigate]);
+
+  const handleToggleLike = useCallback(async (id) => {
+    const { posts: updatedPosts } = await blogApi.toggleLike(id);
+    setPosts(updatedPosts);
+    syncAfterToggle(id);
+  }, [syncAfterToggle]);
+
+  const handleAddComment = useCallback(async (id, commentData) => {
+    const { posts: updatedPosts } = await blogApi.addComment(id, commentData);
+    setPosts(updatedPosts);
+  }, []);
 
   const thoughts = useMemo(() => posts.filter((p) => p.type === 'thought'), [posts]);
   const longFormPosts = useMemo(() => posts.filter((p) => p.type !== 'thought'), [posts]);
@@ -71,12 +85,12 @@ export function BlogView({ onBackToHub, selectedPost, onSelectPost, postLang = '
     return (
       <PostDetail
         post={selectedPost}
-        postLang={currentLang}
+        postLang={lang}
         onToggleLang={onToggleLang}
-        isLiked={blogApi.isPostLiked(selectedPost.id)}
+        isLiked={isLiked(selectedPost.id)}
         onToggleLike={handleToggleLike}
         onAddComment={handleAddComment}
-        onBack={() => onSelectPost(null)}
+        onBack={() => handleSelectPost(null)}
       />
     );
   }
@@ -87,7 +101,7 @@ export function BlogView({ onBackToHub, selectedPost, onSelectPost, postLang = '
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
       <BlogHeader
-        onBackToHub={onBackToHub}
+        onBackToHub={handleBackToHub}
         searchQuery={searchQuery}
         onSearchChange={setSearchQuery}
         activeTab={activeTab}
@@ -97,16 +111,16 @@ export function BlogView({ onBackToHub, selectedPost, onSelectPost, postLang = '
         }}
         postCount={longFormPosts.length}
         thoughtCount={thoughts.length}
-        lang={currentLang}
+        lang={lang}
       />
 
       {featured && (
         <FeaturedPost
           post={featured}
-          isLiked={blogApi.isPostLiked(featured.id)}
+          isLiked={isLiked(featured.id)}
           onToggleLike={handleToggleLike}
-          onSelect={onSelectPost}
-          lang={currentLang}
+          onSelect={handleSelectPost}
+          lang={lang}
         />
       )}
 
@@ -116,10 +130,10 @@ export function BlogView({ onBackToHub, selectedPost, onSelectPost, postLang = '
           thoughts={thoughts}
           feedPosts={feedPosts}
           activeTag={activeTag}
-          isLikedFn={(id) => blogApi.isPostLiked(id)}
+          isLikedFn={isLiked}
           onToggleLike={handleToggleLike}
-          onSelectPost={onSelectPost}
-          lang={currentLang}
+          onSelectPost={handleSelectPost}
+          lang={lang}
         />
 
         <div className="lg:col-span-4">
@@ -130,11 +144,11 @@ export function BlogView({ onBackToHub, selectedPost, onSelectPost, postLang = '
             activeTag={activeTag}
             onSelectTag={setActiveTag}
             onToggleLike={handleToggleLike}
-            onSelectThought={onSelectPost}
-            onSelectPost={onSelectPost}
+            onSelectThought={handleSelectPost}
+            onSelectPost={handleSelectPost}
             selectedPostId={selectedPost?.id}
-            postLang={currentLang}
-            lang={currentLang}
+            postLang={lang}
+            lang={lang}
           />
         </div>
       </div>

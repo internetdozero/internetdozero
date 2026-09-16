@@ -1,87 +1,74 @@
-import React, { useState, useEffect } from 'react';
+import React, { Suspense, useState, useEffect, useCallback, lazy } from 'react';
 import { useTheme } from './hooks/useTheme';
 import { useRouter } from './hooks/useRouter';
 import { useLanguage } from './hooks/useLanguage';
 import { Header } from './components/Header';
 import { HubView } from './components/HubView';
-import { CommandPalette } from './components/CommandPalette';
-import { ModuleModal } from './components/ModuleModal';
 import { Footer } from './components/Footer';
-import { BlogView } from './modules/blog/BlogView';
-import { blogApi } from './modules/blog/services/blogApi';
+
+const BlogView = lazy(() => import('./modules/blog/BlogView').then((m) => ({ default: m.BlogView })));
+const CommandPalette = lazy(() => import('./components/CommandPalette').then((m) => ({ default: m.CommandPalette })));
+const ModuleModal = lazy(() => import('./components/ModuleModal').then((m) => ({ default: m.ModuleModal })));
 
 export function App() {
   const { theme, toggleTheme } = useTheme();
   const { view: currentView, postId, navigate } = useRouter();
   const { lang, setLang, toggleLang } = useLanguage();
-  const [selectedPost, setSelectedPost] = useState(null);
   const [isCommandOpen, setIsCommandOpen] = useState(false);
   const [selectedModule, setSelectedModule] = useState(null);
 
   useEffect(() => {
-    if (postId) {
-      blogApi.getPosts().then((posts) => {
-        const found = posts.find((p) => p.id === postId);
-        if (found) setSelectedPost(found);
-      });
-    } else if (currentView !== 'blog') {
-      setSelectedPost(null);
-    }
-  }, [postId, currentView]);
-
-  useEffect(() => {
     window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
-  }, [currentView, selectedPost]);
+  }, [currentView, postId]);
 
-  const handleSelectModule = (m) => {
+  const handleSelectModule = useCallback((m) => {
     if (m.id === 'blog') {
       navigate(lang === 'en' ? '/blog?lang=en' : '/blog');
     } else {
       setSelectedModule(m);
     }
-  };
+  }, [navigate, lang]);
 
-  const handleSelectPost = (post) => {
-    if (post) {
-      const url = lang === 'en' ? `/blog?p=${post.id}&lang=en` : `/blog?p=${post.id}`;
-      navigate(url);
-      setSelectedPost(post);
-    } else {
-      navigate(lang === 'en' ? '/blog?lang=en' : '/blog');
-      setSelectedPost(null);
-    }
-  };
+  const handleScrollToModules = useCallback(() => {
+    if (currentView !== 'hub') navigate(lang === 'en' ? '/?lang=en' : '/');
+    setTimeout(() => {
+      const el = document.getElementById('modulos');
+      el?.scrollIntoView({ behavior: 'smooth' });
+    }, 100);
+  }, [currentView, navigate, lang]);
+
+  const handleGoHome = useCallback(() => {
+    navigate(lang === 'en' ? '/?lang=en' : '/');
+  }, [navigate, lang]);
+
+  const handleOpenCommand = useCallback(() => setIsCommandOpen(true), []);
+  const handleCloseCommand = useCallback(() => setIsCommandOpen(false), []);
+  const handleCloseModule = useCallback(() => setSelectedModule(null), []);
 
   return (
     <div className="min-h-screen flex flex-col bg-zinc-50 dark:bg-zinc-950 text-zinc-900 dark:text-zinc-100 bg-grid-pattern transition-colors duration-300">
       <Header
         theme={theme}
         toggleTheme={toggleTheme}
-        onOpenCommand={() => setIsCommandOpen(true)}
-        onOpenArsenal={() => {
-          if (currentView !== 'hub') navigate(lang === 'en' ? '/?lang=en' : '/');
-          setTimeout(() => {
-            const el = document.getElementById('modulos');
-            el?.scrollIntoView({ behavior: 'smooth' });
-          }, 100);
-        }}
-        onGoHome={() => navigate(lang === 'en' ? '/?lang=en' : '/')}
-        readingPost={selectedPost}
+        onOpenCommand={handleOpenCommand}
+        onOpenArsenal={handleScrollToModules}
+        onGoHome={handleGoHome}
+        readingPost={currentView === 'blog' && postId}
         lang={lang}
         onToggleLang={setLang}
-        onBackToBlog={() => handleSelectPost(null)}
+        onBackToBlog={() => navigate(lang === 'en' ? '/blog?lang=en' : '/blog')}
       />
 
       <main className="flex-1">
         {currentView === 'blog' ? (
-          <BlogView
-            onBackToHub={() => navigate(lang === 'en' ? '/?lang=en' : '/')}
-            selectedPost={selectedPost}
-            onSelectPost={handleSelectPost}
-            postLang={lang}
-            lang={lang}
-            onToggleLang={setLang}
-          />
+          <Suspense fallback={<div className="flex items-center justify-center min-h-[60vh]"><span className="text-sm font-mono text-zinc-500 animate-pulse">Carregando…</span></div>}>
+            <BlogView
+              postId={postId}
+              onNavigate={navigate}
+              lang={lang}
+              onToggleLang={setLang}
+            />
+          </Suspense>
         ) : (
           <HubView onSelectModule={handleSelectModule} lang={lang} />
         )}
@@ -89,30 +76,32 @@ export function App() {
 
       <Footer
         lang={lang}
-        onOpenArsenal={() => {
-          if (currentView !== 'hub') navigate(lang === 'en' ? '/?lang=en' : '/');
-          setTimeout(() => {
-            const el = document.getElementById('modulos');
-            el?.scrollIntoView({ behavior: 'smooth' });
-          }, 100);
-        }}
+        onOpenArsenal={handleScrollToModules}
       />
 
-      <CommandPalette
-        isOpen={isCommandOpen}
-        onClose={() => setIsCommandOpen(false)}
-        onSelectModule={handleSelectModule}
-        theme={theme}
-        toggleTheme={toggleTheme}
-        lang={lang}
-        toggleLang={toggleLang}
-      />
+      <Suspense fallback={null}>
+        {isCommandOpen && (
+          <CommandPalette
+            isOpen={isCommandOpen}
+            onClose={handleCloseCommand}
+            onSelectModule={handleSelectModule}
+            theme={theme}
+            toggleTheme={toggleTheme}
+            lang={lang}
+            toggleLang={toggleLang}
+          />
+        )}
+      </Suspense>
 
-      <ModuleModal
-        module={selectedModule}
-        onClose={() => setSelectedModule(null)}
-        lang={lang}
-      />
+      <Suspense fallback={null}>
+        {selectedModule && (
+          <ModuleModal
+            module={selectedModule}
+            onClose={handleCloseModule}
+            lang={lang}
+          />
+        )}
+      </Suspense>
     </div>
   );
 }
