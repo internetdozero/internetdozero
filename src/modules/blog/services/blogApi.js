@@ -75,10 +75,11 @@ export const blogApi = {
 
   addComment: async (postId, { author, text }) => {
     const posts = await blogApi.getPosts();
+    const strip = (s) => s.replace(/<[^>]*>/g, '');
     const newComment = {
       id: `c-${Date.now()}`,
-      author: author.trim() || 'Visitante Anônimo',
-      text: text.trim(),
+      author: strip(author.trim()) || 'Visitante Anônimo',
+      text: strip(text.trim()),
       createdAt: new Date().toISOString()
     };
 

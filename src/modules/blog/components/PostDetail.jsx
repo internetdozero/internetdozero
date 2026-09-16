@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { Share2, Check, Clock, Heart, Globe } from 'lucide-react';
 import { TableOfContents } from './TableOfContents';
 import { PostComments } from './PostComments';
@@ -14,10 +14,13 @@ export function PostDetail({ post, isLiked, onToggleLike, onAddComment, postLang
   const title = (isEn && post.title_en) ? post.title_en : (post.title_pt || post.title);
   const subtitle = (isEn && post.subtitle_en) ? post.subtitle_en : (post.subtitle_pt || post.subtitle);
   const tags = (isEn && post.tags_en) ? post.tags_en : (post.tags_pt || post.tags || []);
-  const rawSections = (isEn && post.sections_en) ? post.sections_en : (post.sections_pt || post.sections);
-  const sections = rawSections || [
-    { id: 'intro', title: isEn ? 'Introduction' : 'Introdução', content: (isEn && post.content_en) ? post.content_en : (post.content_pt || post.content || '') }
-  ];
+
+  const sections = useMemo(() => {
+    const raw = (isEn && post.sections_en) ? post.sections_en : (post.sections_pt || post.sections);
+    return raw || [
+      { id: 'intro', title: isEn ? 'Introduction' : 'Introdução', content: (isEn && post.content_en) ? post.content_en : (post.content_pt || post.content || '') }
+    ];
+  }, [post, isEn]);
 
   useEffect(() => {
     if (!sections.length) return;

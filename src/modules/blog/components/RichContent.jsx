@@ -1,5 +1,7 @@
 import React from 'react';
 
+const SAFE_HREF = /^(https?:|mailto:|tel:|\/)/i;
+
 /**
  * Renderizador de conteúdo editorial com tipografia polida,
  * links verdes sem sublinhado, destaques e espaçamento generoso.
@@ -35,17 +37,21 @@ export function RichContent({ content = '' }) {
       if (token.startsWith('[') && token.includes('](')) {
         const label = token.slice(1, token.indexOf(']('));
         const href = token.slice(token.indexOf('](') + 2, -1);
-        parts.push(
-          <a
-            key={key++}
-            href={href}
-            target={href.startsWith('http') ? '_blank' : undefined}
-            rel="noopener noreferrer"
-            className="text-emerald-500 hover:text-emerald-400 no-underline font-medium transition-colors cursor-pointer"
-          >
-            {label}
-          </a>
-        );
+        if (SAFE_HREF.test(href)) {
+          parts.push(
+            <a
+              key={key++}
+              href={href}
+              target={href.startsWith('http') ? '_blank' : undefined}
+              rel="noopener noreferrer"
+              className="text-emerald-500 hover:text-emerald-400 no-underline font-medium transition-colors cursor-pointer"
+            >
+              {label}
+            </a>
+          );
+        } else {
+          parts.push(<span key={key++} className="font-medium">{label}</span>);
+        }
       } else if (token.startsWith('**') && token.endsWith('**')) {
         parts.push(
           <strong key={key++} className="font-bold text-zinc-900 dark:text-zinc-100">
