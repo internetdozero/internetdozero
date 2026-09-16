@@ -15,11 +15,15 @@ export function BlogView({ onBackToHub, selectedPost, onSelectPost, postLang }) 
 
   useEffect(() => {
     window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+    document.documentElement.scrollTop = 0;
+    document.body.scrollTop = 0;
     blogApi.getPosts().then(setPosts);
   }, []);
 
   useEffect(() => {
     window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+    document.documentElement.scrollTop = 0;
+    document.body.scrollTop = 0;
   }, [selectedPost, activeTab]);
 
   const handleToggleLike = async (postId) => {
@@ -111,7 +115,7 @@ export function BlogView({ onBackToHub, selectedPost, onSelectPost, postLang }) 
       {/* Two Column Editorial Layout */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-10">
         {/* Main Content Area */}
-        <main className="lg:col-span-8">
+        <div className="lg:col-span-8">
           <div className="flex items-center justify-between pb-3 border-b border-zinc-200 dark:border-zinc-800 mb-2">
             <h2 className="font-mono text-sm font-bold uppercase tracking-wider text-zinc-800 dark:text-zinc-200">
               {activeTab === 'thought' ? 'Todos os Pensamentos' : 'Publicações Recentes'}
@@ -154,7 +158,7 @@ export function BlogView({ onBackToHub, selectedPost, onSelectPost, postLang }) 
               )}
             </div>
           )}
-        </main>
+        </div>
 
         {/* Sidebar */}
         <div className="lg:col-span-4">
