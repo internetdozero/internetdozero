@@ -79,7 +79,7 @@ export function App() {
             /></ErrorBoundary>
           </Suspense>
         ) : currentView === 'not-found' ? (
-          <NotFound onGoHome={handleGoHome} onGoBlog={() => navigate('/blog')} />
+          <NotFound onGoHome={handleGoHome} onGoBlog={() => navigate('/blog')} lang={lang} />
         ) : (
           <ErrorBoundary><HubView onSelectModule={handleSelectModule} lang={lang} /></ErrorBoundary>
         )}

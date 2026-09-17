@@ -20,6 +20,9 @@ export function useRouter() {
       }
       return { view: 'blog', postSlug, postCategory };
     }
+    if (path === '/') {
+      return { view: 'hub', postSlug: null, postCategory: null };
+    }
     return { view: 'not-found', postSlug: null, postCategory: null };
   };
 

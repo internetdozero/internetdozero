@@ -1,6 +1,7 @@
 import React from 'react';
 import { PostListItem } from './PostListItem';
 import { ThoughtCard } from './ThoughtCard';
+import { translations } from '../../../i18n/translations';
 
 export function BlogFeed({
   activeTab,
@@ -13,12 +14,13 @@ export function BlogFeed({
   lang = 'pt'
 }) {
   const isEn = lang === 'en';
+  const t = translations[lang] || translations.pt;
 
   return (
     <div className="lg:col-span-8">
       <div className="flex items-center justify-between pb-3 border-b border-zinc-200 dark:border-zinc-800 mb-2">
         <h2 className="font-mono text-sm font-bold uppercase tracking-wider text-zinc-800 dark:text-zinc-200">
-          {activeTab === 'thought' ? (isEn ? 'All Thoughts' : 'Todos os Pensamentos') : (isEn ? 'Recent Posts' : 'Publicações Recentes')}
+          {activeTab === 'thought' ? t.blog.notesTitle : t.blog.feedTitle}
         </h2>
         {activeTag && (
           <span className="text-xs font-mono text-emerald-600 dark:text-emerald-400">
@@ -44,7 +46,7 @@ export function BlogFeed({
         <div>
           {feedPosts.length === 0 ? (
             <div className="py-16 text-center text-sm font-mono text-zinc-500">
-              {isEn ? 'No publications found for the current filter.' : 'Nenhuma publicação encontrada para o filtro atual.'}
+              {t.blog.emptyFeed}
             </div>
           ) : (
             feedPosts.map((post) => (

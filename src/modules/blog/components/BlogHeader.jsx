@@ -49,10 +49,10 @@ export function BlogHeader({
         <div>
           <div className="inline-flex items-center gap-2 text-xs font-mono text-emerald-600 dark:text-emerald-400 uppercase tracking-widest font-semibold mb-1">
             <Terminal className="w-3.5 h-3.5" />
-            <span>{isEn ? 'Publications & Notes' : 'Publicações & Notas'}</span>
+            <span>{t.blog.title}</span>
           </div>
           <h1 className="text-3xl sm:text-5xl font-extrabold font-mono text-zinc-900 dark:text-white tracking-tight">
-            {isEn ? 'The Zero Blog' : 'O Blog do Zero'}
+            {t.blog.title}
           </h1>
           <p className="text-sm sm:text-base text-zinc-600 dark:text-zinc-400 font-sans mt-2 max-w-xl leading-relaxed">
             {t.blog.subtitle}
@@ -88,7 +88,7 @@ export function BlogHeader({
           </button>
         ))}
       </div>
-      {categories.length > 0 && <div className="flex flex-wrap items-center gap-2 mt-3"><span className="text-[10px] font-mono uppercase tracking-widest text-zinc-400 mr-1">{isEn ? 'Categories' : 'Categorias'}</span>{categories.map((category) => <button key={category.name} onClick={() => onSelectCategory(activeCategory === category.name ? null : category.name)} className={`px-3 py-1 rounded-lg text-[11px] font-mono border transition-colors ${activeCategory === category.name ? 'border-emerald-500 bg-emerald-500/10 text-emerald-600 dark:text-emerald-400' : 'border-zinc-200 dark:border-zinc-800 text-zinc-500 hover:border-emerald-500/50'}`}>{category.name} <span className="opacity-60">{category.count}</span></button>)}</div>}
+      {categories.length > 0 && <div className="flex flex-wrap items-center gap-2 mt-3"><span className="text-[10px] font-mono uppercase tracking-widest text-zinc-400 mr-1">{t.blog.categories}</span>{categories.map((category) => <button key={category.name} onClick={() => onSelectCategory(activeCategory === category.name ? null : category.name)} className={`px-3 py-1 rounded-lg text-[11px] font-mono border transition-colors ${activeCategory === category.name ? 'border-emerald-500 bg-emerald-500/10 text-emerald-600 dark:text-emerald-400' : 'border-zinc-200 dark:border-zinc-800 text-zinc-500 hover:border-emerald-500/50'}`}>{category.name} <span className="opacity-60">{category.count}</span></button>)}</div>}
     </header>
   );
 }

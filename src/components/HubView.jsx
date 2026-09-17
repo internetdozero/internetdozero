@@ -17,9 +17,9 @@ export function HubView({ onSelectModule, lang = 'pt' }) {
   const scrollToTerminal = () => terminalRef.current?.scrollIntoView({ behavior: 'smooth' });
 
   const categories = [
-    { id: 'all', label: lang === 'en' ? 'All Modules' : 'Todos os Módulos' },
-    { id: 'content', label: lang === 'en' ? 'Blog & Essays' : 'Blog & Ensaios' },
-    { id: 'interactive', label: lang === 'en' ? 'Challenges & Quizzes' : 'Desafios & Quizzes' },
+    { id: 'all', label: t.hub.allModules },
+    { id: 'content', label: t.hub.contentModules },
+    { id: 'interactive', label: t.hub.interactiveModules },
   ];
 
   const filteredModules = activeCategory === 'all'
@@ -72,7 +72,7 @@ export function HubView({ onSelectModule, lang = 'pt' }) {
             <div className="flex items-center gap-2 mb-1">
               <LayoutGrid className="w-4 h-4 text-emerald-500" />
               <span className="text-xs font-mono font-bold tracking-widest text-emerald-600 dark:text-emerald-400 uppercase">
-                {lang === 'en' ? 'Initial Modules' : 'Módulos Iniciais'}
+                {t.hub.modulesEyebrow}
               </span>
             </div>
             <h2 className="text-2xl sm:text-3xl font-bold font-mono text-zinc-900 dark:text-white">

@@ -34,8 +34,8 @@ export function StatusRadar({ lang = 'pt' }) {
         newHistory.push({
           type: 'output',
           text: isEn
-            ? 'Available commands:\n  • modules   : List portal modules\n  • blog      : Info about blog & essays\n  • quizzes   : Info about quizzes & pastimes\n  • about     : About Internet do Zero\n  • clear     : Clear terminal screen'
-            : 'Comandos disponíveis:\n  • modulos   : Lista os módulos do portal\n  • blog      : Detalhes sobre o blog e leituras\n  • quizzes   : Detalhes sobre os quizzes e passatempos\n  • sobre     : Sobre o Internet do Zero\n  • clear     : Limpa a tela do terminal'
+            ? 'Available commands:\n  • modules   : See the spaces on this site\n  • blog      : Open the texts\n  • quizzes   : See what is coming\n  • about     : Why this site exists\n  • clear     : Clear the console'
+            : 'Comandos disponíveis:\n  • modulos   : Veja os espaços deste site\n  • blog      : Abra os textos\n  • quizzes   : Veja o que vem aí\n  • sobre     : Por que este site existe\n  • clear     : Limpe o console'
         });
         break;
       case 'modulos':
@@ -43,16 +43,16 @@ export function StatusRadar({ lang = 'pt' }) {
         newHistory.push({
           type: 'output',
           text: isEn
-            ? 'Initial modules:\n  [1] Blog & Essays — Spontaneous writing, essays, and web tech dives\n  [2] Challenges & Quizzes — Interactive trivia and pastimes'
-            : 'Módulos iniciais:\n  [1] Blog & Ensaios — Ideias, leituras e variedades da web\n  [2] Desafios & Quizzes — Passatempos interativos e besteirol'
+            ? 'Available spaces:\n  [1] Texts — Essays, guides, and notes\n  [2] Quizzes — Small challenges, coming soon'
+            : 'Espaços disponíveis:\n  [1] Textos — Ensaios, guias e anotações\n  [2] Quizzes — Desafios leves, em breve'
         });
         break;
       case 'blog':
         newHistory.push({
           type: 'output',
           text: isEn
-            ? 'Blog & Essays: Free-form writing on technology, digital culture, independent projects, and web ideas.'
-            : 'Blog & Ensaios: Textos livres sobre tecnologia, cultura digital, ideias e curiosidades da rede.'
+            ? 'Texts: Essays, guides, and notes published in my own corner of the web.'
+            : 'Textos: Ensaios, guias e anotações publicados no meu próprio canto da web.'
         });
         break;
       case 'quizzes':
@@ -60,8 +60,8 @@ export function StatusRadar({ lang = 'pt' }) {
         newHistory.push({
           type: 'output',
           text: isEn
-            ? 'Challenges & Quizzes: Casual trivia, lighthearted questions, and interactive games.'
-            : 'Desafios & Quizzes: Passatempos descontraídos, perguntas aleatórias e testes leves pra passar o tempo.'
+            ? 'Quizzes: Small challenges for when thinking seriously can wait.'
+            : 'Quizzes: Desafios leves para quando pensar sério pode esperar.'
         });
         break;
       case 'sobre':
@@ -69,8 +69,8 @@ export function StatusRadar({ lang = 'pt' }) {
         newHistory.push({
           type: 'output',
           text: isEn
-            ? 'Internet do Zero: An open web corner for ideas, essays, tech experiments, and spontaneous creations.'
-            : 'Internet do Zero: Um canto aberto na rede para ideias, variedades, curiosidades e o que der vontade de criar.'
+            ? 'Internet do Zero: A personal site for publishing, building, and keeping the web interesting.'
+            : 'Internet do Zero: Um site pessoal para publicar, construir e deixar a web interessante.'
         });
         break;
       case 'clear':
@@ -152,7 +152,7 @@ export function StatusRadar({ lang = 'pt' }) {
           type="text"
           value={input}
           onChange={(e) => setInput(e.target.value)}
-          placeholder={isEn ? "Type a command (e.g. help, modules, blog, quizzes)..." : "Digite um comando (ex: help, modulos, blog, quizzes)..."}
+          placeholder={isEn ? 'Try: help, modules, blog…' : 'Tente: help, modulos, blog…'}
           className="flex-1 bg-transparent text-xs sm:text-sm text-zinc-100 placeholder-zinc-500 focus:outline-none font-mono"
         />
         <button
