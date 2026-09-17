@@ -1,5 +1,5 @@
 import React from 'react';
-import { ArrowRight, Clock, Globe, Heart, MessageSquare, Sparkles } from 'lucide-react';
+import { ArrowRight, Clock, Heart, MessageSquare, Sparkles } from 'lucide-react';
 
 export function FeaturedPost({ post, isLiked, onToggleLike, onSelect, lang = 'pt' }) {
   if (!post) return null;
@@ -29,12 +29,6 @@ export function FeaturedPost({ post, isLiked, onToggleLike, onSelect, lang = 'pt
             <Sparkles className="w-3.5 h-3.5" />
             <span>{isEn ? 'Featured' : 'Destaque'}</span>
           </span>
-          {post.bilingual && (
-            <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-mono bg-zinc-200/70 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300">
-              <Globe className="w-3 h-3 text-emerald-500" />
-              <span>PT / EN</span>
-            </span>
-          )}
         </div>
 
         <div className="flex items-center gap-2 text-xs font-mono text-zinc-500">

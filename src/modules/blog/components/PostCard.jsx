@@ -1,5 +1,5 @@
 import React from 'react';
-import { Heart, MessageSquare, Clock, Globe, ArrowRight } from 'lucide-react';
+import { Heart, MessageSquare, Clock, ArrowRight } from 'lucide-react';
 
 export function PostCard({ post, isLiked, onToggleLike, onSelect, lang = 'pt' }) {
   const isEn = lang === 'en';
@@ -25,12 +25,6 @@ export function PostCard({ post, isLiked, onToggleLike, onSelect, lang = 'pt' })
             <span className="px-2.5 py-0.5 rounded-full text-xs font-mono font-medium bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20">
               {isArticle ? (isEn ? '📰 Article' : '📰 Artigo') : (isEn ? '📖 Story' : '📖 História')}
             </span>
-            {post.bilingual && (
-              <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-mono bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400 border border-zinc-200 dark:border-zinc-700">
-                <Globe className="w-3 h-3 text-emerald-500" />
-                <span>PT / EN</span>
-              </span>
-            )}
           </div>
 
           <div className="flex items-center gap-1.5 text-xs text-zinc-500 font-mono">

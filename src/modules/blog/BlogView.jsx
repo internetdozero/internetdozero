@@ -102,7 +102,6 @@ export function BlogView({ postSlug, onNavigate, lang = 'pt', onToggleLang }) {
       <PostDetail
         post={selectedPost}
         postLang={lang}
-        onToggleLang={onToggleLang}
         isLiked={isLiked(selectedPost.id)}
         onToggleLike={handleToggleLike}
         onAddComment={handleAddComment}

@@ -1,12 +1,12 @@
 import React, { useState, useEffect, useMemo } from 'react';
-import { Share2, Clock, Heart, Globe } from 'lucide-react';
+import { Share2, Clock, Heart } from 'lucide-react';
 import { TableOfContents } from './TableOfContents';
 import { PostComments } from './PostComments';
 import { RichContent } from './RichContent';
 import { ShareModal } from './ShareModal';
 import { translations } from '../../../i18n/translations';
 
-export function PostDetail({ post, isLiked, onToggleLike, onAddComment, postLang = 'pt', onToggleLang, onBack }) {
+export function PostDetail({ post, isLiked, onToggleLike, onAddComment, postLang = 'pt', onBack }) {
   const [isShareOpen, setIsShareOpen] = useState(false);
   const [activeSectionId, setActiveSectionId] = useState('');
   const t = translations[postLang] || translations.pt;
@@ -92,15 +92,6 @@ export function PostDetail({ post, isLiked, onToggleLike, onAddComment, postLang
           </div>
 
           <div className="pt-6 pb-6">
-            {post.bilingual && onToggleLang && (
-              <div className="mb-4 inline-flex items-center gap-2 px-3 py-1 rounded-xl bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-500/30 text-emerald-700 dark:text-emerald-300 text-xs font-mono">
-                <Globe className="w-3.5 h-3.5" />
-                <button onClick={() => onToggleLang(isEn ? 'pt' : 'en')} className="hover:underline font-semibold cursor-pointer">
-                  {isEn ? t.blog.bilingualReadPt : t.blog.bilingualReadEn}
-                </button>
-              </div>
-            )}
-
             <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold font-mono text-zinc-900 dark:text-white tracking-tight leading-tight mb-4">
               {title}
             </h1>

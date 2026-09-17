@@ -115,11 +115,6 @@ export function ArticleIndexPanel({
                           <Clock className="w-2.5 h-2.5" />
                           {post.readingTime || '3 min'}
                         </span>
-                        {post.bilingual && (
-                          <span className="text-emerald-600 dark:text-emerald-400 text-[9px]">
-                            PT/EN
-                          </span>
-                        )}
                       </div>
                     </button>
                   );
