@@ -1,7 +1,6 @@
 const STORAGE_KEY = 'idz_blog_posts_v1';
 const LIKES_KEY = 'idz_blog_liked_ids';
 const CATEGORIES_KEY = 'idz_blog_categories_v1';
-const DEFAULT_CATEGORIES = ['Tecnologia', 'Fitness', 'Inteligência Artificial', 'Crônicas'];
 const CHANGE_KEY = 'idz_blog_changed_v1';
 const changeChannel = typeof BroadcastChannel !== 'undefined' ? new BroadcastChannel('idz-blog-sync') : null;
 
@@ -87,7 +86,7 @@ export const blogApi = {
       const stored = JSON.parse(localStorage.getItem(CATEGORIES_KEY) || 'null');
       if (Array.isArray(stored) && stored.length) return stored;
     } catch (_) {}
-    return DEFAULT_CATEGORIES;
+    return [];
     });
   },
 
