@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Check, Clipboard, KeyRound, RefreshCw, ShieldCheck } from 'lucide-react';
 
 const characterSets = {
@@ -34,6 +34,12 @@ export function PasswordGenerator({ lang = 'pt' }) {
   const [options, setOptions] = useState({ lowercase: true, uppercase: true, numbers: true, symbols: true });
   const [password, setPassword] = useState(() => generatePassword(18, options));
   const [copied, setCopied] = useState(false);
+
+  useEffect(() => {
+    if (!copied) return undefined;
+    const timeout = window.setTimeout(() => setCopied(false), 2200);
+    return () => window.clearTimeout(timeout);
+  }, [copied]);
 
   const regenerate = () => { setPassword(generatePassword(length, options)); setCopied(false); };
   const toggleOption = (key) => {

@@ -1,0 +1,14 @@
+{
+  "name": "Internet do Zero — Ferramentas",
+  "short_name": "IDZ Ferramentas",
+  "description": "Ferramentas simples que funcionam no próprio navegador.",
+  "start_url": "/tools",
+  "scope": "/tools",
+  "display": "standalone",
+  "background_color": "#09090b",
+  "theme_color": "#09090b",
+  "lang": "pt-BR",
+  "icons": [
+    { "src": "/pwa-icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any maskable" }
+  ]
+}
