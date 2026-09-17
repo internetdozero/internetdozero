@@ -125,7 +125,7 @@ export function PostDetail({ post, isLiked, onToggleLike, onAddComment, postLang
             </div>
           </div>
 
-          {cover && <img src={cover} alt="" className="mb-8 aspect-[16/9] w-full rounded-2xl object-cover" />}
+          {cover && <img src={cover} alt={title} decoding="async" width="1200" height="896" className="mb-8 aspect-[16/9] w-full rounded-2xl object-cover" />}
 
           <div className="space-y-12 mb-14">
             {sections.map((sec) => (

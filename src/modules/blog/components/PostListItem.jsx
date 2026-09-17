@@ -22,7 +22,7 @@ export function PostListItem({ post, isLiked, onToggleLike, onSelect, lang = 'pt
       className="group py-6 border-b border-zinc-200 dark:border-zinc-800/80 hover:border-emerald-500/40 transition-colors cursor-pointer"
     >
       <div className="flex flex-col gap-4 sm:flex-row">
-        {cover && <img src={cover} alt="" className="aspect-[16/9] w-full shrink-0 rounded-xl object-cover sm:w-40" />}
+        {cover && <img src={cover} alt={title} loading="lazy" decoding="async" width="1200" height="896" className="aspect-[16/9] w-full shrink-0 rounded-xl object-cover sm:w-40" />}
         <div className="min-w-0 flex-1">
       <div className="flex flex-col sm:flex-row sm:items-baseline justify-between gap-1 mb-2">
         <div className="flex items-center gap-2">
