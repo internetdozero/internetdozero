@@ -11,7 +11,9 @@ export function useRouter() {
     }
 
     if (path === '/tools' || path.startsWith('/tools/')) {
-      return { view: 'tools', toolSlug: path.split('/').filter(Boolean)[1] || null, postSlug: null, postCategory: null };
+      const requestedToolSlug = path.split('/').filter(Boolean)[1] || null;
+      const toolAliases = { 'image-compressor': 'compressor-de-imagem', 'password-generator': 'gerador-de-senhas' };
+      return { view: 'tools', toolSlug: toolAliases[requestedToolSlug] || requestedToolSlug, postSlug: null, postCategory: null };
     }
 
     if (path.startsWith('/blog')) {
