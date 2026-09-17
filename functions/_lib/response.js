@@ -19,7 +19,8 @@ export function requestOriginAllowed(request) {
   if (!origin) return true;
   const requestOrigin = new URL(request.url).origin;
   if (origin === requestOrigin) return true;
-  const isLocalProxy = new URL(request.url).hostname === 'localhost' && /^http:\/\/(localhost|127\.0\.0\.1):5173$/.test(origin);
+  const requestHost = new URL(request.url).hostname;
+  const isLocalProxy = (requestHost === 'localhost' || requestHost === '127.0.0.1') && /^http:\/\/(localhost|127\.0\.0\.1):5173$/.test(origin);
   return isLocalProxy;
 }
 
