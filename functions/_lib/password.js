@@ -20,16 +20,21 @@ function equal(left, right) {
 }
 
 export async function verifyPassword(password, encoded) {
-  if (!password || !encoded?.startsWith('pbkdf2$')) return false;
-  const [, iterations, saltText, hashText] = encoded.split('$');
+  const normalized = typeof encoded === 'string' ? encoded.trim() : '';
+  if (!password || !normalized.startsWith('pbkdf2$')) return false;
+  const [, iterations, saltText, hashText] = normalized.split('$');
   if (!Number.isInteger(Number(iterations)) || Number(iterations) < 100000 || !saltText || !hashText) return false;
   let salt;
   let expected;
   try { salt = decode(saltText); expected = decode(hashText); } catch (_) { return false; }
   if (salt.length < 16 || expected.length < 32) return false;
-  const key = await crypto.subtle.importKey('raw', encoder.encode(password), 'PBKDF2', false, ['deriveBits']);
-  const bits = await crypto.subtle.deriveBits({ name: 'PBKDF2', salt, iterations: Number(iterations), hash: 'SHA-256' }, key, expected.length * 8);
-  return equal(new Uint8Array(bits), expected);
+  try {
+    const key = await crypto.subtle.importKey('raw', encoder.encode(password), 'PBKDF2', false, ['deriveBits']);
+    const bits = await crypto.subtle.deriveBits({ name: 'PBKDF2', salt, iterations: Number(iterations), hash: 'SHA-256' }, key, expected.length * 8);
+    return equal(new Uint8Array(bits), expected);
+  } catch (_) {
+    return false;
+  }
 }
 
 export async function hashPassword(password) {
