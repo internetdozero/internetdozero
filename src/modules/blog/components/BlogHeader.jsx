@@ -1,5 +1,5 @@
 import React from 'react';
-import { ArrowLeft, Search, Terminal } from 'lucide-react';
+import { ArrowLeft, Search } from 'lucide-react';
 import { translations } from '../../../i18n/translations';
 
 export function BlogHeader({
@@ -31,7 +31,7 @@ export function BlogHeader({
       <div className="flex items-center justify-between gap-4 mb-4">
         <button
           onClick={onBackToHub}
-          className="inline-flex items-center gap-2 text-xs font-mono text-emerald-600 dark:text-emerald-400 hover:underline cursor-pointer group"
+          className="inline-flex items-center gap-2 text-xs font-mono text-zinc-500 dark:text-zinc-400 hover:text-emerald-500 hover:underline cursor-pointer group"
         >
           <ArrowLeft className="w-3.5 h-3.5 group-hover:-translate-x-1 transition-transform" />
           <span>{isEn ? 'Back to Central Hub' : 'Voltar ao Hub Central'}</span>
@@ -47,10 +47,6 @@ export function BlogHeader({
       {/* Main Title & Search */}
       <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
         <div>
-          <div className="inline-flex items-center gap-2 text-xs font-mono text-emerald-600 dark:text-emerald-400 uppercase tracking-widest font-semibold mb-1">
-            <Terminal className="w-3.5 h-3.5" />
-            <span>{t.blog.title}</span>
-          </div>
           <h1 className="text-3xl sm:text-5xl font-extrabold font-mono text-zinc-900 dark:text-white tracking-tight">
             {t.blog.title}
           </h1>
