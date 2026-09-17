@@ -1,7 +1,7 @@
 const SITE = 'https://internetdozero.com.br';
 
 function escapeXml(value) {
-  return String(value).replace(/[<>&'\"]/g, (character) => ({ '<': '&lt;', '>': '&gt;', '&': '&amp;', "'": '&apos;', '\"': '&quot;' }[character]));
+  return String(value).replace(/[<>&'"]/g, (character) => ({ '<': '&lt;', '>': '&gt;', '&': '&amp;', "'": '&apos;', '"': '&quot;' }[character]));
 }
 
 export async function onRequestGet(context) {

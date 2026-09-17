@@ -1,5 +1,5 @@
 import React, { useMemo, useState } from 'react';
-import { Braces, Check, Clipboard, Copy, ShieldCheck, Trash2 } from 'lucide-react';
+import { Braces, Check, Copy, ShieldCheck, Trash2 } from 'lucide-react';
 
 const sample = '{"site":"Internet do Zero","tools":["QR Code","Diff Checker"],"online":true}';
 

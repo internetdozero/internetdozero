@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { AudioLines, Download, FileAudio, Play, RefreshCw, ShieldCheck, Upload } from 'lucide-react';
+import { AudioLines, Download, FileAudio, RefreshCw, ShieldCheck, Upload } from 'lucide-react';
 
 function formatDuration(seconds) {
   return `${Math.floor(seconds / 60)}:${String(Math.floor(seconds % 60)).padStart(2, '0')}`;

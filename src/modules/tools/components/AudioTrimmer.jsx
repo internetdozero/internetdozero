@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { Download, FileAudio, RefreshCw, Scissors, ShieldCheck, Upload } from 'lucide-react';
+import { Download, FileAudio, RefreshCw, ShieldCheck, Upload } from 'lucide-react';
 import { encodeWav } from './AudioMasterizer';
 
 function formatTime(seconds) {

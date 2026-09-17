@@ -5,7 +5,7 @@ function escapeHtml(value) {
 }
 
 function plainText(value) {
-  return String(value || '').replace(/[#*_`>\[\]!-]/g, '').replace(/\s+/g, ' ').trim();
+  return String(value || '').replace(/[#*_`>[\]!-]/g, '').replace(/\s+/g, ' ').trim();
 }
 
 function parse(row) {
