@@ -141,10 +141,18 @@ export function PostDetail({ post, isLiked, onToggleLike, onAddComment, postLang
           {relatedPosts.length > 0 && <aside className="mb-10 border-y border-zinc-200 py-6 dark:border-zinc-800" aria-labelledby="related-posts-title">
             <h2 id="related-posts-title" className="mb-4 font-mono text-sm font-bold uppercase tracking-wider text-zinc-800 dark:text-zinc-200">{isEn ? 'More to read' : 'Mais para ler'}</h2>
             <div className="grid gap-3 sm:grid-cols-3">
-              {relatedPosts.map((related) => <button key={related.id} type="button" onClick={() => onSelectPost?.(related)} className="group rounded-xl border border-zinc-200 p-4 text-left transition-colors hover:border-emerald-500/50 dark:border-zinc-800">
-                <span className="line-clamp-2 text-sm font-bold text-zinc-800 group-hover:text-emerald-500 dark:text-zinc-200">{isEn && related.title_en ? related.title_en : related.title_pt}</span>
-                <span className="mt-3 inline-flex items-center gap-1 text-xs font-mono text-emerald-500">{isEn ? 'Read' : 'Ler'} <ArrowRight className="h-3 w-3 transition-transform group-hover:translate-x-1" /></span>
-              </button>)}
+              {relatedPosts.map((related) => {
+                const relatedCover = getArticleCover(related);
+                const relatedTags = (isEn && related.tags_en) ? related.tags_en : (related.tags_pt || related.tags || []);
+                return <button key={related.id} type="button" onClick={() => onSelectPost?.(related)} className="group flex min-h-[112px] gap-3 rounded-xl border border-zinc-200 p-3 text-left transition-colors hover:border-emerald-500/50 dark:border-zinc-800">
+                  {relatedCover && <img src={relatedCover} alt="" loading="lazy" decoding="async" width="72" height="56" className="h-14 w-[72px] shrink-0 rounded-lg object-cover" />}
+                  <span className="flex min-w-0 flex-1 flex-col">
+                    {relatedTags[0] && <span className="mb-1 w-fit max-w-full truncate rounded-full bg-zinc-100 px-2 py-0.5 text-[10px] font-mono text-zinc-500 dark:bg-zinc-900 dark:text-zinc-400">{relatedTags[0]}</span>}
+                    <span className="line-clamp-2 text-sm font-bold text-zinc-800 group-hover:text-emerald-500 dark:text-zinc-200">{isEn && related.title_en ? related.title_en : related.title_pt}</span>
+                    <span className="mt-auto inline-flex items-center gap-1 pt-2 text-xs font-mono text-emerald-500">{isEn ? 'Read' : 'Ler'} <ArrowRight className="h-3 w-3 transition-transform group-hover:translate-x-1" /></span>
+                  </span>
+                </button>;
+              })}
             </div>
           </aside>}
 
