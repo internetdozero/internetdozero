@@ -23,7 +23,7 @@ export function BlogView({ postSlug, postCategory, onNavigate, lang = 'pt', onTo
 
   useEffect(() => {
     blogApi.getPosts().then(setPosts);
-    setCategories(blogApi.getCategories());
+    blogApi.getCategories().then(setCategories);
   }, []);
 
   useEffect(() => {
