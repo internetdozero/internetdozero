@@ -1,5 +1,5 @@
-import React from 'react';
-import { ArrowLeft, Search } from 'lucide-react';
+import React, { useState } from 'react';
+import { ArrowLeft, Search, SlidersHorizontal, X } from 'lucide-react';
 import { translations } from '../../../i18n/translations';
 
 export function BlogHeader({
@@ -18,6 +18,8 @@ export function BlogHeader({
 }) {
   const t = translations[lang] || translations.pt;
   const isEn = lang === 'en';
+  const [filterOpen, setFilterOpen] = useState(false);
+  const [categoryQuery, setCategoryQuery] = useState('');
 
   const tabs = [
     { id: 'all', label: t.blog.all },
@@ -87,17 +89,35 @@ export function BlogHeader({
           ))}
         </div>
         {categories.length > 0 && (
-          <div className="flex min-w-0 flex-wrap items-center gap-2 md:justify-end">
-            <span className="mr-1 text-[10px] font-mono uppercase tracking-widest text-zinc-400">{t.blog.categories}</span>
-            {categories.slice(0, 10).map((category) => (
-              <button key={category.name} onClick={() => onSelectCategory(activeCategory === category.name ? null : category.name)} className={`px-3 py-1 rounded-lg text-[11px] font-mono border transition-colors ${activeCategory === category.name ? 'border-emerald-500 bg-emerald-500/10 text-emerald-600 dark:text-emerald-400' : 'border-zinc-200 dark:border-zinc-800 text-zinc-500 hover:border-emerald-500/50'}`}>
-                {category.name} <span className="opacity-60">{category.count}</span>
-              </button>
-            ))}
-            {categories.length > 10 && (
-              <button type="button" onClick={onViewAllCategories} className="px-2 py-1 text-[11px] font-mono text-emerald-600 hover:text-emerald-500 dark:text-emerald-400">
-                {isEn ? 'More' : 'Mais'}
-              </button>
+          <div className="relative">
+            <button type="button" aria-expanded={filterOpen} onClick={() => setFilterOpen((open) => !open)} className={`inline-flex items-center gap-2 rounded-xl border px-3 py-1.5 text-xs font-mono transition-colors ${activeCategory ? 'border-emerald-500/60 bg-emerald-500/10 text-emerald-600 dark:text-emerald-400' : 'border-zinc-200 bg-white text-zinc-600 hover:border-emerald-500/50 dark:border-zinc-800 dark:bg-zinc-900 dark:text-zinc-400'}`}>
+              <SlidersHorizontal className="h-3.5 w-3.5" />
+              {isEn ? 'Filter' : 'Filtrar'}
+              {activeCategory && <span className="max-w-32 truncate rounded-md bg-emerald-500/15 px-1.5 py-0.5 text-[10px]">{activeCategory}</span>}
+            </button>
+
+            {filterOpen && (
+              <div className="absolute right-0 top-full z-20 mt-2 w-[min(calc(100vw-2rem),360px)] rounded-2xl border border-zinc-200 bg-white p-3 shadow-xl dark:border-zinc-800 dark:bg-zinc-900">
+                <div className="flex items-center gap-2 border-b border-zinc-100 pb-3 dark:border-zinc-800">
+                  <div className="relative min-w-0 flex-1">
+                    <Search className="pointer-events-none absolute left-3 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-zinc-400" />
+                    <input value={categoryQuery} onChange={(event) => setCategoryQuery(event.target.value)} placeholder={isEn ? 'Find a category…' : 'Buscar categoria…'} aria-label={isEn ? 'Find a category' : 'Buscar categoria'} className="w-full rounded-lg border border-zinc-200 bg-zinc-50 py-2 pl-9 pr-3 text-xs font-mono text-zinc-800 outline-none focus:border-emerald-500 dark:border-zinc-800 dark:bg-zinc-950 dark:text-zinc-200" />
+                  </div>
+                  <button type="button" aria-label={isEn ? 'Close filters' : 'Fechar filtros'} onClick={() => setFilterOpen(false)} className="rounded-lg p-2 text-zinc-400 hover:bg-zinc-100 hover:text-zinc-700 dark:hover:bg-zinc-800 dark:hover:text-zinc-200"><X className="h-4 w-4" /></button>
+                </div>
+                <div className="mt-3 max-h-52 space-y-1 overflow-y-auto">
+                  {categories.filter((category) => category.name.toLowerCase().includes(categoryQuery.toLowerCase())).map((category) => (
+                    <button key={category.name} type="button" onClick={() => { onSelectCategory(activeCategory === category.name ? null : category.name); setFilterOpen(false); }} className={`flex w-full items-center justify-between rounded-lg px-3 py-2 text-left text-xs font-mono transition-colors ${activeCategory === category.name ? 'bg-emerald-500/10 text-emerald-600 dark:text-emerald-400' : 'text-zinc-600 hover:bg-zinc-100 dark:text-zinc-400 dark:hover:bg-zinc-800'}`}>
+                      {category.name}<span className="text-[10px] opacity-60">{category.count}</span>
+                    </button>
+                  ))}
+                  {categories.filter((category) => category.name.toLowerCase().includes(categoryQuery.toLowerCase())).length === 0 && <p className="px-3 py-3 text-xs text-zinc-500">{isEn ? 'No category found.' : 'Nenhuma categoria encontrada.'}</p>}
+                </div>
+                <div className="mt-3 flex items-center justify-between border-t border-zinc-100 pt-3 dark:border-zinc-800">
+                  <button type="button" onClick={() => { onSelectCategory(null); setCategoryQuery(''); setFilterOpen(false); }} className="text-[11px] font-mono text-zinc-500 hover:text-emerald-500">{isEn ? 'Clear filter' : 'Limpar filtro'}</button>
+                  <button type="button" onClick={onViewAllCategories} className="text-[11px] font-mono text-emerald-600 hover:text-emerald-500 dark:text-emerald-400">{isEn ? 'All categories' : 'Todas as categorias'}</button>
+                </div>
+              </div>
             )}
           </div>
         )}
