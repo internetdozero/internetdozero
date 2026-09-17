@@ -3,7 +3,7 @@ export const translations = {
     header: {
       brandSub: 'um site independente',
       online: 'ao vivo',
-      version: 'v1.0',
+      version: 'v1.1.0',
       backToBlog: 'Voltar aos textos',
       backToBlogTitle: 'Voltar para os textos',
       search: 'Procurar',
@@ -104,7 +104,7 @@ export const translations = {
     header: {
       brandSub: 'an independent site',
       online: 'live',
-      version: 'v1.0',
+      version: 'v1.1.0',
       backToBlog: 'Back to texts',
       backToBlogTitle: 'Return to the texts',
       search: 'Browse',

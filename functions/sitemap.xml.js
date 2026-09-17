@@ -7,7 +7,8 @@ function escapeXml(value) {
 export async function onRequestGet(context) {
   const urls = [
     { loc: `${SITE}/`, priority: '1.0' },
-    { loc: `${SITE}/blog`, priority: '0.8' }
+    { loc: `${SITE}/blog`, priority: '0.8' },
+    ...['compressor-de-imagem', 'gerador-de-senhas', 'masterizador-de-audio', 'remover-metadados', 'cortador-de-audio', 'extrator-de-audio', 'contador-de-texto', 'gerador-de-qr-code', 'comparador-de-texto', 'formatador-json'].map((slug) => ({ loc: `${SITE}/tools/${slug}`, priority: '0.6' }))
   ];
   if (context.env.DB) {
     const { results } = await context.env.DB.prepare('SELECT category, slug, created_at FROM posts WHERE published = 1 ORDER BY created_at DESC').all();
