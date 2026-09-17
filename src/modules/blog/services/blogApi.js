@@ -1,8 +1,14 @@
+import { getMockPost, mockBlogCategories, mockBlogPosts } from '../data/mockPosts';
+
 const STORAGE_KEY = 'idz_blog_posts_v1';
 const LIKES_KEY = 'idz_blog_liked_ids';
 const CATEGORIES_KEY = 'idz_blog_categories_v1';
 const CHANGE_KEY = 'idz_blog_changed_v1';
 const changeChannel = typeof BroadcastChannel !== 'undefined' ? new BroadcastChannel('idz-blog-sync') : null;
+
+function isMockMode() {
+  return import.meta.env.DEV && typeof window !== 'undefined' && new URLSearchParams(window.location.search).get('mock') === '1';
+}
 
 async function api(path, options = {}) {
   const response = await fetch(path, { cache: 'no-store', credentials: 'same-origin', ...options, headers: { 'Content-Type': 'application/json', ...(options.headers || {}) } });
@@ -64,6 +70,7 @@ function slugify(text) {
 
 export const blogApi = {
   getPosts: async () => {
+    if (isMockMode()) return mockBlogPosts;
     try {
       const remote = await api('/api/posts');
       if (remote?.items) {
@@ -84,7 +91,9 @@ export const blogApi = {
     } catch (_) {}
   },
 
-  getCategories: () => api('/api/categories').then((categories) => {
+  getCategories: () => {
+    if (isMockMode()) return Promise.resolve(mockBlogCategories);
+    return api('/api/categories').then((categories) => {
     blogApi.saveCategories(categories);
     return categories;
   }).catch(() => {
@@ -94,12 +103,13 @@ export const blogApi = {
       if (Array.isArray(stored) && stored.length) return stored;
     } catch (_) {}
     return [];
-  }),
+    });
+  },
 
   getCachedCategories: () => readCache(CATEGORIES_KEY),
 
-  getPost: async (category, slug) => api(`/api/posts/${encodeURIComponent(category)}/${encodeURIComponent(slug)}`),
-  getComments: async (postId, cursor) => api(`/api/posts/${encodeURIComponent(postId)}/comments${cursor ? `?cursor=${encodeURIComponent(cursor)}` : ''}`),
+  getPost: async (category, slug) => isMockMode() ? getMockPost(slug) : api(`/api/posts/${encodeURIComponent(category)}/${encodeURIComponent(slug)}`),
+  getComments: async (postId, cursor) => isMockMode() ? { items: [] } : api(`/api/posts/${encodeURIComponent(postId)}/comments${cursor ? `?cursor=${encodeURIComponent(cursor)}` : ''}`),
   getAdminPosts: async ({ cursor, query, type } = {}) => { const params = new URLSearchParams(); if (cursor) params.set('cursor', cursor); if (query) params.set('q', query); if (type) params.set('type', type); return api(`/api/admin/posts?${params}`); },
   getAdminComments: async ({ cursor, query, status } = {}) => { const params = new URLSearchParams(); if (cursor) params.set('cursor', cursor); if (query) params.set('q', query); if (status) params.set('status', status); return api(`/api/admin/comments?${params}`); },
   moderateComment: async (id, status) => api(`/api/admin/comments?id=${encodeURIComponent(id)}`, { method: 'PATCH', headers: { 'X-CSRF-Token': sessionStorage.getItem('idz_admin_csrf') || '' }, body: JSON.stringify({ status }) }),
