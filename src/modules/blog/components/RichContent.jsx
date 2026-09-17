@@ -9,8 +9,7 @@ const SAFE_HREF = /^(https?:|mailto:|tel:|#(?!\/)|\/(?!\/))/i;
 export function RichContent({ content = '' }) {
   if (!content) return null;
 
-  // Divide o texto por blocos de parágrafos duplos
-  const paragraphs = content.split(/\n\n+/);
+  const lines = content.replace(/\r\n/g, '\n').trim().split('\n');
 
   const renderInline = (text) => {
     // Parser seguro para: links [texto](url), negrito **texto**, e código `código`
@@ -72,44 +71,34 @@ export function RichContent({ content = '' }) {
     return parts;
   };
 
-  return (
-    <div className="space-y-5 text-base sm:text-[17px] leading-relaxed font-sans text-zinc-700 dark:text-zinc-300">
-      {paragraphs.map((p, idx) => {
-        const trimmed = p.trim();
+  const blocks = [];
+  for (let index = 0; index < lines.length;) {
+    if (!lines[index].trim()) { index += 1; continue; }
+    const line = lines[index].trim();
+    if (/^(?:•|-|\*)\s+/.test(line)) {
+      const items = [];
+      while (index < lines.length && /^(?:•|-|\*)\s+/.test(lines[index].trim())) items.push(lines[index++].trim().replace(/^(?:•|-|\*)\s+/, ''));
+      blocks.push({ type: 'ul', items });
+      continue;
+    }
+    if (/^\d+[.)]\s+/.test(line)) {
+      const items = [];
+      while (index < lines.length && /^\d+[.)]\s+/.test(lines[index].trim())) items.push(lines[index++].trim().replace(/^\d+[.)]\s+/, ''));
+      blocks.push({ type: 'ol', items });
+      continue;
+    }
+    const paragraph = [];
+    while (index < lines.length && lines[index].trim() && !/^(?:•|-|\*)\s+/.test(lines[index].trim()) && !/^\d+[.)]\s+/.test(lines[index].trim())) paragraph.push(lines[index++].trim());
+    blocks.push({ type: 'p', text: paragraph.join(' ') });
+  }
 
-        // Título de subseção numerada: ex "1. TechCrunch" ou "1. Titulo"
-        if (/^\d+\.\s+/.test(trimmed)) {
-          const numMatch = trimmed.match(/^(\d+\.)\s+(.+)$/);
-          if (numMatch) {
-            const [, num, title] = numMatch;
-            return (
-              <h3 key={idx} className="text-xl sm:text-2xl font-bold font-sans text-zinc-900 dark:text-white pt-3 flex items-baseline gap-2">
-                <span>{num}</span>
-                <span className="text-emerald-500 hover:text-emerald-400 transition-colors">
-                  {renderInline(title)}
-                </span>
-              </h3>
-            );
-          }
-        }
-
-        // Lista com marcadores
-        if (trimmed.startsWith('• ') || trimmed.startsWith('- ')) {
-          const items = trimmed.split('\n');
-          return (
-            <ul key={idx} className="space-y-2 pl-2 my-3">
-              {items.map((item, i) => (
-                <li key={i} className="flex items-start gap-2.5">
-                  <span className="text-emerald-500 font-bold mt-1 text-sm">•</span>
-                  <span className="flex-1">{renderInline(item.replace(/^[•-]\s+/, ''))}</span>
-                </li>
-              ))}
-            </ul>
-          );
-        }
-
-        return <p key={idx}>{renderInline(trimmed)}</p>;
-      })}
-    </div>
-  );
+  return <div className="space-y-6 text-base sm:text-[17px] leading-relaxed font-sans text-zinc-700 dark:text-zinc-300">
+    {blocks.map((block, idx) => {
+      if (block.type === 'p') return <p key={idx}>{renderInline(block.text)}</p>;
+      const List = block.type === 'ol' ? 'ol' : 'ul';
+      return <List key={idx} className={`${block.type === 'ol' ? 'list-decimal' : 'list-disc'} space-y-3 pl-6 marker:text-emerald-500`}>
+        {block.items.map((item, itemIndex) => <li key={itemIndex} className="pl-1">{renderInline(item)}</li>)}
+      </List>;
+    })}
+  </div>;
 }
