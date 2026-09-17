@@ -9,7 +9,7 @@ function writeString(view, offset, value) {
   [...value].forEach((character, index) => view.setUint8(offset + index, character.charCodeAt(0)));
 }
 
-function encodeWav(audioBuffer) {
+export function encodeWav(audioBuffer) {
   const channels = audioBuffer.numberOfChannels;
   const samples = audioBuffer.length;
   const view = new DataView(new ArrayBuffer(44 + samples * channels * 2));
