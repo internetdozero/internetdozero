@@ -46,12 +46,17 @@ export function VideoAudioExtractor({ lang = 'pt' }) {
       if (!ffmpeg.loaded) {
         setLoadingEngine(true);
         const coreURL = await toBlobURL('/ffmpeg/ffmpeg-core.js', 'text/javascript');
-        const wasmURL = await toBlobURL('/ffmpeg/ffmpeg-core.wasm', 'application/wasm');
+        const wasmParts = await Promise.all([0, 1].map(async (part) => {
+          const response = await fetch(`/ffmpeg/ffmpeg-core.wasm.part-${part}`);
+          if (!response.ok) throw new Error(isEn ? 'The converter files could not be loaded.' : 'Não foi possível carregar os arquivos do conversor.');
+          return response.arrayBuffer();
+        }));
+        const wasmURL = URL.createObjectURL(new Blob(wasmParts, { type: 'application/wasm' }));
         const load = ffmpeg.load({ coreURL, wasmURL });
         let loadTimeout;
         try {
           await Promise.race([load, new Promise((_, reject) => { loadTimeout = window.setTimeout(() => reject(new Error(isEn ? 'The converter took too long to load. Check your connection and try again.' : 'O conversor demorou demais para carregar. Verifique sua conexão e tente novamente.')), 45000); })]);
-        } finally { window.clearTimeout(loadTimeout); }
+        } finally { window.clearTimeout(loadTimeout); URL.revokeObjectURL(wasmURL); }
         setLoadingEngine(false);
         setEngineElapsed(0);
       }

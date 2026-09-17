@@ -26,6 +26,7 @@
 - Seleção de outro arquivo reabrindo corretamente o seletor.
 - Downloads gerados diretamente pelo navegador.
 - Motor do extrator de áudio hospedado localmente, com progresso e feedback durante o carregamento.
+- WASM do extrator dividido em partes para respeitar o limite de arquivos do Cloudflare Pages sem perder o processamento local.
 - QR Code iniciado com o endereço do site e cor preta como padrão.
 - Comparação e edição com foco visual mais claro e processamento local explícito.
 
