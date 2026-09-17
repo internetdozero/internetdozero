@@ -49,17 +49,20 @@ fi
 
 echo "OK: $total_files files validated."
 
-echo "[2/4] Checking directory structure..."
+echo "[2/5] Checking directory structure..."
 if [ ! -d "src/modules" ]; then
   echo "ERROR: Missing required directory 'src/modules'" >&2
   exit 1
 fi
 echo "OK: Architecture structure confirmed."
 
-echo "[3/4] Running production build..."
+echo "[3/5] Running linter..."
+npm run lint
+
+echo "[4/5] Running production build..."
 npm run build
 
-echo "[4/4] Validating build artifacts in dist/..."
+echo "[5/5] Validating build artifacts in dist/..."
 if [ ! -f "dist/index.html" ]; then
   echo "ERROR: Missing dist/index.html artifact." >&2
   exit 1

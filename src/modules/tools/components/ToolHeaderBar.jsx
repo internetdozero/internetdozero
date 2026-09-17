@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ArrowLeft, Check, Copy, Share2 } from 'lucide-react';
+import { ArrowLeft, Check, Share2 } from 'lucide-react';
 
 export function ToolHeaderBar({ onBack, title, toolSlug, lang = 'pt' }) {
   const [copied, setCopied] = useState(false);

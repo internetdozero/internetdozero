@@ -1,5 +1,5 @@
 import React from 'react';
-import { HelpCircle, ShieldCheck, Zap } from 'lucide-react';
+import { HelpCircle, ShieldCheck } from 'lucide-react';
 
 export function ToolFaqSection({ toolMeta, lang = 'pt' }) {
   if (!toolMeta || !toolMeta.faq || toolMeta.faq.length === 0) return null;
