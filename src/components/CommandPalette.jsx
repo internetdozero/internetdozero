@@ -12,10 +12,7 @@ export function CommandPalette({ isOpen, onClose, onSelectModule, theme, toggleT
 
   useEffect(() => {
     const handleKeyDown = (e) => {
-      if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
-        e.preventDefault();
-        onClose();
-      } else if (e.key === 'Escape' && isOpen) {
+      if (e.key === 'Escape' && isOpen) {
         onClose();
       }
     };

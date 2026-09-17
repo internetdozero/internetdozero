@@ -93,9 +93,6 @@ export const Header = React.memo(function Header({
           >
             <Search className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" />
             <span className="hidden sm:inline">{t.header.search}</span>
-            <kbd className="hidden sm:inline px-1.5 py-0.5 rounded bg-zinc-200 dark:bg-zinc-800 text-[10px] text-zinc-700 dark:text-zinc-300 border border-zinc-300 dark:border-zinc-700">
-              Ctrl+K
-            </kbd>
           </button>
 
           {/* Quick Arsenal Button */}
