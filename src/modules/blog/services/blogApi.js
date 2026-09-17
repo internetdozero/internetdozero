@@ -1,5 +1,3 @@
-import { initialPosts } from '../data/initialPosts';
-
 const STORAGE_KEY = 'idz_blog_posts_v1';
 const LIKES_KEY = 'idz_blog_liked_ids';
 const CATEGORIES_KEY = 'idz_blog_categories_v1';
@@ -58,25 +56,22 @@ export const blogApi = {
       if (stored) {
         const parsed = JSON.parse(stored);
         if (Array.isArray(parsed) && parsed.length > 0) {
-          const initialMap = new Map(initialPosts.map((p) => [p.id, p]));
           return parsed.map((post) => {
-            const base = initialMap.get(post.id) || {};
             const titlePt = post.title_pt || post.title || post.content || '';
             const titleEn = post.title_en || post.content_en || '';
-            const fallbackSlug = base.slug || slugify(titlePt) || post.id;
-            const fallbackSlugEn = base.slug_en || (titleEn ? slugify(titleEn) : undefined) || fallbackSlug;
+            const fallbackSlug = slugify(titlePt) || post.id;
+            const fallbackSlugEn = titleEn ? slugify(titleEn) : fallbackSlug;
             return {
-              ...base,
               ...post,
               slug: post.slug || fallbackSlug,
               slug_en: post.slug_en || fallbackSlugEn
-              , category: post.category || base.category || post.tags_pt?.[0] || post.tags?.[0] || 'Geral'
+              , category: post.category || post.tags_pt?.[0] || post.tags?.[0] || 'Geral'
             };
           });
         }
       }
     } catch (_) {}
-    return initialPosts.map((post) => ({ ...post, category: post.category || post.tags_pt?.[0] || post.tags?.[0] || 'Geral' }));
+    return [];
   },
 
   savePosts: (posts) => {
