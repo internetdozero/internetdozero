@@ -38,8 +38,8 @@ function makeSvg(qr, color, background, rounded, logo) {
 export function QrCodeGenerator({ lang = 'pt' }) {
   const isEn = lang === 'en';
   const inputRef = useRef(null);
-  const [text, setText] = useState('');
-  const [color, setColor] = useState('#00c98d');
+  const [text, setText] = useState(PREVIEW_TEXT);
+  const [color, setColor] = useState('#000000');
   const [background, setBackground] = useState('#ffffff');
   const [rounded, setRounded] = useState(true);
   const [logo, setLogo] = useState('');
