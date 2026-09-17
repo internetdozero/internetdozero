@@ -1,5 +1,12 @@
+const securityHeaders = {
+  'X-Content-Type-Options': 'nosniff',
+  'X-Frame-Options': 'DENY',
+  'Referrer-Policy': 'strict-origin-when-cross-origin',
+  'Permissions-Policy': 'camera=(), microphone=(), geolocation=()'
+};
+
 export function json(data, status = 200, headers = {}) {
-  return Response.json(data, { status, headers: { 'Cache-Control': 'no-store', ...headers } });
+  return Response.json(data, { status, headers: { ...securityHeaders, 'Cache-Control': 'no-store', ...headers } });
 }
 
 export function requestOriginAllowed(request) {
@@ -9,5 +16,11 @@ export function requestOriginAllowed(request) {
 }
 
 export async function readJson(request) {
-  try { return await request.json(); } catch (_) { return null; }
+  const length = Number(request.headers.get('Content-Length') || 0);
+  if (length > 128 * 1024) return null;
+  try {
+    const text = await request.text();
+    if (new TextEncoder().encode(text).length > 128 * 1024) return null;
+    return JSON.parse(text);
+  } catch (_) { return null; }
 }

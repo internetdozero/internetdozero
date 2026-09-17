@@ -1,0 +1,37 @@
+const encoder = new TextEncoder();
+const ITERATIONS = 120000;
+
+function encode(bytes) {
+  let binary = '';
+  bytes.forEach((byte) => { binary += String.fromCharCode(byte); });
+  return btoa(binary).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
+}
+
+function decode(value) {
+  const binary = atob(value.replace(/-/g, '+').replace(/_/g, '/') + '==='.slice((value.length + 3) % 4));
+  return Uint8Array.from(binary, (char) => char.charCodeAt(0));
+}
+
+function equal(left, right) {
+  if (left.length !== right.length) return false;
+  let result = 0;
+  for (let index = 0; index < left.length; index += 1) result |= left[index] ^ right[index];
+  return result === 0;
+}
+
+export async function verifyPassword(password, encoded) {
+  if (!password || !encoded?.startsWith('pbkdf2$')) return false;
+  const [, iterations, saltText, hashText] = encoded.split('$');
+  const salt = decode(saltText || '');
+  const expected = decode(hashText || '');
+  const key = await crypto.subtle.importKey('raw', encoder.encode(password), 'PBKDF2', false, ['deriveBits']);
+  const bits = await crypto.subtle.deriveBits({ name: 'PBKDF2', salt, iterations: Number(iterations), hash: 'SHA-256' }, key, expected.length * 8);
+  return equal(new Uint8Array(bits), expected);
+}
+
+export async function hashPassword(password) {
+  const salt = crypto.getRandomValues(new Uint8Array(16));
+  const key = await crypto.subtle.importKey('raw', encoder.encode(password), 'PBKDF2', false, ['deriveBits']);
+  const bits = await crypto.subtle.deriveBits({ name: 'PBKDF2', salt, iterations: ITERATIONS, hash: 'SHA-256' }, key, 256);
+  return `pbkdf2$${ITERATIONS}$${encode(salt)}$${encode(new Uint8Array(bits))}`;
+}

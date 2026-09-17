@@ -10,10 +10,9 @@ export async function onRequestPost(context) {
   const text = String(body?.text || '').trim().slice(0, 2000);
   if (!postId || !text) return json({ error: 'Comentário vazio' }, 400);
   if (linkPattern.test(text)) return json({ error: 'Links não são permitidos nos comentários.' }, 422);
-  const post = await context.env.DB.prepare('SELECT comments FROM posts WHERE id=? AND published=1').bind(postId).first();
+  const post = await context.env.DB.prepare('SELECT id FROM posts WHERE id=? AND published=1').bind(postId).first();
   if (!post) return json({ error: 'Publicação não encontrada' }, 404);
   const comment = { id: crypto.randomUUID(), author, text, createdAt: new Date().toISOString() };
-  const comments = [...JSON.parse(post.comments || '[]'), comment].slice(-500);
-  await context.env.DB.prepare('UPDATE posts SET comments=? WHERE id=?').bind(JSON.stringify(comments), postId).run();
-  return json({ comment }, 201);
+  await context.env.DB.prepare("INSERT INTO comments (id, post_id, author, content, status, created_at) VALUES (?, ?, ?, ?, 'pending', ?)").bind(comment.id, postId, author, text, comment.createdAt).run();
+  return json({ comment, pending: true }, 201);
 }

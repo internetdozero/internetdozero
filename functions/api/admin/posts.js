@@ -16,13 +16,19 @@ function clean(body) {
   return post;
 }
 
-function parse(row) { return { ...row, tags_pt: JSON.parse(row.tags_pt || '[]'), sections_pt: JSON.parse(row.sections_pt || '[]'), comments: JSON.parse(row.comments || '[]'), likes: Number(row.likes || 0) }; }
+function parse(row) { return { ...row, tags_pt: JSON.parse(row.tags_pt || '[]'), sections_pt: JSON.parse(row.sections_pt || '[]'), comments: [], commentsCount: Number(row.comments_count || 0), likes: Number(row.likes || 0), createdAt: row.created_at, readingTime: row.reading_time }; }
 
 export async function onRequestGet(context) {
   const auth = await requireAdmin(context.request, context.env);
   if (auth.response) return auth.response;
-  const { results } = await context.env.DB.prepare('SELECT * FROM posts ORDER BY created_at DESC').all();
-  return json(results.map(parse));
+  const url = new URL(context.request.url);
+  const limit = Math.min(20, Math.max(1, Number(url.searchParams.get('limit') || 10)));
+  const cursor = url.searchParams.get('cursor');
+  const params = [];
+  const where = [];
+  if (cursor) { where.push('p.created_at < ?'); params.push(cursor); }
+  const { results } = await context.env.DB.prepare(`SELECT p.*, COUNT(c.id) AS comments_count FROM posts p LEFT JOIN comments c ON c.post_id = p.id AND c.status = 'approved' ${where.length ? `WHERE ${where.join(' AND ')}` : ''} GROUP BY p.id ORDER BY p.created_at DESC LIMIT ?`).bind(...params, limit + 1).all();
+  return json({ items: results.slice(0, limit).map(parse), nextCursor: results.length > limit ? results[limit - 1].created_at : null });
 }
 
 export async function onRequestPost(context) {
