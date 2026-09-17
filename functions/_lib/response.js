@@ -17,7 +17,10 @@ export function serverError(error) {
 export function requestOriginAllowed(request) {
   const origin = request.headers.get('Origin');
   if (!origin) return true;
-  return origin === new URL(request.url).origin;
+  const requestOrigin = new URL(request.url).origin;
+  if (origin === requestOrigin) return true;
+  const isLocalProxy = new URL(request.url).hostname === 'localhost' && /^http:\/\/(localhost|127\.0\.0\.1):5173$/.test(origin);
+  return isLocalProxy;
 }
 
 export async function readJson(request) {
