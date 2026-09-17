@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useMemo, useCallback } from 'react';
-import { blogApi } from './services/blogApi';
+import { blogApi, subscribeToBlogChanges } from './services/blogApi';
 import { useLikedPosts } from './hooks/useLikedPosts';
 import { BlogHeader } from './components/BlogHeader';
 import { FeaturedPost } from './components/FeaturedPost';
@@ -24,6 +24,7 @@ export function BlogView({ postSlug, postCategory, onNavigate, lang = 'pt', onTo
   useEffect(() => {
     blogApi.getPosts().then(setPosts);
     blogApi.getCategories().then(setCategories);
+    return subscribeToBlogChanges(() => { blogApi.getPosts().then(setPosts); blogApi.getCategories().then(setCategories); });
   }, []);
 
   useEffect(() => {

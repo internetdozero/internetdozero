@@ -4,15 +4,35 @@ const STORAGE_KEY = 'idz_blog_posts_v1';
 const LIKES_KEY = 'idz_blog_liked_ids';
 const CATEGORIES_KEY = 'idz_blog_categories_v1';
 const DEFAULT_CATEGORIES = ['Tecnologia', 'Fitness', 'Inteligência Artificial', 'Crônicas'];
+const CHANGE_KEY = 'idz_blog_changed_v1';
+const changeChannel = typeof BroadcastChannel !== 'undefined' ? new BroadcastChannel('idz-blog-sync') : null;
 
 async function api(path, options = {}) {
-  const response = await fetch(path, { credentials: 'same-origin', ...options, headers: { 'Content-Type': 'application/json', ...(options.headers || {}) } });
+  const response = await fetch(path, { cache: 'no-store', credentials: 'same-origin', ...options, headers: { 'Content-Type': 'application/json', ...(options.headers || {}) } });
   if (!response.ok) throw new Error(`API ${response.status}`);
   return response.json();
 }
 
 function hasAdminSession() {
   return typeof sessionStorage !== 'undefined' && Boolean(sessionStorage.getItem('idz_admin_csrf'));
+}
+
+export function notifyBlogChange() {
+  if (typeof window === 'undefined') return;
+  changeChannel?.postMessage({ changedAt: Date.now() });
+  localStorage.setItem(CHANGE_KEY, String(Date.now()));
+  window.dispatchEvent(new Event(CHANGE_KEY));
+}
+
+export function subscribeToBlogChanges(handler) {
+  if (typeof window === 'undefined') return () => {};
+  const onStorage = (event) => { if (event.key === CHANGE_KEY) handler(); };
+  const onLocal = () => handler();
+  const onChannel = () => handler();
+  window.addEventListener('storage', onStorage);
+  window.addEventListener(CHANGE_KEY, onLocal);
+  changeChannel?.addEventListener('message', onChannel);
+  return () => { window.removeEventListener('storage', onStorage); window.removeEventListener(CHANGE_KEY, onLocal); changeChannel?.removeEventListener('message', onChannel); };
 }
 
 function slugify(text) {
@@ -79,7 +99,7 @@ export const blogApi = {
   },
 
   addPost: async (postData) => {
-    try { await api('/api/admin/posts', { method: 'POST', headers: { 'X-CSRF-Token': sessionStorage.getItem('idz_admin_csrf') || '' }, body: JSON.stringify({ ...postData, reading_time: postData.readingTime, tags_pt: postData.tags_pt, sections_pt: postData.sections_pt }) }); return (await api('/api/posts')).find((post) => post.slug === postData.slug); } catch (error) { if (hasAdminSession()) throw error; }
+    try { await api('/api/admin/posts', { method: 'POST', headers: { 'X-CSRF-Token': sessionStorage.getItem('idz_admin_csrf') || '' }, body: JSON.stringify({ ...postData, reading_time: postData.readingTime, tags_pt: postData.tags_pt, sections_pt: postData.sections_pt }) }); notifyBlogChange(); return (await api('/api/posts')).find((post) => post.slug === postData.slug); } catch (error) { if (hasAdminSession()) throw error; }
     const posts = await blogApi.getPosts();
     const title = postData.title_pt || postData.title || '';
     const newPost = {
@@ -96,7 +116,7 @@ export const blogApi = {
   },
 
   updatePost: async (postId, postData) => {
-    try { await api(`/api/admin/posts?id=${encodeURIComponent(postId)}`, { method: 'PATCH', headers: { 'X-CSRF-Token': sessionStorage.getItem('idz_admin_csrf') || '' }, body: JSON.stringify({ ...postData, reading_time: postData.readingTime, tags_pt: postData.tags_pt, sections_pt: postData.sections_pt }) }); return postData; } catch (error) { if (hasAdminSession()) throw error; }
+    try { await api(`/api/admin/posts?id=${encodeURIComponent(postId)}`, { method: 'PATCH', headers: { 'X-CSRF-Token': sessionStorage.getItem('idz_admin_csrf') || '' }, body: JSON.stringify({ ...postData, reading_time: postData.readingTime, tags_pt: postData.tags_pt, sections_pt: postData.sections_pt }) }); notifyBlogChange(); return postData; } catch (error) { if (hasAdminSession()) throw error; }
     const posts = await blogApi.getPosts();
     const updatedPosts = posts.map((post) => post.id === postId ? { ...post, ...postData } : post);
     blogApi.savePosts(updatedPosts);
@@ -104,7 +124,7 @@ export const blogApi = {
   },
 
   deletePost: async (postId) => {
-    try { await api(`/api/admin/posts?id=${encodeURIComponent(postId)}`, { method: 'DELETE', headers: { 'X-CSRF-Token': sessionStorage.getItem('idz_admin_csrf') || '' } }); return blogApi.getPosts(); } catch (error) { if (hasAdminSession()) throw error; }
+    try { await api(`/api/admin/posts?id=${encodeURIComponent(postId)}`, { method: 'DELETE', headers: { 'X-CSRF-Token': sessionStorage.getItem('idz_admin_csrf') || '' } }); notifyBlogChange(); return blogApi.getPosts(); } catch (error) { if (hasAdminSession()) throw error; }
     const posts = await blogApi.getPosts();
     const updatedPosts = posts.filter((post) => post.id !== postId);
     blogApi.savePosts(updatedPosts);

@@ -7,5 +7,5 @@ function parsePost(row) {
 export async function onRequestGet(context) {
   if (!context.env.DB) return json({ error: 'D1 não configurado' }, 503);
   const { results } = await context.env.DB.prepare('SELECT * FROM posts WHERE published = 1 ORDER BY created_at DESC').all();
-  return json(results.map(parsePost), 200, { 'Cache-Control': 'public, max-age=60' });
+  return json(results.map(parsePost), 200, { 'Cache-Control': 'no-store' });
 }
