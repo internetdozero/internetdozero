@@ -43,7 +43,6 @@ export function ToolsView({ onNavigate, toolSlug, lang = 'pt' }) {
       <div className="mb-6 flex h-12 w-12 items-center justify-center rounded-2xl border border-emerald-500/20 bg-emerald-500/10 text-emerald-500">
         <Wrench className="h-6 w-6" />
       </div>
-      <p className="font-mono text-xs font-bold uppercase tracking-[0.22em] text-emerald-500">/tools</p>
       <h1 className="mt-3 font-mono text-4xl font-extrabold tracking-tight text-zinc-900 dark:text-white sm:text-6xl">
         {isEn ? 'Tools for real life.' : 'Ferramentas para a vida real.'}
       </h1>
