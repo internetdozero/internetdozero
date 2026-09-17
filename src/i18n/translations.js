@@ -1,7 +1,7 @@
 export const translations = {
   pt: {
     header: {
-      brandSub: 'um site independente',
+      brandSub: 'um canto meu na internet',
       online: 'ao vivo',
       version: 'v1.1.0',
       backToBlog: 'Voltar aos textos',
@@ -102,7 +102,7 @@ export const translations = {
   },
   en: {
     header: {
-      brandSub: 'an independent site',
+      brandSub: 'my corner of the internet',
       online: 'live',
       version: 'v1.1.0',
       backToBlog: 'Back to texts',
