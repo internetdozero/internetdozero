@@ -28,7 +28,7 @@ export function ToolsView({ onNavigate, toolSlug, lang = 'pt' }) {
 
   if (isCompressor) {
     return (
-      <main className="mx-auto max-w-5xl px-6 py-12 sm:py-16">
+      <main className="mx-auto max-w-7xl px-6 py-12 sm:py-16">
         <button type="button" onClick={() => onNavigate('/tools')} className="mb-8 inline-flex items-center gap-2 font-mono text-xs text-zinc-500 transition-colors hover:text-emerald-500">
           <ArrowLeft className="h-3.5 w-3.5" />
           {isEn ? 'Back to tools' : 'Voltar às ferramentas'}
@@ -41,7 +41,7 @@ export function ToolsView({ onNavigate, toolSlug, lang = 'pt' }) {
 
   if (isPasswordGenerator) {
     return (
-      <main className="mx-auto max-w-5xl px-6 py-12 sm:py-16">
+      <main className="mx-auto max-w-7xl px-6 py-12 sm:py-16">
         <button type="button" onClick={() => onNavigate('/tools')} className="mb-8 inline-flex items-center gap-2 font-mono text-xs text-zinc-500 transition-colors hover:text-emerald-500">
           <ArrowLeft className="h-3.5 w-3.5" />
           {isEn ? 'Back to tools' : 'Voltar às ferramentas'}
@@ -54,7 +54,7 @@ export function ToolsView({ onNavigate, toolSlug, lang = 'pt' }) {
 
   if (isAudioMasterizer) {
     return (
-      <main className="mx-auto max-w-5xl px-6 py-12 sm:py-16">
+      <main className="mx-auto max-w-7xl px-6 py-12 sm:py-16">
         <button type="button" onClick={() => onNavigate('/tools')} className="mb-8 inline-flex items-center gap-2 font-mono text-xs text-zinc-500 transition-colors hover:text-emerald-500">
           <ArrowLeft className="h-3.5 w-3.5" />
           {isEn ? 'Back to tools' : 'Voltar às ferramentas'}
@@ -67,7 +67,7 @@ export function ToolsView({ onNavigate, toolSlug, lang = 'pt' }) {
 
   if (isMetadataStripper) {
     return (
-      <main className="mx-auto max-w-5xl px-6 py-12 sm:py-16">
+      <main className="mx-auto max-w-7xl px-6 py-12 sm:py-16">
         <button type="button" onClick={() => onNavigate('/tools')} className="mb-8 inline-flex items-center gap-2 font-mono text-xs text-zinc-500 transition-colors hover:text-emerald-500">
           <ArrowLeft className="h-3.5 w-3.5" />
           {isEn ? 'Back to tools' : 'Voltar às ferramentas'}
@@ -80,7 +80,7 @@ export function ToolsView({ onNavigate, toolSlug, lang = 'pt' }) {
 
   if (isAudioTrimmer) {
     return (
-      <main className="mx-auto max-w-5xl px-6 py-12 sm:py-16">
+      <main className="mx-auto max-w-7xl px-6 py-12 sm:py-16">
         <button type="button" onClick={() => onNavigate('/tools')} className="mb-8 inline-flex items-center gap-2 font-mono text-xs text-zinc-500 transition-colors hover:text-emerald-500">
           <ArrowLeft className="h-3.5 w-3.5" />
           {isEn ? 'Back to tools' : 'Voltar às ferramentas'}
@@ -93,7 +93,7 @@ export function ToolsView({ onNavigate, toolSlug, lang = 'pt' }) {
 
   if (isVideoAudioExtractor) {
     return (
-      <main className="mx-auto max-w-5xl px-6 py-12 sm:py-16">
+      <main className="mx-auto max-w-7xl px-6 py-12 sm:py-16">
         <button type="button" onClick={() => onNavigate('/tools')} className="mb-8 inline-flex items-center gap-2 font-mono text-xs text-zinc-500 transition-colors hover:text-emerald-500">
           <ArrowLeft className="h-3.5 w-3.5" />
           {isEn ? 'Back to tools' : 'Voltar às ferramentas'}
@@ -106,7 +106,7 @@ export function ToolsView({ onNavigate, toolSlug, lang = 'pt' }) {
 
   if (isTextCounter) {
     return (
-      <main className="mx-auto max-w-5xl px-6 py-12 sm:py-16">
+      <main className="mx-auto max-w-7xl px-6 py-12 sm:py-16">
         <button type="button" onClick={() => onNavigate('/tools')} className="mb-8 inline-flex items-center gap-2 font-mono text-xs text-zinc-500 transition-colors hover:text-emerald-500">
           <ArrowLeft className="h-3.5 w-3.5" />
           {isEn ? 'Back to tools' : 'Voltar às ferramentas'}
@@ -118,7 +118,7 @@ export function ToolsView({ onNavigate, toolSlug, lang = 'pt' }) {
   }
 
   return (
-    <main className="mx-auto max-w-5xl px-6 py-12 sm:py-16">
+    <main className="mx-auto max-w-7xl px-6 py-12 sm:py-16">
       <button type="button" onClick={() => onNavigate('/')} className="mb-8 inline-flex w-fit items-center gap-2 font-mono text-xs text-zinc-500 transition-colors hover:text-emerald-500">
         <ArrowLeft className="h-3.5 w-3.5" />
         {isEn ? 'Back to home' : 'Voltar ao início'}
