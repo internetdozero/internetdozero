@@ -1,5 +1,5 @@
 import React from 'react';
-import { Sun, Moon, Search, Terminal, ArrowLeft, Globe } from 'lucide-react';
+import { Sun, Moon, Search, Terminal, ArrowLeft } from 'lucide-react';
 import { translations } from '../i18n/translations';
 
 export const Header = React.memo(function Header({
@@ -62,28 +62,16 @@ export const Header = React.memo(function Header({
 
         {/* Right Controls */}
         <div className="flex items-center gap-2 sm:gap-3">
-          {/* Global Language Switcher (PT / EN) */}
-          <div className="inline-flex items-center p-0.5 rounded-xl bg-zinc-100 dark:bg-zinc-900 border border-zinc-300 dark:border-zinc-800 font-mono text-xs">
-            <Globe className="w-3.5 h-3.5 text-emerald-500 ml-1.5 mr-1" />
-            <button
-              onClick={() => onToggleLang('pt')}
-              className={`px-2 py-1 rounded-lg transition-all cursor-pointer ${
-                lang === 'pt' ? 'bg-emerald-600 text-white font-bold shadow-xs' : 'text-zinc-500 hover:text-zinc-900 dark:hover:text-white'
-              }`}
-              title="Português"
-            >
-              PT
-            </button>
-            <button
-              onClick={() => onToggleLang('en')}
-              className={`px-2 py-1 rounded-lg transition-all cursor-pointer ${
-                lang === 'en' ? 'bg-emerald-600 text-white font-bold shadow-xs' : 'text-zinc-500 hover:text-zinc-900 dark:hover:text-white'
-              }`}
-              title="English"
-            >
-              EN
-            </button>
-          </div>
+          {/* Global Language Switcher */}
+          <button
+            onClick={() => onToggleLang(lang === 'pt' ? 'en' : 'pt')}
+            className="inline-flex items-center gap-1.5 rounded-xl border border-zinc-300 bg-zinc-100 px-2.5 py-1.5 text-xs font-bold font-mono text-zinc-700 transition-all hover:border-emerald-500/50 hover:text-emerald-600 dark:border-zinc-800 dark:bg-zinc-900 dark:text-zinc-300 dark:hover:text-emerald-400"
+            aria-label={lang === 'pt' ? 'Mudar para inglês' : 'Mudar para português'}
+            title={lang === 'pt' ? 'Mudar para English' : 'Mudar para Português'}
+          >
+            <span aria-hidden="true">{lang === 'pt' ? '🇧🇷' : '🇺🇸'}</span>
+            <span>{lang === 'pt' ? 'PT' : 'EN'}</span>
+          </button>
 
           {/* Quick Search / Command Palette Button */}
           <button
