@@ -8,7 +8,8 @@ const examples = {
     ['Uma conta nova apareceu?', 'Gere uma senha diferente e copie sem guardar no site.', 'gerador-de-senhas', 'Gerador de senhas'],
     ['Precisa revisar um texto?', 'Conte palavras, caracteres e tempo de leitura enquanto escreve.', 'contador-de-texto', 'Contador de texto'],
     ['Vai compartilhar um link?', 'Crie um QR Code estilizado para imprimir ou enviar.', 'gerador-de-qr-code', 'Gerador de QR Code'],
-    ['Mudou um código?', 'Compare duas versões e encontre as linhas que mudaram.', 'comparador-de-texto', 'Comparador de texto']
+    ['Mudou um código?', 'Compare duas versões e encontre as linhas que mudaram.', 'comparador-de-texto', 'Comparador de texto'],
+    ['Recebeu um JSON estranho?', 'Valide, organize ou compacte o conteúdo em segundos.', 'formatador-json', 'Formatador de JSON']
   ],
   en: [
     ['Publishing an image?', 'Remove metadata and reduce its size before sharing.', 'metadata-remover', 'Metadata remover'],
@@ -16,11 +17,12 @@ const examples = {
     ['Creating an account?', 'Generate a different password and copy it locally.', 'password-generator', 'Password generator'],
     ['Reviewing a draft?', 'Count words, characters and reading time as you write.', 'text-counter', 'Text counter'],
     ['Sharing a link?', 'Create a styled QR code to print or send.', 'qr-code-generator', 'Styled QR code'],
-    ['Changed some code?', 'Compare two versions and find the lines that changed.', 'text-diff-checker', 'Text diff checker']
+    ['Changed some code?', 'Compare two versions and find the lines that changed.', 'text-diff-checker', 'Text diff checker'],
+    ['Got messy JSON?', 'Validate, format or minify it in a few seconds.', 'json-formatter', 'JSON formatter']
   ]
 };
 
-const englishSlugs = { 'compressor-de-imagem': 'image-compressor', 'gerador-de-senhas': 'password-generator', 'masterizador-de-audio': 'audio-master', 'remover-metadados': 'metadata-remover', 'cortador-de-audio': 'audio-trimmer', 'extrator-de-audio': 'video-audio-extractor', 'contador-de-texto': 'text-counter', 'comparador-de-texto': 'text-diff-checker' };
+const englishSlugs = { 'compressor-de-imagem': 'image-compressor', 'gerador-de-senhas': 'password-generator', 'masterizador-de-audio': 'audio-master', 'remover-metadados': 'metadata-remover', 'cortador-de-audio': 'audio-trimmer', 'extrator-de-audio': 'video-audio-extractor', 'contador-de-texto': 'text-counter', 'comparador-de-texto': 'text-diff-checker', 'formatador-json': 'json-formatter' };
 
 export function ToolGuideCard({ onNavigate, currentSlug, lang = 'pt' }) {
   const isEn = lang === 'en';

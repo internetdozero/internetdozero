@@ -12,7 +12,7 @@ export function useRouter() {
 
     if (path === '/tools' || path.startsWith('/tools/')) {
       const requestedToolSlug = path.split('/').filter(Boolean)[1] || null;
-      const toolAliases = { 'image-compressor': 'compressor-de-imagem', 'password-generator': 'gerador-de-senhas', 'audio-master': 'masterizador-de-audio', 'metadata-remover': 'remover-metadados', 'audio-trimmer': 'cortador-de-audio', 'video-audio-extractor': 'extrator-de-audio', 'text-counter': 'contador-de-texto', 'qr-code-generator': 'gerador-de-qr-code', 'text-diff-checker': 'comparador-de-texto' };
+      const toolAliases = { 'image-compressor': 'compressor-de-imagem', 'password-generator': 'gerador-de-senhas', 'audio-master': 'masterizador-de-audio', 'metadata-remover': 'remover-metadados', 'audio-trimmer': 'cortador-de-audio', 'video-audio-extractor': 'extrator-de-audio', 'text-counter': 'contador-de-texto', 'qr-code-generator': 'gerador-de-qr-code', 'text-diff-checker': 'comparador-de-texto', 'json-formatter': 'formatador-json' };
       return { view: 'tools', toolSlug: toolAliases[requestedToolSlug] || requestedToolSlug, postSlug: null, postCategory: null };
     }
 
