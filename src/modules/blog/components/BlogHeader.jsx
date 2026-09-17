@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ArrowLeft, Search, SlidersHorizontal, X } from 'lucide-react';
+import { ArrowLeft, Filter, Search, X } from 'lucide-react';
 import { translations } from '../../../i18n/translations';
 
 export function BlogHeader({
@@ -91,7 +91,7 @@ export function BlogHeader({
         {categories.length > 0 && (
           <div className="relative">
             <button type="button" aria-expanded={filterOpen} onClick={() => setFilterOpen((open) => !open)} className={`inline-flex items-center gap-2 rounded-xl border px-3 py-1.5 text-xs font-mono transition-colors ${activeCategory ? 'border-emerald-500/60 bg-emerald-500/10 text-emerald-600 dark:text-emerald-400' : 'border-zinc-200 bg-white text-zinc-600 hover:border-emerald-500/50 dark:border-zinc-800 dark:bg-zinc-900 dark:text-zinc-400'}`}>
-              <SlidersHorizontal className="h-3.5 w-3.5" />
+              <Filter className="h-3.5 w-3.5" />
               {isEn ? 'Filter' : 'Filtrar'}
               {activeCategory && <span className="max-w-32 truncate rounded-md bg-emerald-500/15 px-1.5 py-0.5 text-[10px]">{activeCategory}</span>}
             </button>
