@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Terminal, Trash2, CornerDownLeft } from 'lucide-react';
+import { emitFeedback } from './FeedbackModal';
 
 export function StatusRadar({ lang = 'pt' }) {
   const isEn = lang === 'en';
@@ -79,12 +80,7 @@ export function StatusRadar({ lang = 'pt' }) {
         setInput('');
         return;
       default:
-        newHistory.push({
-          type: 'error',
-          text: isEn
-            ? `Unrecognized command: "${input}". Type "help" to view available options.`
-            : `Comando não reconhecido: "${input}". Digite "help" para ver as opções disponíveis.`
-        });
+        emitFeedback('error', isEn ? `Unrecognized command: "${input}". Type "help" to view available options.` : `Comando não reconhecido: "${input}". Digite "help" para ver as opções disponíveis.`);
     }
 
     setHistory(newHistory);

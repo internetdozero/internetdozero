@@ -5,6 +5,7 @@ import { useLanguage } from './hooks/useLanguage';
 import { Header } from './components/Header';
 import { HubView } from './components/HubView';
 import { Footer } from './components/Footer';
+import { FeedbackModal } from './components/FeedbackModal';
 
 const BlogView = lazy(() => import('./modules/blog/BlogView').then((m) => ({ default: m.BlogView })));
 const AdminView = lazy(() => import('./modules/blog/AdminView').then((m) => ({ default: m.AdminView })));
@@ -86,6 +87,7 @@ export function App() {
         lang={lang}
         onOpenArsenal={handleScrollToModules}
       />
+      <FeedbackModal />
 
       <Suspense fallback={null}>
         {isCommandOpen && (

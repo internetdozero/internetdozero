@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { MessageSquare, Send, User } from 'lucide-react';
 import { translations } from '../../../i18n/translations';
+import { emitFeedback } from '../../../components/FeedbackModal';
 
 export function PostComments({ comments = [], onAddComment, lang = 'pt' }) {
   const [author, setAuthor] = useState('');
@@ -14,9 +15,7 @@ export function PostComments({ comments = [], onAddComment, lang = 'pt' }) {
     if (!text.trim()) return;
 
     setIsSubmitting(true);
-    await onAddComment({ author: author.trim() || (isEn ? 'Guest' : 'Visitante'), text });
-    setText('');
-    setAuthor('');
+    try { await onAddComment({ author: author.trim() || (isEn ? 'Guest' : 'Visitante'), text }); setText(''); setAuthor(''); emitFeedback('success', isEn ? 'Comment sent.' : 'Comentário enviado.'); } catch (_) { emitFeedback('error', isEn ? 'Could not send the comment.' : 'Não foi possível enviar o comentário.'); }
     setIsSubmitting(false);
   };
 
