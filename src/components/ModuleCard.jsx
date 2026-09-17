@@ -31,13 +31,13 @@ export const ModuleCard = React.memo(function ModuleCard({ module, onSelect, lan
       {/* Corner subtle glow on hover */}
       <div className="absolute top-0 right-0 w-32 h-32 bg-emerald-500/0 group-hover:bg-emerald-500/10 rounded-bl-full blur-2xl transition-all pointer-events-none" />
 
-      <div className="min-h-[210px]">
+      <div className="flex-1">
         {/* Top bar: Category + Status */}
         <div className="flex items-center justify-between gap-2 mb-4">
           <span className="text-[11px] font-mono font-medium tracking-wider uppercase text-zinc-500 dark:text-zinc-500">
             {category}
           </span>
-          <span className={`inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-mono font-medium border ${statusBadgeClasses}`}>
+          <span className={`inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-mono font-medium border whitespace-nowrap ${statusBadgeClasses}`}>
             {isOnline && <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />}
             {isInProgress && <span className="w-1.5 h-1.5 rounded-full bg-amber-500" />}
             {isPlanned && <Clock className="w-3 h-3" />}
@@ -47,34 +47,34 @@ export const ModuleCard = React.memo(function ModuleCard({ module, onSelect, lan
 
         {/* Icon & Title */}
         <div className="flex items-start gap-4 mb-3">
-          <div className="p-3 rounded-xl bg-zinc-100 dark:bg-zinc-800/90 border border-zinc-200 dark:border-zinc-700/60 text-emerald-600 dark:text-emerald-400 group-hover:bg-emerald-500 group-hover:text-black dark:group-hover:text-black transition-all">
+          <div className="p-3 rounded-xl bg-zinc-100 dark:bg-zinc-800/90 border border-zinc-200 dark:border-zinc-700/60 text-emerald-600 dark:text-emerald-400 group-hover:bg-emerald-500 group-hover:text-black dark:group-hover:text-black transition-all shrink-0">
             <DynamicIcon name={module.icon} className="w-6 h-6" />
           </div>
-          <div className="flex-1">
-            <div className="flex items-center gap-2">
+          <div className="min-w-0">
+            <div className="flex flex-wrap items-baseline gap-x-2 gap-y-1">
               <h3 className="text-lg font-bold font-mono text-zinc-900 dark:text-white group-hover:text-emerald-600 dark:group-hover:text-emerald-400 transition-colors">
                 {title}
               </h3>
               {badge && (
-                <span className="px-1.5 py-0.5 text-[10px] font-mono rounded bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-300 border border-zinc-300 dark:border-zinc-700">
+                <span className="px-1.5 py-0.5 text-[10px] font-mono rounded bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-300 border border-zinc-300 dark:border-zinc-700 whitespace-nowrap">
                   {badge}
                 </span>
               )}
             </div>
-            <p className="text-xs font-mono text-emerald-600 dark:text-emerald-500 mt-0.5">
+            <p className="text-xs font-mono text-emerald-600 dark:text-emerald-500 mt-1 truncate">
               {subtitle}
             </p>
           </div>
         </div>
 
         {/* Description */}
-        <p className="text-sm text-zinc-600 dark:text-zinc-400 font-sans leading-relaxed line-clamp-3 mb-5">
+        <p className="text-sm text-zinc-600 dark:text-zinc-400 font-sans leading-relaxed line-clamp-3">
           {description}
         </p>
       </div>
 
       {/* Bottom bar: Tags + Action */}
-      <div className="pt-4 border-t border-zinc-100 dark:border-zinc-800/60 flex items-center justify-between">
+      <div className="mt-5 pt-4 border-t border-zinc-100 dark:border-zinc-800/60 flex items-center justify-between gap-3">
         <div className="flex flex-wrap gap-1.5">
           {tags.map((tag) => (
             <span
