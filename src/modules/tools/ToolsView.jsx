@@ -5,6 +5,7 @@ import { PasswordGenerator } from './components/PasswordGenerator';
 import { AudioMasterizer } from './components/AudioMasterizer';
 import { MetadataStripper } from './components/MetadataStripper';
 import { AudioTrimmer } from './components/AudioTrimmer';
+import { ToolGuideCard } from './components/ToolGuideCard';
 
 export function ToolsView({ onNavigate, toolSlug, lang = 'pt' }) {
   const isEn = lang === 'en';
@@ -132,6 +133,7 @@ export function ToolsView({ onNavigate, toolSlug, lang = 'pt' }) {
           <span className="mt-4 inline-block font-mono text-[11px] text-emerald-500">{audioTrimmerPath}</span>
         </button>
       </div>
+      <ToolGuideCard onNavigate={onNavigate} lang={lang} />
     </main>
   );
 }
