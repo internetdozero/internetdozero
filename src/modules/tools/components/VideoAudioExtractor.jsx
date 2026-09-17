@@ -29,7 +29,7 @@ export function VideoAudioExtractor({ lang = 'pt' }) {
     setProcessing(true); setError('');
     let inputName = 'input';
     try {
-      const [{ FFmpeg }, { fetchFile, toBlobURL }] = await Promise.all([import('@ffmpeg/ffmpeg'), import('@ffmpeg/util')]);
+      const [{ FFmpeg }, { fetchFile }] = await Promise.all([import('@ffmpeg/ffmpeg'), import('@ffmpeg/util')]);
       const ffmpeg = ffmpegRef.current || new FFmpeg();
       ffmpegRef.current = ffmpeg;
       if (!progressHandlerRef.current) {
@@ -38,10 +38,9 @@ export function VideoAudioExtractor({ lang = 'pt' }) {
       }
       if (!ffmpeg.loaded) {
         setLoadingEngine(true);
-        const baseURL = 'https://cdn.jsdelivr.net/npm/@ffmpeg/core@0.12.10/dist/esm';
         await ffmpeg.load({
-          coreURL: await toBlobURL(`${baseURL}/ffmpeg-core.js`, 'text/javascript'),
-          wasmURL: await toBlobURL(`${baseURL}/ffmpeg-core.wasm`, 'application/wasm')
+          coreURL: '/ffmpeg/ffmpeg-core.js',
+          wasmURL: '/ffmpeg/ffmpeg-core.wasm'
         });
         setLoadingEngine(false);
       }
