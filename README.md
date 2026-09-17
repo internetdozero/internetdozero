@@ -97,9 +97,14 @@ npx wrangler d1 migrations apply internetdozero --remote
 ```
 
 In the Pages project, bind that database as `DB` and add the encrypted secrets
-`ADMIN_PASSWORD` and `ADMIN_SESSION_SECRET`. The public API is available at
+`ADMIN_PASSWORD_HASH` and `ADMIN_SESSION_SECRET`. The public API is available at
 `/api/posts` and `/api/categories`; editorial writes require the HttpOnly
 session cookie issued by `/api/auth/login`.
+
+The admin password hash can be generated with
+`node scripts/generate-password-hash.mjs "your password"`. The plaintext
+`ADMIN_PASSWORD` fallback is local-only and requires
+`ALLOW_PLAINTEXT_ADMIN_PASSWORD=true` in `.dev.vars`.
 
 ### Prerequisites
 * Node.js `>= 18.0.0`
