@@ -1,3 +1,5 @@
+import { requestOriginAllowed } from './response';
+
 const COOKIE = '__Host-idz_session';
 const encoder = new TextEncoder();
 
