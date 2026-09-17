@@ -17,7 +17,7 @@ const ModuleModal = lazy(() => import('./components/ModuleModal').then((m) => ({
 
 export function App() {
   const { theme, toggleTheme } = useTheme();
-  const { view: currentView, postSlug, postCategory, toolSlug, navigate } = useRouter();
+  const { view: currentView, postSlug, postCategory, blogCategories, blogCategory, toolSlug, navigate } = useRouter();
   const { lang, setLang, toggleLang } = useLanguage();
   const [isCommandOpen, setIsCommandOpen] = useState(false);
   const [selectedModule, setSelectedModule] = useState(null);
@@ -76,6 +76,8 @@ export function App() {
             <ErrorBoundary><BlogView
               postSlug={postSlug}
               postCategory={postCategory}
+              showCategories={blogCategories}
+              initialCategory={blogCategory}
               onNavigate={navigate}
               lang={lang}
               onToggleLang={setLang}
