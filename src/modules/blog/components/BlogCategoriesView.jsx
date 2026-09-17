@@ -1,5 +1,12 @@
 import React, { useMemo } from 'react';
-import { ArrowLeft, ArrowRight, FolderOpen } from 'lucide-react';
+import { ArrowLeft, ArrowRight, ClipboardList, FolderOpen, Globe, Lightbulb, ShieldCheck } from 'lucide-react';
+
+const categoryDetails = {
+  Web: { icon: Globe, pt: 'Sites, publicação e as peças da web.', en: 'Sites, publishing, and the pieces of the web.' },
+  Segurança: { icon: ShieldCheck, pt: 'Contas, privacidade e cuidados básicos.', en: 'Accounts, privacy, and practical safeguards.' },
+  Organização: { icon: ClipboardList, pt: 'Backups, arquivos e menos bagunça.', en: 'Backups, files, and less digital clutter.' },
+  Ideias: { icon: Lightbulb, pt: 'Anotações, tentativas e coisas em construção.', en: 'Notes, experiments, and things in progress.' }
+};
 
 export function BlogCategoriesView({ categories = [], posts = [], onBack, onSelectCategory, lang = 'pt' }) {
   const isEn = lang === 'en';
@@ -30,15 +37,23 @@ export function BlogCategoriesView({ categories = [], posts = [], onBack, onSele
       </header>
 
       <div className="mt-10 grid gap-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-        {categories.map((category) => (
-          <button key={category} type="button" onClick={() => onSelectCategory(category)} className="group flex min-h-32 flex-col justify-between rounded-2xl border border-zinc-200 bg-white p-5 text-left transition-colors hover:border-emerald-500/60 dark:border-zinc-800 dark:bg-zinc-900/60">
-            <span className="font-mono text-lg font-bold text-zinc-900 group-hover:text-emerald-500 dark:text-zinc-100">{category}</span>
+        {categories.map((category) => {
+          const details = categoryDetails[category] || { icon: FolderOpen, pt: 'Textos reunidos sobre este assunto.', en: 'Texts collected around this topic.' };
+          const Icon = details.icon;
+          return (
+          <button key={category} type="button" onClick={() => onSelectCategory(category)} className="group flex min-h-40 flex-col justify-between rounded-2xl border border-zinc-200 bg-white p-5 text-left transition-colors hover:border-emerald-500/60 dark:border-zinc-800 dark:bg-zinc-900/60">
+              <span className="flex h-9 w-9 items-center justify-center rounded-xl border border-emerald-500/20 bg-emerald-500/10 text-emerald-500"><Icon className="h-4 w-4" /></span>
+              <span>
+                <span className="block font-mono text-lg font-bold text-zinc-900 group-hover:text-emerald-500 dark:text-zinc-100">{category}</span>
+                <span className="mt-1 block text-xs leading-relaxed text-zinc-500 dark:text-zinc-400">{isEn ? details.en : details.pt}</span>
+              </span>
             <span className="flex items-center justify-between text-xs text-zinc-500">
               {counts[category] || 0} {isEn ? 'texts' : 'textos'}
               <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
             </span>
           </button>
-        ))}
+          );
+        })}
       </div>
     </div>
   );
