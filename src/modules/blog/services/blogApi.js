@@ -14,6 +14,26 @@ function hasAdminSession() {
   return typeof sessionStorage !== 'undefined' && Boolean(sessionStorage.getItem('idz_admin_csrf'));
 }
 
+function normalizeStoredPost(post) {
+  const titlePt = post.title_pt || post.title || post.content || '';
+  const titleEn = post.title_en || post.content_en || '';
+  return {
+    ...post,
+    slug: post.slug || slugify(titlePt) || post.id,
+    slug_en: post.slug_en || (titleEn ? slugify(titleEn) : slugify(titlePt) || post.id),
+    category: post.category || post.tags_pt?.[0] || post.tags?.[0] || 'Geral'
+  };
+}
+
+function readCache(key) {
+  try {
+    const value = JSON.parse(localStorage.getItem(key) || 'null');
+    return Array.isArray(value) ? value : [];
+  } catch (_) {
+    return [];
+  }
+}
+
 export function notifyBlogChange() {
   if (typeof window === 'undefined') return;
   changeChannel?.postMessage({ changedAt: Date.now() });
@@ -46,32 +66,17 @@ export const blogApi = {
   getPosts: async () => {
     try {
       const remote = await api('/api/posts');
-      if (remote?.items) return remote.items;
+      if (remote?.items) {
+        blogApi.savePosts(remote.items);
+        return remote.items;
+      }
     } catch (error) {
       if (!import.meta.env.DEV) throw error;
     }
-    try {
-      const stored = localStorage.getItem(STORAGE_KEY);
-      if (stored) {
-        const parsed = JSON.parse(stored);
-        if (Array.isArray(parsed) && parsed.length > 0) {
-          return parsed.map((post) => {
-            const titlePt = post.title_pt || post.title || post.content || '';
-            const titleEn = post.title_en || post.content_en || '';
-            const fallbackSlug = slugify(titlePt) || post.id;
-            const fallbackSlugEn = titleEn ? slugify(titleEn) : fallbackSlug;
-            return {
-              ...post,
-              slug: post.slug || fallbackSlug,
-              slug_en: post.slug_en || fallbackSlugEn
-              , category: post.category || post.tags_pt?.[0] || post.tags?.[0] || 'Geral'
-            };
-          });
-        }
-      }
-    } catch (_) {}
-    return [];
+    return readCache(STORAGE_KEY).map(normalizeStoredPost);
   },
+
+  getCachedPosts: () => readCache(STORAGE_KEY).map(normalizeStoredPost),
 
   savePosts: (posts) => {
     try {
@@ -79,16 +84,19 @@ export const blogApi = {
     } catch (_) {}
   },
 
-  getCategories: () => {
-    return api('/api/categories').catch(() => {
+  getCategories: () => api('/api/categories').then((categories) => {
+    blogApi.saveCategories(categories);
+    return categories;
+  }).catch(() => {
     if (!import.meta.env.DEV) throw new Error('Não foi possível carregar as categorias.');
     try {
       const stored = JSON.parse(localStorage.getItem(CATEGORIES_KEY) || 'null');
       if (Array.isArray(stored) && stored.length) return stored;
     } catch (_) {}
     return [];
-    });
-  },
+  }),
+
+  getCachedCategories: () => readCache(CATEGORIES_KEY),
 
   getPost: async (category, slug) => api(`/api/posts/${encodeURIComponent(category)}/${encodeURIComponent(slug)}`),
   getComments: async (postId, cursor) => api(`/api/posts/${encodeURIComponent(postId)}/comments${cursor ? `?cursor=${encodeURIComponent(cursor)}` : ''}`),

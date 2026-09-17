@@ -13,12 +13,13 @@ function slugifyCategory(value) {
 }
 
 export function BlogView({ postSlug, postCategory, onNavigate, lang = 'pt' }) {
-  const [posts, setPosts] = useState([]);
+  const [posts, setPosts] = useState(() => blogApi.getCachedPosts());
   const [activeTab, setActiveTab] = useState('all');
   const [activeTag, setActiveTag] = useState(null);
   const [activeCategory, setActiveCategory] = useState(null);
   const [searchQuery, setSearchQuery] = useState('');
-  const [categories, setCategories] = useState([]);
+  const [categories, setCategories] = useState(() => blogApi.getCachedCategories());
+  const [isLoading, setIsLoading] = useState(() => blogApi.getCachedPosts().length === 0);
   const [detail, setDetail] = useState(null);
   const [detailComments, setDetailComments] = useState([]);
   const [loadError, setLoadError] = useState('');
@@ -34,9 +35,11 @@ export function BlogView({ postSlug, postCategory, onNavigate, lang = 'pt' }) {
 
   useEffect(() => {
     setLoadError('');
+    setIsLoading(posts.length === 0);
     Promise.all([blogApi.getPosts(), blogApi.getCategories()])
       .then(([nextPosts, nextCategories]) => { setPosts(nextPosts || []); setCategories(nextCategories || []); })
-      .catch(() => setLoadError('Não foi possível carregar o blog. Tente novamente.'));
+      .catch(() => setLoadError('Não foi possível carregar o blog. Tente novamente.'))
+      .finally(() => setIsLoading(false));
     return subscribeToBlogChanges(() => { blogApi.getPosts().then((result) => setPosts(result || [])).catch(() => {}); blogApi.getCategories().then(setCategories).catch(() => {}); });
   }, [reloadKey]);
 
@@ -153,6 +156,8 @@ export function BlogView({ postSlug, postCategory, onNavigate, lang = 'pt' }) {
   }
 
   if (loadError) return <main className="mx-auto flex min-h-[50vh] max-w-xl flex-col items-center justify-center gap-4 px-6 text-center"><p className="text-sm text-zinc-500">{loadError}</p><button type="button" onClick={() => setReloadKey((key) => key + 1)} className="rounded-xl bg-emerald-500 px-4 py-2 text-sm font-bold text-zinc-950 hover:bg-emerald-400">Tentar novamente</button></main>;
+
+  if (isLoading && posts.length === 0) return <main className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8" aria-busy="true" aria-label="Carregando textos"><div className="mb-10 space-y-4"><div className="h-3 w-24 animate-pulse rounded bg-zinc-200 dark:bg-zinc-800" /><div className="h-10 w-72 animate-pulse rounded bg-zinc-200 dark:bg-zinc-800" /><div className="h-5 w-full max-w-xl animate-pulse rounded bg-zinc-100 dark:bg-zinc-900" /></div><div className="h-64 animate-pulse rounded-3xl bg-zinc-100 dark:bg-zinc-900" /><p className="mt-5 text-center text-xs font-mono text-zinc-500">Carregando textos…</p></main>;
 
   const featured = activeTab === 'all' && !activeCategory && !activeTag && !searchQuery ? filteredLongPosts[0] : null;
   const feedPosts = featured ? filteredLongPosts.slice(1) : filteredLongPosts;
