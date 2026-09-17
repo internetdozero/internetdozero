@@ -12,6 +12,7 @@ import { NotFound } from './components/NotFound';
 const BlogView = lazy(() => import('./modules/blog/BlogView').then((m) => ({ default: m.BlogView })));
 const AdminView = lazy(() => import('./modules/blog/AdminView').then((m) => ({ default: m.AdminView })));
 const ToolsView = lazy(() => import('./modules/tools/ToolsView').then((m) => ({ default: m.ToolsView })));
+const LinksView = lazy(() => import('./modules/links/LinksView').then((m) => ({ default: m.LinksView })));
 const CommandPalette = lazy(() => import('./components/CommandPalette').then((m) => ({ default: m.CommandPalette })));
 const ModuleModal = lazy(() => import('./components/ModuleModal').then((m) => ({ default: m.ModuleModal })));
 
@@ -86,6 +87,10 @@ export function App() {
         ) : currentView === 'tools' ? (
           <Suspense fallback={<div className="flex min-h-[60vh] items-center justify-center"><span className="text-sm font-mono text-zinc-500 animate-pulse">Carregando…</span></div>}>
             <ErrorBoundary><ToolsView onNavigate={navigate} toolSlug={toolSlug} lang={lang} /></ErrorBoundary>
+          </Suspense>
+        ) : currentView === 'links' ? (
+          <Suspense fallback={<div className="flex min-h-[60vh] items-center justify-center"><span className="text-sm font-mono text-zinc-500 animate-pulse">Carregando…</span></div>}>
+            <ErrorBoundary><LinksView onNavigate={navigate} lang={lang} /></ErrorBoundary>
           </Suspense>
         ) : currentView === 'not-found' ? (
           <NotFound onGoHome={handleGoHome} onGoBlog={() => navigate('/blog')} lang={lang} />
