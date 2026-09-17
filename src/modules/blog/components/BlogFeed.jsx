@@ -17,7 +17,7 @@ export function BlogFeed({
   const t = translations[lang] || translations.pt;
 
   return (
-    <div className="lg:col-span-8">
+    <div>
       <div className="flex items-center justify-between pb-3 border-b border-zinc-200 dark:border-zinc-800 mb-2">
         <h2 className="font-mono text-sm font-bold uppercase tracking-wider text-zinc-800 dark:text-zinc-200">
           {activeTab === 'thought' ? t.blog.notesTitle : t.blog.feedTitle}

@@ -190,29 +190,30 @@ export function BlogView({ postSlug, postCategory, onNavigate, lang = 'pt' }) {
         onSelectCategory={(category) => { setActiveCategory(category); setActiveTag(null); setActiveTab('all'); }}
       />
 
-      {featured && (
-        <FeaturedPost
-          post={featured}
-          isLiked={isLiked(featured.id)}
-          onToggleLike={handleToggleLike}
-          onSelect={handleSelectPost}
-          lang={lang}
-        />
-      )}
+      <div className="grid items-start gap-10 lg:grid-cols-[minmax(0,1fr)_320px]">
+        <main className="min-w-0">
+          {featured && (
+            <FeaturedPost
+              post={featured}
+              isLiked={isLiked(featured.id)}
+              onToggleLike={handleToggleLike}
+              onSelect={handleSelectPost}
+              lang={lang}
+            />
+          )}
+          <BlogFeed
+            activeTab={activeTab}
+            thoughts={thoughts}
+            feedPosts={feedPosts}
+            activeTag={activeTag}
+            isLikedFn={isLiked}
+            onToggleLike={handleToggleLike}
+            onSelectPost={handleSelectPost}
+            lang={lang}
+          />
+        </main>
 
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-10">
-        <BlogFeed
-          activeTab={activeTab}
-          thoughts={thoughts}
-          feedPosts={feedPosts}
-          activeTag={activeTag}
-          isLikedFn={isLiked}
-          onToggleLike={handleToggleLike}
-          onSelectPost={handleSelectPost}
-          lang={lang}
-        />
-
-        <div className="lg:col-span-4">
+        <div>
           <BlogSidebar
             posts={longFormPosts}
             thoughts={thoughts.slice(0, 4)}
