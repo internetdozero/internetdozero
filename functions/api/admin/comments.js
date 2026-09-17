@@ -19,9 +19,13 @@ export async function onRequestGet(context) {
   const url = new URL(context.request.url);
   const limit = Math.min(50, Math.max(1, Number(url.searchParams.get('limit') || 20)));
   const cursor = url.searchParams.get('cursor');
+  const query = String(url.searchParams.get('q') || '').trim().slice(0, 80);
+  const status = url.searchParams.get('status');
   const params = [];
   const where = [];
   if (cursor) { where.push('c.created_at < ?'); params.push(cursor); }
+  if (query) { where.push('(c.author LIKE ? OR c.content LIKE ? OR p.title_pt LIKE ?)'); params.push(...Array(3).fill(`%${query}%`)); }
+  if (['pending', 'approved', 'rejected'].includes(status)) { where.push('c.status = ?'); params.push(status); }
   const { results } = await context.env.DB.prepare(`SELECT c.id, c.post_id AS postId, c.author, c.content AS text, c.status, c.created_at AS createdAt, p.title_pt AS postTitle FROM comments c JOIN posts p ON p.id = c.post_id ${where.length ? `WHERE ${where.join(' AND ')}` : ''} ORDER BY c.created_at DESC LIMIT ?`).bind(...params, limit + 1).all();
   return json({ items: results.slice(0, limit), nextCursor: results.length > limit ? results[limit - 1].createdAt : null });
 }

@@ -24,9 +24,13 @@ export async function onRequestGet(context) {
   const url = new URL(context.request.url);
   const limit = Math.min(20, Math.max(1, Number(url.searchParams.get('limit') || 10)));
   const cursor = url.searchParams.get('cursor');
+  const query = String(url.searchParams.get('q') || '').trim().slice(0, 80);
+  const type = url.searchParams.get('type');
   const params = [];
   const where = [];
   if (cursor) { where.push('p.created_at < ?'); params.push(cursor); }
+  if (query) { where.push('(p.title_pt LIKE ? OR p.subtitle_pt LIKE ? OR p.category LIKE ? OR p.author LIKE ? OR p.slug LIKE ?)'); params.push(...Array(5).fill(`%${query}%`)); }
+  if (['article', 'story', 'thought'].includes(type)) { where.push('p.type = ?'); params.push(type); }
   const { results } = await context.env.DB.prepare(`SELECT p.*, COUNT(c.id) AS comments_count FROM posts p LEFT JOIN comments c ON c.post_id = p.id AND c.status = 'approved' ${where.length ? `WHERE ${where.join(' AND ')}` : ''} GROUP BY p.id ORDER BY p.created_at DESC LIMIT ?`).bind(...params, limit + 1).all();
   return json({ items: results.slice(0, limit).map(parse), nextCursor: results.length > limit ? results[limit - 1].created_at : null });
 }
