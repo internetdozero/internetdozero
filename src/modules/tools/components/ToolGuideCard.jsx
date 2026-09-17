@@ -14,9 +14,9 @@ const examples = {
   ]
 };
 
-export function ToolGuideCard({ onNavigate, lang = 'pt' }) {
+export function ToolGuideCard({ onNavigate, currentSlug, lang = 'pt' }) {
   const isEn = lang === 'en';
-  const items = examples[lang] || examples.pt;
+  const items = (examples[lang] || examples.pt).filter(([, , slug]) => slug !== currentSlug);
   return (
     <aside className="mt-12 rounded-3xl border border-emerald-500/20 bg-emerald-500/[0.04] p-5 dark:bg-emerald-500/[0.03] sm:p-7" aria-labelledby="tool-guide-title">
       <div className="flex items-start gap-3"><Compass className="mt-0.5 h-5 w-5 shrink-0 text-emerald-500" /><div><h2 id="tool-guide-title" className="font-mono text-lg font-bold text-zinc-900 dark:text-white">{isEn ? 'Not sure where to start?' : 'Não sabe por onde começar?'}</h2><p className="mt-2 text-sm leading-relaxed text-zinc-500 dark:text-zinc-400">{isEn ? 'Pick the tool that matches the job. Everything runs in your browser.' : 'Escolha a ferramenta que combina com a tarefa. Tudo roda no seu navegador.'}</p></div></div>

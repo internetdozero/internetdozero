@@ -28,6 +28,7 @@ export function ToolsView({ onNavigate, toolSlug, lang = 'pt' }) {
           {isEn ? 'Back to tools' : 'Voltar às ferramentas'}
         </button>
         <ImageCompressor lang={lang} />
+        <ToolGuideCard onNavigate={onNavigate} currentSlug={toolSlug} lang={lang} />
       </main>
     );
   }
@@ -40,6 +41,7 @@ export function ToolsView({ onNavigate, toolSlug, lang = 'pt' }) {
           {isEn ? 'Back to tools' : 'Voltar às ferramentas'}
         </button>
         <PasswordGenerator lang={lang} />
+        <ToolGuideCard onNavigate={onNavigate} currentSlug={toolSlug} lang={lang} />
       </main>
     );
   }
@@ -52,6 +54,7 @@ export function ToolsView({ onNavigate, toolSlug, lang = 'pt' }) {
           {isEn ? 'Back to tools' : 'Voltar às ferramentas'}
         </button>
         <AudioMasterizer lang={lang} />
+        <ToolGuideCard onNavigate={onNavigate} currentSlug={toolSlug} lang={lang} />
       </main>
     );
   }
@@ -64,6 +67,7 @@ export function ToolsView({ onNavigate, toolSlug, lang = 'pt' }) {
           {isEn ? 'Back to tools' : 'Voltar às ferramentas'}
         </button>
         <MetadataStripper lang={lang} />
+        <ToolGuideCard onNavigate={onNavigate} currentSlug={toolSlug} lang={lang} />
       </main>
     );
   }
@@ -76,6 +80,7 @@ export function ToolsView({ onNavigate, toolSlug, lang = 'pt' }) {
           {isEn ? 'Back to tools' : 'Voltar às ferramentas'}
         </button>
         <AudioTrimmer lang={lang} />
+        <ToolGuideCard onNavigate={onNavigate} currentSlug={toolSlug} lang={lang} />
       </main>
     );
   }
