@@ -149,6 +149,17 @@ export const blogApi = {
     } catch (_) {}
 
     const hasLiked = likedIds.includes(postId);
+    if (!hasLiked) {
+      try {
+        const result = await api(`/api/posts/${encodeURIComponent(postId)}/like`, { method: 'POST' });
+        const updatedPosts = posts.map((post) => post.id === postId ? { ...post, likes: result.likes } : post);
+        blogApi.savePosts(updatedPosts);
+        localStorage.setItem(LIKES_KEY, JSON.stringify([...likedIds, postId]));
+        return { hasLiked: true, posts: updatedPosts };
+      } catch (error) {
+        if (!import.meta.env.DEV) throw error;
+      }
+    }
     const newLikedIds = hasLiked
       ? likedIds.filter((id) => id !== postId)
       : [...likedIds, postId];
