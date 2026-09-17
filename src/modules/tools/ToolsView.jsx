@@ -96,6 +96,7 @@ export function ToolsView({ onNavigate, toolSlug, lang = 'pt' }) {
           {isEn ? 'Back to tools' : 'Voltar às ferramentas'}
         </button>
         <VideoAudioExtractor lang={lang} />
+        <ToolGuideCard onNavigate={onNavigate} currentSlug={toolSlug} lang={lang} />
       </main>
     );
   }
