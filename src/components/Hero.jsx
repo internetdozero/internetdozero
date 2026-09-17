@@ -23,7 +23,7 @@ export function Hero({ onOpenArsenal, onScrollToGrid, lang = 'pt' }) {
 
           {/* Main Title */}
           <h1 className="text-4xl sm:text-6xl md:text-7xl font-extrabold tracking-tight text-zinc-900 dark:text-white font-mono">
-            INTERNET DO <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-600 via-emerald-500 to-emerald-400 dark:from-emerald-400 dark:via-emerald-300 dark:to-emerald-500 underline decoration-emerald-500/40 decoration-wavy underline-offset-8">ZERO</span>
+            INTERNET DO <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-600 via-emerald-500 to-emerald-400 dark:from-emerald-400 dark:via-emerald-300 dark:to-emerald-500">ZERO</span>
           </h1>
 
           {/* Subtitle */}
