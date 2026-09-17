@@ -75,7 +75,6 @@ export function ImageCompressor({ lang = 'pt' }) {
   };
 
   const reset = () => { setFile(null); setPreviewUrl(''); setResult(null); setError(''); if (inputRef.current) inputRef.current.value = ''; };
-  const savedPercent = result ? Math.max(0, Math.round((1 - result.size / file.size) * 100)) : 0;
 
   return (
     <section className="mt-10 overflow-hidden rounded-3xl border border-zinc-200 bg-white dark:border-zinc-800 dark:bg-zinc-900/60" aria-labelledby="compressor-title">
@@ -101,7 +100,16 @@ export function ImageCompressor({ lang = 'pt' }) {
             </button>
           ) : (
             <div className="overflow-hidden rounded-2xl border border-zinc-200 dark:border-zinc-800">
-              <img src={previewUrl} alt={file.name} width="1200" height="896" className="max-h-80 w-full object-contain bg-zinc-100 dark:bg-zinc-950" />
+              <div className={result ? 'grid gap-px bg-zinc-200 sm:grid-cols-2 dark:bg-zinc-800' : ''}>
+                <div className="bg-zinc-100 dark:bg-zinc-950">
+                  {result && <p className="border-b border-zinc-200 px-4 py-2 font-mono text-[10px] font-bold uppercase tracking-[0.16em] text-zinc-500 dark:border-zinc-800">{isEn ? 'Original' : 'Original'}</p>}
+                  <img src={previewUrl} alt={isEn ? 'Original image preview' : 'Prévia da imagem original'} width="1200" height="896" className="max-h-80 w-full object-contain" />
+                </div>
+                {result && <div className="bg-zinc-100 dark:bg-zinc-950">
+                  <p className="border-b border-zinc-200 px-4 py-2 font-mono text-[10px] font-bold uppercase tracking-[0.16em] text-emerald-500 dark:border-zinc-800">{isEn ? 'Result preview' : 'Prévia do resultado'}</p>
+                  <img src={result.url} alt={isEn ? 'Compressed image preview' : 'Prévia da imagem comprimida'} width={result.width} height={result.height} className="max-h-80 w-full object-contain" />
+                </div>}
+              </div>
               <div className="flex flex-wrap items-center justify-between gap-3 border-t border-zinc-200 p-4 dark:border-zinc-800">
                 <div className="flex min-w-0 items-center gap-2"><FileImage className="h-4 w-4 shrink-0 text-emerald-500" /><span className="truncate text-xs text-zinc-600 dark:text-zinc-400">{file.name} · {formatBytes(file.size)}</span></div>
                 <button type="button" onClick={reset} className="inline-flex items-center gap-1.5 text-xs font-semibold text-zinc-500 hover:text-emerald-500"><RotateCcw className="h-3.5 w-3.5" />{isEn ? 'Choose another' : 'Trocar imagem'}</button>
@@ -117,12 +125,12 @@ export function ImageCompressor({ lang = 'pt' }) {
           <label className={`block text-xs font-semibold text-zinc-600 dark:text-zinc-400 ${format === 'png' ? 'opacity-50' : ''}`}>{isEn ? 'Quality' : 'Qualidade'}<input type="range" min="0.4" max="1" step="0.05" value={quality} disabled={format === 'png'} onChange={(event) => changeQuality(event.target.value)} className="mt-3 w-full accent-emerald-500" /><span className="mt-1 block text-right font-mono text-[11px] text-zinc-500">{format === 'png' ? (isEn ? 'Not applicable' : 'Não se aplica') : `${Math.round(quality * 100)}%`}</span></label>
           <div className="border-t border-zinc-200 pt-5 dark:border-zinc-800">
             <p className="mb-3 font-mono text-[11px] font-bold uppercase tracking-[0.16em] text-zinc-500">3. {isEn ? 'Generate file' : 'Gere o arquivo'}</p>
-            <button type="button" disabled={!file || isCompressing} onClick={compress} className="w-full rounded-xl bg-emerald-500 px-4 py-3 text-sm font-bold text-zinc-950 transition-colors hover:bg-emerald-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 focus-visible:ring-offset-2 focus-visible:ring-offset-zinc-950 disabled:cursor-not-allowed disabled:opacity-40">{isCompressing ? (isEn ? 'Compressing…' : 'Comprimindo…') : (isEn ? 'Compress and generate' : 'Comprimir e gerar')}</button>
+            <button type="button" disabled={!file || isCompressing || Boolean(result)} onClick={compress} className="w-full rounded-xl bg-emerald-500 px-4 py-3 text-sm font-bold text-zinc-950 transition-colors hover:bg-emerald-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 focus-visible:ring-offset-2 focus-visible:ring-offset-zinc-950 disabled:cursor-not-allowed disabled:opacity-40">{isCompressing ? (isEn ? 'Compressing…' : 'Comprimindo…') : result ? (isEn ? 'File generated' : 'Arquivo gerado') : (isEn ? 'Compress and generate' : 'Comprimir e gerar')}</button>
             {result && <a href={result.url} download={result.name} className="mt-3 flex w-full items-center justify-center gap-2 rounded-xl border border-emerald-500/40 px-4 py-3 text-sm font-bold text-emerald-600 transition-colors hover:bg-emerald-500/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 dark:text-emerald-400"><Download className="h-4 w-4" />{isEn ? 'Download result' : 'Baixar resultado'}</a>}
           </div>
         </div>
       </div>
-      {result && <div className="border-t border-zinc-200 px-5 py-4 text-xs text-zinc-500 dark:border-zinc-800 sm:px-7"><strong className="text-emerald-500">{savedPercent}% menor</strong> · {formatBytes(file.size)} → {formatBytes(result.size)} · {result.width} × {result.height}px</div>}
+      {result && <div className="border-t border-zinc-200 px-5 py-4 text-xs text-zinc-500 dark:border-zinc-800 sm:px-7"><strong className={result.size < file.size ? 'text-emerald-500' : result.size > file.size ? 'text-amber-500' : 'text-zinc-500'}>{result.size < file.size ? `${Math.round((1 - result.size / file.size) * 100)}% menor` : result.size > file.size ? `${Math.round((result.size / file.size - 1) * 100)}% maior` : 'Mesmo tamanho'}</strong> · {formatBytes(file.size)} → {formatBytes(result.size)} · {result.width} × {result.height}px</div>}
     </section>
   );
 }
