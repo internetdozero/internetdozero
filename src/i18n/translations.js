@@ -72,7 +72,7 @@ export const translations = {
       readingTime: 'min de leitura',
       backToArticles: 'Voltar aos textos',
       tableOfContents: 'Neste texto',
-      share: 'Passar adiante',
+      share: 'Compartilhar',
       copied: 'Link copiado',
       leaveComment: 'Deixe uma nota',
       commentPlaceholder: 'O que você achou?',
