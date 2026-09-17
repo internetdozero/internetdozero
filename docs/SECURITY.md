@@ -1,34 +1,39 @@
-# Segurança de publicação
+# Guia de Segurança e Implantação
 
-## Configuração do administrador
+Recomendações técnicas para implantação segura do ambiente e proteção das credenciais administrativas.
 
-Gere um hash para produção sem expor a senha na linha de comando:
+## Autenticação do Administrador
 
-```bash
-printf '%s' 'uma senha forte' | node scripts/generate-password-hash.mjs
-```
-
-Configure o resultado como `ADMIN_PASSWORD_HASH` e mantenha
-`ALLOW_PLAINTEXT_ADMIN_PASSWORD=false`. `ADMIN_PASSWORD` simples só deve ser
-usado no desenvolvimento local, com a flag explicitamente habilitada.
-
-## Cloudflare WAF
-
-Crie regras de rate limiting para `POST /api/auth/login` e `POST /api/comments`,
-limitando por IP e aumentando o bloqueio progressivamente. O código mantém um
-limite defensivo por isolate; a regra Cloudflare é a proteção distribuída de
-produção.
-
-## Banco e migrações
-
-Aplicar as migrações em ordem é obrigatório:
+Gere o hash criptográfico seguro para a senha de produção através do script utilitário:
 
 ```bash
-npx wrangler d1 migrations apply internetdozero --local
-npx wrangler d1 migrations apply internetdozero --remote
+printf '%s' 'sua_senha_segura' | node scripts/generate-password-hash.mjs
 ```
 
-A migração de comentários é expansiva e preserva a coluna JSON antiga. Só a
-remoção dessa coluna deve acontecer após verificar a migração em produção.
+- Configure a saída como secret de ambiente `ADMIN_PASSWORD_HASH` no Cloudflare Pages.
+- Configure um segredo aleatório longo para `ADMIN_SESSION_SECRET`.
+- Mantenha `ALLOW_PLAINTEXT_ADMIN_PASSWORD=false` em produção. Senhas em texto puro só são permitidas em desenvolvimento local explícito.
 
-A migração `0003` adiciona revogação server-side de sessões no logout.
+## Proteção de Borda e Rate Limiting
+
+A aplicação implementa controle de taxa (*rate limiting*) interno na camada de isolate para endpoints sensíveis (`/api/auth/login` e `/api/comments`).
+
+Em produção, recomenda-se complementar com proteção de borda (Cloudflare WAF / Reverse Proxy):
+- Aplicar regras de limitação de requisições por IP no caminho de autenticação (`/api/auth/*`).
+- Habilitar proteção contra bots e desafios gerenciados (Managed Challenge) se houver suspeita de ataques de força bruta.
+- Manter cabeçalhos de segurança estritos ativos (`Content-Security-Policy`, `HSTS`, `X-Frame-Options: DENY`, `X-Content-Type-Options: nosniff`), conforme configurado em `public/_headers`.
+
+## Banco de Dados e Migrações
+
+Aplique as migrações do Cloudflare D1 em ordem sequencial:
+
+```bash
+# Ambiente local
+npx wrangler d1 migrations apply <DB_BINDING> --local
+
+# Ambiente remoto (produção)
+npx wrangler d1 migrations apply <DB_BINDING> --remote
+```
+
+- Sempre valide o backup do banco antes de aplicar migrações estruturais remotas.
+- O sistema suporta revogação de sessões server-side no logout para mitigar sequestro de sessão.
