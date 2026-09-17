@@ -22,6 +22,7 @@ export function BlogView({ postSlug, postCategory, onNavigate, lang = 'pt' }) {
   const [categories, setCategories] = useState(() => blogApi.getCachedCategories());
   const [isLoading, setIsLoading] = useState(() => blogApi.getCachedPosts().length === 0);
   const [detail, setDetail] = useState(null);
+  const [detailLoading, setDetailLoading] = useState(() => Boolean(postSlug));
   const [detailComments, setDetailComments] = useState([]);
   const [loadError, setLoadError] = useState('');
   const [reloadKey, setReloadKey] = useState(0);
@@ -50,19 +51,21 @@ export function BlogView({ postSlug, postCategory, onNavigate, lang = 'pt' }) {
   }, [postSlug, postCategory, activeTab]);
 
   useEffect(() => {
-    if (!postSlug) { setDetail(null); return; }
+    if (!postSlug) { setDetail(null); setDetailLoading(false); return; }
     let cancelled = false;
+    setDetail(null);
+    setDetailLoading(true);
     const loadDetail = async () => {
       const summary = posts.find((post) => post.slug === postSlug || post.slug_en === postSlug || post.id === postSlug);
       const category = postCategory || (summary && slugifyCategory(summary.category || summary.tags_pt?.[0] || summary.tags?.[0] || 'Geral'));
-      if (!category) return setDetail(null);
+      if (!category) { setDetailLoading(false); return; }
       const post = await blogApi.getPost(category, postSlug);
       if (cancelled) return;
       setDetail(post);
       const result = await blogApi.getComments(post.id);
-      if (!cancelled) setDetailComments(result?.items || []);
+      if (!cancelled) { setDetailComments(result?.items || []); setDetailLoading(false); }
     };
-    loadDetail().catch(() => { if (!cancelled) setDetail(null); });
+    loadDetail().catch(() => { if (!cancelled) { setDetail(null); setDetailLoading(false); } });
     return () => { cancelled = true; };
   }, [postSlug, postCategory, posts]);
 
@@ -158,6 +161,8 @@ export function BlogView({ postSlug, postCategory, onNavigate, lang = 'pt' }) {
       />
     );
   }
+
+  if (postSlug && detailLoading) return <main className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8" aria-busy="true" aria-label="Carregando artigo"><div className="mx-auto max-w-3xl space-y-6"><div className="h-4 w-28 animate-pulse rounded bg-zinc-200 dark:bg-zinc-800" /><div className="h-14 w-full animate-pulse rounded bg-zinc-200 dark:bg-zinc-800" /><div className="h-5 w-2/3 animate-pulse rounded bg-zinc-100 dark:bg-zinc-900" /><div className="aspect-[16/9] animate-pulse rounded-2xl bg-zinc-100 dark:bg-zinc-900" /></div></main>;
 
   if (loadError) return <main className="mx-auto flex min-h-[50vh] max-w-xl flex-col items-center justify-center gap-4 px-6 text-center"><p className="text-sm text-zinc-500">{loadError}</p><button type="button" onClick={() => setReloadKey((key) => key + 1)} className="rounded-xl bg-emerald-500 px-4 py-2 text-sm font-bold text-zinc-950 hover:bg-emerald-400">Tentar novamente</button></main>;
 
