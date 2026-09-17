@@ -25,7 +25,7 @@ export function App() {
 
   useEffect(() => {
     window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
-  }, [currentView, postSlug]);
+  }, [currentView, postSlug, toolSlug]);
 
   const handleSelectModule = useCallback((m) => {
     if (m.id === 'blog') {

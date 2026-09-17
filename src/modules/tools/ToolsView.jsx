@@ -54,6 +54,10 @@ export function ToolsView({ onNavigate, toolSlug, lang = 'pt' }) {
     image: 'https://internetdozero.com.br/og-image.png'
   });
 
+  React.useEffect(() => {
+    window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+  }, [toolSlug]);
+
   if (ToolComponent && meta) {
     const toolTitle = isEn ? meta.nameEn : meta.namePt;
     const toolH1 = isEn ? meta.h1En : meta.h1Pt;
