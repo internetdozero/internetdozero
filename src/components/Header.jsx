@@ -1,5 +1,5 @@
 import React from 'react';
-import { Sun, Moon, Search, Terminal, ArrowLeft, Globe, LockKeyhole } from 'lucide-react';
+import { Sun, Moon, Search, Terminal, ArrowLeft, Globe } from 'lucide-react';
 import { translations } from '../i18n/translations';
 
 export const Header = React.memo(function Header({
@@ -8,7 +8,6 @@ export const Header = React.memo(function Header({
   onOpenCommand,
   onOpenArsenal,
   onGoHome,
-  onGoAdmin,
   readingPost,
   lang = 'pt',
   onToggleLang,
@@ -108,9 +107,6 @@ export const Header = React.memo(function Header({
             <span className="hidden md:inline">{t.header.terminal}</span>
           </button>
 
-          <button onClick={onGoAdmin} className="p-2 rounded-lg text-zinc-500 hover:text-emerald-500 transition-colors" aria-label="Abrir painel admin" title="Painel admin">
-            <LockKeyhole className="w-4 h-4" />
-          </button>
 
           {/* Theme Toggle */}
           <button

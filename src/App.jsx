@@ -43,7 +43,6 @@ export function App() {
   const handleGoHome = useCallback(() => {
     navigate('/');
   }, [navigate]);
-  const handleGoAdmin = useCallback(() => navigate('/admin'), [navigate]);
 
   const handleOpenCommand = useCallback(() => setIsCommandOpen(true), []);
   const handleCloseCommand = useCallback(() => setIsCommandOpen(false), []);
@@ -57,7 +56,6 @@ export function App() {
         onOpenCommand={handleOpenCommand}
         onOpenArsenal={handleScrollToModules}
         onGoHome={handleGoHome}
-        onGoAdmin={handleGoAdmin}
         readingPost={currentView === 'blog' && postSlug}
         lang={lang}
         onToggleLang={setLang}
