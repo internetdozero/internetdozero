@@ -7,6 +7,7 @@ import { BlogSidebar } from './components/BlogSidebar';
 import { PostDetail } from './components/PostDetail';
 import { BlogFeed } from './components/BlogFeed';
 import { useSeo } from '../../hooks/useSeo';
+import { getArticleCover } from './data/articleCovers';
 
 function slugifyCategory(value) {
   return value.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
@@ -30,7 +31,8 @@ export function BlogView({ postSlug, postCategory, onNavigate, lang = 'pt' }) {
   useSeo({
     title: detail ? `${detailTitle} — Internet do Zero` : 'Blog — Internet do Zero',
     description: detail?.subtitle_pt || 'Textos sobre internet, tecnologia, cultura digital e ideias livres.',
-    url: typeof window === 'undefined' ? '' : window.location.href
+    url: typeof window === 'undefined' ? '' : window.location.href,
+    image: detail ? getArticleCover(detail) : undefined
   });
 
   useEffect(() => {

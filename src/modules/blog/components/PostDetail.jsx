@@ -44,6 +44,26 @@ export function PostDetail({ post, isLiked, onToggleLike, onAddComment, postLang
     return () => observer.disconnect();
   }, [sections]);
 
+  useEffect(() => {
+    const structuredData = document.createElement('script');
+    structuredData.id = 'article-structured-data';
+    structuredData.type = 'application/ld+json';
+    structuredData.textContent = JSON.stringify({
+      '@context': 'https://schema.org',
+      '@type': 'BlogPosting',
+      headline: title,
+      description: subtitle,
+      image: cover ? new URL(cover, window.location.origin).href : undefined,
+      datePublished: post.createdAt,
+      dateModified: post.createdAt,
+      author: { '@type': 'Person', name: post.author || 'Eduardo S.' },
+      mainEntityOfPage: { '@type': 'WebPage', '@id': window.location.href }
+    });
+    document.head.querySelector('#article-structured-data')?.remove();
+    document.head.appendChild(structuredData);
+    return () => structuredData.remove();
+  }, [cover, post.author, post.createdAt, subtitle, title]);
+
   const handleScrollToSection = (id) => {
     const el = document.getElementById(id);
     if (el) {
