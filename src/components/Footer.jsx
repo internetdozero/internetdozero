@@ -2,7 +2,7 @@ import React from 'react';
 import { Terminal, Sparkles } from 'lucide-react';
 import { translations } from '../i18n/translations';
 
-export const Footer = React.memo(function Footer({ onOpenArsenal, lang = 'pt' }) {
+export const Footer = React.memo(function Footer({ onOpenArsenal, onGoHome, lang = 'pt' }) {
   const t = translations[lang] || translations.pt;
   const isEn = lang === 'en';
 
@@ -37,7 +37,8 @@ export const Footer = React.memo(function Footer({ onOpenArsenal, lang = 'pt' })
             </button>
 
             <a
-              href="#modulos"
+              href="/#modulos"
+              onClick={(event) => { if (window.location.pathname !== '/') { event.preventDefault(); onGoHome?.(); setTimeout(() => document.getElementById('modulos')?.scrollIntoView({ behavior: 'smooth' }), 100); } }}
               className="hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors flex items-center gap-1.5"
             >
               <Sparkles className="w-3.5 h-3.5 text-emerald-500" />

@@ -9,7 +9,7 @@ export const modulesData = [
     description_en: 'Spontaneous essays on web tech, digital culture, independent projects, and unscripted thoughts.',
     category_pt: 'Conteúdo & Artigos',
     category_en: 'Content & Articles',
-    status: 'online',
+    status: 'planned',
     statusLabel_pt: 'Disponível',
     statusLabel_en: 'Available',
     icon: 'Sparkles',

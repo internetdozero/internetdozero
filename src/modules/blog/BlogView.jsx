@@ -6,12 +6,13 @@ import { FeaturedPost } from './components/FeaturedPost';
 import { BlogSidebar } from './components/BlogSidebar';
 import { PostDetail } from './components/PostDetail';
 import { BlogFeed } from './components/BlogFeed';
+import { useSeo } from '../../hooks/useSeo';
 
 function slugifyCategory(value) {
   return value.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
 }
 
-export function BlogView({ postSlug, postCategory, onNavigate, lang = 'pt', onToggleLang }) {
+export function BlogView({ postSlug, postCategory, onNavigate, lang = 'pt' }) {
   const [posts, setPosts] = useState([]);
   const [activeTab, setActiveTab] = useState('all');
   const [activeTag, setActiveTag] = useState(null);
@@ -20,14 +21,24 @@ export function BlogView({ postSlug, postCategory, onNavigate, lang = 'pt', onTo
   const [categories, setCategories] = useState([]);
   const [detail, setDetail] = useState(null);
   const [detailComments, setDetailComments] = useState([]);
+  const [loadError, setLoadError] = useState('');
+  const [reloadKey, setReloadKey] = useState(0);
   const { isLiked, syncAfterToggle } = useLikedPosts();
   const isEn = lang === 'en';
+  const detailTitle = detail ? (isEn && detail.title_en ? detail.title_en : (detail.title_pt || detail.title || '')) : 'Internet do Zero — Hub & Laboratório Digital';
+  useSeo({
+    title: detail ? `${detailTitle} — Internet do Zero` : 'Blog — Internet do Zero',
+    description: detail?.subtitle_pt || 'Textos sobre internet, tecnologia, cultura digital e ideias livres.',
+    url: typeof window === 'undefined' ? '' : window.location.href
+  });
 
   useEffect(() => {
-    blogApi.getPosts().then((result) => setPosts(result || []));
-    blogApi.getCategories().then(setCategories);
-    return subscribeToBlogChanges(() => { blogApi.getPosts().then((result) => setPosts(result || [])); blogApi.getCategories().then(setCategories); });
-  }, []);
+    setLoadError('');
+    Promise.all([blogApi.getPosts(), blogApi.getCategories()])
+      .then(([nextPosts, nextCategories]) => { setPosts(nextPosts || []); setCategories(nextCategories || []); })
+      .catch(() => setLoadError('Não foi possível carregar o blog. Tente novamente.'));
+    return subscribeToBlogChanges(() => { blogApi.getPosts().then((result) => setPosts(result || [])).catch(() => {}); blogApi.getCategories().then(setCategories).catch(() => {}); });
+  }, [reloadKey]);
 
   useEffect(() => {
     window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
@@ -140,6 +151,8 @@ export function BlogView({ postSlug, postCategory, onNavigate, lang = 'pt', onTo
       />
     );
   }
+
+  if (loadError) return <main className="mx-auto flex min-h-[50vh] max-w-xl flex-col items-center justify-center gap-4 px-6 text-center"><p className="text-sm text-zinc-500">{loadError}</p><button type="button" onClick={() => setReloadKey((key) => key + 1)} className="rounded-xl bg-emerald-500 px-4 py-2 text-sm font-bold text-zinc-950 hover:bg-emerald-400">Tentar novamente</button></main>;
 
   const featured = activeTab === 'all' && !activeCategory && !activeTag && !searchQuery ? filteredLongPosts[0] : null;
   const feedPosts = featured ? filteredLongPosts.slice(1) : filteredLongPosts;

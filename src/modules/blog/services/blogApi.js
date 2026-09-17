@@ -50,8 +50,9 @@ export const blogApi = {
     try {
       const remote = await api('/api/posts');
       if (remote?.items) return remote.items;
-    } catch (_) {}
-    if (!import.meta.env.DEV) return [];
+    } catch (error) {
+      if (!import.meta.env.DEV) throw error;
+    }
     try {
       const stored = localStorage.getItem(STORAGE_KEY);
       if (stored) {
@@ -86,7 +87,7 @@ export const blogApi = {
 
   getCategories: () => {
     return api('/api/categories').catch(() => {
-    if (!import.meta.env.DEV) return [];
+    if (!import.meta.env.DEV) throw new Error('Não foi possível carregar as categorias.');
     try {
       const stored = JSON.parse(localStorage.getItem(CATEGORIES_KEY) || 'null');
       if (Array.isArray(stored) && stored.length) return stored;
@@ -178,7 +179,7 @@ export const blogApi = {
   },
 
   addComment: async (postId, { author, text }) => {
-    if (/(https?:\/\/|www\.|\[[^\]]+\]\([^\)]+\)|\b[a-z0-9-]+\.(com|com\.br|net|org|io|dev|co)\b)/i.test(text)) throw new Error('Links não são permitidos nos comentários.');
+    if (/(https?:\/\/|www\.|\[[^\]]+\]\([^()]+\)|\b[a-z0-9-]+\.[a-z]{2,}(?:\/|\b))/i.test(text)) throw new Error('Links não são permitidos nos comentários.');
     try {
       const result = await api(`/api/comments?postId=${encodeURIComponent(postId)}`, { method: 'POST', body: JSON.stringify({ author, text }) });
       notifyBlogChange();

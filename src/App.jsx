@@ -87,6 +87,7 @@ export function App() {
       <Footer
         lang={lang}
         onOpenArsenal={handleScrollToModules}
+        onGoHome={handleGoHome}
       />
       <FeedbackModal />
 

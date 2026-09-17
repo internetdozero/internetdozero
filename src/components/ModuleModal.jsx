@@ -1,10 +1,8 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { X, ArrowUpRight, ExternalLink } from 'lucide-react';
 import { DynamicIcon } from './DynamicIcon';
 
 export function ModuleModal({ module, onClose, onOpenArsenal, lang = 'pt' }) {
-  if (!module) return null;
-
   const isEn = lang === 'en';
   const title = (isEn && module.title_en) ? module.title_en : (module.title_pt || module.title);
   const subtitle = (isEn && module.subtitle_en) ? module.subtitle_en : (module.subtitle_pt || module.subtitle);
@@ -12,6 +10,14 @@ export function ModuleModal({ module, onClose, onOpenArsenal, lang = 'pt' }) {
   const statusLabel = (isEn && module.statusLabel_en) ? module.statusLabel_en : (module.statusLabel_pt || module.statusLabel);
   const badge = (isEn && module.badge_en) ? module.badge_en : (module.badge_pt || module.badge);
   const tags = (isEn && module.tags_en) ? module.tags_en : (module.tags_pt || module.tags);
+
+  useEffect(() => {
+    const closeOnEscape = (event) => event.key === 'Escape' && onClose();
+    window.addEventListener('keydown', closeOnEscape);
+    return () => window.removeEventListener('keydown', closeOnEscape);
+  }, [onClose]);
+
+  if (!module) return null;
 
   return (
     <div role="presentation"

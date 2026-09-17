@@ -51,7 +51,8 @@ export function useLanguage() {
     setLangState((prev) => (prev === 'pt' ? 'en' : 'pt'));
   }, []);
 
-  const t = translations[lang] || translations.pt;
+  const fallback = translations.pt;
+  const t = Object.fromEntries(Object.keys(fallback).map((section) => [section, { ...fallback[section], ...(translations[lang]?.[section] || {}) }]));
 
   return {
     lang,
