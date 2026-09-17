@@ -53,6 +53,17 @@ export function ImageCompressor({ lang = 'pt' }) {
     setResult(null);
   };
 
+  const downloadResult = (event) => {
+    event.preventDefault();
+    if (!result) return;
+    const link = document.createElement('a');
+    link.href = result.url;
+    link.download = result.name;
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+  };
+
   const compress = async () => {
     if (!file) return;
     setIsCompressing(true);
@@ -126,7 +137,7 @@ export function ImageCompressor({ lang = 'pt' }) {
           <div className="border-t border-zinc-200 pt-5 dark:border-zinc-800">
             <p className="mb-3 font-mono text-[11px] font-bold uppercase tracking-[0.16em] text-zinc-500">3. {isEn ? 'Generate file' : 'Gere o arquivo'}</p>
             <button type="button" disabled={!file || isCompressing || Boolean(result)} onClick={compress} className="w-full rounded-xl bg-emerald-500 px-4 py-3 text-sm font-bold text-zinc-950 transition-colors hover:bg-emerald-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 focus-visible:ring-offset-2 focus-visible:ring-offset-zinc-950 disabled:cursor-not-allowed disabled:opacity-40">{isCompressing ? (isEn ? 'Compressing…' : 'Comprimindo…') : result ? (isEn ? 'File generated' : 'Arquivo gerado') : (isEn ? 'Compress and generate' : 'Comprimir e gerar')}</button>
-            {result && <a href={result.url} download={result.name} className="mt-3 flex w-full items-center justify-center gap-2 rounded-xl border border-emerald-500/40 px-4 py-3 text-sm font-bold text-emerald-600 transition-colors hover:bg-emerald-500/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 dark:text-emerald-400"><Download className="h-4 w-4" />{isEn ? 'Download result' : 'Baixar resultado'}</a>}
+            {result && <a href={result.url} download={result.name} onClick={downloadResult} className="mt-3 flex w-full items-center justify-center gap-2 rounded-xl border border-emerald-500/40 px-4 py-3 text-sm font-bold text-emerald-600 transition-colors hover:bg-emerald-500/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 dark:text-emerald-400"><Download className="h-4 w-4" />{isEn ? 'Download result' : 'Baixar resultado'}</a>}
           </div>
         </div>
       </div>
