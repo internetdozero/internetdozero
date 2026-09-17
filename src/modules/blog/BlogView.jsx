@@ -7,36 +7,42 @@ import { BlogSidebar } from './components/BlogSidebar';
 import { PostDetail } from './components/PostDetail';
 import { BlogFeed } from './components/BlogFeed';
 
-export function BlogView({ postSlug, onNavigate, lang = 'pt', onToggleLang }) {
+function slugifyCategory(value) {
+  return value.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+}
+
+export function BlogView({ postSlug, postCategory, onNavigate, lang = 'pt', onToggleLang }) {
   const [posts, setPosts] = useState([]);
   const [activeTab, setActiveTab] = useState('all');
   const [activeTag, setActiveTag] = useState(null);
+  const [activeCategory, setActiveCategory] = useState(null);
   const [searchQuery, setSearchQuery] = useState('');
+  const [categories, setCategories] = useState([]);
   const { isLiked, syncAfterToggle } = useLikedPosts();
   const isEn = lang === 'en';
 
   useEffect(() => {
     blogApi.getPosts().then(setPosts);
+    setCategories(blogApi.getCategories());
   }, []);
 
   useEffect(() => {
     window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
-  }, [postSlug, activeTab]);
+  }, [postSlug, postCategory, activeTab]);
 
   // Derive selectedPost from slug + posts (matches PT slug, EN slug, or id fallback)
   const selectedPost = useMemo(() => {
     if (!postSlug || !posts.length) return null;
-    return (
-      posts.find(
+    return posts.find(
         (p) =>
-          p.slug === postSlug ||
-          p.slug_en === postSlug ||
-          p.id === postSlug ||
-          (p.slug && p.slug.toLowerCase() === postSlug.toLowerCase()) ||
-          (p.slug_en && p.slug_en.toLowerCase() === postSlug.toLowerCase())
-      ) || null
-    );
-  }, [postSlug, posts]);
+          (p.slug === postSlug ||
+            p.slug_en === postSlug ||
+            p.id === postSlug ||
+            (p.slug && p.slug.toLowerCase() === postSlug.toLowerCase()) ||
+            (p.slug_en && p.slug_en.toLowerCase() === postSlug.toLowerCase())) &&
+          (!postCategory || slugifyCategory(p.category || p.tags_pt?.[0] || p.tags?.[0] || 'Geral') === postCategory)
+      ) || null;
+  }, [postSlug, postCategory, posts]);
 
   const handleSelectPost = useCallback(
     (post) => {
@@ -46,7 +52,8 @@ export function BlogView({ postSlug, onNavigate, lang = 'pt', onToggleLang }) {
           post.slug ||
           post.slug_en ||
           post.id;
-        onNavigate(`/blog/${encodeURIComponent(slug)}`);
+        const category = slugifyCategory(post.category || post.tags_pt?.[0] || post.tags?.[0] || 'Geral');
+        onNavigate(`/blog/${category}/${encodeURIComponent(slug)}`);
       } else {
         onNavigate('/blog');
       }
@@ -83,9 +90,16 @@ export function BlogView({ postSlug, onNavigate, lang = 'pt', onToggleLang }) {
     return Object.entries(counts).map(([name, count]) => ({ name, count }));
   }, [longFormPosts, isEn]);
 
+  const allCategories = useMemo(() => categories.map((name) => ({
+    name,
+    count: longFormPosts.filter((post) => (post.category || post.tags_pt?.[0] || post.tags?.[0] || 'Geral') === name).length
+  })).filter((category) => category.count > 0), [categories, longFormPosts]);
+
   const filteredLongPosts = useMemo(() => {
     return longFormPosts.filter((post) => {
       const matchesTab = activeTab === 'all' || post.type === activeTab;
+      const category = post.category || post.tags_pt?.[0] || post.tags?.[0] || 'Geral';
+      const matchesCategory = !activeCategory || category === activeCategory;
       const tags = isEn && post.tags_en ? post.tags_en : (post.tags_pt || post.tags || []);
       const matchesTag = !activeTag || tags.includes(activeTag);
       const q = searchQuery.toLowerCase();
@@ -93,9 +107,9 @@ export function BlogView({ postSlug, onNavigate, lang = 'pt', onToggleLang }) {
       const subtitle = (isEn && post.subtitle_en ? post.subtitle_en : (post.subtitle_pt || post.subtitle || '')).toLowerCase();
       const matchesSearch = !q || title.includes(q) || subtitle.includes(q) || tags.some((t) => t.toLowerCase().includes(q));
 
-      return matchesTab && matchesTag && matchesSearch;
+      return matchesTab && matchesCategory && matchesTag && matchesSearch;
     });
-  }, [longFormPosts, activeTab, activeTag, searchQuery, isEn]);
+  }, [longFormPosts, activeTab, activeCategory, activeTag, searchQuery, isEn]);
 
   if (selectedPost) {
     return (
@@ -110,7 +124,7 @@ export function BlogView({ postSlug, onNavigate, lang = 'pt', onToggleLang }) {
     );
   }
 
-  const featured = activeTab === 'all' && !activeTag && !searchQuery ? filteredLongPosts[0] : null;
+  const featured = activeTab === 'all' && !activeCategory && !activeTag && !searchQuery ? filteredLongPosts[0] : null;
   const feedPosts = featured ? filteredLongPosts.slice(1) : filteredLongPosts;
 
   return (
@@ -127,6 +141,9 @@ export function BlogView({ postSlug, onNavigate, lang = 'pt', onToggleLang }) {
         postCount={longFormPosts.length}
         thoughtCount={thoughts.length}
         lang={lang}
+        categories={allCategories}
+        activeCategory={activeCategory}
+        onSelectCategory={(category) => { setActiveCategory(category); setActiveTag(null); setActiveTab('all'); }}
       />
 
       {featured && (

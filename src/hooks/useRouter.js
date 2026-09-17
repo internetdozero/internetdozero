@@ -6,15 +6,21 @@ export function useRouter() {
     const path = window.location.pathname;
     const params = new URLSearchParams(window.location.search);
 
+    if (path.startsWith('/admin')) {
+      return { view: 'admin', postSlug: null };
+    }
+
     if (path.startsWith('/blog')) {
       const segments = path.replace(/\/+$/, '').split('/');
-      let postSlug = segments.length > 2 && segments[2] ? decodeURIComponent(segments.slice(2).join('/')) : null;
+      const parts = segments.slice(2).filter(Boolean).map((part) => decodeURIComponent(part));
+      const postCategory = parts.length > 1 ? parts[0] : null;
+      let postSlug = parts.length > 1 ? parts.slice(1).join('/') : parts[0] || null;
       if (!postSlug) {
         postSlug = params.get('p') || null;
       }
-      return { view: 'blog', postSlug };
+      return { view: 'blog', postSlug, postCategory };
     }
-    return { view: 'hub', postSlug: null };
+    return { view: 'hub', postSlug: null, postCategory: null };
   };
 
   const [route, setRoute] = useState(parseLocation);
@@ -37,6 +43,7 @@ export function useRouter() {
   return {
     view: route.view,
     postSlug: route.postSlug,
+    postCategory: route.postCategory,
     navigate
   };
 }

@@ -1,0 +1,60 @@
+import React, { useEffect, useMemo, useState } from 'react';
+import { ArrowLeft, LockKeyhole, LogOut, Plus, Save, Trash2 } from 'lucide-react';
+import { blogApi } from './services/blogApi';
+
+const SESSION_KEY = 'idz_admin_session';
+const ADMIN_PASSWORD = import.meta.env.VITE_ADMIN_PASSWORD;
+const emptyForm = { id: null, type: 'article', title: '', subtitle: '', category: 'Tecnologia', tags: '', author: 'Eduardo S.', readingTime: '5 min', content: '' };
+
+function toSlug(value) {
+  return value.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '').slice(0, 80);
+}
+
+function formFromPost(post) {
+  const sections = post.sections_pt || [];
+  return { id: post.id, type: post.type || 'article', title: post.title_pt || post.title || '', subtitle: post.subtitle_pt || post.subtitle || '', category: post.category || post.tags_pt?.[0] || post.tags?.[0] || 'Geral', tags: (post.tags_pt || post.tags || []).join(', '), author: post.author || 'Eduardo S.', readingTime: post.readingTime || '5 min', content: sections.map((section) => `${section.title}\n${section.content}`).join('\n\n') };
+}
+
+function Login({ onLogin }) {
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
+  const submit = (event) => {
+    event.preventDefault();
+    if (!ADMIN_PASSWORD) return setError('Configure VITE_ADMIN_PASSWORD antes de usar o painel.');
+    if (password !== ADMIN_PASSWORD) return setError('Senha inválida.');
+    sessionStorage.setItem(SESSION_KEY, 'ok');
+    onLogin();
+  };
+  return <main className="max-w-md mx-auto px-4 py-24"><div className="p-7 rounded-2xl bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 shadow-sm"><LockKeyhole className="w-7 h-7 text-emerald-500 mb-5" /><p className="font-mono text-xs text-emerald-600 dark:text-emerald-400 uppercase tracking-widest mb-2">/admin</p><h1 className="text-2xl font-bold mb-2">Painel editorial</h1><p className="text-sm text-zinc-500 mb-6">Entre para escrever e publicar no Blog do Zero.</p><form onSubmit={submit} className="space-y-4"><label className="block text-xs font-mono text-zinc-500">Senha<input autoFocus type="password" value={password} onChange={(e) => setPassword(e.target.value)} className="mt-2 w-full px-3 py-2.5 rounded-xl bg-zinc-50 dark:bg-zinc-950 border border-zinc-300 dark:border-zinc-700" /></label>{error && <p className="text-xs text-red-500">{error}</p>}<button className="w-full py-2.5 rounded-xl bg-emerald-500 text-zinc-950 font-bold text-sm">Entrar</button></form></div></main>;
+}
+
+export function AdminView({ onNavigate }) {
+  const [authenticated, setAuthenticated] = useState(() => sessionStorage.getItem(SESSION_KEY) === 'ok');
+  const [posts, setPosts] = useState([]);
+  const [categories, setCategories] = useState([]);
+  const [form, setForm] = useState(emptyForm);
+  const [newCategory, setNewCategory] = useState('');
+  const [message, setMessage] = useState('');
+
+  useEffect(() => { if (authenticated) { blogApi.getPosts().then(setPosts); setCategories(blogApi.getCategories()); } }, [authenticated]);
+  const longPosts = useMemo(() => posts.filter((post) => post.type !== 'thought'), [posts]);
+  const update = (key, value) => setForm((current) => ({ ...current, [key]: value }));
+
+  if (!authenticated) return <Login onLogin={() => setAuthenticated(true)} />;
+
+  const save = async (event) => {
+    event.preventDefault();
+    if (!form.title.trim() || !form.content.trim()) return setMessage('Título e texto são obrigatórios.');
+    const sections = [{ id: 'texto', title: 'Texto', content: form.content.trim() }];
+    const data = { type: form.type, title_pt: form.title.trim(), subtitle_pt: form.subtitle.trim(), category: form.category, tags_pt: form.tags.split(',').map((tag) => tag.trim()).filter(Boolean), tags: form.tags.split(',').map((tag) => tag.trim()).filter(Boolean), author: form.author.trim() || 'Eduardo S.', readingTime: form.readingTime.trim() || '5 min', sections_pt: sections, slug: form.id ? undefined : toSlug(form.title) };
+    if (form.id) await blogApi.updatePost(form.id, data); else await blogApi.addPost(data);
+    setPosts(await blogApi.getPosts()); setForm(emptyForm); setMessage('Conteúdo salvo.');
+  };
+
+  const edit = (post) => { setForm(formFromPost(post)); setMessage(''); window.scrollTo({ top: 0, behavior: 'smooth' }); };
+  const remove = async (post) => { if (!window.confirm(`Excluir “${post.title_pt || post.title}”?`)) return; await blogApi.deletePost(post.id); setPosts(await blogApi.getPosts()); setMessage('Conteúdo excluído.'); };
+  const createCategory = () => { const name = newCategory.trim(); if (!name || categories.includes(name)) return; const next = [...categories, name]; blogApi.saveCategories(next); setCategories(next); update('category', name); setNewCategory(''); };
+  const logout = () => { sessionStorage.removeItem(SESSION_KEY); setAuthenticated(false); };
+
+  return <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10"><div className="flex items-center justify-between gap-4 mb-8"><button onClick={() => onNavigate('/blog')} className="inline-flex items-center gap-2 text-xs font-mono text-emerald-600 hover:underline"><ArrowLeft className="w-4 h-4" />Blog público</button><button onClick={logout} className="inline-flex items-center gap-2 text-xs font-mono text-zinc-500 hover:text-red-500"><LogOut className="w-4 h-4" />Sair</button></div><div className="grid lg:grid-cols-[minmax(0,1fr)_340px] gap-8"><form onSubmit={save} className="p-6 rounded-2xl bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 space-y-4"><div><p className="font-mono text-xs text-emerald-500 uppercase tracking-widest">editor</p><h1 className="text-3xl font-bold mt-1">{form.id ? 'Editar publicação' : 'Nova publicação'}</h1></div><div className="grid sm:grid-cols-2 gap-4"><label className="text-xs font-mono text-zinc-500">Tipo<select value={form.type} onChange={(e) => update('type', e.target.value)} className="mt-2 w-full px-3 py-2.5 rounded-xl bg-zinc-50 dark:bg-zinc-950 border border-zinc-300 dark:border-zinc-700"><option value="article">Artigo</option><option value="story">Crônica / história</option></select></label><label className="text-xs font-mono text-zinc-500">Categoria<select value={form.category} onChange={(e) => update('category', e.target.value)} className="mt-2 w-full px-3 py-2.5 rounded-xl bg-zinc-50 dark:bg-zinc-950 border border-zinc-300 dark:border-zinc-700">{categories.map((category) => <option key={category}>{category}</option>)}</select></label></div><label className="block text-xs font-mono text-zinc-500">Título<input value={form.title} onChange={(e) => update('title', e.target.value)} className="mt-2 w-full px-3 py-2.5 rounded-xl bg-zinc-50 dark:bg-zinc-950 border border-zinc-300 dark:border-zinc-700" /></label><label className="block text-xs font-mono text-zinc-500">Linha fina<input value={form.subtitle} onChange={(e) => update('subtitle', e.target.value)} className="mt-2 w-full px-3 py-2.5 rounded-xl bg-zinc-50 dark:bg-zinc-950 border border-zinc-300 dark:border-zinc-700" /></label><label className="block text-xs font-mono text-zinc-500">Texto <span className="text-zinc-400">(Markdown simples)</span><textarea rows="14" value={form.content} onChange={(e) => update('content', e.target.value)} className="mt-2 w-full px-3 py-2.5 rounded-xl bg-zinc-50 dark:bg-zinc-950 border border-zinc-300 dark:border-zinc-700 font-sans leading-relaxed" /></label><div className="grid sm:grid-cols-2 gap-4"><label className="text-xs font-mono text-zinc-500">Assinatura<input value={form.author} onChange={(e) => update('author', e.target.value)} className="mt-2 w-full px-3 py-2.5 rounded-xl bg-zinc-50 dark:bg-zinc-950 border border-zinc-300 dark:border-zinc-700" /></label><label className="text-xs font-mono text-zinc-500">Tags<input value={form.tags} onChange={(e) => update('tags', e.target.value)} placeholder="web, ideias, prática" className="mt-2 w-full px-3 py-2.5 rounded-xl bg-zinc-50 dark:bg-zinc-950 border border-zinc-300 dark:border-zinc-700" /></label></div>{message && <p className="text-xs text-emerald-600">{message}</p>}<button className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-emerald-500 text-zinc-950 font-bold text-sm"><Save className="w-4 h-4" />Salvar publicação</button></form><aside className="space-y-6"><section className="p-5 rounded-2xl bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800"><h2 className="font-bold mb-4">Categorias</h2><div className="flex gap-2"><input value={newCategory} onChange={(e) => setNewCategory(e.target.value)} placeholder="ex.: Saúde" className="min-w-0 flex-1 px-3 py-2 rounded-xl bg-zinc-50 dark:bg-zinc-950 border border-zinc-300 dark:border-zinc-700 text-sm" /><button type="button" onClick={createCategory} aria-label="Criar categoria" className="p-2 rounded-xl bg-zinc-900 text-emerald-400"><Plus className="w-4 h-4" /></button></div><div className="flex flex-wrap gap-2 mt-4">{categories.map((category) => <span key={category} className="px-2.5 py-1 rounded-lg bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 text-xs font-mono">{category}</span>)}</div></section><section className="p-5 rounded-2xl bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800"><h2 className="font-bold mb-4">Publicações ({longPosts.length})</h2><div className="space-y-2">{longPosts.map((post) => <div key={post.id} className="flex items-start gap-2"><button onClick={() => edit(post)} className="text-left flex-1 text-sm hover:text-emerald-500">{post.title_pt || post.title}</button><button onClick={() => remove(post)} aria-label="Excluir publicação" className="p-1 text-zinc-400 hover:text-red-500"><Trash2 className="w-3.5 h-3.5" /></button></div>)}</div></section></aside></div></main>;
+}

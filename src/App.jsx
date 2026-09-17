@@ -7,12 +7,13 @@ import { HubView } from './components/HubView';
 import { Footer } from './components/Footer';
 
 const BlogView = lazy(() => import('./modules/blog/BlogView').then((m) => ({ default: m.BlogView })));
+const AdminView = lazy(() => import('./modules/blog/AdminView').then((m) => ({ default: m.AdminView })));
 const CommandPalette = lazy(() => import('./components/CommandPalette').then((m) => ({ default: m.CommandPalette })));
 const ModuleModal = lazy(() => import('./components/ModuleModal').then((m) => ({ default: m.ModuleModal })));
 
 export function App() {
   const { theme, toggleTheme } = useTheme();
-  const { view: currentView, postSlug, navigate } = useRouter();
+  const { view: currentView, postSlug, postCategory, navigate } = useRouter();
   const { lang, setLang, toggleLang } = useLanguage();
   const [isCommandOpen, setIsCommandOpen] = useState(false);
   const [selectedModule, setSelectedModule] = useState(null);
@@ -40,6 +41,7 @@ export function App() {
   const handleGoHome = useCallback(() => {
     navigate('/');
   }, [navigate]);
+  const handleGoAdmin = useCallback(() => navigate('/admin'), [navigate]);
 
   const handleOpenCommand = useCallback(() => setIsCommandOpen(true), []);
   const handleCloseCommand = useCallback(() => setIsCommandOpen(false), []);
@@ -53,6 +55,7 @@ export function App() {
         onOpenCommand={handleOpenCommand}
         onOpenArsenal={handleScrollToModules}
         onGoHome={handleGoHome}
+        onGoAdmin={handleGoAdmin}
         readingPost={currentView === 'blog' && postSlug}
         lang={lang}
         onToggleLang={setLang}
@@ -60,10 +63,15 @@ export function App() {
       />
 
       <main className="flex-1">
-        {currentView === 'blog' ? (
+        {currentView === 'admin' ? (
+          <Suspense fallback={<div className="flex items-center justify-center min-h-[60vh]"><span className="text-sm font-mono text-zinc-500 animate-pulse">Carregando…</span></div>}>
+            <AdminView onNavigate={navigate} />
+          </Suspense>
+        ) : currentView === 'blog' ? (
           <Suspense fallback={<div className="flex items-center justify-center min-h-[60vh]"><span className="text-sm font-mono text-zinc-500 animate-pulse">Carregando…</span></div>}>
             <BlogView
               postSlug={postSlug}
+              postCategory={postCategory}
               onNavigate={navigate}
               lang={lang}
               onToggleLang={setLang}

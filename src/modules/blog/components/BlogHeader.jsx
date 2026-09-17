@@ -10,7 +10,10 @@ export function BlogHeader({
   onSelectTab,
   postCount,
   thoughtCount,
-  lang = 'pt'
+  lang = 'pt',
+  categories = [],
+  activeCategory,
+  onSelectCategory
 }) {
   const t = translations[lang] || translations.pt;
   const isEn = lang === 'en';
@@ -85,6 +88,7 @@ export function BlogHeader({
           </button>
         ))}
       </div>
+      {categories.length > 0 && <div className="flex flex-wrap items-center gap-2 mt-3"><span className="text-[10px] font-mono uppercase tracking-widest text-zinc-400 mr-1">{isEn ? 'Categories' : 'Categorias'}</span>{categories.map((category) => <button key={category.name} onClick={() => onSelectCategory(activeCategory === category.name ? null : category.name)} className={`px-3 py-1 rounded-lg text-[11px] font-mono border transition-colors ${activeCategory === category.name ? 'border-emerald-500 bg-emerald-500/10 text-emerald-600 dark:text-emerald-400' : 'border-zinc-200 dark:border-zinc-800 text-zinc-500 hover:border-emerald-500/50'}`}>{category.name} <span className="opacity-60">{category.count}</span></button>)}</div>}
     </header>
   );
 }

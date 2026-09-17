@@ -2,6 +2,8 @@ import { initialPosts } from '../data/initialPosts';
 
 const STORAGE_KEY = 'idz_blog_posts_v1';
 const LIKES_KEY = 'idz_blog_liked_ids';
+const CATEGORIES_KEY = 'idz_blog_categories_v1';
+const DEFAULT_CATEGORIES = ['Tecnologia', 'Fitness', 'Inteligência Artificial', 'Crônicas'];
 
 function slugify(text) {
   return text
@@ -32,18 +34,31 @@ export const blogApi = {
               ...post,
               slug: post.slug || fallbackSlug,
               slug_en: post.slug_en || fallbackSlugEn
+              , category: post.category || base.category || post.tags_pt?.[0] || post.tags?.[0] || 'Geral'
             };
           });
         }
       }
     } catch (_) {}
-    return initialPosts;
+    return initialPosts.map((post) => ({ ...post, category: post.category || post.tags_pt?.[0] || post.tags?.[0] || 'Geral' }));
   },
 
   savePosts: (posts) => {
     try {
       localStorage.setItem(STORAGE_KEY, JSON.stringify(posts));
     } catch (_) {}
+  },
+
+  getCategories: () => {
+    try {
+      const stored = JSON.parse(localStorage.getItem(CATEGORIES_KEY) || 'null');
+      if (Array.isArray(stored) && stored.length) return stored;
+    } catch (_) {}
+    return DEFAULT_CATEGORIES;
+  },
+
+  saveCategories: (categories) => {
+    try { localStorage.setItem(CATEGORIES_KEY, JSON.stringify(categories)); } catch (_) {}
   },
 
   addPost: async (postData) => {
@@ -60,6 +75,20 @@ export const blogApi = {
     const updated = [newPost, ...posts];
     blogApi.savePosts(updated);
     return newPost;
+  },
+
+  updatePost: async (postId, postData) => {
+    const posts = await blogApi.getPosts();
+    const updatedPosts = posts.map((post) => post.id === postId ? { ...post, ...postData } : post);
+    blogApi.savePosts(updatedPosts);
+    return updatedPosts.find((post) => post.id === postId);
+  },
+
+  deletePost: async (postId) => {
+    const posts = await blogApi.getPosts();
+    const updatedPosts = posts.filter((post) => post.id !== postId);
+    blogApi.savePosts(updatedPosts);
+    return updatedPosts;
   },
 
   toggleLike: async (postId) => {
