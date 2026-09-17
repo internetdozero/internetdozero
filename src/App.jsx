@@ -17,7 +17,7 @@ const ModuleModal = lazy(() => import('./components/ModuleModal').then((m) => ({
 
 export function App() {
   const { theme, toggleTheme } = useTheme();
-  const { view: currentView, postSlug, postCategory, navigate } = useRouter();
+  const { view: currentView, postSlug, postCategory, toolSlug, navigate } = useRouter();
   const { lang, setLang, toggleLang } = useLanguage();
   const [isCommandOpen, setIsCommandOpen] = useState(false);
   const [selectedModule, setSelectedModule] = useState(null);
@@ -83,7 +83,7 @@ export function App() {
           </Suspense>
         ) : currentView === 'tools' ? (
           <Suspense fallback={<div className="flex min-h-[60vh] items-center justify-center"><span className="text-sm font-mono text-zinc-500 animate-pulse">Carregando…</span></div>}>
-            <ErrorBoundary><ToolsView onNavigate={navigate} lang={lang} /></ErrorBoundary>
+            <ErrorBoundary><ToolsView onNavigate={navigate} toolSlug={toolSlug} lang={lang} /></ErrorBoundary>
           </Suspense>
         ) : currentView === 'not-found' ? (
           <NotFound onGoHome={handleGoHome} onGoBlog={() => navigate('/blog')} lang={lang} />

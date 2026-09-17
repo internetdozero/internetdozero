@@ -11,7 +11,7 @@ export function useRouter() {
     }
 
     if (path === '/tools' || path.startsWith('/tools/')) {
-      return { view: 'tools', postSlug: null, postCategory: null };
+      return { view: 'tools', toolSlug: path.split('/').filter(Boolean)[1] || null, postSlug: null, postCategory: null };
     }
 
     if (path.startsWith('/blog')) {
@@ -51,6 +51,7 @@ export function useRouter() {
     view: route.view,
     postSlug: route.postSlug,
     postCategory: route.postCategory,
+    toolSlug: route.toolSlug,
     navigate
   };
 }
