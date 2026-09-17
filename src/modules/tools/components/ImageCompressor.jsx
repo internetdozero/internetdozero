@@ -86,6 +86,7 @@ export function ImageCompressor({ lang = 'pt' }) {
   };
 
   const reset = () => { setFile(null); setPreviewUrl(''); setResult(null); setError(''); if (inputRef.current) inputRef.current.value = ''; };
+  const chooseAnother = () => { reset(); inputRef.current?.click(); };
 
   return (
     <section className="mt-10 overflow-hidden rounded-3xl border border-zinc-200 bg-white dark:border-zinc-800 dark:bg-zinc-900/60" aria-labelledby="compressor-title">
@@ -123,7 +124,7 @@ export function ImageCompressor({ lang = 'pt' }) {
               </div>
               <div className="flex flex-wrap items-center justify-between gap-3 border-t border-zinc-200 p-4 dark:border-zinc-800">
                 <div className="flex min-w-0 items-center gap-2"><FileImage className="h-4 w-4 shrink-0 text-emerald-500" /><span className="truncate text-xs text-zinc-600 dark:text-zinc-400">{file.name} · {formatBytes(file.size)}</span></div>
-                <button type="button" onClick={reset} className="inline-flex items-center gap-1.5 text-xs font-semibold text-zinc-500 hover:text-emerald-500"><RotateCcw className="h-3.5 w-3.5" />{isEn ? 'Choose another' : 'Trocar imagem'}</button>
+                <button type="button" onClick={chooseAnother} className="inline-flex items-center gap-1.5 text-xs font-semibold text-zinc-500 hover:text-emerald-500"><RotateCcw className="h-3.5 w-3.5" />{isEn ? 'Choose another' : 'Trocar imagem'}</button>
               </div>
             </div>
           )}
