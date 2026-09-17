@@ -1,5 +1,22 @@
 # Changelog
 
+## [Não lançado] — 2026-09-17
+
+### Adicionado
+
+- Agregador de links em `/links` com o site, GitHub, YouTube, TikTok e X.
+- X/Twitter incluído também nos links sociais do rodapé.
+- Página de categorias do blog com ícones, resumos e filtro pesquisável.
+- Modo mock para revisar o blog localmente sem alterar os dados reais.
+
+### Corrigido e melhorado
+
+- Blog reorganizado para aproveitar melhor a largura da página.
+- Seletor de idioma simplificado para mostrar somente o idioma disponível.
+- Cards de artigos relacionados agora exibem tag e miniatura da capa quando disponíveis.
+- Curtidas agora podem ser desfeitas no servidor e nunca ficam abaixo de zero.
+- Módulo de ferramentas atualizado para aparecer como disponível no hub.
+
 ## [1.1.0] — 2026-09-17
 
 ### Adicionado
