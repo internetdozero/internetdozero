@@ -7,6 +7,7 @@ import { HubView } from './components/HubView';
 import { Footer } from './components/Footer';
 import { FeedbackModal } from './components/FeedbackModal';
 import { ErrorBoundary } from './components/ErrorBoundary';
+import { NotFound } from './components/NotFound';
 
 const BlogView = lazy(() => import('./modules/blog/BlogView').then((m) => ({ default: m.BlogView })));
 const AdminView = lazy(() => import('./modules/blog/AdminView').then((m) => ({ default: m.AdminView })));
@@ -77,6 +78,8 @@ export function App() {
               onToggleLang={setLang}
             /></ErrorBoundary>
           </Suspense>
+        ) : currentView === 'not-found' ? (
+          <NotFound onGoHome={handleGoHome} onGoBlog={() => navigate('/blog')} />
         ) : (
           <ErrorBoundary><HubView onSelectModule={handleSelectModule} lang={lang} /></ErrorBoundary>
         )}

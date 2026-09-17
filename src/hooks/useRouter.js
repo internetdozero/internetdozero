@@ -20,7 +20,7 @@ export function useRouter() {
       }
       return { view: 'blog', postSlug, postCategory };
     }
-    return { view: 'hub', postSlug: null, postCategory: null };
+    return { view: 'not-found', postSlug: null, postCategory: null };
   };
 
   const [route, setRoute] = useState(parseLocation);
