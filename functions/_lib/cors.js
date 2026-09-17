@@ -1,3 +1,4 @@
+/* global Headers */
 import { requestOriginAllowed } from './response.js';
 
 /**
