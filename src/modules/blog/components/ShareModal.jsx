@@ -21,7 +21,9 @@ export function ShareModal({ isOpen, onClose, post, isEn = false }) {
   const title = (isEn && post.title_en) ? post.title_en : (post.title_pt || post.title || '');
   const subtitle = (isEn && post.subtitle_en) ? post.subtitle_en : (post.subtitle_pt || post.subtitle || '');
   const slug = (isEn && post.slug_en ? post.slug_en : post.slug) || post.slug || post.slug_en || post.id;
-  const shareUrl = typeof window !== 'undefined' ? `${window.location.origin}/blog/${encodeURIComponent(slug)}` : '';
+  const category = post.category || post.tags_pt?.[0] || post.tags?.[0] || 'Geral';
+  const categorySlug = category.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+  const shareUrl = typeof window !== 'undefined' ? `${window.location.origin}/blog/${categorySlug}/${encodeURIComponent(slug)}` : '';
   const shareText = `${title} — Internet do Zero`;
 
   const handleCopy = async () => {

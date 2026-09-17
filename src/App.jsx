@@ -6,6 +6,7 @@ import { Header } from './components/Header';
 import { HubView } from './components/HubView';
 import { Footer } from './components/Footer';
 import { FeedbackModal } from './components/FeedbackModal';
+import { ErrorBoundary } from './components/ErrorBoundary';
 
 const BlogView = lazy(() => import('./modules/blog/BlogView').then((m) => ({ default: m.BlogView })));
 const AdminView = lazy(() => import('./modules/blog/AdminView').then((m) => ({ default: m.AdminView })));
@@ -66,20 +67,20 @@ export function App() {
       <main className="flex-1">
         {currentView === 'admin' ? (
           <Suspense fallback={<div className="flex items-center justify-center min-h-[60vh]"><span className="text-sm font-mono text-zinc-500 animate-pulse">Carregando…</span></div>}>
-            <AdminView onNavigate={navigate} />
+            <ErrorBoundary><AdminView onNavigate={navigate} /></ErrorBoundary>
           </Suspense>
         ) : currentView === 'blog' ? (
           <Suspense fallback={<div className="flex items-center justify-center min-h-[60vh]"><span className="text-sm font-mono text-zinc-500 animate-pulse">Carregando…</span></div>}>
-            <BlogView
+            <ErrorBoundary><BlogView
               postSlug={postSlug}
               postCategory={postCategory}
               onNavigate={navigate}
               lang={lang}
               onToggleLang={setLang}
-            />
+            /></ErrorBoundary>
           </Suspense>
         ) : (
-          <HubView onSelectModule={handleSelectModule} lang={lang} />
+          <ErrorBoundary><HubView onSelectModule={handleSelectModule} lang={lang} /></ErrorBoundary>
         )}
       </main>
 
@@ -91,6 +92,7 @@ export function App() {
 
       <Suspense fallback={null}>
         {isCommandOpen && (
+          <ErrorBoundary>
           <CommandPalette
             isOpen={isCommandOpen}
             onClose={handleCloseCommand}
@@ -100,16 +102,19 @@ export function App() {
             lang={lang}
             toggleLang={toggleLang}
           />
+          </ErrorBoundary>
         )}
       </Suspense>
 
       <Suspense fallback={null}>
         {selectedModule && (
+          <ErrorBoundary>
           <ModuleModal
             module={selectedModule}
             onClose={handleCloseModule}
             lang={lang}
           />
+          </ErrorBoundary>
         )}
       </Suspense>
     </div>

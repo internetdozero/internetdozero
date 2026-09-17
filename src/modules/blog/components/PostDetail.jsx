@@ -51,18 +51,6 @@ export function PostDetail({ post, isLiked, onToggleLike, onAddComment, postLang
     }
   };
 
-  const handleShare = async () => {
-    try {
-      if (navigator.clipboard) {
-        const slug = (isEn && post.slug_en ? post.slug_en : post.slug) || post.slug || post.slug_en || post.id;
-        const shareUrl = `${window.location.origin}/blog/${encodeURIComponent(slug)}`;
-        await navigator.clipboard.writeText(shareUrl);
-        setCopied(true);
-        setTimeout(() => setCopied(false), 2500);
-      }
-    } catch (_) {}
-  };
-
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 lg:py-12">
       <div className="flex flex-col lg:flex-row items-start gap-12">

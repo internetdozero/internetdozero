@@ -34,12 +34,21 @@ export function BlogView({ postSlug, postCategory, onNavigate, lang = 'pt', onTo
   }, [postSlug, postCategory, activeTab]);
 
   useEffect(() => {
-    if (!postSlug || !postCategory) { setDetail(null); return; }
-    blogApi.getPost(postCategory, postSlug).then((post) => {
+    if (!postSlug) { setDetail(null); return; }
+    let cancelled = false;
+    const loadDetail = async () => {
+      const summary = posts.find((post) => post.slug === postSlug || post.slug_en === postSlug || post.id === postSlug);
+      const category = postCategory || (summary && slugifyCategory(summary.category || summary.tags_pt?.[0] || summary.tags?.[0] || 'Geral'));
+      if (!category) return setDetail(null);
+      const post = await blogApi.getPost(category, postSlug);
+      if (cancelled) return;
       setDetail(post);
-      return blogApi.getComments(post.id);
-    }).then((result) => setDetailComments(result?.items || [])).catch(() => setDetail(null));
-  }, [postSlug, postCategory]);
+      const result = await blogApi.getComments(post.id);
+      if (!cancelled) setDetailComments(result?.items || []);
+    };
+    loadDetail().catch(() => { if (!cancelled) setDetail(null); });
+    return () => { cancelled = true; };
+  }, [postSlug, postCategory, posts]);
 
   // Resolve the route from the lightweight summary before fetching full content.
   const selectedSummary = useMemo(() => {

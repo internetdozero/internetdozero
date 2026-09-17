@@ -33,6 +33,7 @@ function cookieValue(request) {
 }
 
 export async function createSession(env) {
+  if (!env.ADMIN_SESSION_SECRET || new TextEncoder().encode(env.ADMIN_SESSION_SECRET).length < 32) throw new Error('ADMIN_SESSION_SECRET ausente ou fraco');
   const payload = JSON.stringify({ exp: Date.now() + 8 * 60 * 60 * 1000, csrf: toBase64Url(crypto.getRandomValues(new Uint8Array(24))) });
   const body = toBase64Url(encoder.encode(payload));
   const token = `${body}.${await sign(body, env.ADMIN_SESSION_SECRET)}`;
