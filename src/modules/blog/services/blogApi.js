@@ -9,7 +9,7 @@ const changeChannel = typeof BroadcastChannel !== 'undefined' ? new BroadcastCha
 
 async function api(path, options = {}) {
   const response = await fetch(path, { cache: 'no-store', credentials: 'same-origin', ...options, headers: { 'Content-Type': 'application/json', ...(options.headers || {}) } });
-  if (!response.ok) throw new Error(`API ${response.status}`);
+  if (!response.ok) { let data = {}; try { data = await response.json(); } catch (_) {} throw new Error(data.error || `API ${response.status}`); }
   return response.json();
 }
 
@@ -171,6 +171,14 @@ export const blogApi = {
   },
 
   addComment: async (postId, { author, text }) => {
+    if (/(https?:\/\/|www\.|\[[^\]]+\]\([^\)]+\)|\b[a-z0-9-]+\.(com|com\.br|net|org|io|dev|co)\b)/i.test(text)) throw new Error('Links não são permitidos nos comentários.');
+    try {
+      const result = await api(`/api/comments?postId=${encodeURIComponent(postId)}`, { method: 'POST', body: JSON.stringify({ author, text }) });
+      notifyBlogChange();
+      return { newComment: result.comment, posts: await blogApi.getPosts() };
+    } catch (error) {
+      if (error.message !== 'API 404' && error.message !== 'API 503') throw error;
+    }
     const posts = await blogApi.getPosts();
     const strip = (s) => s.replace(/<[^>]*>/g, '');
     const newComment = {

@@ -15,7 +15,7 @@ export function PostComments({ comments = [], onAddComment, lang = 'pt' }) {
     if (!text.trim()) return;
 
     setIsSubmitting(true);
-    try { await onAddComment({ author: author.trim() || (isEn ? 'Guest' : 'Visitante'), text }); setText(''); setAuthor(''); emitFeedback('success', isEn ? 'Comment sent.' : 'Comentário enviado.'); } catch (_) { emitFeedback('error', isEn ? 'Could not send the comment.' : 'Não foi possível enviar o comentário.'); }
+    try { await onAddComment({ author: author.trim() || (isEn ? 'Guest' : 'Visitante'), text }); setText(''); setAuthor(''); emitFeedback('success', isEn ? 'Comment sent.' : 'Comentário enviado.'); } catch (error) { emitFeedback('error', error.message.includes('Links') ? (isEn ? 'Links are not allowed in comments.' : 'Links não são permitidos nos comentários.') : (isEn ? 'Could not send the comment.' : 'Não foi possível enviar o comentário.')); }
     setIsSubmitting(false);
   };
 
