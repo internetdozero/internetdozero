@@ -6,12 +6,21 @@ import { DynamicIcon } from './DynamicIcon';
 import { modulesData, systemPillars } from '../data/modules';
 import { LayoutGrid } from 'lucide-react';
 import { translations } from '../i18n/translations';
+import { useSeo } from '../hooks/useSeo';
 
 export function HubView({ onSelectModule, lang = 'pt' }) {
   const [activeCategory, setActiveCategory] = useState('all');
   const gridRef = useRef(null);
   const terminalRef = useRef(null);
   const t = translations[lang] || translations.pt;
+  const isEn = lang === 'en';
+
+  useSeo({
+    title: isEn ? 'Internet do Zero — Local Web Tools & Independent Tech' : 'Internet do Zero — Ferramentas Locais & Blog Independente',
+    description: isEn ? 'Fast in-browser utilities without server uploads, plus articles and notes on independent technology.' : 'Utilitários web rápidos que rodam 100% no seu navegador sem enviar arquivos para servidores, além de artigos e reflexões sobre tecnologia.',
+    url: 'https://internetdozero.com.br/',
+    image: 'https://internetdozero.com.br/og-image.png'
+  });
 
   const scrollToGrid = () => gridRef.current?.scrollIntoView({ behavior: 'smooth' });
   const scrollToTerminal = () => terminalRef.current?.scrollIntoView({ behavior: 'smooth' });
