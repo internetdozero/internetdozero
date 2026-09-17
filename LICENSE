@@ -1,3 +1,6 @@
+The software source code (including scripts, tools, components, and Cloudflare Pages functions) in this repository is licensed under the MIT License:
+
+--------------------------------------------------------------------------------
 MIT License
 
 Copyright (c) 2026 Eduardo S. / Internet do Zero (https://internetdozero.com.br)
@@ -19,3 +22,15 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
+--------------------------------------------------------------------------------
+
+CONTEÚDO EDITORIAL, TEXTOS E MARCA (EXCEÇÃO):
+
+Todo o conteúdo textual autoral (artigos do blog, crônicas, notas, tutoriais),
+ilustrações autorais e a identidade visual e marca "Internet do Zero"
+NÃO estão cobertos pela licença MIT. Todos os direitos sobre estes materiais
+são reservados ao autor (Copyright (c) 2026 Eduardo S. — Todos os direitos reservados).
+
+Você é livre para estudar, bifurcar (fork) e utilizar o código das ferramentas e do motor do site,
+mas não tem permissão para republicar, raspar (scraping) ou explorar comercialmente os textos
+autorais do blog sem consentimento prévio por escrito.

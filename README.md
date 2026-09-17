@@ -94,4 +94,7 @@ Mais detalhes de cada versão estão em [`changelog.md`](changelog.md).
 
 ## Licença
 
-Distribuído sob a licença [MIT](LICENSE). Veja o arquivo `LICENSE` para mais detalhes.
+- **Código-fonte (ferramentas, motor e componentes):** Licenciado sob a [Licença MIT](LICENSE).
+- **Conteúdo editorial (artigos do blog, crônicas e marca):** Todos os direitos reservados ao autor.
+
+Veja o arquivo [`LICENSE`](LICENSE) para os termos completos.
