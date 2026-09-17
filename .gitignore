@@ -10,10 +10,8 @@ dist-ssr
 .wrangler
 .DS_Store
 
-# Local AI agent & custom build runner (unversioned)
+# Local AI agent runner
 AGENTS.md
-build.sh
 run.sh
 wrangler.toml
 in
-
