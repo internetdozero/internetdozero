@@ -14,6 +14,11 @@ body {
   min-height: 100vh;
 }
 
+/* Tool panels must shrink around long local filenames instead of overflowing. */
+section[aria-labelledby$="-title"] > div.grid > div {
+  min-width: 0;
+}
+
 code, pre, .font-mono {
   font-family: var(--font-mono);
 }
