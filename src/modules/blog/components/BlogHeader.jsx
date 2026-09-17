@@ -13,7 +13,8 @@ export function BlogHeader({
   lang = 'pt',
   categories = [],
   activeCategory,
-  onSelectCategory
+  onSelectCategory,
+  onViewAllCategories
 }) {
   const t = translations[lang] || translations.pt;
   const isEn = lang === 'en';
@@ -69,22 +70,38 @@ export function BlogHeader({
       </div>
 
       {/* Navigation Filter Tabs */}
-      <div className="flex flex-wrap items-center gap-2 mt-6 pt-4 border-t border-zinc-100 dark:border-zinc-800/60">
-        {tabs.map((tab) => (
-          <button
-            key={tab.id}
-            onClick={() => onSelectTab(tab.id)}
-            className={`px-4 py-1.5 rounded-xl text-xs font-mono transition-all cursor-pointer ${
-              activeTab === tab.id
-                ? 'bg-zinc-900 dark:bg-emerald-500 text-white dark:text-zinc-950 font-bold shadow-xs'
-                : 'bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 text-zinc-600 dark:text-zinc-400 hover:border-emerald-500/40 hover:text-zinc-900 dark:hover:text-white'
-            }`}
-          >
-            {tab.label}
-          </button>
-        ))}
+      <div className="mt-6 flex flex-col gap-3 border-t border-zinc-100 pt-4 dark:border-zinc-800/60 md:flex-row md:items-center md:justify-between">
+        <div className="flex flex-wrap items-center gap-2">
+          {tabs.map((tab) => (
+            <button
+              key={tab.id}
+              onClick={() => onSelectTab(tab.id)}
+              className={`px-4 py-1.5 rounded-xl text-xs font-mono transition-all cursor-pointer ${
+                activeTab === tab.id
+                  ? 'bg-zinc-900 dark:bg-emerald-500 text-white dark:text-zinc-950 font-bold shadow-xs'
+                  : 'bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 text-zinc-600 dark:text-zinc-400 hover:border-emerald-500/40 hover:text-zinc-900 dark:hover:text-white'
+              }`}
+            >
+              {tab.label}
+            </button>
+          ))}
+        </div>
+        {categories.length > 0 && (
+          <div className="flex min-w-0 flex-wrap items-center gap-2 md:justify-end">
+            <span className="mr-1 text-[10px] font-mono uppercase tracking-widest text-zinc-400">{t.blog.categories}</span>
+            {categories.slice(0, 10).map((category) => (
+              <button key={category.name} onClick={() => onSelectCategory(activeCategory === category.name ? null : category.name)} className={`px-3 py-1 rounded-lg text-[11px] font-mono border transition-colors ${activeCategory === category.name ? 'border-emerald-500 bg-emerald-500/10 text-emerald-600 dark:text-emerald-400' : 'border-zinc-200 dark:border-zinc-800 text-zinc-500 hover:border-emerald-500/50'}`}>
+                {category.name} <span className="opacity-60">{category.count}</span>
+              </button>
+            ))}
+            {categories.length > 10 && (
+              <button type="button" onClick={onViewAllCategories} className="px-2 py-1 text-[11px] font-mono text-emerald-600 hover:text-emerald-500 dark:text-emerald-400">
+                {isEn ? 'More' : 'Mais'}
+              </button>
+            )}
+          </div>
+        )}
       </div>
-      {categories.length > 0 && <div className="flex flex-wrap items-center gap-2 mt-3"><span className="text-[10px] font-mono uppercase tracking-widest text-zinc-400 mr-1">{t.blog.categories}</span>{categories.map((category) => <button key={category.name} onClick={() => onSelectCategory(activeCategory === category.name ? null : category.name)} className={`px-3 py-1 rounded-lg text-[11px] font-mono border transition-colors ${activeCategory === category.name ? 'border-emerald-500 bg-emerald-500/10 text-emerald-600 dark:text-emerald-400' : 'border-zinc-200 dark:border-zinc-800 text-zinc-500 hover:border-emerald-500/50'}`}>{category.name} <span className="opacity-60">{category.count}</span></button>)}</div>}
     </header>
   );
 }

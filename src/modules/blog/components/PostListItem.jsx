@@ -26,8 +26,8 @@ export function PostListItem({ post, isLiked, onToggleLike, onSelect, lang = 'pt
         <div className="min-w-0 flex-1">
       <div className="flex flex-col sm:flex-row sm:items-baseline justify-between gap-1 mb-2">
         <div className="flex items-center gap-2">
-          <span className="text-xs font-mono font-bold text-emerald-600 dark:text-emerald-400">
-            {isArticle ? (isEn ? '[ARTICLE]' : '[ARTIGO]') : (isEn ? '[STORY]' : '[HISTÓRIA]')}
+          <span className="inline-flex items-center rounded-full border border-emerald-500/30 bg-emerald-500/10 px-2 py-0.5 text-[10px] font-mono font-bold uppercase tracking-wide text-emerald-600 dark:text-emerald-400">
+            {isArticle ? (isEn ? 'ARTICLE' : 'ARTIGO') : (isEn ? 'STORY' : 'HISTÓRIA')}
           </span>
           {post.bilingual && (
             <span className="inline-flex items-center gap-1 text-[10px] font-mono text-zinc-500">

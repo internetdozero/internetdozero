@@ -17,6 +17,7 @@ export function useRouter() {
     }
 
     if (path.startsWith('/blog')) {
+      if (path === '/blog/categorias') return { view: 'blog', postSlug: null, postCategory: null, blogCategories: true, blogCategory: null };
       const segments = path.replace(/\/+$/, '').split('/');
       const parts = segments.slice(2).filter(Boolean).map((part) => decodeURIComponent(part));
       const postCategory = parts.length > 1 ? parts[0] : null;
@@ -24,7 +25,7 @@ export function useRouter() {
       if (!postSlug) {
         postSlug = params.get('p') || null;
       }
-      return { view: 'blog', postSlug, postCategory };
+      return { view: 'blog', postSlug, postCategory, blogCategories: false, blogCategory: params.get('category') || null };
     }
     if (path === '/') {
       return { view: 'hub', postSlug: null, postCategory: null };
@@ -53,6 +54,8 @@ export function useRouter() {
     view: route.view,
     postSlug: route.postSlug,
     postCategory: route.postCategory,
+    blogCategories: route.blogCategories,
+    blogCategory: route.blogCategory,
     toolSlug: route.toolSlug,
     navigate
   };

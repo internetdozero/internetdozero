@@ -6,6 +6,7 @@ import { FeaturedPost } from './components/FeaturedPost';
 import { BlogSidebar } from './components/BlogSidebar';
 import { PostDetail } from './components/PostDetail';
 import { BlogFeed } from './components/BlogFeed';
+import { BlogCategoriesView } from './components/BlogCategoriesView';
 import { useSeo } from '../../hooks/useSeo';
 import { getArticleCover } from './data/articleCovers';
 
@@ -13,11 +14,11 @@ function slugifyCategory(value) {
   return value.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
 }
 
-export function BlogView({ postSlug, postCategory, onNavigate, lang = 'pt' }) {
+export function BlogView({ postSlug, postCategory, showCategories = false, initialCategory = null, onNavigate, lang = 'pt' }) {
   const [posts, setPosts] = useState(() => blogApi.getCachedPosts());
   const [activeTab, setActiveTab] = useState('all');
   const [activeTag, setActiveTag] = useState(null);
-  const [activeCategory, setActiveCategory] = useState(null);
+  const [activeCategory, setActiveCategory] = useState(initialCategory);
   const [searchQuery, setSearchQuery] = useState('');
   const [categories, setCategories] = useState(() => blogApi.getCachedCategories());
   const [isLoading, setIsLoading] = useState(() => blogApi.getCachedPosts().length === 0);
@@ -49,6 +50,10 @@ export function BlogView({ postSlug, postCategory, onNavigate, lang = 'pt' }) {
   useEffect(() => {
     window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
   }, [postSlug, postCategory, activeTab]);
+
+  useEffect(() => {
+    setActiveCategory(initialCategory);
+  }, [initialCategory]);
 
   useEffect(() => {
     if (!postSlug) { setDetail(null); setDetailLoading(false); return; }
@@ -162,6 +167,10 @@ export function BlogView({ postSlug, postCategory, onNavigate, lang = 'pt' }) {
     );
   }
 
+  if (showCategories) {
+    return <BlogCategoriesView categories={categories} posts={longFormPosts} onBack={() => onNavigate('/blog')} onSelectCategory={(category) => onNavigate(`/blog?category=${encodeURIComponent(category)}`)} lang={lang} />;
+  }
+
   if (postSlug && detailLoading) return <main className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8" aria-busy="true" aria-label="Carregando artigo"><div className="mx-auto max-w-3xl space-y-6"><div className="h-4 w-28 animate-pulse rounded bg-zinc-200 dark:bg-zinc-800" /><div className="h-14 w-full animate-pulse rounded bg-zinc-200 dark:bg-zinc-800" /><div className="h-5 w-2/3 animate-pulse rounded bg-zinc-100 dark:bg-zinc-900" /><div className="aspect-[16/9] animate-pulse rounded-2xl bg-zinc-100 dark:bg-zinc-900" /></div></main>;
 
   if (loadError) return <main className="mx-auto flex min-h-[50vh] max-w-xl flex-col items-center justify-center gap-4 px-6 text-center"><p className="text-sm text-zinc-500">{loadError}</p><button type="button" onClick={() => setReloadKey((key) => key + 1)} className="rounded-xl bg-emerald-500 px-4 py-2 text-sm font-bold text-zinc-950 hover:bg-emerald-400">Tentar novamente</button></main>;
@@ -188,6 +197,7 @@ export function BlogView({ postSlug, postCategory, onNavigate, lang = 'pt' }) {
         categories={allCategories}
         activeCategory={activeCategory}
         onSelectCategory={(category) => { setActiveCategory(category); setActiveTag(null); setActiveTab('all'); }}
+        onViewAllCategories={() => onNavigate('/blog/categorias')}
       />
 
       <div className="grid items-start gap-12 lg:grid-cols-[minmax(0,1fr)_360px]">
