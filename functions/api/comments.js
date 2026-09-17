@@ -1,7 +1,7 @@
 import { json, readJson, requestOriginAllowed } from '../_lib/response';
 import { rateLimit } from '../_lib/rateLimit';
 
-const linkPattern = /(https?:\/\/|www\.|\[[^\]]+\]\([^\)]+\)|\b[a-z0-9-]+\.(com|com\.br|net|org|io|dev|co)\b)/i;
+const linkPattern = /(https?:\/\/|www\.|\[[^\]]+\]\([^\)]+\)|\b[a-z0-9-]+\.[a-z]{2,}(?:\/|\b))/i;
 
 export async function onRequestPost(context) {
   if (!requestOriginAllowed(context.request)) return json({ error: 'Origem inválida' }, 403);

@@ -22,8 +22,10 @@ export const ModuleCard = React.memo(function ModuleCard({ module, onSelect, lan
     : 'bg-zinc-100 text-zinc-600 dark:bg-zinc-900 dark:text-zinc-400 border-zinc-300 dark:border-zinc-800';
 
   return (
-    <div
+    <button
+      type="button"
       onClick={() => onSelect(module)}
+      aria-label={`${lang === 'en' ? 'Open' : 'Abrir'} ${title}`}
       className="group relative flex flex-col justify-between p-6 rounded-2xl bg-white dark:bg-zinc-900/60 border border-zinc-200 dark:border-zinc-800/80 hover:border-emerald-500/60 dark:hover:border-emerald-500/60 transition-all duration-300 hover:shadow-[0_0_30px_rgba(16,185,129,0.12)] cursor-pointer hover:-translate-y-1 overflow-hidden"
     >
       {/* Corner subtle glow on hover */}
@@ -89,6 +91,6 @@ export const ModuleCard = React.memo(function ModuleCard({ module, onSelect, lan
           <ArrowUpRight className="w-4 h-4" />
         </div>
       </div>
-    </div>
+    </button>
   );
 })

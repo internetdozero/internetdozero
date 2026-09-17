@@ -5,6 +5,7 @@ import { translations } from '../i18n/translations';
 
 export function CommandPalette({ isOpen, onClose, onSelectModule, theme, toggleTheme, onOpenArsenal, lang = 'pt', toggleLang }) {
   const [query, setQuery] = useState('');
+  const [activeIndex, setActiveIndex] = useState(0);
   const inputRef = useRef(null);
   const t = translations[lang] || translations.pt;
   const isEn = lang === 'en';
@@ -29,6 +30,8 @@ export function CommandPalette({ isOpen, onClose, onSelectModule, theme, toggleT
       setQuery('');
     }
   }, [isOpen]);
+
+  useEffect(() => setActiveIndex(0), [query]);
 
   if (!isOpen) return null;
 
@@ -59,6 +62,15 @@ export function CommandPalette({ isOpen, onClose, onSelectModule, theme, toggleT
             placeholder={t.command.placeholder}
             value={query}
             onChange={(e) => setQuery(e.target.value)}
+            aria-label={t.command.placeholder}
+            role="combobox"
+            aria-expanded="true"
+            aria-controls="command-results"
+            onKeyDown={(event) => {
+              if (event.key === 'ArrowDown') { event.preventDefault(); setActiveIndex((index) => Math.min(index + 1, filteredModules.length - 1)); }
+              if (event.key === 'ArrowUp') { event.preventDefault(); setActiveIndex((index) => Math.max(index - 1, 0)); }
+              if (event.key === 'Enter' && filteredModules[activeIndex]) { onSelectModule(filteredModules[activeIndex]); onClose(); }
+            }}
             className="w-full bg-transparent text-sm text-zinc-900 dark:text-zinc-100 placeholder-zinc-400 dark:placeholder-zinc-500 focus:outline-none font-mono"
           />
           <kbd className="px-2 py-0.5 rounded text-[10px] font-mono bg-zinc-100 dark:bg-zinc-800 text-zinc-500 border border-zinc-200 dark:border-zinc-700">
@@ -67,7 +79,7 @@ export function CommandPalette({ isOpen, onClose, onSelectModule, theme, toggleT
         </div>
 
         {/* Results List */}
-        <div className="max-h-80 overflow-y-auto p-2 divide-y divide-zinc-100 dark:divide-zinc-800/40">
+        <div id="command-results" className="max-h-80 overflow-y-auto p-2 divide-y divide-zinc-100 dark:divide-zinc-800/40">
           
           {/* Quick system actions */}
           <div className="py-2">
@@ -142,7 +154,8 @@ export function CommandPalette({ isOpen, onClose, onSelectModule, theme, toggleT
                       onSelectModule(m);
                       onClose();
                     }}
-                    className="w-full flex items-center justify-between px-3 py-2.5 rounded-xl hover:bg-zinc-100 dark:hover:bg-zinc-800/80 text-xs font-mono text-left transition-colors group cursor-pointer"
+                    aria-selected={filteredModules.indexOf(m) === activeIndex}
+                    className={`w-full flex items-center justify-between px-3 py-2.5 rounded-xl hover:bg-zinc-100 dark:hover:bg-zinc-800/80 text-xs font-mono text-left transition-colors group cursor-pointer ${filteredModules.indexOf(m) === activeIndex ? 'bg-zinc-100 dark:bg-zinc-800/80' : ''}`}
                   >
                     <div className="flex items-center gap-2.5 min-w-0">
                       <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 shrink-0" />

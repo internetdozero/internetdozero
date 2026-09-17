@@ -8,7 +8,7 @@ function calculateReadingTime(sections = []) {
 }
 function clean(body) {
   const post = Object.fromEntries(fields.map((field) => [field, body?.[field]]));
-  if (!post.title_pt || !post.category || !post.sections_pt?.length) return null;
+  if (!post.title_pt || !post.category || !post.sections_pt?.length || !['article', 'story', 'thought'].includes(post.type || 'article')) return null;
   if (post.title_pt.length > 180 || post.subtitle_pt?.length > 300 || post.author?.length > 80) return null;
   post.tags_pt = Array.isArray(post.tags_pt) ? post.tags_pt.slice(0, 20).map((tag) => String(tag).slice(0, 40)) : [];
   post.sections_pt = Array.isArray(post.sections_pt) ? post.sections_pt.slice(0, 30) : [];

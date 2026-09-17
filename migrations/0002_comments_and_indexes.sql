@@ -10,6 +10,9 @@ CREATE TABLE IF NOT EXISTS comments (
 CREATE INDEX IF NOT EXISTS comments_post_status_date_idx ON comments (post_id, status, created_at DESC);
 CREATE INDEX IF NOT EXISTS comments_status_date_idx ON comments (status, created_at DESC);
 CREATE INDEX IF NOT EXISTS posts_category_date_idx ON posts (category, published, created_at DESC);
+CREATE INDEX IF NOT EXISTS posts_slug_published_idx ON posts (slug, published);
+
+PRAGMA foreign_keys = ON;
 
 INSERT OR IGNORE INTO comments (id, post_id, author, content, status, created_at)
 SELECT json_extract(value, '$.id'), p.id, substr(json_extract(value, '$.author'), 1, 80),

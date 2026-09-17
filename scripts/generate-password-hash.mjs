@@ -1,8 +1,9 @@
 import { randomBytes, pbkdf2Sync } from 'node:crypto';
+import { readFileSync } from 'node:fs';
 
-const password = process.argv[2];
+const password = process.argv[2] || readFileSync(0, 'utf8').trim();
 if (!password) {
-  console.error('Uso: node scripts/generate-password-hash.mjs "sua senha"');
+  console.error('Uso: printf "%s" "sua senha" | node scripts/generate-password-hash.mjs');
   process.exit(1);
 }
 

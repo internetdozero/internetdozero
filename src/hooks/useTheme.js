@@ -3,7 +3,8 @@ import { useState, useEffect } from 'react';
 export function useTheme() {
   const [theme, setTheme] = useState(() => {
     if (typeof window !== 'undefined') {
-      const stored = localStorage.getItem('idz_theme');
+      let stored;
+      try { stored = localStorage.getItem('idz_theme'); } catch (_) {}
       if (stored) return stored;
       return 'dark'; // default to dark
     }
@@ -17,7 +18,7 @@ export function useTheme() {
     } else {
       root.classList.remove('dark');
     }
-    localStorage.setItem('idz_theme', theme);
+    try { localStorage.setItem('idz_theme', theme); } catch (_) {}
   }, [theme]);
 
   const toggleTheme = () => {

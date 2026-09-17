@@ -1,5 +1,5 @@
 import { requireAdmin } from '../../_lib/auth';
-import { json } from '../../_lib/response';
+import { json, readJson } from '../../_lib/response';
 
 export async function onRequestDelete(context) {
   const auth = await requireAdmin(context.request, context.env, { csrf: true });
@@ -35,7 +35,7 @@ export async function onRequestPatch(context) {
   if (auth.response) return auth.response;
   const url = new URL(context.request.url);
   const id = url.searchParams.get('id');
-  const status = (await context.request.json().catch(() => null))?.status;
+  const status = (await readJson(context.request))?.status;
   if (!id || !['pending', 'approved', 'rejected'].includes(status)) return json({ error: 'Dados de moderação inválidos' }, 400);
   await context.env.DB.prepare('UPDATE comments SET status=? WHERE id=?').bind(status, id).run();
   return json({ ok: true });

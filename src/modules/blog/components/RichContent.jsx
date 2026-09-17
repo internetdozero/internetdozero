@@ -1,6 +1,6 @@
 import React from 'react';
 
-const SAFE_HREF = /^(https?:|mailto:|tel:|\/)/i;
+const SAFE_HREF = /^(https?:|mailto:|tel:|#(?!\/)|\/(?!\/))/i;
 
 /**
  * Renderizador de conteúdo editorial com tipografia polida,

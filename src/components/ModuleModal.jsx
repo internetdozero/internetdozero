@@ -14,11 +14,11 @@ export function ModuleModal({ module, onClose, onOpenArsenal, lang = 'pt' }) {
   const tags = (isEn && module.tags_en) ? module.tags_en : (module.tags_pt || module.tags);
 
   return (
-    <div 
+    <div role="presentation"
       className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/75 backdrop-blur-sm animate-in fade-in duration-200"
       onClick={onClose}
     >
-      <div 
+      <div role="dialog" aria-modal="true" aria-labelledby="module-modal-title"
         className="w-full max-w-xl rounded-3xl bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 shadow-2xl overflow-hidden"
         onClick={(e) => e.stopPropagation()}
       >
@@ -30,7 +30,7 @@ export function ModuleModal({ module, onClose, onOpenArsenal, lang = 'pt' }) {
             </div>
             <div>
               <div className="flex items-center gap-2">
-                <h3 className="text-xl font-bold font-mono text-zinc-900 dark:text-white">
+                <h3 id="module-modal-title" className="text-xl font-bold font-mono text-zinc-900 dark:text-white">
                   {title}
                 </h3>
                 {badge && (
@@ -45,6 +45,8 @@ export function ModuleModal({ module, onClose, onOpenArsenal, lang = 'pt' }) {
             </div>
           </div>
           <button
+            type="button"
+            aria-label={isEn ? 'Close module' : 'Fechar módulo'}
             onClick={onClose}
             className="p-2 rounded-lg text-zinc-400 hover:text-zinc-600 dark:hover:text-zinc-200 hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors"
           >
