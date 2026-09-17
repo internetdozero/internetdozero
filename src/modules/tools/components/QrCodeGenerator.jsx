@@ -22,7 +22,11 @@ function drawModules(ctx, qr, color, background, rounded) {
   return unit;
 }
 
+const HEX_COLOR = /^#[0-9a-fA-F]{6}$/;
+
 function makeSvg(qr, color, background, rounded, logo) {
+  if (!HEX_COLOR.test(color) || !HEX_COLOR.test(background)) return '';
+  const safeLogo = logo && /^data:image\/[a-z+]+;base64,/.test(logo) ? logo : '';
   const count = qr.modules.size;
   const unit = SIZE / (count + MARGIN * 2);
   const modules = [];
@@ -31,7 +35,7 @@ function makeSvg(qr, color, background, rounded, logo) {
     const y = (row + MARGIN) * unit;
     modules.push(`<rect x="${x}" y="${y}" width="${unit + 0.5}" height="${unit + 0.5}"${rounded ? ` rx="${unit * 0.28}"` : ''}/>`);
   }
-  const logoMarkup = logo ? `<rect x="${SIZE * 0.38}" y="${SIZE * 0.38}" width="${SIZE * 0.24}" height="${SIZE * 0.24}" rx="${SIZE * 0.025}" fill="${background}"/><image href="${logo}" x="${SIZE * 0.4}" y="${SIZE * 0.4}" width="${SIZE * 0.2}" height="${SIZE * 0.2}" preserveAspectRatio="xMidYMid slice"/>` : '';
+  const logoMarkup = safeLogo ? `<rect x="${SIZE * 0.38}" y="${SIZE * 0.38}" width="${SIZE * 0.24}" height="${SIZE * 0.24}" rx="${SIZE * 0.025}" fill="${background}"/><image href="${safeLogo}" x="${SIZE * 0.4}" y="${SIZE * 0.4}" width="${SIZE * 0.2}" height="${SIZE * 0.2}" preserveAspectRatio="xMidYMid slice"/>` : '';
   return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${SIZE} ${SIZE}" role="img" aria-label="QR Code"><rect width="100%" height="100%" fill="${background}"/><g fill="${color}">${modules.join('')}</g>${logoMarkup}</svg>`;
 }
 
