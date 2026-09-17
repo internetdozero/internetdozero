@@ -9,7 +9,7 @@
 
 ## O projeto
 
-O Internet do Zero é uma SPA autoral com blog bilíngue, console interativo e uma coleção de ferramentas que rodam localmente no navegador. A versão atual é a `v1.1.0`.
+O Internet do Zero é uma SPA autoral com blog bilíngue, console interativo e uma coleção de ferramentas que rodam localmente no navegador. A versão atual é a `v1.2.0`.
 
 ### Ferramentas
 

@@ -3,7 +3,7 @@ export const translations = {
     header: {
       brandSub: 'um canto meu na internet',
       online: 'ao vivo',
-      version: 'v1.1.0',
+      version: 'v1.2.0',
       backToBlog: 'Voltar aos textos',
       backToBlogTitle: 'Voltar para os textos',
       search: 'Procurar',
@@ -104,7 +104,7 @@ export const translations = {
     header: {
       brandSub: 'my corner of the internet',
       online: 'live',
-      version: 'v1.1.0',
+      version: 'v1.2.0',
       backToBlog: 'Back to texts',
       backToBlogTitle: 'Return to the texts',
       search: 'Browse',
