@@ -17,7 +17,7 @@ export const Header = React.memo(function Header({
   const t = translations[lang] || translations.pt;
 
   return (
-    <header className="sticky top-0 z-40 w-full border-b border-zinc-200/80 dark:border-zinc-800/80 bg-white/80 dark:bg-zinc-950/80 backdrop-blur-md transition-colors duration-300">
+    <header className="sticky top-0 z-40 w-full border-b border-zinc-200/80 bg-white dark:border-zinc-800/80 dark:bg-zinc-950 sm:bg-white/80 sm:dark:bg-zinc-950/80 sm:backdrop-blur-md transition-colors duration-300">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
         {/* Brand & Context */}
         <div className="flex min-w-0 items-center gap-3">
