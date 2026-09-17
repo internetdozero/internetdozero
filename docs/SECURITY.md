@@ -2,10 +2,10 @@
 
 ## Configuração do administrador
 
-Gere um hash para produção:
+Gere um hash para produção sem expor a senha na linha de comando:
 
 ```bash
-node scripts/generate-password-hash.mjs "uma senha forte"
+printf '%s' 'uma senha forte' | node scripts/generate-password-hash.mjs
 ```
 
 Configure o resultado como `ADMIN_PASSWORD_HASH` e mantenha
@@ -14,9 +14,10 @@ usado no desenvolvimento local, com a flag explicitamente habilitada.
 
 ## Cloudflare WAF
 
-Crie regras de rate limiting para `POST /api/auth/login` e para as mutações
-de `/api/admin/*`. Um ponto de partida é limitar tentativas por IP e aumentar
-o bloqueio progressivamente; ajuste os valores depois de observar o tráfego.
+Crie regras de rate limiting para `POST /api/auth/login` e `POST /api/comments`,
+limitando por IP e aumentando o bloqueio progressivamente. O código mantém um
+limite defensivo por isolate; a regra Cloudflare é a proteção distribuída de
+produção.
 
 ## Banco e migrações
 
@@ -29,3 +30,5 @@ npx wrangler d1 migrations apply internetdozero --remote
 
 A migração de comentários é expansiva e preserva a coluna JSON antiga. Só a
 remoção dessa coluna deve acontecer após verificar a migração em produção.
+
+A migração `0003` adiciona revogação server-side de sessões no logout.

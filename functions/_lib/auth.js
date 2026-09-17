@@ -34,7 +34,7 @@ function cookieValue(request) {
 
 export async function createSession(env) {
   if (!env.ADMIN_SESSION_SECRET || new TextEncoder().encode(env.ADMIN_SESSION_SECRET).length < 32) throw new Error('ADMIN_SESSION_SECRET ausente ou fraco');
-  const payload = JSON.stringify({ exp: Date.now() + 8 * 60 * 60 * 1000, csrf: toBase64Url(crypto.getRandomValues(new Uint8Array(24))) });
+  const payload = JSON.stringify({ id: toBase64Url(crypto.getRandomValues(new Uint8Array(18))), exp: Date.now() + 8 * 60 * 60 * 1000, csrf: toBase64Url(crypto.getRandomValues(new Uint8Array(24))) });
   const body = toBase64Url(encoder.encode(payload));
   const token = `${body}.${await sign(body, env.ADMIN_SESSION_SECRET)}`;
   return { token, csrf: JSON.parse(payload).csrf };
@@ -47,7 +47,12 @@ export async function getSession(request, env) {
   if (!body || !signature || !constantTimeEqual(signature, await sign(body, env.ADMIN_SESSION_SECRET))) return null;
   try {
     const payload = JSON.parse(new TextDecoder().decode(fromBase64Url(body)));
-    return payload.exp > Date.now() ? payload : null;
+    if (payload.exp <= Date.now() || !payload.id) return null;
+    if (env.DB) {
+      const revoked = await env.DB.prepare('SELECT session_id FROM revoked_sessions WHERE session_id = ? AND expires_at > ?').bind(payload.id, Date.now()).first();
+      if (revoked) return null;
+    }
+    return payload;
   } catch (_) { return null; }
 }
 
