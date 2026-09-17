@@ -5,6 +5,7 @@ import { PostComments } from './PostComments';
 import { RichContent } from './RichContent';
 import { ShareModal } from './ShareModal';
 import { translations } from '../../../i18n/translations';
+import { getPostReadingTime } from '../utils/readingTime';
 
 export function PostDetail({ post, isLiked, onToggleLike, onAddComment, postLang = 'pt', onBack }) {
   const [isShareOpen, setIsShareOpen] = useState(false);
@@ -109,7 +110,7 @@ export function PostDetail({ post, isLiked, onToggleLike, onAddComment, postLang
               <span>/</span>
               <span className="flex items-center gap-1">
                 <Clock className="w-3 h-3 text-emerald-500" />
-                {post.readingTime || '5 min'} {t.blog.readingTime}
+                {getPostReadingTime(post)} {t.blog.readingTime}
               </span>
             </div>
           </div>

@@ -1,5 +1,6 @@
 import React, { useState, useMemo } from 'react';
 import { BookOpen, Search, Clock, Bookmark, X } from 'lucide-react';
+import { getPostReadingTime } from '../utils/readingTime';
 
 export function ArticleIndexPanel({
   posts = [],
@@ -113,7 +114,7 @@ export function ArticleIndexPanel({
                         </span>
                         <span className="flex items-center gap-0.5">
                           <Clock className="w-2.5 h-2.5" />
-                          {post.readingTime || '3 min'}
+                          {getPostReadingTime(post)}
                         </span>
                       </div>
                     </button>

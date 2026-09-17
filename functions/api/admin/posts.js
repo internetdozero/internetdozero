@@ -2,12 +2,17 @@ import { requireAdmin } from '../../_lib/auth';
 import { json, readJson } from '../../_lib/response';
 
 const fields = ['title_pt', 'subtitle_pt', 'category', 'author', 'reading_time', 'slug', 'tags_pt', 'sections_pt', 'type'];
+function calculateReadingTime(sections = []) {
+  const words = sections.map((section) => `${section.title || ''} ${section.content || ''}`).join(' ').trim().split(/\s+/).filter(Boolean).length;
+  return `${Math.max(1, Math.ceil(words / 200))} min`;
+}
 function clean(body) {
   const post = Object.fromEntries(fields.map((field) => [field, body?.[field]]));
   if (!post.title_pt || !post.category || !post.sections_pt?.length) return null;
   if (post.title_pt.length > 180 || post.subtitle_pt?.length > 300 || post.author?.length > 80) return null;
   post.tags_pt = Array.isArray(post.tags_pt) ? post.tags_pt.slice(0, 20).map((tag) => String(tag).slice(0, 40)) : [];
   post.sections_pt = Array.isArray(post.sections_pt) ? post.sections_pt.slice(0, 30) : [];
+  post.reading_time = calculateReadingTime(post.sections_pt);
   return post;
 }
 

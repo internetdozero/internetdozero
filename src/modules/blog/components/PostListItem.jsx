@@ -1,5 +1,6 @@
 import React from 'react';
 import { ArrowRight, Clock, Globe, Heart, MessageSquare } from 'lucide-react';
+import { getPostReadingTime } from '../utils/readingTime';
 
 export function PostListItem({ post, isLiked, onToggleLike, onSelect, lang = 'pt' }) {
   const isEn = lang === 'en';
@@ -36,7 +37,7 @@ export function PostListItem({ post, isLiked, onToggleLike, onSelect, lang = 'pt
           <span>•</span>
           <span className="flex items-center gap-1">
             <Clock className="w-3 h-3" />
-            {post.readingTime || '3 min'}
+            {getPostReadingTime(post)}
           </span>
         </div>
       </div>

@@ -1,5 +1,6 @@
 import React from 'react';
 import { ArrowRight, Clock, Heart, MessageSquare, Sparkles } from 'lucide-react';
+import { getPostReadingTime } from '../utils/readingTime';
 
 export function FeaturedPost({ post, isLiked, onToggleLike, onSelect, lang = 'pt' }) {
   if (!post) return null;
@@ -36,7 +37,7 @@ export function FeaturedPost({ post, isLiked, onToggleLike, onSelect, lang = 'pt
           <span>•</span>
           <span className="flex items-center gap-1">
             <Clock className="w-3 h-3" />
-            {post.readingTime || '5 min'}
+            {getPostReadingTime(post)}
           </span>
         </div>
       </div>

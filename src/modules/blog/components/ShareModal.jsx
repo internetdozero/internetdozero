@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { X, Copy, Check, Share2, Smartphone } from 'lucide-react';
 import { getSocialLinks } from '../utils/socialShare';
+import { getPostReadingTime } from '../utils/readingTime';
 
 export function ShareModal({ isOpen, onClose, post, isEn = false }) {
   const [copied, setCopied] = useState(false);
@@ -77,7 +78,7 @@ export function ShareModal({ isOpen, onClose, post, isEn = false }) {
           <div className="p-4 rounded-xl bg-zinc-50 dark:bg-zinc-950 border border-zinc-200/80 dark:border-zinc-800/80 space-y-2">
             <div className="flex items-center justify-between text-[10px] font-mono text-zinc-400">
               <span className="text-emerald-600 dark:text-emerald-400 font-bold">0x // Internet do Zero</span>
-              <span>{post.readingTime || '5 min'}</span>
+              <span>{getPostReadingTime(post)}</span>
             </div>
             <h4 className="font-mono font-bold text-sm text-zinc-900 dark:text-zinc-100 line-clamp-2">
               {title}

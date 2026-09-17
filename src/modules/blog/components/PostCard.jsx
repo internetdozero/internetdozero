@@ -1,5 +1,6 @@
 import React from 'react';
 import { Heart, MessageSquare, Clock, ArrowRight } from 'lucide-react';
+import { getPostReadingTime } from '../utils/readingTime';
 
 export function PostCard({ post, isLiked, onToggleLike, onSelect, lang = 'pt' }) {
   const isEn = lang === 'en';
@@ -29,7 +30,7 @@ export function PostCard({ post, isLiked, onToggleLike, onSelect, lang = 'pt' })
 
           <div className="flex items-center gap-1.5 text-xs text-zinc-500 font-mono">
             <Clock className="w-3 h-3" />
-            <span>{post.readingTime || '3 min'}</span>
+            <span>{getPostReadingTime(post)}</span>
           </div>
         </div>
 
