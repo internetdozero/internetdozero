@@ -13,7 +13,6 @@ export function ToolsView({ onNavigate, toolSlug, lang = 'pt' }) {
           <ArrowLeft className="h-3.5 w-3.5" />
           {isEn ? 'Back to tools' : 'Voltar às ferramentas'}
         </button>
-        <p className="font-mono text-xs font-bold uppercase tracking-[0.22em] text-emerald-500">/tools/compressor-de-imagem</p>
         <ImageCompressor lang={lang} />
       </main>
     );
