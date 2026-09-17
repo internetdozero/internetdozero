@@ -12,7 +12,7 @@ export function useRouter() {
 
     if (path === '/tools' || path.startsWith('/tools/')) {
       const requestedToolSlug = path.split('/').filter(Boolean)[1] || null;
-      const toolAliases = { 'image-compressor': 'compressor-de-imagem', 'password-generator': 'gerador-de-senhas', 'audio-master': 'masterizador-de-audio' };
+      const toolAliases = { 'image-compressor': 'compressor-de-imagem', 'password-generator': 'gerador-de-senhas', 'audio-master': 'masterizador-de-audio', 'metadata-remover': 'remover-metadados' };
       return { view: 'tools', toolSlug: toolAliases[requestedToolSlug] || requestedToolSlug, postSlug: null, postCategory: null };
     }
 
