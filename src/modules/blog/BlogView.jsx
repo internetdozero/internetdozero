@@ -172,7 +172,7 @@ export function BlogView({ postSlug, postCategory, onNavigate, lang = 'pt' }) {
   const feedPosts = featured ? filteredLongPosts.slice(1) : filteredLongPosts;
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+    <div className="mx-auto max-w-[1600px] px-4 py-10 sm:px-6 lg:px-10">
       <BlogHeader
         onBackToHub={handleBackToHub}
         searchQuery={searchQuery}
@@ -190,7 +190,7 @@ export function BlogView({ postSlug, postCategory, onNavigate, lang = 'pt' }) {
         onSelectCategory={(category) => { setActiveCategory(category); setActiveTag(null); setActiveTab('all'); }}
       />
 
-      <div className="grid items-start gap-10 lg:grid-cols-[minmax(0,1fr)_320px]">
+      <div className="grid items-start gap-12 lg:grid-cols-[minmax(0,1fr)_360px]">
         <main className="min-w-0">
           {featured && (
             <FeaturedPost
