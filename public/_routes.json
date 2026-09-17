@@ -1,5 +1,16 @@
 {
   "version": 1,
-  "include": ["/api/*", "/blog/*"],
-  "exclude": []
+  "include": [
+    "/api/*",
+    "/blog/*",
+    "/tools",
+    "/tools/*",
+    "/sitemap.xml",
+    "/feed.xml"
+  ],
+  "exclude": [
+    "/assets/*",
+    "/images/*",
+    "/ffmpeg/*"
+  ]
 }

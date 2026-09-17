@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Internet do Zero</title>
+    <link>https://internetdozero.com.br</link>
+    <description>Ferramentas locais sem cadastro e blog sobre tecnologia independente.</description>
+    <language>pt-BR</language>
+    <atom:link href="https://internetdozero.com.br/feed.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Como publicar um site próprio sem complicar</title>
+      <link>https://internetdozero.com.br/blog/web/como-publicar-um-site-proprio-sem-complicar</link>
+      <guid isPermaLink="true">https://internetdozero.com.br/blog/web/como-publicar-um-site-proprio-sem-complicar</guid>
+      <description>Ter um pedaço de terra na internet é mais fácil do que parece — e ninguém pode te despejar.</description>
+      <category>Web</category>
+    </item>
+    <item>
+      <title>Um checklist prático para proteger suas contas</title>
+      <link>https://internetdozero.com.br/blog/seguranca/um-checklist-pratico-para-proteger-suas-contas</link>
+      <guid isPermaLink="true">https://internetdozero.com.br/blog/seguranca/um-checklist-pratico-para-proteger-suas-contas</guid>
+      <description>O básico bem feito já bloqueia a maioria dos problemas comuns — e leva menos tempo do que parece.</description>
+      <category>Segurança</category>
+    </item>
+    <item>
+      <title>Backup sem drama: uma rotina que cabe na vida real</title>
+      <link>https://internetdozero.com.br/blog/organizacao/backup-sem-drama-uma-rotina-que-cabe-na-vida-real</link>
+      <guid isPermaLink="true">https://internetdozero.com.br/blog/organizacao/backup-sem-drama-uma-rotina-que-cabe-na-vida-real</guid>
+      <description>Você não precisa de um servidor caseiro para não perder suas fotos e documentos importantes.</description>
+      <category>Organização</category>
+    </item>
+  </channel>
+</rss>
