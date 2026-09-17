@@ -1,14 +1,17 @@
 import React from 'react';
-import { ArrowLeft, ArrowRight, Image, KeyRound, Wrench } from 'lucide-react';
+import { ArrowLeft, ArrowRight, AudioLines, Image, KeyRound, Wrench } from 'lucide-react';
 import { ImageCompressor } from './components/ImageCompressor';
 import { PasswordGenerator } from './components/PasswordGenerator';
+import { AudioMasterizer } from './components/AudioMasterizer';
 
 export function ToolsView({ onNavigate, toolSlug, lang = 'pt' }) {
   const isEn = lang === 'en';
   const isCompressor = toolSlug === 'compressor-de-imagem';
   const isPasswordGenerator = toolSlug === 'gerador-de-senhas';
+  const isAudioMasterizer = toolSlug === 'masterizador-de-audio';
   const compressorPath = isEn ? '/tools/image-compressor' : '/tools/compressor-de-imagem';
   const passwordGeneratorPath = isEn ? '/tools/password-generator' : '/tools/gerador-de-senhas';
+  const audioMasterizerPath = isEn ? '/tools/audio-master' : '/tools/masterizador-de-audio';
 
   if (isCompressor) {
     return (
@@ -30,6 +33,18 @@ export function ToolsView({ onNavigate, toolSlug, lang = 'pt' }) {
           {isEn ? 'Back to tools' : 'Voltar às ferramentas'}
         </button>
         <PasswordGenerator lang={lang} />
+      </main>
+    );
+  }
+
+  if (isAudioMasterizer) {
+    return (
+      <main className="mx-auto max-w-5xl px-6 py-12 sm:py-16">
+        <button type="button" onClick={() => onNavigate('/tools')} className="mb-8 inline-flex items-center gap-2 font-mono text-xs text-zinc-500 transition-colors hover:text-emerald-500">
+          <ArrowLeft className="h-3.5 w-3.5" />
+          {isEn ? 'Back to tools' : 'Voltar às ferramentas'}
+        </button>
+        <AudioMasterizer lang={lang} />
       </main>
     );
   }
@@ -67,6 +82,12 @@ export function ToolsView({ onNavigate, toolSlug, lang = 'pt' }) {
           <h2 className="mt-5 font-mono text-lg font-bold text-zinc-900 dark:text-white">{isEn ? 'Password generator' : 'Gerador de senhas'}</h2>
           <p className="mt-2 text-sm leading-relaxed text-zinc-500 dark:text-zinc-400">{isEn ? 'Create strong passwords locally in a few seconds.' : 'Crie senhas fortes localmente em poucos segundos.'}</p>
           <span className="mt-4 inline-block font-mono text-[11px] text-emerald-500">{passwordGeneratorPath}</span>
+        </button>
+        <button type="button" onClick={() => onNavigate(audioMasterizerPath)} className="group rounded-2xl border border-zinc-200 bg-white p-5 text-left transition-colors hover:border-emerald-500/50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 dark:border-zinc-800 dark:bg-zinc-900/60">
+          <div className="flex items-start justify-between gap-4"><span className="flex h-11 w-11 items-center justify-center rounded-xl border border-emerald-500/20 bg-emerald-500/10 text-emerald-500"><AudioLines className="h-5 w-5" /></span><ArrowRight className="h-4 w-4 text-zinc-400 transition-transform group-hover:translate-x-1 group-hover:text-emerald-500" /></div>
+          <h2 className="mt-5 font-mono text-lg font-bold text-zinc-900 dark:text-white">{isEn ? 'Audio masterizer' : 'Masterizador de áudio'}</h2>
+          <p className="mt-2 text-sm leading-relaxed text-zinc-500 dark:text-zinc-400">{isEn ? 'Balance volume and dynamics in your browser.' : 'Equilibre volume e dinâmica direto no navegador.'}</p>
+          <span className="mt-4 inline-block font-mono text-[11px] text-emerald-500">{audioMasterizerPath}</span>
         </button>
       </div>
     </main>
