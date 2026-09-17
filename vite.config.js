@@ -7,6 +7,9 @@ export default defineConfig({
     react(),
     tailwindcss(),
   ],
+  optimizeDeps: {
+    exclude: ['@ffmpeg/ffmpeg', '@ffmpeg/util'],
+  },
   server: {
     port: 5173,
     host: true,
@@ -22,4 +25,3 @@ export default defineConfig({
     }
   }
 })
-

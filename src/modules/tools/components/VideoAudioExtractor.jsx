@@ -36,7 +36,7 @@ export function VideoAudioExtractor({ lang = 'pt' }) {
     setProcessing(true); setError('');
     let inputName = 'input';
     try {
-      const [{ FFmpeg }, { fetchFile }] = await Promise.all([import('@ffmpeg/ffmpeg'), import('@ffmpeg/util')]);
+      const [{ FFmpeg }, { fetchFile, toBlobURL }] = await Promise.all([import('@ffmpeg/ffmpeg'), import('@ffmpeg/util')]);
       const ffmpeg = ffmpegRef.current || new FFmpeg();
       ffmpegRef.current = ffmpeg;
       if (!progressHandlerRef.current) {
@@ -45,10 +45,9 @@ export function VideoAudioExtractor({ lang = 'pt' }) {
       }
       if (!ffmpeg.loaded) {
         setLoadingEngine(true);
-        const load = ffmpeg.load({
-          coreURL: '/ffmpeg/ffmpeg-core.js',
-          wasmURL: '/ffmpeg/ffmpeg-core.wasm'
-        });
+        const coreURL = await toBlobURL('/ffmpeg/ffmpeg-core.js', 'text/javascript');
+        const wasmURL = await toBlobURL('/ffmpeg/ffmpeg-core.wasm', 'application/wasm');
+        const load = ffmpeg.load({ coreURL, wasmURL });
         let loadTimeout;
         try {
           await Promise.race([load, new Promise((_, reject) => { loadTimeout = window.setTimeout(() => reject(new Error(isEn ? 'The converter took too long to load. Check your connection and try again.' : 'O conversor demorou demais para carregar. Verifique sua conexão e tente novamente.')), 45000); })]);
