@@ -85,6 +85,22 @@ internetdozero/
 
 ## 5. Development & Build
 
+### Cloudflare Pages + D1
+
+The editorial backend runs in Pages Functions and Cloudflare D1. Copy
+`wrangler.toml.example` to `wrangler.toml`, create the D1 database, replace its
+ID, and apply the schema:
+
+```bash
+npx wrangler d1 create internetdozero
+npx wrangler d1 migrations apply internetdozero --remote
+```
+
+In the Pages project, bind that database as `DB` and add the encrypted secrets
+`ADMIN_PASSWORD` and `ADMIN_SESSION_SECRET`. The public API is available at
+`/api/posts` and `/api/categories`; editorial writes require the HttpOnly
+session cookie issued by `/api/auth/login`.
+
 ### Prerequisites
 * Node.js `>= 18.0.0`
 * npm `>= 9.0.0`
