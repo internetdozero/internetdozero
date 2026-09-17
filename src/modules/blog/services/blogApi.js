@@ -49,8 +49,9 @@ export const blogApi = {
   getPosts: async () => {
     try {
       const remote = await api('/api/posts');
-      if (Array.isArray(remote) && remote.length > 0) return remote.map((post) => ({ ...post, createdAt: post.created_at || post.createdAt, readingTime: post.reading_time || post.readingTime }));
+      if (remote?.items) return remote.items;
     } catch (_) {}
+    if (!import.meta.env.DEV) return [];
     try {
       const stored = localStorage.getItem(STORAGE_KEY);
       if (stored) {
@@ -84,8 +85,8 @@ export const blogApi = {
   },
 
   getCategories: () => {
-    // The local fallback keeps the editor usable before its D1 binding exists.
     return api('/api/categories').catch(() => {
+    if (!import.meta.env.DEV) return [];
     try {
       const stored = JSON.parse(localStorage.getItem(CATEGORIES_KEY) || 'null');
       if (Array.isArray(stored) && stored.length) return stored;
@@ -94,12 +95,18 @@ export const blogApi = {
     });
   },
 
+  getPost: async (category, slug) => api(`/api/posts/${encodeURIComponent(category)}/${encodeURIComponent(slug)}`),
+  getComments: async (postId, cursor) => api(`/api/posts/${encodeURIComponent(postId)}/comments${cursor ? `?cursor=${encodeURIComponent(cursor)}` : ''}`),
+  getAdminPosts: async (cursor) => api(`/api/admin/posts${cursor ? `?cursor=${encodeURIComponent(cursor)}` : ''}`),
+  getAdminComments: async (cursor) => api(`/api/admin/comments${cursor ? `?cursor=${encodeURIComponent(cursor)}` : ''}`),
+  moderateComment: async (id, status) => api(`/api/admin/comments?id=${encodeURIComponent(id)}`, { method: 'PATCH', headers: { 'X-CSRF-Token': sessionStorage.getItem('idz_admin_csrf') || '' }, body: JSON.stringify({ status }) }),
+
   saveCategories: (categories) => {
     try { localStorage.setItem(CATEGORIES_KEY, JSON.stringify(categories)); } catch (_) {}
   },
 
   addPost: async (postData) => {
-    try { await api('/api/admin/posts', { method: 'POST', headers: { 'X-CSRF-Token': sessionStorage.getItem('idz_admin_csrf') || '' }, body: JSON.stringify({ ...postData, reading_time: postData.readingTime, tags_pt: postData.tags_pt, sections_pt: postData.sections_pt }) }); notifyBlogChange(); return (await api('/api/posts')).find((post) => post.slug === postData.slug); } catch (error) { if (hasAdminSession()) throw error; }
+    try { await api('/api/admin/posts', { method: 'POST', headers: { 'X-CSRF-Token': sessionStorage.getItem('idz_admin_csrf') || '' }, body: JSON.stringify({ ...postData, reading_time: postData.readingTime, tags_pt: postData.tags_pt, sections_pt: postData.sections_pt }) }); notifyBlogChange(); const page = await api('/api/posts'); return page.items?.find((post) => post.slug === postData.slug); } catch (error) { if (hasAdminSession()) throw error; }
     const posts = await blogApi.getPosts();
     const title = postData.title_pt || postData.title || '';
     const newPost = {
@@ -175,10 +182,11 @@ export const blogApi = {
     try {
       const result = await api(`/api/comments?postId=${encodeURIComponent(postId)}`, { method: 'POST', body: JSON.stringify({ author, text }) });
       notifyBlogChange();
-      return { newComment: result.comment, posts: await blogApi.getPosts() };
+      return { newComment: result.comment, pending: result.pending };
     } catch (error) {
       if (error.message !== 'API 404' && error.message !== 'API 503') throw error;
     }
+    if (!import.meta.env.DEV) throw new Error('Comentários indisponíveis no momento.');
     const posts = await blogApi.getPosts();
     const strip = (s) => s.replace(/<[^>]*>/g, '');
     const newComment = {

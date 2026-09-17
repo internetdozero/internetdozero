@@ -76,7 +76,7 @@ export function PostCard({ post, isLiked, onToggleLike, onSelect, lang = 'pt' })
 
           <span className="inline-flex items-center gap-1.5 text-zinc-500">
             <MessageSquare className="w-3.5 h-3.5" />
-            <span>{post.comments?.length || 0}</span>
+            <span>{post.commentsCount ?? post.comments?.length ?? 0}</span>
           </span>
         </div>
 

@@ -82,7 +82,7 @@ export function FeaturedPost({ post, isLiked, onToggleLike, onSelect, lang = 'pt
 
           <span className="flex items-center gap-1.5 text-zinc-500">
             <MessageSquare className="w-4 h-4" />
-            <span>{post.comments?.length || 0}</span>
+            <span>{post.commentsCount ?? post.comments?.length ?? 0}</span>
           </span>
 
           <span className="inline-flex items-center gap-1 font-bold text-emerald-600 dark:text-emerald-400 group-hover:translate-x-1 transition-transform">

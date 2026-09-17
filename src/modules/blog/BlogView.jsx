@@ -18,21 +18,31 @@ export function BlogView({ postSlug, postCategory, onNavigate, lang = 'pt', onTo
   const [activeCategory, setActiveCategory] = useState(null);
   const [searchQuery, setSearchQuery] = useState('');
   const [categories, setCategories] = useState([]);
+  const [detail, setDetail] = useState(null);
+  const [detailComments, setDetailComments] = useState([]);
   const { isLiked, syncAfterToggle } = useLikedPosts();
   const isEn = lang === 'en';
 
   useEffect(() => {
-    blogApi.getPosts().then(setPosts);
+    blogApi.getPosts().then((result) => setPosts(result || []));
     blogApi.getCategories().then(setCategories);
-    return subscribeToBlogChanges(() => { blogApi.getPosts().then(setPosts); blogApi.getCategories().then(setCategories); });
+    return subscribeToBlogChanges(() => { blogApi.getPosts().then((result) => setPosts(result || [])); blogApi.getCategories().then(setCategories); });
   }, []);
 
   useEffect(() => {
     window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
   }, [postSlug, postCategory, activeTab]);
 
-  // Derive selectedPost from slug + posts (matches PT slug, EN slug, or id fallback)
-  const selectedPost = useMemo(() => {
+  useEffect(() => {
+    if (!postSlug || !postCategory) { setDetail(null); return; }
+    blogApi.getPost(postCategory, postSlug).then((post) => {
+      setDetail(post);
+      return blogApi.getComments(post.id);
+    }).then((result) => setDetailComments(result?.items || [])).catch(() => setDetail(null));
+  }, [postSlug, postCategory]);
+
+  // Resolve the route from the lightweight summary before fetching full content.
+  const selectedSummary = useMemo(() => {
     if (!postSlug || !posts.length) return null;
     return posts.find(
         (p) =>
@@ -72,10 +82,7 @@ export function BlogView({ postSlug, postCategory, onNavigate, lang = 'pt', onTo
     syncAfterToggle(id);
   }, [syncAfterToggle]);
 
-  const handleAddComment = useCallback(async (id, commentData) => {
-    const { posts: updatedPosts } = await blogApi.addComment(id, commentData);
-    setPosts(updatedPosts);
-  }, []);
+  const handleAddComment = useCallback((id, commentData) => blogApi.addComment(id, commentData), []);
 
   const thoughts = useMemo(() => posts.filter((p) => p.type === 'thought'), [posts]);
   const longFormPosts = useMemo(() => posts.filter((p) => p.type !== 'thought'), [posts]);
@@ -112,14 +119,14 @@ export function BlogView({ postSlug, postCategory, onNavigate, lang = 'pt', onTo
     });
   }, [longFormPosts, activeTab, activeCategory, activeTag, searchQuery, isEn]);
 
-  if (selectedPost) {
+  if (detail) {
     return (
       <PostDetail
-        post={selectedPost}
+        post={{ ...detail, comments: detailComments }}
         postLang={lang}
-        isLiked={isLiked(selectedPost.id)}
+        isLiked={isLiked(detail.id)}
         onToggleLike={handleToggleLike}
-        onAddComment={handleAddComment}
+        onAddComment={async (id, data) => { await handleAddComment(id, data); const result = await blogApi.getComments(id); setDetailComments(result?.items || []); }}
         onBack={() => handleSelectPost(null)}
       />
     );
@@ -179,7 +186,7 @@ export function BlogView({ postSlug, postCategory, onNavigate, lang = 'pt', onTo
             onToggleLike={handleToggleLike}
             onSelectThought={handleSelectPost}
             onSelectPost={handleSelectPost}
-            selectedPostId={selectedPost?.id}
+            selectedPostId={selectedSummary?.id}
             postLang={lang}
             lang={lang}
           />

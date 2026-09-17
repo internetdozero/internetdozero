@@ -57,7 +57,7 @@ export function ThoughtCard({ thought, isLiked, onToggleLike, onSelect, lang = '
           className="inline-flex items-center gap-1.5 text-zinc-500 dark:text-zinc-400 hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors cursor-pointer"
         >
           <MessageSquare className="w-3.5 h-3.5" />
-          <span>{thought.comments?.length || 0} {isEn ? 'comments' : 'comentários'}</span>
+          <span>{thought.commentsCount ?? thought.comments?.length ?? 0} {isEn ? 'comments' : 'comentários'}</span>
         </button>
       </div>
     </article>

@@ -48,7 +48,7 @@ export function SidebarThoughts({ thoughts = [], onSelectThought, onToggleLike, 
                   </button>
                   <span className="flex items-center gap-1">
                     <MessageSquare className="w-3 h-3" />
-                    <span>{thought.comments?.length || 0}</span>
+                    <span>{thought.commentsCount ?? thought.comments?.length ?? 0}</span>
                   </span>
                 </div>
               </div>

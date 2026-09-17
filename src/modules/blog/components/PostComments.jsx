@@ -3,7 +3,7 @@ import { MessageSquare, Send, User } from 'lucide-react';
 import { translations } from '../../../i18n/translations';
 import { emitFeedback } from '../../../components/FeedbackModal';
 
-export function PostComments({ comments = [], onAddComment, lang = 'pt' }) {
+export function PostComments({ comments = [], commentsCount = null, onAddComment, lang = 'pt' }) {
   const [author, setAuthor] = useState('');
   const [text, setText] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -15,7 +15,7 @@ export function PostComments({ comments = [], onAddComment, lang = 'pt' }) {
     if (!text.trim()) return;
 
     setIsSubmitting(true);
-    try { await onAddComment({ author: author.trim() || (isEn ? 'Guest' : 'Visitante'), text }); setText(''); setAuthor(''); emitFeedback('success', isEn ? 'Comment sent.' : 'Comentário enviado.'); } catch (error) { emitFeedback('error', error.message.includes('Links') ? (isEn ? 'Links are not allowed in comments.' : 'Links não são permitidos nos comentários.') : (isEn ? 'Could not send the comment.' : 'Não foi possível enviar o comentário.')); }
+    try { const result = await onAddComment({ author: author.trim() || (isEn ? 'Guest' : 'Visitante'), text }); setText(''); setAuthor(''); emitFeedback('success', result?.pending ? (isEn ? 'Comment sent for moderation.' : 'Comentário enviado para moderação.') : (isEn ? 'Comment sent.' : 'Comentário enviado.')); } catch (error) { emitFeedback('error', error.message.includes('Links') ? (isEn ? 'Links are not allowed in comments.' : 'Links não são permitidos nos comentários.') : (isEn ? 'Could not send the comment.' : 'Não foi possível enviar o comentário.')); }
     setIsSubmitting(false);
   };
 
@@ -24,7 +24,7 @@ export function PostComments({ comments = [], onAddComment, lang = 'pt' }) {
       <div className="flex items-center gap-2 mb-6">
         <MessageSquare className="w-5 h-5 text-emerald-500" />
         <h3 className="text-xl font-bold font-mono text-zinc-900 dark:text-white">
-          {t.blog.commentsCount} ({comments.length})
+          {t.blog.commentsCount} ({commentsCount ?? comments.length})
         </h3>
       </div>
 

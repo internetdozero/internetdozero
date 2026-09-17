@@ -141,7 +141,7 @@ export function PostDetail({ post, isLiked, onToggleLike, onAddComment, postLang
             </button>
           </div>
 
-          <PostComments comments={post.comments || []} onAddComment={(data) => onAddComment(post.id, data)} lang={postLang} />
+          <PostComments comments={post.comments || []} commentsCount={post.commentsCount} onAddComment={(data) => onAddComment(post.id, data)} lang={postLang} />
         </article>
       </div>
 
