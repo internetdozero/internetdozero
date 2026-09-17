@@ -5,12 +5,14 @@ const examples = {
   pt: [
     ['Vai publicar uma imagem?', 'Tire os metadados e reduza o tamanho antes de postar.', 'remover-metadados', 'Removedor de metadados'],
     ['O áudio ficou comprido?', 'Corte o começo, o fim ou só guarde o trecho importante.', 'cortador-de-audio', 'Cortador de áudio'],
-    ['Uma conta nova apareceu?', 'Gere uma senha diferente e copie sem guardar no site.', 'gerador-de-senhas', 'Gerador de senhas']
+    ['Uma conta nova apareceu?', 'Gere uma senha diferente e copie sem guardar no site.', 'gerador-de-senhas', 'Gerador de senhas'],
+    ['Precisa revisar um texto?', 'Conte palavras, caracteres e tempo de leitura enquanto escreve.', 'contador-de-texto', 'Contador de texto']
   ],
   en: [
     ['Publishing an image?', 'Remove metadata and reduce its size before sharing.', 'metadata-remover', 'Metadata remover'],
     ['Audio too long?', 'Cut the beginning, the end, or keep only what matters.', 'audio-trimmer', 'Audio trimmer'],
-    ['Creating an account?', 'Generate a different password and copy it locally.', 'password-generator', 'Password generator']
+    ['Creating an account?', 'Generate a different password and copy it locally.', 'password-generator', 'Password generator'],
+    ['Reviewing a draft?', 'Count words, characters and reading time as you write.', 'text-counter', 'Text counter']
   ]
 };
 
