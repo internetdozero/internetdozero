@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { X, Terminal, Copy, Check, Shield, Key, Volume2, Clock, Radio, Sparkles } from 'lucide-react';
+import { X, Terminal, Copy, Check, Key, Volume2, Clock, Radio, Sparkles } from 'lucide-react';
 
 const arsenalTools = [
   {

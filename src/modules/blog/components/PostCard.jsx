@@ -9,12 +9,6 @@ export function PostCard({ post, isLiked, onToggleLike, onSelect, lang = 'pt' })
   const subtitle = (isEn && post.subtitle_en) ? post.subtitle_en : (post.subtitle_pt || post.subtitle);
   const tags = (isEn && post.tags_en) ? post.tags_en : (post.tags_pt || post.tags || []);
 
-  const formattedDate = new Date(post.createdAt).toLocaleDateString(isEn ? 'en-US' : 'pt-BR', {
-    day: '2-digit',
-    month: 'short',
-    year: 'numeric'
-  });
-
   return (
     <article
       onClick={() => onSelect(post)}
