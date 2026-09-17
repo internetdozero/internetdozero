@@ -45,7 +45,7 @@ export function SidebarTopics({ tags = [], activeTag, onSelectTag, isEn }) {
           <span>{isEn ? 'about this space' : 'sobre este espaço'}</span>
         </div>
         <p className="text-zinc-400 leading-relaxed mb-3">
-          {isEn ? 'Independent & sovereign space. No algorithms, no clickbait, and no corporate agenda.' : 'Reduto monocrático e autoral. Sem algoritmo, sem clickbait e sem pauta obrigatória.'}
+          {isEn ? 'A small personal blog. No schedule, no clickbait — just things I wanted to write down.' : 'Um blog pessoal pequeno. Sem calendário, sem clickbait — só coisas que eu quis escrever.'}
         </p>
         <div className="pt-2 border-t border-zinc-800 text-[11px] text-zinc-500 flex items-center justify-between">
           <span>{isEn ? 'Mode: Sovereign' : 'Modo: Independente'}</span>

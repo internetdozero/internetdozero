@@ -44,7 +44,7 @@ export function StatusRadar({ lang = 'pt' }) {
           type: 'output',
           text: isEn
             ? 'Available spaces:\n  [1] Texts — Essays, guides, and notes\n  [2] Quizzes — Small challenges, coming soon'
-            : 'Espaços disponíveis:\n  [1] Textos — Ensaios, guias e anotações\n  [2] Quizzes — Desafios leves, em breve'
+            : 'O que tem por aqui:\n  [1] Textos — coisas que eu escrevi\n  [2] Quizzes — ainda não comecei'
         });
         break;
       case 'blog':
@@ -52,7 +52,7 @@ export function StatusRadar({ lang = 'pt' }) {
           type: 'output',
           text: isEn
             ? 'Texts: Essays, guides, and notes published in my own corner of the web.'
-            : 'Textos: Ensaios, guias e anotações publicados no meu próprio canto da web.'
+            : 'Textos: guias, ensaios e anotações que eu quis guardar aqui.'
         });
         break;
       case 'quizzes':
@@ -70,7 +70,7 @@ export function StatusRadar({ lang = 'pt' }) {
           type: 'output',
           text: isEn
             ? 'Internet do Zero: A personal site for publishing, building, and keeping the web interesting.'
-            : 'Internet do Zero: Um site pessoal para publicar, construir e deixar a web interessante.'
+            : 'Internet do Zero: um site pessoal para escrever e fazer coisas.'
         });
         break;
       case 'clear':
