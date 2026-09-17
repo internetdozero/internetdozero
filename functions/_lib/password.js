@@ -8,7 +8,7 @@ function encode(bytes) {
 }
 
 function decode(value) {
-  const binary = atob(value.replace(/-/g, '+').replace(/_/g, '/') + '==='.slice((value.length + 3) % 4));
+  const binary = atob(value.replace(/-/g, '+').replace(/_/g, '/') + '='.repeat((4 - (value.length % 4)) % 4));
   return Uint8Array.from(binary, (char) => char.charCodeAt(0));
 }
 
