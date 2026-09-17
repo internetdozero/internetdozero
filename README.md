@@ -94,4 +94,4 @@ Mais detalhes de cada versão estão em [`changelog.md`](changelog.md).
 
 ## Licença
 
-Ainda não há um arquivo `LICENSE` no repositório. A licença será definida antes de uma abertura oficial do código.
+Distribuído sob a licença [MIT](LICENSE). Veja o arquivo `LICENSE` para mais detalhes.
