@@ -28,7 +28,7 @@ export const Header = React.memo(function Header({
             <div className="w-9 h-9 rounded-lg bg-zinc-900 dark:bg-zinc-900 border border-emerald-500/40 flex items-center justify-center font-mono font-bold text-emerald-500 text-base shadow-[0_0_15px_rgba(16,185,129,0.2)] group-hover:border-emerald-400 group-hover:scale-105 transition-all">
               0x
             </div>
-            <div className="min-w-0 flex flex-col">
+            <div className="hidden min-w-0 flex-col sm:flex">
               <span className="whitespace-nowrap font-mono text-xs font-extrabold tracking-[0.08em] text-zinc-900 transition-colors group-hover:text-emerald-500 dark:text-zinc-100 dark:group-hover:text-emerald-400 sm:text-sm sm:tracking-wider">
                 Internet do Zero
               </span>
