@@ -29,7 +29,7 @@ export const blogApi = {
   getPosts: async () => {
     try {
       const remote = await api('/api/posts');
-      if (Array.isArray(remote)) return remote.map((post) => ({ ...post, createdAt: post.created_at || post.createdAt, readingTime: post.reading_time || post.readingTime }));
+      if (Array.isArray(remote) && remote.length > 0) return remote.map((post) => ({ ...post, createdAt: post.created_at || post.createdAt, readingTime: post.reading_time || post.readingTime }));
     } catch (_) {}
     try {
       const stored = localStorage.getItem(STORAGE_KEY);
