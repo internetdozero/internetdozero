@@ -1,6 +1,7 @@
 import React from 'react';
 import { ArrowRight, Clock, Globe, Heart, MessageSquare } from 'lucide-react';
 import { getPostReadingTime } from '../utils/readingTime';
+import { getArticleCover } from '../data/articleCovers';
 
 export function PostListItem({ post, isLiked, onToggleLike, onSelect, lang = 'pt' }) {
   const isEn = lang === 'en';
@@ -8,6 +9,7 @@ export function PostListItem({ post, isLiked, onToggleLike, onSelect, lang = 'pt
   const title = (isEn && post.title_en) ? post.title_en : (post.title_pt || post.title);
   const subtitle = (isEn && post.subtitle_en) ? post.subtitle_en : (post.subtitle_pt || post.subtitle);
   const tags = (isEn && post.tags_en) ? post.tags_en : (post.tags_pt || post.tags || []);
+  const cover = getArticleCover(post);
 
   const formattedDate = new Date(post.createdAt).toLocaleDateString(isEn ? 'en-US' : 'pt-BR', {
     day: '2-digit',
@@ -19,6 +21,9 @@ export function PostListItem({ post, isLiked, onToggleLike, onSelect, lang = 'pt
       onClick={() => onSelect(post)}
       className="group py-6 border-b border-zinc-200 dark:border-zinc-800/80 hover:border-emerald-500/40 transition-colors cursor-pointer"
     >
+      <div className="flex flex-col gap-4 sm:flex-row">
+        {cover && <img src={cover} alt="" className="aspect-[16/9] w-full shrink-0 rounded-xl object-cover sm:w-40" />}
+        <div className="min-w-0 flex-1">
       <div className="flex flex-col sm:flex-row sm:items-baseline justify-between gap-1 mb-2">
         <div className="flex items-center gap-2">
           <span className="text-xs font-mono font-bold text-emerald-600 dark:text-emerald-400">
@@ -84,6 +89,8 @@ export function PostListItem({ post, isLiked, onToggleLike, onSelect, lang = 'pt
           </span>
 
           <ArrowRight className="w-4 h-4 text-emerald-500 opacity-0 group-hover:opacity-100 group-hover:translate-x-1 transition-all" />
+        </div>
+      </div>
         </div>
       </div>
     </article>

@@ -6,6 +6,7 @@ import { RichContent } from './RichContent';
 import { ShareModal } from './ShareModal';
 import { translations } from '../../../i18n/translations';
 import { getPostReadingTime } from '../utils/readingTime';
+import { getArticleCover } from '../data/articleCovers';
 
 export function PostDetail({ post, isLiked, onToggleLike, onAddComment, postLang = 'pt', onBack }) {
   const [isShareOpen, setIsShareOpen] = useState(false);
@@ -16,6 +17,7 @@ export function PostDetail({ post, isLiked, onToggleLike, onAddComment, postLang
   const title = (isEn && post.title_en) ? post.title_en : (post.title_pt || post.title);
   const subtitle = (isEn && post.subtitle_en) ? post.subtitle_en : (post.subtitle_pt || post.subtitle);
   const tags = (isEn && post.tags_en) ? post.tags_en : (post.tags_pt || post.tags || []);
+  const cover = getArticleCover(post);
 
   const sections = useMemo(() => {
     const raw = (isEn && post.sections_en) ? post.sections_en : (post.sections_pt || post.sections);
@@ -102,6 +104,8 @@ export function PostDetail({ post, isLiked, onToggleLike, onAddComment, postLang
               </span>
             </div>
           </div>
+
+          {cover && <img src={cover} alt="" className="mb-8 aspect-[16/9] w-full rounded-2xl object-cover" />}
 
           <div className="space-y-12 mb-14">
             {sections.map((sec) => (

@@ -1,6 +1,7 @@
 import React from 'react';
 import { ArrowRight, Clock, Heart, MessageSquare, Sparkles } from 'lucide-react';
 import { getPostReadingTime } from '../utils/readingTime';
+import { getArticleCover } from '../data/articleCovers';
 
 export function FeaturedPost({ post, isLiked, onToggleLike, onSelect, lang = 'pt' }) {
   if (!post) return null;
@@ -9,6 +10,7 @@ export function FeaturedPost({ post, isLiked, onToggleLike, onSelect, lang = 'pt
   const title = (isEn && post.title_en) ? post.title_en : (post.title_pt || post.title);
   const subtitle = (isEn && post.subtitle_en) ? post.subtitle_en : (post.subtitle_pt || post.subtitle);
   const tags = (isEn && post.tags_en) ? post.tags_en : (post.tags_pt || post.tags || []);
+  const cover = getArticleCover(post);
 
   const formattedDate = new Date(post.createdAt).toLocaleDateString(isEn ? 'en-US' : 'pt-BR', {
     day: '2-digit',
@@ -21,6 +23,7 @@ export function FeaturedPost({ post, isLiked, onToggleLike, onSelect, lang = 'pt
       onClick={() => onSelect(post)}
       className="group relative p-6 sm:p-8 rounded-3xl bg-gradient-to-br from-white via-zinc-50 to-zinc-100 dark:from-zinc-900/90 dark:via-zinc-900/60 dark:to-zinc-950 border border-zinc-200 dark:border-zinc-800 hover:border-emerald-500/50 transition-all duration-300 shadow-xs hover:shadow-xl cursor-pointer overflow-hidden mb-10"
     >
+      {cover && <img src={cover} alt="" className="mb-6 aspect-[16/9] w-full rounded-2xl object-cover" />}
       <div className="absolute top-0 right-0 w-64 h-64 bg-emerald-500/5 group-hover:bg-emerald-500/10 rounded-full blur-3xl transition-all pointer-events-none" />
 
       {/* Header bar */}
