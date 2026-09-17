@@ -31,7 +31,7 @@ export const ModuleCard = React.memo(function ModuleCard({ module, onSelect, lan
       {/* Corner subtle glow on hover */}
       <div className="absolute top-0 right-0 w-32 h-32 bg-emerald-500/0 group-hover:bg-emerald-500/10 rounded-bl-full blur-2xl transition-all pointer-events-none" />
 
-      <div>
+      <div className="min-h-[210px]">
         {/* Top bar: Category + Status */}
         <div className="flex items-center justify-between gap-2 mb-4">
           <span className="text-[11px] font-mono font-medium tracking-wider uppercase text-zinc-500 dark:text-zinc-500">

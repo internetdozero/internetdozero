@@ -25,7 +25,7 @@ export function HubView({ onSelectModule, lang = 'pt' }) {
   const filteredModules = activeCategory === 'all'
     ? modulesData
     : modulesData.filter((m) => {
-        if (activeCategory === 'content') return m.id === 'blog';
+        if (activeCategory === 'content') return m.id === 'blog' || m.id === 'tools';
         if (activeCategory === 'interactive') return m.id === 'quizzes';
         return true;
       });

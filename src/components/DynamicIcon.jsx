@@ -15,7 +15,8 @@ import {
   Globe,
   Lock,
   Clock,
-  Layers
+  Layers,
+  Wrench
 } from 'lucide-react';
 
 const iconMap = {
@@ -34,7 +35,8 @@ const iconMap = {
   Globe,
   Lock,
   Clock,
-  Layers
+  Layers,
+  Wrench
 };
 
 export function DynamicIcon({ name, className = "w-5 h-5", ...props }) {

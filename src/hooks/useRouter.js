@@ -10,6 +10,10 @@ export function useRouter() {
       return { view: 'admin', postSlug: null };
     }
 
+    if (path === '/tools' || path.startsWith('/tools/')) {
+      return { view: 'tools', postSlug: null, postCategory: null };
+    }
+
     if (path.startsWith('/blog')) {
       const segments = path.replace(/\/+$/, '').split('/');
       const parts = segments.slice(2).filter(Boolean).map((part) => decodeURIComponent(part));
