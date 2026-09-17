@@ -1,9 +1,10 @@
-import { json, readJson, requestOriginAllowed } from '../_lib/response';
+import { json, readJson, requestOriginAllowed, serverError } from '../_lib/response';
 import { rateLimit } from '../_lib/rateLimit';
 
 const linkPattern = /(https?:\/\/|www\.|\[[^\]]+\]\([^()]+\)|\b[a-z0-9-]+\.[a-z]{2,}(?:\/|\b))/i;
 
 export async function onRequestPost(context) {
+ try {
   if (!requestOriginAllowed(context.request)) return json({ error: 'Origem inválida' }, 403);
   const retryAfter = rateLimit(context.request, { limit: 5, windowMs: 10 * 60 * 1000 });
   if (retryAfter) return json({ error: 'Muitos comentários. Tente novamente mais tarde.' }, 429, { 'Retry-After': String(retryAfter) });
@@ -18,4 +19,5 @@ export async function onRequestPost(context) {
   const comment = { id: crypto.randomUUID(), author, text, createdAt: new Date().toISOString() };
   await context.env.DB.prepare("INSERT INTO comments (id, post_id, author, content, status, created_at) VALUES (?, ?, ?, ?, 'pending', ?)").bind(comment.id, postId, author, text, comment.createdAt).run();
   return json({ comment, pending: true }, 201);
+ } catch (error) { return serverError(error); }
 }

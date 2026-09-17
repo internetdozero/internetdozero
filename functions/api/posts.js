@@ -1,10 +1,11 @@
-import { json } from '../_lib/response';
+import { json, serverError } from '../_lib/response';
 
 function parsePost(row) {
   return { ...row, likes: Number(row.likes || 0), comments: [], commentsCount: Number(row.comments_count || 0), tags_pt: JSON.parse(row.tags_pt || '[]'), createdAt: row.created_at, readingTime: row.reading_time };
 }
 
 export async function onRequestGet(context) {
+ try {
   if (!context.env.DB) return json({ error: 'D1 não configurado' }, 503);
   const url = new URL(context.request.url);
   const limit = Math.min(30, Math.max(1, Number(url.searchParams.get('limit') || 12)));
@@ -20,4 +21,5 @@ export async function onRequestGet(context) {
   const items = results.slice(0, limit).map(parsePost);
   const nextCursor = results.length > limit ? results[limit - 1].created_at : null;
   return json({ items, nextCursor }, 200, { 'Cache-Control': 'public, max-age=0, s-maxage=30, stale-while-revalidate=120' });
+ } catch (error) { return serverError(error); }
 }

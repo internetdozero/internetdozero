@@ -9,6 +9,11 @@ export function json(data, status = 200, headers = {}) {
   return Response.json(data, { status, headers: { ...securityHeaders, 'Cache-Control': 'no-store', ...headers } });
 }
 
+export function serverError(error) {
+  console.error('API failure:', error);
+  return json({ error: 'Serviço temporariamente indisponível.' }, 503);
+}
+
 export function requestOriginAllowed(request) {
   const origin = request.headers.get('Origin');
   if (!origin) return true;
