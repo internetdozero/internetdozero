@@ -7,8 +7,13 @@ function formatTime(seconds) {
 }
 
 async function decodeAudio(file) {
-  const context = new AudioContext();
-  try { return await context.decodeAudioData(await file.arrayBuffer()); } finally { await context.close(); }
+  const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+  if (!AudioContextClass) throw new Error('Seu navegador não suporta processamento de áudio.');
+  const context = new AudioContextClass();
+  try {
+    const audioData = await file.arrayBuffer();
+    return await new Promise((resolve, reject) => context.decodeAudioData(audioData, resolve, reject));
+  } finally { await context.close(); }
 }
 
 export function AudioTrimmer({ lang = 'pt' }) {

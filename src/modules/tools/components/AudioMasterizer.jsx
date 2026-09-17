@@ -38,9 +38,12 @@ export function encodeWav(audioBuffer) {
 }
 
 async function masterAudio(file, intensity) {
-  const context = new AudioContext();
+  const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+  if (!AudioContextClass) throw new Error('Seu navegador não suporta processamento de áudio.');
+  const context = new AudioContextClass();
   try {
-    const sourceBuffer = await context.decodeAudioData(await file.arrayBuffer());
+    const audioData = await file.arrayBuffer();
+    const sourceBuffer = await new Promise((resolve, reject) => context.decodeAudioData(audioData, resolve, reject));
     const offline = new OfflineAudioContext(sourceBuffer.numberOfChannels, sourceBuffer.length, sourceBuffer.sampleRate);
     const source = offline.createBufferSource();
     const compressor = offline.createDynamicsCompressor();
