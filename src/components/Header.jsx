@@ -20,19 +20,19 @@ export const Header = React.memo(function Header({
     <header className="sticky top-0 z-40 w-full border-b border-zinc-200/80 dark:border-zinc-800/80 bg-white/80 dark:bg-zinc-950/80 backdrop-blur-md transition-colors duration-300">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
         {/* Brand & Context */}
-        <div className="flex items-center gap-3">
+        <div className="flex min-w-0 items-center gap-3">
           <button
             onClick={onGoHome}
-            className="flex items-center gap-2.5 group cursor-pointer text-left focus:outline-none"
+            className="flex min-w-0 items-center gap-2.5 group cursor-pointer text-left focus:outline-none"
           >
             <div className="w-9 h-9 rounded-lg bg-zinc-900 dark:bg-zinc-900 border border-emerald-500/40 flex items-center justify-center font-mono font-bold text-emerald-500 text-base shadow-[0_0_15px_rgba(16,185,129,0.2)] group-hover:border-emerald-400 group-hover:scale-105 transition-all">
               0x
             </div>
-            <div className="flex flex-col">
-              <span className="font-mono font-extrabold tracking-wider text-sm text-zinc-900 dark:text-zinc-100 uppercase group-hover:text-emerald-500 dark:group-hover:text-emerald-400 transition-colors">
+            <div className="min-w-0 flex flex-col">
+              <span className="whitespace-nowrap font-mono text-xs font-extrabold tracking-[0.08em] text-zinc-900 transition-colors group-hover:text-emerald-500 dark:text-zinc-100 dark:group-hover:text-emerald-400 sm:text-sm sm:tracking-wider">
                 Internet do Zero
               </span>
-              <span className="text-[10px] font-mono tracking-widest text-emerald-600 dark:text-emerald-400 uppercase">
+              <span className="hidden text-[10px] font-mono tracking-widest text-emerald-600 uppercase dark:text-emerald-400 sm:block">
                 {t.header.brandSub}
               </span>
             </div>
