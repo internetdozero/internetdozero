@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useMemo } from 'react';
-import { Share2, Clock, Heart } from 'lucide-react';
+import { Share2, Clock, Heart, ArrowRight } from 'lucide-react';
 import { TableOfContents } from './TableOfContents';
 import { PostComments } from './PostComments';
 import { RichContent } from './RichContent';
@@ -8,7 +8,7 @@ import { translations } from '../../../i18n/translations';
 import { getPostReadingTime } from '../utils/readingTime';
 import { getArticleCover } from '../data/articleCovers';
 
-export function PostDetail({ post, isLiked, onToggleLike, onAddComment, postLang = 'pt', onBack }) {
+export function PostDetail({ post, isLiked, onToggleLike, onAddComment, postLang = 'pt', onBack, relatedPosts = [], onSelectPost }) {
   const [isShareOpen, setIsShareOpen] = useState(false);
   const [activeSectionId, setActiveSectionId] = useState('');
   const t = translations[postLang] || translations.pt;
@@ -137,6 +137,16 @@ export function PostDetail({ post, isLiked, onToggleLike, onAddComment, postLang
               </section>
             ))}
           </div>
+
+          {relatedPosts.length > 0 && <aside className="mb-10 border-y border-zinc-200 py-6 dark:border-zinc-800" aria-labelledby="related-posts-title">
+            <h2 id="related-posts-title" className="mb-4 font-mono text-sm font-bold uppercase tracking-wider text-zinc-800 dark:text-zinc-200">{isEn ? 'More to read' : 'Mais para ler'}</h2>
+            <div className="grid gap-3 sm:grid-cols-3">
+              {relatedPosts.map((related) => <button key={related.id} type="button" onClick={() => onSelectPost?.(related)} className="group rounded-xl border border-zinc-200 p-4 text-left transition-colors hover:border-emerald-500/50 dark:border-zinc-800">
+                <span className="line-clamp-2 text-sm font-bold text-zinc-800 group-hover:text-emerald-500 dark:text-zinc-200">{isEn && related.title_en ? related.title_en : related.title_pt}</span>
+                <span className="mt-3 inline-flex items-center gap-1 text-xs font-mono text-emerald-500">{isEn ? 'Read' : 'Ler'} <ArrowRight className="h-3 w-3 transition-transform group-hover:translate-x-1" /></span>
+              </button>)}
+            </div>
+          </aside>}
 
           <div className="flex items-center justify-between py-6 border-y border-zinc-200 dark:border-zinc-800 font-mono text-xs">
             <button onClick={() => onToggleLike(post.id)} className={`inline-flex items-center gap-2 px-4 py-2 rounded-xl transition-all cursor-pointer ${isLiked ? 'bg-rose-500/10 text-rose-500 border border-rose-500/20 font-bold' : 'bg-zinc-100 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 text-zinc-600 dark:text-zinc-400 hover:border-rose-500/40'}`}>

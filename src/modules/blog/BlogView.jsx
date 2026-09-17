@@ -153,6 +153,8 @@ export function BlogView({ postSlug, postCategory, onNavigate, lang = 'pt' }) {
         onToggleLike={handleToggleLike}
         onAddComment={async (id, data) => { await handleAddComment(id, data); const result = await blogApi.getComments(id); setDetailComments(result?.items || []); }}
         onBack={() => handleSelectPost(null)}
+        relatedPosts={posts.filter((post) => post.id !== detail.id && post.type !== 'thought').slice(0, 3)}
+        onSelectPost={handleSelectPost}
       />
     );
   }
