@@ -141,7 +141,11 @@ export const blogApi = {
     const updatedPosts = posts.map((post) => post.id === postId ? { ...post, ...postData } : post);
     blogApi.savePosts(updatedPosts);
     return updatedPosts.find((post) => post.id === postId);
-  },
+  }, publishPost: async (post) => blogApi.updatePost(post.id, {
+    ...post,
+    readingTime: post.reading_time,
+    published: 1
+  }),
 
   deletePost: async (postId) => {
     try { await api(`/api/admin/posts?id=${encodeURIComponent(postId)}`, { method: 'DELETE', headers: { 'X-CSRF-Token': sessionStorage.getItem('idz_admin_csrf') || '' } }); notifyBlogChange(); return blogApi.getPosts(); } catch (error) { if (hasAdminSession()) throw error; }

@@ -49,9 +49,15 @@ export async function onRequestPatch(context) {
   const auth = await requireAdmin(context.request, context.env, { csrf: true });
   if (auth.response) return auth.response;
   const id = new URL(context.request.url).searchParams.get('id');
-  const post = clean(await readJson(context.request));
+  const body = await readJson(context.request);
+  const post = clean(body);
   if (!id || !post) return json({ error: 'Dados de publicação inválidos' }, 400);
-  await context.env.DB.prepare('UPDATE posts SET slug=?, type=?, title_pt=?, subtitle_pt=?, category=?, author=?, reading_time=?, tags_pt=?, sections_pt=? WHERE id=?').bind(post.slug || id, post.type || 'article', post.title_pt, post.subtitle_pt || '', post.category, post.author || 'Eduardo S.', post.reading_time || '5 min', JSON.stringify(post.tags_pt), JSON.stringify(post.sections_pt), id).run();
+  const published = body?.published === undefined ? null : Number(Boolean(body.published));
+  const query = published === null
+    ? 'UPDATE posts SET slug=?, type=?, title_pt=?, subtitle_pt=?, category=?, author=?, reading_time=?, tags_pt=?, sections_pt=? WHERE id=?'
+    : 'UPDATE posts SET slug=?, type=?, title_pt=?, subtitle_pt=?, category=?, author=?, reading_time=?, tags_pt=?, sections_pt=?, published=? WHERE id=?';
+  const values = [post.slug || id, post.type || 'article', post.title_pt, post.subtitle_pt || '', post.category, post.author || 'Eduardo S.', post.reading_time || '5 min', JSON.stringify(post.tags_pt), JSON.stringify(post.sections_pt)];
+  await context.env.DB.prepare(query).bind(...(published === null ? [...values, id] : [...values, published, id])).run();
   return json({ ok: true });
 }
 
