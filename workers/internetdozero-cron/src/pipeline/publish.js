@@ -1,3 +1,5 @@
+import { findLicensedImage } from './image.js';
+
 export async function publishArticle(db, article, env) {
   const id = crypto.randomUUID();
   const slug = slugify(article.title_pt);
@@ -7,11 +9,13 @@ export async function publishArticle(db, article, env) {
   const type = 'article';
   const author = env.AUTHOR || 'Eduardo S.';
   const createdAt = new Date().toISOString();
+  const image = await findLicensedImage(article.title_pt, article.category);
 
   const query = `
     INSERT INTO posts 
-    (id, slug, type, title_pt, subtitle_pt, category, author, reading_time, tags_pt, sections_pt, likes, created_at, published)
-    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 0, ?, ?)
+    (id, slug, type, title_pt, subtitle_pt, category, author, reading_time, tags_pt, sections_pt, likes, created_at, published,
+     image_url, image_alt, image_source, image_author, image_license, image_credit_url)
+    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 0, ?, ?, ?, ?, ?, ?, ?, ?)
   `;
 
   await db.prepare(query).bind(
@@ -26,7 +30,13 @@ export async function publishArticle(db, article, env) {
     JSON.stringify(article.tags_pt || []),
     JSON.stringify(article.sections_pt || []),
     createdAt,
-    published
+    published,
+    image?.image_url || null,
+    image?.image_alt || null,
+    image?.image_source || null,
+    image?.image_author || null,
+    image?.image_license || null,
+    image?.image_credit_url || null
   ).run();
 
   return { id, slug, published };

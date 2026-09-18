@@ -5,5 +5,10 @@ const covers = {
 };
 
 export function getArticleCover(post) {
-  return covers[post.id] || covers[post.slug] || null;
+  return post.image_url || covers[post.id] || covers[post.slug] || null;
+}
+
+export function getArticleImageCredit(post) {
+  if (!post.image_source || !post.image_license) return null;
+  return { source: post.image_source, author: post.image_author, license: post.image_license, url: post.image_credit_url };
 }

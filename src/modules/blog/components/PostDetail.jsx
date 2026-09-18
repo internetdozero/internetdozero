@@ -6,7 +6,7 @@ import { RichContent } from './RichContent';
 import { ShareModal } from './ShareModal';
 import { translations } from '../../../i18n/translations';
 import { getPostReadingTime } from '../utils/readingTime';
-import { getArticleCover } from '../data/articleCovers';
+import { getArticleCover, getArticleImageCredit } from '../data/articleCovers';
 
 export function PostDetail({ post, isLiked, onToggleLike, onAddComment, postLang = 'pt', onBack, relatedPosts = [], onSelectPost }) {
   const [isShareOpen, setIsShareOpen] = useState(false);
@@ -18,6 +18,7 @@ export function PostDetail({ post, isLiked, onToggleLike, onAddComment, postLang
   const subtitle = (isEn && post.subtitle_en) ? post.subtitle_en : (post.subtitle_pt || post.subtitle);
   const tags = (isEn && post.tags_en) ? post.tags_en : (post.tags_pt || post.tags || []);
   const cover = getArticleCover(post);
+  const imageCredit = getArticleImageCredit(post);
 
   const sections = useMemo(() => {
     const raw = (isEn && post.sections_en) ? post.sections_en : (post.sections_pt || post.sections);
@@ -125,7 +126,7 @@ export function PostDetail({ post, isLiked, onToggleLike, onAddComment, postLang
             </div>
           </div>
 
-          {cover && <img src={cover} alt={title} decoding="async" width="1200" height="896" className="mb-8 aspect-[16/9] w-full rounded-2xl object-cover" />}
+          {cover && <><img src={cover} alt={post.image_alt || title} decoding="async" width="1200" height="896" className="mb-2 aspect-[16/9] w-full rounded-2xl object-cover" />{imageCredit && <p className="mb-8 text-xs text-zinc-500">Imagem: {imageCredit.author} · {imageCredit.license} · <a href={imageCredit.url} target="_blank" rel="noreferrer" className="underline">fonte</a></p>}</>}
 
           <div className="space-y-12 mb-14">
             {sections.map((sec) => (

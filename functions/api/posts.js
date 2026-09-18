@@ -15,7 +15,7 @@ export async function onRequestGet(context) {
   const values = [];
   if (category) { where.push('p.category = ?'); values.push(category); }
   if (cursor) { where.push('p.created_at < ?'); values.push(cursor); }
-  const { results } = await context.env.DB.prepare(`SELECT p.id, p.slug, p.type, p.title_pt, p.subtitle_pt, p.category, p.author, p.reading_time, p.tags_pt, p.likes, p.created_at, COUNT(c.id) AS comments_count
+  const { results } = await context.env.DB.prepare(`SELECT p.id, p.slug, p.type, p.title_pt, p.subtitle_pt, p.category, p.author, p.reading_time, p.tags_pt, p.likes, p.created_at, p.image_url, p.image_alt, p.image_source, p.image_author, p.image_license, p.image_credit_url, COUNT(c.id) AS comments_count
     FROM posts p LEFT JOIN comments c ON c.post_id = p.id AND c.status = 'approved'
     WHERE ${where.join(' AND ')} GROUP BY p.id ORDER BY p.created_at DESC LIMIT ?`).bind(...values, limit + 1).all();
   const items = results.slice(0, limit).map(parsePost);

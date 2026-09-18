@@ -60,7 +60,7 @@ export async function onRequestGet(context) {
   const url = `${SITE}/blog/${context.params.category}/${encodeURIComponent(post.slug)}`;
   const description = plainText(post.subtitle_pt || post.title_pt).slice(0, 160);
   const title = `${post.title_pt} — Internet do Zero`;
-  const coverPath = covers[post.id] || covers[post.slug] || '/og-image.png';
+  const coverPath = post.image_url || covers[post.id] || covers[post.slug] || '/og-image.png';
   const imageUrl = coverPath.startsWith('http') ? coverPath : `${SITE}${coverPath}`;
 
   const structuredData = JSON.stringify({
