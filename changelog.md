@@ -1,5 +1,23 @@
 # Changelog
 
+## [1.3.0] — 2026-09-17
+
+### Adicionado
+
+- Novo módulo interativo de Quizzes em `/quiz` e `/quiz/:slug`:
+  - Quatro quizzes iniciais calibrados: *Que ditador você seria?*, *Qual distro Linux é a sua cara?* (com 8 distros reais), *Qual fruta você seria?* e *Que tipo de político você seria?*.
+  - Motor dinâmico com pontuação dupla (*Dual-Scoring*), embaralhamento Fisher-Yates por sessão e empates técnicos personalizados com justificativas analíticas (*"Por que cada um?"*).
+  - Prevenção contra cliques duplos e transições de avanço suave.
+- Duas novas ferramentas privadas no módulo `/tools`:
+  - **Descompactador de Arquivos** (`/tools/descompactador-de-arquivos`): extração local de `.7z`, `.rar`, `.zip`, `.tar`, `.tar.gz` e `.bz2` via WebAssembly (`libarchive.js`).
+  - **Conversor de Arquivos** (`/tools/conversor-de-arquivos`): conversão client-side entre formatos de imagens (PNG, JPG, WebP, AVIF, BMP, ICO), dados/textos (JSON, CSV, YAML, XML, MD, TXT, Base64) e áudio (WAV).
+- Catálogo de ferramentas redesenhado com grid de 3 colunas em telas grandes (`lg:grid-cols-3`).
+
+### Corrigido e melhorado
+
+- Removido o indicador desnecessário de status do rodapé para manter o visual enxuto.
+- Simplificado o título do conversor de arquivos removendo sufixos.
+
 ## [1.2.0] — 2026-09-17
 
 ### Adicionado

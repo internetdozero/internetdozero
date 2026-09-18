@@ -7,7 +7,7 @@ export function StatusRadar({ lang = 'pt' }) {
 
   const [input, setInput] = useState('');
   const [history, setHistory] = useState([
-    { type: 'system', text: isEn ? 'Internet do Zero Hub Console [v1.2.0]' : 'Internet do Zero Hub Console [v1.2.0]' },
+    { type: 'system', text: isEn ? 'Internet do Zero Hub Console [v1.3.0]' : 'Internet do Zero Hub Console [v1.3.0]' },
     { type: 'system', text: isEn ? 'Type "help" or "modules" to explore available commands.' : 'Digite "help" ou "modulos" para explorar os comandos disponíveis.' },
   ]);
 
@@ -17,7 +17,7 @@ export function StatusRadar({ lang = 'pt' }) {
   // Update initial message when language changes
   useEffect(() => {
     setHistory([
-    { type: 'system', text: 'Internet do Zero Hub Console [v1.2.0]' },
+    { type: 'system', text: 'Internet do Zero Hub Console [v1.3.0]' },
       { type: 'system', text: isEn ? 'Type "help" or "modules" to explore available commands.' : 'Digite "help" ou "modulos" para explorar os comandos disponíveis.' },
     ]);
   }, [isEn]);
