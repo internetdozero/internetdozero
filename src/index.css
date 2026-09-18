@@ -7,7 +7,15 @@
     --font-sans: 'Source Sans 3', system-ui, -apple-system, sans-serif;
     --font-serif: 'Newsreader', 'Iowan Old Style', 'Palatino Linotype', serif;
     --font-mono: ui-monospace, 'Cascadia Code', 'SF Mono', Menlo, monospace;
+    --icon: #a67c2a;
   }
+  .dark {
+    --icon: #d4b36a;
+  }
+}
+
+.icon-accent {
+  color: var(--icon);
 }
 
 body {

@@ -101,7 +101,7 @@ export function StatusRadar({ lang = 'pt' }) {
     <section className="my-12 p-6 sm:p-8 rounded-sm bg-white dark:bg-stone-900 border border-stone-200 dark:border-stone-800 text-stone-800 dark:text-stone-200 overflow-hidden">
       <div className="flex items-center justify-between pb-4 mb-4 border-b border-stone-200 dark:border-stone-800">
         <div className="flex items-center gap-2 text-xs text-stone-500 font-medium">
-          <Terminal className="w-3.5 h-3.5" />
+          <Terminal className="w-3.5 h-3.5 icon-accent" />
           <span>{isEn ? 'Ask the index' : 'Pergunte ao índice'}</span>
         </div>
 

@@ -58,7 +58,7 @@ export function HubView({ onSelectModule, lang = 'pt' }) {
                 key={pillar.title_pt || pillar.title}
                 className="p-6 rounded-sm bg-white dark:bg-stone-900 border border-stone-200 dark:border-stone-800"
               >
-                <div className="w-10 h-10 rounded-sm border border-stone-200 dark:border-stone-700 text-stone-700 dark:text-stone-300 flex items-center justify-center mb-4">
+                <div className="w-10 h-10 rounded-sm border border-stone-200 dark:border-stone-700 flex items-center justify-center mb-4">
                   <DynamicIcon name={pillar.icon} className="w-5 h-5" />
                 </div>
                 <h3 className="font-serif font-semibold text-base text-stone-900 dark:text-stone-50 mb-2">

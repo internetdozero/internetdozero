@@ -31,7 +31,7 @@ export function ModuleModal({ module, onClose, onOpenArsenal, lang = 'pt' }) {
         {/* Header */}
         <div className="flex items-center justify-between p-6 border-b border-stone-200 dark:border-stone-800">
           <div className="flex items-center gap-3">
-            <div className="p-3 rounded-sm border border-stone-200 dark:border-stone-700 text-stone-700 dark:text-stone-300">
+            <div className="p-3 rounded-sm border border-stone-200 dark:border-stone-700">
               <DynamicIcon name={module.icon} className="w-6 h-6" />
             </div>
             <div>

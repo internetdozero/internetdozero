@@ -51,7 +51,7 @@ export function CommandPalette({ isOpen, onClose, onSelectModule, theme, toggleT
         onClick={(e) => e.stopPropagation()}
       >
         <div className="flex items-center px-4 py-3.5 border-b border-stone-200 dark:border-stone-800">
-          <Search className="w-5 h-5 text-stone-400 mr-3 shrink-0" />
+          <Search className="w-5 h-5 icon-accent mr-3 shrink-0" />
           <input
             ref={inputRef}
             type="text"
@@ -88,7 +88,7 @@ export function CommandPalette({ isOpen, onClose, onSelectModule, theme, toggleT
               className="w-full flex items-center justify-between px-3 py-2 rounded-sm hover:bg-stone-100 dark:hover:bg-stone-800/80 text-xs text-left transition-colors group cursor-pointer"
             >
               <div className="flex items-center gap-2.5">
-                <Globe className="w-4 h-4 text-stone-500" />
+                <Globe className="w-4 h-4 icon-accent" />
                 <span className="text-stone-800 dark:text-stone-200">{t.command.langAction} (Ativo: {lang.toUpperCase()})</span>
               </div>
               <span className="text-[10px] text-stone-400 group-hover:text-stone-700 dark:group-hover:text-stone-200">{isEn ? 'Switch' : 'Alternar'}</span>
@@ -102,7 +102,7 @@ export function CommandPalette({ isOpen, onClose, onSelectModule, theme, toggleT
               className="w-full flex items-center justify-between px-3 py-2 rounded-sm hover:bg-stone-100 dark:hover:bg-stone-800/80 text-xs text-left transition-colors group cursor-pointer"
             >
               <div className="flex items-center gap-2.5">
-                {theme === 'dark' ? <Sun className="w-4 h-4 text-stone-400" /> : <Moon className="w-4 h-4 text-stone-600" />}
+                {theme === 'dark' ? <Sun className="w-4 h-4 icon-accent" /> : <Moon className="w-4 h-4 icon-accent" />}
                 <span className="text-stone-800 dark:text-stone-200">{t.command.themeAction}</span>
               </div>
               <span className="text-[10px] text-stone-400 group-hover:text-stone-700 dark:group-hover:text-stone-200">{isEn ? 'Toggle' : 'Alternar'}</span>
@@ -117,7 +117,7 @@ export function CommandPalette({ isOpen, onClose, onSelectModule, theme, toggleT
                 className="w-full flex items-center justify-between px-3 py-2 rounded-sm hover:bg-stone-100 dark:hover:bg-stone-800/80 text-xs text-left transition-colors group cursor-pointer"
               >
                 <div className="flex items-center gap-2.5">
-                  <Terminal className="w-4 h-4 text-stone-500" />
+                  <Terminal className="w-4 h-4 icon-accent" />
                   <span className="text-stone-800 dark:text-stone-200">{t.command.openArsenal}</span>
                 </div>
                 <span className="text-[10px] text-stone-400 group-hover:text-stone-700 dark:group-hover:text-stone-200">{isEn ? 'Open' : 'Abrir'}</span>

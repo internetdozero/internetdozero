@@ -35,7 +35,7 @@ export const ModuleCard = React.memo(function ModuleCard({ module, onSelect, lan
         </div>
 
         <div className="flex items-start gap-4 mb-3">
-          <div className="p-2 rounded-sm border border-stone-200 dark:border-stone-700 text-stone-700 dark:text-stone-300 shrink-0">
+          <div className="p-2 rounded-sm border border-stone-200 dark:border-stone-700 shrink-0">
             <DynamicIcon name={module.icon} className="w-5 h-5" />
           </div>
           <div className="min-w-0">

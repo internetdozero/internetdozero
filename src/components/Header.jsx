@@ -39,7 +39,7 @@ export const Header = React.memo(function Header({
                 className="inline-flex items-center gap-1.5 text-sm text-stone-600 dark:text-stone-400 hover:text-stone-900 dark:hover:text-stone-100 hover:underline underline-offset-4 cursor-pointer"
                 title={t.header.backToBlogTitle}
               >
-                <ArrowLeft className="w-3.5 h-3.5" />
+                <ArrowLeft className="w-3.5 h-3.5 icon-accent" />
                 <span className="hidden sm:inline">{t.header.backToBlog}</span>
               </button>
             </div>
@@ -61,7 +61,7 @@ export const Header = React.memo(function Header({
             className="flex items-center gap-2 rounded-sm px-2 py-1.5 text-sm text-stone-600 hover:text-stone-900 dark:text-stone-400 dark:hover:text-stone-100"
             title={t.header.searchTitle}
           >
-            <Search className="w-4 h-4" />
+            <Search className="w-4 h-4 icon-accent" />
             <span className="hidden sm:inline">{t.header.search}</span>
           </button>
 
@@ -78,7 +78,7 @@ export const Header = React.memo(function Header({
             aria-label="Alternar tema"
             title={isDark ? t.header.themeLight : t.header.themeDark}
           >
-            {isDark ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
+            {isDark ? <Sun className="w-4 h-4 icon-accent" /> : <Moon className="w-4 h-4 icon-accent" />}
           </button>
         </div>
       </div>

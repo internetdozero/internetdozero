@@ -43,7 +43,7 @@ export const Footer = React.memo(function Footer({ onOpenArsenal, onGoHome, lang
               className="inline-flex items-center gap-2 hover:text-stone-900 hover:underline underline-offset-4 dark:hover:text-stone-100"
               title="Entrar em contato por e-mail"
             >
-              <Mail className="h-3.5 w-3.5" />
+              <Mail className="h-3.5 w-3.5 icon-accent" />
               <span className="select-all">contato@internetdozero.com.br</span>
             </a>
 
@@ -72,7 +72,7 @@ export const Footer = React.memo(function Footer({ onOpenArsenal, onGoHome, lang
           <nav aria-label={isEn ? 'Social links' : 'Redes sociais'} className="flex items-center gap-3">
             {socialLinks.map(({ label, href, Icon }) => (
               <a key={label} href={href} target="_blank" rel="noreferrer" aria-label={label} title={label} className="rounded-sm p-1.5 text-stone-500 transition-colors hover:text-stone-900 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-stone-400 dark:hover:text-stone-100">
-                <Icon className="h-4 w-4" />
+                <Icon className="h-4 w-4 icon-accent" />
               </a>
             ))}
           </nav>

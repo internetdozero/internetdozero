@@ -93,7 +93,7 @@ export function LinksView({ lang = 'pt', onNavigate }) {
             rel="noreferrer"
             className="group flex items-center gap-4 rounded-sm border border-stone-200 bg-white p-4 transition-colors hover:border-stone-400 focus-visible:outline-none dark:border-stone-800 dark:bg-stone-900 sm:p-5"
           >
-            <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-sm border border-stone-200 text-stone-600 dark:border-stone-700 dark:text-stone-300">
+            <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-sm border border-stone-200 icon-accent dark:border-stone-700">
               <Icon className="h-5 w-5" />
             </span>
             <span className="min-w-0 flex-1">

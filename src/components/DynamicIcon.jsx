@@ -41,5 +41,5 @@ const iconMap = {
 
 export function DynamicIcon({ name, className = "w-5 h-5", ...props }) {
   const IconComponent = iconMap[name] || HelpCircle;
-  return <IconComponent className={className} {...props} />;
+  return <IconComponent className={`icon-accent ${className}`} {...props} />;
 }
