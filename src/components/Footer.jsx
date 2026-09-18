@@ -1,5 +1,5 @@
 import React from 'react';
-import { Github, Terminal, Sparkles, Youtube } from 'lucide-react';
+import { Github, Terminal, Sparkles, Youtube, Mail } from 'lucide-react';
 import { translations } from '../i18n/translations';
 
 function TikTokIcon({ className }) {
@@ -42,7 +42,16 @@ export const Footer = React.memo(function Footer({ onOpenArsenal, onGoHome, lang
           </div>
 
           {/* Center / Right Links */}
-          <div className="flex flex-wrap items-center gap-6 font-mono text-xs text-zinc-600 dark:text-zinc-400">
+          <div className="flex flex-wrap items-center gap-4 sm:gap-6 font-mono text-xs text-zinc-600 dark:text-zinc-400">
+            <a
+              href="mailto:contato@internetdozero.com.br"
+              className="group inline-flex items-center gap-2 rounded-xl border border-zinc-200/90 bg-white px-3 py-1.5 font-mono text-xs font-medium text-zinc-700 shadow-xs transition-all hover:border-emerald-500/50 hover:bg-emerald-500/5 hover:text-emerald-600 dark:border-zinc-800 dark:bg-zinc-900 dark:text-zinc-300 dark:hover:border-emerald-500/40 dark:hover:bg-emerald-500/10 dark:hover:text-emerald-400"
+              title="Entrar em contato por e-mail"
+            >
+              <Mail className="h-3.5 w-3.5 text-zinc-400 transition-colors group-hover:text-emerald-500" />
+              <span className="select-all">contato@internetdozero.com.br</span>
+            </a>
+
             <button
               onClick={onOpenArsenal}
               className="hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors flex items-center gap-1.5 cursor-pointer"

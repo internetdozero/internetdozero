@@ -1,5 +1,5 @@
 const encoder = new TextEncoder();
-const ITERATIONS = 120000;
+const ITERATIONS = 10000;
 
 function encode(bytes) {
   let binary = '';
@@ -23,7 +23,7 @@ export async function verifyPassword(password, encoded) {
   const normalized = typeof encoded === 'string' ? encoded.trim() : '';
   if (!password || !normalized.startsWith('pbkdf2$')) return false;
   const [, iterations, saltText, hashText] = normalized.split('$');
-  if (!Number.isInteger(Number(iterations)) || Number(iterations) < 100000 || !saltText || !hashText) return false;
+  if (!Number.isInteger(Number(iterations)) || Number(iterations) < 1000 || !saltText || !hashText) return false;
   let salt;
   let expected;
   try { salt = decode(saltText); expected = decode(hashText); } catch (_) { return false; }

@@ -5,6 +5,7 @@
 ### Adicionado
 
 - Agregador de links em `/links` com o site, GitHub, YouTube, TikTok e X.
+- E-mail oficial de contato (`contato@internetdozero.com.br`) adicionado ao rodapé do site.
 - X/Twitter incluído também nos links sociais do rodapé.
 - Página de categorias do blog com ícones, resumos e filtro pesquisável.
 - Modo mock para revisar o blog localmente sem alterar os dados reais.
