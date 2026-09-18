@@ -10,8 +10,10 @@ dist-ssr
 .wrangler
 .DS_Store
 
-# Local AI agent runner
+# Local AI agent runner & local CLI tools
 AGENTS.md
 run.sh
 wrangler.toml
 in
+bin/
+tasks/
