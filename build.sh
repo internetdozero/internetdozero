@@ -9,7 +9,7 @@ MAX_DATA_LINES=${MAX_DATA_LINES:-500}
 WARN_DATA_LINES=${WARN_DATA_LINES:-450}
 TARGET_DIR="src"
 
-echo "[1/4] Checking modularity constraints (code: ${MAX_CODE_LINES} lines, data/i18n: ${MAX_DATA_LINES} lines)..."
+echo "[1/6] Checking modularity constraints (code: ${MAX_CODE_LINES} lines, data/i18n: ${MAX_DATA_LINES} lines)..."
 
 violations=0
 warnings=0
@@ -49,20 +49,23 @@ fi
 
 echo "OK: $total_files files validated."
 
-echo "[2/5] Checking directory structure..."
+echo "[2/6] Checking directory structure..."
 if [ ! -d "src/modules" ]; then
   echo "ERROR: Missing required directory 'src/modules'" >&2
   exit 1
 fi
 echo "OK: Architecture structure confirmed."
 
-echo "[3/5] Running linter..."
+echo "[3/6] Verifying SemVer and version synchronization..."
+node scripts/verify-semver.mjs
+
+echo "[4/6] Running linter..."
 npm run lint
 
-echo "[4/5] Running production build..."
+echo "[5/6] Running production build..."
 npm run build
 
-echo "[5/5] Validating build artifacts in dist/..."
+echo "[6/6] Validating build artifacts in dist/..."
 if [ ! -f "dist/index.html" ]; then
   echo "ERROR: Missing dist/index.html artifact." >&2
   exit 1
