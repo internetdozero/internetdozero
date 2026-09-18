@@ -1,8 +1,7 @@
 const MODELS = [
-  'gemini-3.5-flash-lite',
-  'gemini-3.1-flash-lite',
-  'gemini-flash-lite-latest',
-  'gemini-3.7-flash'
+  'gemini-2.5-flash',
+  'gemini-2.5-flash-lite',
+  'gemini-2.0-flash-001'
 ];
 
 function parseJson(text) {
@@ -11,7 +10,10 @@ function parseJson(text) {
   try {
     return JSON.parse(clean);
   } catch (_) {
-    return null;
+    const start = clean.indexOf('{');
+    const end = clean.lastIndexOf('}');
+    if (start < 0 || end <= start) return null;
+    try { return JSON.parse(clean.slice(start, end + 1)); } catch (_) { return null; }
   }
 }
 
@@ -79,16 +81,24 @@ O output deve ser estritamente no seguinte formato JSON:
         signal: AbortSignal.timeout(45000)
       });
 
-      if (!res.ok) continue;
+      if (!res.ok) {
+        console.error(`Article generation model ${model} returned ${res.status}: ${await res.text()}`);
+        continue;
+      }
 
       const data = await res.json();
-      const text = data.candidates?.[0]?.content?.parts?.[0]?.text;
+      const text = data.candidates?.[0]?.content?.parts
+        ?.map((part) => part.text || '')
+        .join(' ');
       const article = parseJson(text);
       if (article && article.title_pt && article.sections_pt?.length) {
         console.log(`Successfully generated article with model ${model}`);
         return article;
       }
-    } catch (_) {}
+      console.error(`Article generation model ${model} returned no valid article JSON`);
+    } catch (error) {
+      console.error(`Article generation model ${model} failed: ${error.message}`);
+    }
   }
 
   throw new Error('Failed to generate article with all available models');

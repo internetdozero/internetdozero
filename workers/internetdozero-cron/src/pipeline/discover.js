@@ -1,8 +1,7 @@
 const MODELS = [
-  'gemini-3.5-flash-lite',
-  'gemini-3.1-flash-lite',
-  'gemini-flash-lite-latest',
-  'gemini-3.7-flash'
+  'gemini-2.5-flash',
+  'gemini-2.5-flash-lite',
+  'gemini-2.0-flash-001'
 ];
 
 function parseJson(text) {
@@ -60,16 +59,23 @@ O campo pillar deve identificar o pilar em letras minúsculas e hífens.`;
         signal: AbortSignal.timeout(30000)
       });
 
-      if (!response.ok) continue;
+      if (!response.ok) {
+        console.error(`Topic discovery model ${model} returned ${response.status}: ${await response.text()}`);
+        continue;
+      }
 
       const data = await response.json();
-      const text = data.candidates?.[0]?.content?.parts?.[0]?.text;
+      const text = data.candidates?.[0]?.content?.parts
+        ?.map((part) => part.text || '')
+        .join(' ');
       const result = parseJson(text);
       if (result?.topics?.length) {
         console.log(`Discovered topics using model ${model}`);
         return result.topics;
       }
-    } catch (_) {}
+    } catch (error) {
+      console.error(`Topic discovery model ${model} failed: ${error.message}`);
+    }
   }
 
   console.log('Gemini discover failed for all models, falling back to Google Trends RSS');
