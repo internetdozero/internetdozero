@@ -40,6 +40,6 @@ npx wrangler d1 migrations apply <DB_BINDING> --remote
 
 ## Worker editorial
 
-O Worker de publicação automática exige os secrets `GEMINI_API_KEY` e `CRON_SECRET`. O endpoint `/trigger` só aceita requisições cujo parâmetro `secret` corresponda ao `CRON_SECRET`; não compartilhe essa URL completa em logs, issues, screenshots ou documentação pública. Prefira executar o trigger por um ambiente seguro, como o Vault, e faça a rotação do segredo se houver exposição.
+O Worker de publicação automática exige os secrets `OPENROUTER_API_KEY`, `DEEPSEEK_API_KEY` e `CRON_SECRET`. O endpoint `/trigger` só aceita requisições cujo parâmetro `secret` corresponda ao `CRON_SECRET`; não compartilhe essa URL completa em logs, issues, screenshots ou documentação pública. Prefira executar o trigger por um ambiente seguro, como o Vault, e faça a rotação do segredo se houver exposição.
 
 `AUTO_PUBLISH=1` permite que artigos gerados sejam publicados diretamente. Para operar com revisão humana, use `AUTO_PUBLISH=0` e publique os rascunhos pelo painel administrativo após conferir texto, fontes, imagem, licença e crédito.

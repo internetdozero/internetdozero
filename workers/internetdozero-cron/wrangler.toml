@@ -11,11 +11,11 @@ database_name = "internetdozero"
 database_id = "7267907f-dd50-4046-9b2a-3a5758efdc45"
 
 [vars]
-AI_GATEWAY_URL = "https://gateway.ai.cloudflare.com/v1/441bffdce6b1af79beec5d20389ee53c/internetdozero/google-ai-studio"
 SITE_URL = "https://internetdozero.com"
 AUTHOR = "Eduardo S."
 AUTO_PUBLISH = "1"
 
 # Secrets (set via wrangler secret put):
-# GEMINI_API_KEY
+# OPENROUTER_API_KEY
+# DEEPSEEK_API_KEY
 # CRON_SECRET

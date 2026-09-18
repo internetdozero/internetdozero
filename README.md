@@ -35,8 +35,8 @@ O blog oferece artigos, crônicas e notas com categorias, busca, sumário, comen
 
 Um Worker separado (`workers/internetdozero-cron`) pesquisa pautas e publica artigos no D1 em dois horários diários (08:00 e 20:00, horário de Brasília). O fluxo:
 
-- usa Gemini com Google Search Grounding para buscar pautas atuais;
-- mantém DeepSeek como fallback de redação quando a quota ou os modelos Gemini falharem, usando fontes recentes do Google News RSS;
+- usa OpenRouter com Perplexity Sonar e pesquisa web para buscar pautas atuais e redigir;
+- mantém DeepSeek como fallback de redação, usando fontes recentes do Google News RSS;
 - informa a data de referência ao redator e diferencia fatos atuais de contexto histórico;
 - valida os links externos citados antes de salvar o artigo, interrompendo a publicação se uma fonte estiver inacessível;
 - distribui candidatos entre tecnologia, segurança, produtividade, dinheiro, cultura, casa, saúde e lazer;
@@ -45,7 +45,7 @@ Um Worker separado (`workers/internetdozero-cron`) pesquisa pautas e publica art
 - aceita somente imagens com licença CC0, CC BY, CC BY-SA ou domínio público, gravando autor, licença, fonte e crédito;
 - publica automaticamente quando `AUTO_PUBLISH=1`; rascunhos podem ser publicados pelo painel administrativo.
 
-O Worker usa o binding D1 `DB`, as variáveis `SITE_URL`, `AUTHOR` e `AUTO_PUBLISH`, e os secrets `GEMINI_API_KEY` e `CRON_SECRET`. A execução manual ocorre em `/trigger?secret=...` e deve ser feita somente com o segredo armazenado no ambiente seguro; nunca coloque esse valor no código ou em commits. Quando configurado, o `AI_GATEWAY_URL` encaminha as chamadas ao Gemini pelo AI Gateway, mantendo a chave apenas no header `x-goog-api-key`; sem ele, o endpoint direto é usado como fallback de compatibilidade.
+O Worker usa o binding D1 `DB`, as variáveis `SITE_URL`, `AUTHOR` e `AUTO_PUBLISH`, e os secrets `OPENROUTER_API_KEY`, `DEEPSEEK_API_KEY` e `CRON_SECRET`. A execução manual ocorre em `/trigger?secret=...` e deve ser feita somente com o segredo armazenado no ambiente seguro; nunca coloque esse valor no código ou em commits.
 
 O sitemap fica em [`/sitemap.xml`](https://internetdozero.com.br/sitemap.xml) e inclui a home, o blog, os artigos publicados e as 10 ferramentas. O painel `/admin` é bloqueado pelo `robots.txt` e protegido por sessão HttpOnly, hash de senha e segredo configurável.
 
@@ -113,7 +113,7 @@ cd workers/internetdozero-cron
 npx wrangler deploy
 ```
 
-Antes do primeiro deploy, configure `GEMINI_API_KEY` e `CRON_SECRET` como secrets do Worker. O cron não deve ser exposto sem autenticação.
+Antes do primeiro deploy, configure `OPENROUTER_API_KEY`, `DEEPSEEK_API_KEY` e `CRON_SECRET` como secrets do Worker. O cron não deve ser exposto sem autenticação.
 
 Mais detalhes de cada versão estão em [`changelog.md`](changelog.md).
 

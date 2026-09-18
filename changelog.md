@@ -91,3 +91,4 @@
 - Console interativo e painel administrativo protegido por sessão, hash de senha e segredo configurável.
 - Publicação preparada para Cloudflare Pages, com banco D1 e variáveis de produção.
 - Service worker inicial para transformar as ferramentas em uma experiência instalável e offline.
+- OpenRouter passou a ser o provedor principal do Autopilot editorial, com pesquisa web no Sonar e fallback de geração pelo DeepSeek.
