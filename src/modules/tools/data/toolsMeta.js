@@ -152,6 +152,39 @@ export const toolsMetadata = {
     faq: [
       { q: 'É seguro colar chaves de API ou payloads confidenciais?', a: 'Sim! Ao contrário de outros formatadores que enviam os dados para analytics ou logs de servidores, o processamento ocorre exclusivamente no seu navegador.' }
     ]
+  },
+  'descompactador-de-arquivos': {
+    id: 'descompactador-de-arquivos',
+    slugEn: 'archive-extractor',
+    namePt: 'Descompactador de Arquivos',
+    nameEn: 'Archive Extractor',
+    h1Pt: 'Descompactar .7z, .rar, .zip e .tar Online no Navegador',
+    h1En: 'Extract .7z, .rar, .zip & .tar Online in Browser',
+    descPt: 'Abra, explore e extraia arquivos compactados nos formatos .7z, .rar, .zip, .tar, .tar.gz e .bz2 direto no navegador via WebAssembly. 100% privado e sem envio para servidores.',
+    descEn: 'Open, browse and extract compressed archives (.7z, .rar, .zip, .tar, .tar.gz, .bz2) directly in your browser via WebAssembly. 100% private with zero server uploads.',
+    keywords: 'descompactar 7z online, abrir rar no navegador, descompactar zip gratis, extrator de arquivos local, webassembly libarchive',
+    schemaCategory: 'UtilitiesApplication',
+    faq: [
+      { q: 'Quais formatos compactados são suportados?', a: 'Suportamos .7z (7-Zip com compressão LZMA/LZMA2), .rar (versões v4 e v5), .zip, .tar, .tar.gz, .tgz e .bz2.' },
+      { q: 'Meus arquivos sobem para a nuvem?', a: 'Não. Todo o processo de descompressão acontece no seu próprio processador através de WebAssembly e Web Workers.' },
+      { q: 'Existe limite de tamanho para descompactar?', a: 'O limite depende da memória RAM disponível no seu navegador. Arquivos de centenas de megabytes descompactam suavemente.' }
+    ]
+  },
+  'conversor-de-arquivos': {
+    id: 'conversor-de-arquivos',
+    slugEn: 'file-converter',
+    namePt: 'Conversor de Arquivos',
+    nameEn: 'File Converter',
+    h1Pt: 'Conversor Universal de Arquivos Online de X para Y',
+    h1En: 'Universal Online File Converter from X to Y',
+    descPt: 'Converta arquivos entre diferentes formatos (PNG, JPG, WebP, AVIF, JSON, CSV, YAML, XML, MD, TXT, Áudio) 100% localmente no navegador. Rápido, seguro e sem limites artificiais.',
+    descEn: 'Convert files between various formats (PNG, JPG, WebP, AVIF, JSON, CSV, YAML, XML, MD, TXT, Audio) 100% locally in your browser. Fast, secure and with zero limits.',
+    keywords: 'converter arquivo online, converter png para webp, converter json para csv, converter csv para json, conversor x para y',
+    schemaCategory: 'UtilitiesApplication',
+    faq: [
+      { q: 'Quais extensões posso converter?', a: 'Você pode converter imagens (PNG, JPG, WebP, AVIF, BMP, ICO), dados e textos (JSON, CSV, YAML, XML, Markdown, HTML, Base64) e áudio para WAV.' },
+      { q: 'A conversão é confidencial?', a: 'Sim. Todas as transformações são executadas via Canvas API, Web Audio API e scripts puros no seu próprio dispositivo.' }
+    ]
   }
 };
 
@@ -165,5 +198,7 @@ export const toolAliases = {
   'text-counter': 'contador-de-texto',
   'qr-code-generator': 'gerador-de-qr-code',
   'text-diff-checker': 'comparador-de-texto',
-  'json-formatter': 'formatador-json'
+  'json-formatter': 'formatador-json',
+  'archive-extractor': 'descompactador-de-arquivos',
+  'file-converter': 'conversor-de-arquivos'
 };

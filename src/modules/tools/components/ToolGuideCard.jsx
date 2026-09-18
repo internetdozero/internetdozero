@@ -22,7 +22,7 @@ const examples = {
   ]
 };
 
-const englishSlugs = { 'compressor-de-imagem': 'image-compressor', 'gerador-de-senhas': 'password-generator', 'masterizador-de-audio': 'audio-master', 'remover-metadados': 'metadata-remover', 'cortador-de-audio': 'audio-trimmer', 'extrator-de-audio': 'video-audio-extractor', 'contador-de-texto': 'text-counter', 'comparador-de-texto': 'text-diff-checker', 'formatador-json': 'json-formatter' };
+const englishSlugs = { 'compressor-de-imagem': 'image-compressor', 'gerador-de-senhas': 'password-generator', 'masterizador-de-audio': 'audio-master', 'remover-metadados': 'metadata-remover', 'cortador-de-audio': 'audio-trimmer', 'extrator-de-audio': 'video-audio-extractor', 'contador-de-texto': 'text-counter', 'comparador-de-texto': 'text-diff-checker', 'formatador-json': 'json-formatter', 'descompactador-de-arquivos': 'archive-extractor', 'conversor-de-arquivos': 'file-converter' };
 
 export function ToolGuideCard({ onNavigate, currentSlug, lang = 'pt' }) {
   const isEn = lang === 'en';

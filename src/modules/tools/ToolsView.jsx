@@ -15,6 +15,8 @@ import { TextCounter } from './components/TextCounter';
 import { QrCodeGenerator } from './components/QrCodeGenerator';
 import { DiffChecker } from './components/DiffChecker';
 import { JsonFormatter } from './components/JsonFormatter';
+import { ArchiveExtractor } from './components/ArchiveExtractor';
+import { FileConverter } from './components/FileConverter';
 
 const toolComponents = {
   'compressor-de-imagem': ImageCompressor,
@@ -26,7 +28,9 @@ const toolComponents = {
   'contador-de-texto': TextCounter,
   'gerador-de-qr-code': QrCodeGenerator,
   'comparador-de-texto': DiffChecker,
-  'formatador-json': JsonFormatter
+  'formatador-json': JsonFormatter,
+  'descompactador-de-arquivos': ArchiveExtractor,
+  'conversor-de-arquivos': FileConverter
 };
 
 export function ToolsView({ onNavigate, toolSlug, lang = 'pt' }) {

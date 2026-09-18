@@ -1,9 +1,11 @@
 import React from 'react';
-import { ArrowLeft, ArrowRight, AudioLines, Braces, FileAudio, FileDiff, FileText, Image, KeyRound, QrCode, Scissors, ShieldOff, Wrench } from 'lucide-react';
+import { ArrowLeft, ArrowRight, ArrowLeftRight, AudioLines, Braces, FileAudio, FileDiff, FileText, FolderArchive, Image, KeyRound, QrCode, Scissors, ShieldOff, Wrench } from 'lucide-react';
 import { ToolGuideCard } from './ToolGuideCard';
 
 const catalogItems = [
   { slugPt: 'compressor-de-imagem', slugEn: 'image-compressor', titlePt: 'Compressor de imagens', titleEn: 'Image compressor', descPt: 'Reduza o tamanho do arquivo localmente e baixe o resultado.', descEn: 'Reduce file size locally and download the result.', Icon: Image },
+  { slugPt: 'descompactador-de-arquivos', slugEn: 'archive-extractor', titlePt: 'Descompactador (.7z, .rar, .zip)', titleEn: 'Archive extractor (.7z, .rar, .zip)', descPt: 'Extraia .7z, .rar, .zip e .tar localmente via WebAssembly.', descEn: 'Extract .7z, .rar, .zip and .tar locally via WebAssembly.', Icon: FolderArchive },
+  { slugPt: 'conversor-de-arquivos', slugEn: 'file-converter', titlePt: 'Conversor de arquivos (X para Y)', titleEn: 'File converter (X to Y)', descPt: 'Converta arquivos entre extensões sem envio a servidores.', descEn: 'Convert files between extensions without server uploads.', Icon: ArrowLeftRight },
   { slugPt: 'gerador-de-senhas', slugEn: 'password-generator', titlePt: 'Gerador de senhas', titleEn: 'Password generator', descPt: 'Crie senhas fortes localmente em poucos segundos.', descEn: 'Create strong passwords locally in a few seconds.', Icon: KeyRound },
   { slugPt: 'masterizador-de-audio', slugEn: 'audio-master', titlePt: 'Masterizador de áudio', titleEn: 'Audio masterizer', descPt: 'Equilibre volume e dinâmica direto no navegador.', descEn: 'Balance volume and dynamics in your browser.', Icon: AudioLines },
   { slugPt: 'remover-metadados', slugEn: 'metadata-remover', titlePt: 'Removedor de metadados', titleEn: 'Metadata remover', descPt: 'Remova dados pessoais antes de compartilhar uma imagem.', descEn: 'Remove private data before sharing an image.', Icon: ShieldOff },
@@ -33,7 +35,7 @@ export function ToolsCatalog({ onNavigate, lang = 'pt' }) {
       <p className="mt-5 max-w-xl text-base leading-relaxed text-zinc-500 dark:text-zinc-400">
         {isEn ? 'Simple utilities, processed in your browser. No accounts, no uploads, no noise.' : 'Utilitários simples, processados no seu navegador. Sem cadastro, sem upload, sem barulho.'}
       </p>
-      <div className="mt-10 grid gap-4 sm:grid-cols-2">
+      <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
         {catalogItems.map((item) => {
           const path = `/tools/${isEn ? item.slugEn : item.slugPt}`;
           const Icon = item.Icon;
