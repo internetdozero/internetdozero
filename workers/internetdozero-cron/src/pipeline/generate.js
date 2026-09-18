@@ -1,3 +1,5 @@
+import { findLicensedImage } from './image.js';
+
 const MODELS = ['openai/gpt-5.6-luna'];
 
 function parseJson(text) {
@@ -33,7 +35,32 @@ Tags sugeridas: ${(topic.suggestedTags || []).join(', ')}
 
 Retorne estritamente JSON:
 {"title_pt":"...","subtitle_pt":"...","category":"${topic.category}","tags_pt":["..."],
+"image_query":"3 a 5 palavras-chave visuais conceituais em inglês para buscar uma foto de capa de alta qualidade (ex: server room cybersecurity glowing datacenter)",
 "sections_pt":[{"id":"slug","title":"Título","content":"Markdown com links das fontes"}]}`;
+}
+
+async function attachArticleImage(article, topic) {
+  if (!article) return article;
+  try {
+    const image = await findLicensedImage({
+      query: article.image_query,
+      title: article.title_pt || topic.title,
+      category: article.category || topic.category,
+      tags: article.tags_pt || topic.suggestedTags
+    });
+    if (image) {
+      article.image_url = image.image_url;
+      article.image_alt = image.image_alt;
+      article.image_source = image.image_source;
+      article.image_author = image.image_author;
+      article.image_license = image.image_license;
+      article.image_credit_url = image.image_credit_url;
+      console.log(`Attached licensed image to article: ${image.image_url}`);
+    }
+  } catch (err) {
+    console.error('Failed to attach image during generation:', err);
+  }
+  return article;
 }
 
 export async function generateArticle(env, topic, { fallback = true } = {}) {
@@ -69,7 +96,7 @@ export async function generateArticle(env, topic, { fallback = true } = {}) {
         const article = parseJson((await response.json()).choices?.[0]?.message?.content);
         if (article?.title_pt && article.sections_pt?.length) {
           console.log('Generated article with local Agy');
-          return article;
+          return await attachArticleImage(article, topic);
         }
         lastFailure = 'local Agy: invalid JSON';
         console.error('Local Agy returned no valid article JSON');
@@ -115,7 +142,7 @@ Use somente essas fontes para fatos atuais. Inclua links Markdown que sustentem 
       const article = parseJson(data.choices?.[0]?.message?.content);
       if (article?.title_pt && article.sections_pt?.length) {
         console.log(`Generated article with OpenRouter ${model}`);
-        return article;
+        return await attachArticleImage(article, topic);
       }
       lastFailure = `${model}: invalid JSON`;
     } catch (error) {
@@ -135,7 +162,9 @@ Use somente essas fontes para fatos atuais. Inclua links Markdown que sustentem 
       });
       if (!response.ok) throw new Error(`${response.status}: ${await response.text()}`);
       const article = parseJson((await response.json()).choices?.[0]?.message?.content);
-      if (article?.title_pt && article.sections_pt?.length) return article;
+      if (article?.title_pt && article.sections_pt?.length) {
+        return await attachArticleImage(article, topic);
+      }
       throw new Error('invalid JSON');
     } catch (error) {
       console.error(`DeepSeek fallback failed: ${error.message}`);
@@ -162,7 +191,9 @@ Use somente essas fontes para fatos atuais. Inclua links Markdown que sustentem 
       });
       if (!response.ok) throw new Error(`${response.status}: ${await response.text()}`);
       const article = parseJson((await response.json()).choices?.[0]?.message?.content);
-      if (article?.title_pt && article.sections_pt?.length) return article;
+      if (article?.title_pt && article.sections_pt?.length) {
+        return await attachArticleImage(article, topic);
+      }
       throw new Error('invalid JSON');
     } catch (error) {
       console.error(`Sonar research fallback failed: ${error.message}`);

@@ -9,7 +9,23 @@ export async function publishArticle(db, article, env) {
   const type = 'article';
   const author = env.AUTHOR || 'Eduardo S.';
   const createdAt = new Date().toISOString();
-  const image = await findLicensedImage(article.title_pt, article.category);
+
+  // Use pre-attached image from generation step, or fallback to finding one now
+  const image = article.image_url
+    ? {
+        image_url: article.image_url,
+        image_alt: article.image_alt,
+        image_source: article.image_source,
+        image_author: article.image_author,
+        image_license: article.image_license,
+        image_credit_url: article.image_credit_url
+      }
+    : await findLicensedImage({
+        query: article.image_query,
+        title: article.title_pt,
+        category: article.category,
+        tags: article.tags_pt
+      });
 
   const query = `
     INSERT INTO posts 
