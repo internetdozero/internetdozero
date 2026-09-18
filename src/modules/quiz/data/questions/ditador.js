@@ -1,38 +1,45 @@
 export const ditadorQuiz = {
   id: 'que-ditador-voce-seria',
-  title: 'Que ditador você seria?',
-  subtitle: 'Um teste histórico-humorístico para medir o seu nível de autoritarismo no cotidiano.',
-  badge: 'Sátira Histórica',
+  title: 'Que ditador ou líder autoritário você seria?',
+  subtitle: 'De monarcas antigos a ditadores atuais: descubra qual figura histórica tem o seu temperamento.',
+  badge: 'Sátira Histórica & Atual',
   icon: 'Crown',
-  disclaimer: 'Aviso: Este quiz é puramente humorístico e satírico. Não encorajamos invasões territoriais nem queima de monumentos.',
+  disclaimer: 'Aviso: Este teste é 100% zoeira e entretenimento. Não apoiamos nenhum regime autoritário nem demissões em massa.',
   profiles: {
-    'julio-cesar': {
-      name: 'Júlio César',
-      subtitle: 'O Estrategista Carismático',
-      description: 'Você lidera com brilho nos olhos e uma ambição desmedida. Cruza o Rubicão sem pestanejar e acha que as regras se aplicam aos outros. Só tome cuidado com convites amigáveis em idos de março.',
-      traits: ['Audacioso', 'Sedutor', 'Cruza limites', 'Despreza avisos'],
-      quote: 'A sorte está lançada... mas se der ruim, a culpa é do Senado.'
+    'dom-pedro-ii': {
+      name: 'Dom Pedro II',
+      subtitle: 'O Monarca que Só Queria Paz e Café',
+      description: 'Você é o líder relutante por excelência. Não quer pompa, puxa-saco nem confusão com ninguém. Se assumiu a bronca, foi porque se deixasse na mão dos outros a coisa desandava. Quando uma crise acaba, você só sente aquele alívio gostoso, fecha as abas e vai comer ou ler em paz.',
+      traits: ['Só queria paz', 'Alívio pós-crise', 'Pragmatismo sereno', 'Zero frescura'],
+      quote: 'Se vocês fizerem a parte de vocês direitinho, eu posso finalmente ir tomar meu café em silêncio.'
+    },
+    'luis-xiv': {
+      name: 'Luís XIV (O Rei Sol)',
+      subtitle: 'O Monarca da Vaidade e do Drama',
+      description: 'L\'État, c\'est moi! Você adora ser o centro das atenções, acha que seu bom gosto salva qualquer ambiente e espera reconhecimento imediato. Se você ajudou em 5% do trabalho, seu nome tem que estar na capa com fonte dourada.',
+      traits: ['Autoestima infinita', 'Exige aplausos', 'Dramático', 'L\'État c\'est moi'],
+      quote: 'O projeto sou eu. Sem o meu toque de classe, isso aqui seria apenas uma planilha sem alma.'
     },
     'napoleao': {
       name: 'Napoleão Bonaparte',
-      subtitle: 'O Micro-gestor da Glória',
-      description: 'Você reorganiza a planilha inteira às 3 da manhã só porque o alinhamento estava torto. Nada escapa ao seu radar burocrático e militar. Seu único ponto fraco é o frio e reuniões longas demais.',
-      traits: ['Metódico', 'Workaholic', 'Perfeccionista', 'Odeia o inverno'],
-      quote: 'Não há nada que não possa ser conquistado antes do almoço.'
+      subtitle: 'O Neurótico do Controle e das Planilhas',
+      description: 'Você reorganiza tudo na madrugada porque o padrão não estava do seu agrado. Manda textão com tópicos e checklists e não descansa enquanto não provar matematicamente que o seu método é o único viável no planeta.',
+      traits: ['Workaholic', 'Neurótico por ordem', 'Manda textão', 'Odeia enrolação'],
+      quote: 'Não existe problema que um bom checklist e 4 xícaras de café não resolvam antes do meio-dia.'
     },
-    'nero': {
-      name: 'Nero',
-      subtitle: 'O Artista Incompreendido',
-      description: 'Se as coisas não saem exatamente como você idealizou na sua mente artística, você prefere incendiar o projeto todo e tocar harpa vendo as cinzas. Dramático, teatral e sem paciência.',
-      traits: ['Dramático', 'Teatral', 'Zero paciência', 'Poeta do caos'],
-      quote: 'Que grande artista o mundo perde quando o deploy quebra!'
+    'putin': {
+      name: 'Vladimir Putin',
+      subtitle: 'O Líder Frio do Olhar Enigmático',
+      description: 'Zero sorrisos, zero textão e zero paciência pra chilique. Você não bate boca na internet: você apenas visualiza a mensagem, não responde nada e deixa a outra pessoa em pânico recalculando a rota sozinha.',
+      traits: ['Frieza de gelo', 'Visualiza e não responde', 'Zero mimimi', 'Olhar intimidador'],
+      quote: 'Quem fala muito entrega pouco. Eu apenas observo em silêncio e resolvo.'
     },
-    'genghis-khan': {
-      name: 'Genghis Khan',
-      subtitle: 'A Força Bruta Pragmática',
-      description: 'Burocracia? Reunião de alinhamento? Você chega atropelando, conquista a demanda em 15 minutos e segue cavalgando em direção ao próximo horizonte. Simples, veloz e implacável.',
-      traits: ['Direto ao ponto', 'Sem rodeios', 'Velocidade total', 'Lança primeiro'],
-      quote: 'Menos conversa fiada, mais conquista territorial.'
+    'kim-jong-un': {
+      name: 'Kim Jong Un',
+      subtitle: 'O Ditador Pop dos Foguetes',
+      description: 'Se as coisas não saem do seu jeitinho no prazo, você já quer explodir o grupo do zap, banir os membros e começar tudo do zero. Espalhafatoso, impaciente e pronto pra tocar o terror se contrariado.',
+      traits: ['Ameaça banir', 'Pavio curtíssimo', 'Espalhafatoso', '8 ou 80'],
+      quote: 'Ou a gente faz do meu jeito agora, ou eu cancelo tudo e não se fala mais nisso.'
     }
   },
   questions: [
@@ -40,60 +47,66 @@ export const ditadorQuiz = {
       id: 1,
       text: 'O que você faz quando alguém no grupo discorda da sua ideia brilhante?',
       options: [
-        { text: 'Apresento argumentos tão teatrais e dramáticos que a pessoa desiste por exaustão.', profile: 'nero' },
-        { text: 'Finjo que aceitei a crítica, mas cruzo a linha e implemento do meu jeito mesmo.', profile: 'julio-cesar' },
-        { text: 'Escrevo um regulamento de 40 páginas provando que a minha lógica é irrefutável.', profile: 'napoleao' },
-        { text: 'Atropelo o argumento em dois segundos e sigo como se a pessoa não tivesse falado nada.', profile: 'genghis-khan' }
+        { text: 'Dou um suspiro fundo, fico quieto pra não arrumar confusão e penso: "se der ruim, avisei".', profile: 'dom-pedro-ii' },
+        { text: 'Faço drama, digo que ninguém reconhece meu brilho e finjo que vou sair do grupo.', profile: 'luis-xiv' },
+        { text: 'Mando um textão com prints, gráficos e tópicos pra provar por A + B que eu tô certo.', profile: 'napoleao' },
+        { text: 'Apenas visualizo a mensagem, não respondo nada e deixo o silêncio pesar no ar.', profile: 'putin' },
+        { text: 'Mando áudio gritando e já ameaço cancelar o projeto todo na hora.', profile: 'kim-jong-un' }
       ]
     },
     {
       id: 2,
-      text: 'Qual é o seu estilo ao delegar uma tarefa para a equipe?',
+      text: 'Qual é o seu jeito de pedir pra alguém fazer uma tarefa?',
       options: [
-        { text: 'Passo o comando em duas palavras e se não fizerem rápido eu mesmo passo por cima.', profile: 'genghis-khan' },
-        { text: 'Defino métricas, sub-etapas e horários com rigor militar de segundo a segundo.', profile: 'napoleao' },
-        { text: 'Inspiro com um discurso grandioso e espero que me sirvam com lealdade irrestrita.', profile: 'julio-cesar' },
-        { text: 'Espero perfeição divina; se vier com erro, faço um escândalo digno de ópera.', profile: 'nero' }
+        { text: 'Peço com calma e torço muito pra pessoa não me chamar com 50 dúvidas óbvias.', profile: 'dom-pedro-ii' },
+        { text: 'Mando mensagem de duas palavras secas e espero que façam com precisão militar.', profile: 'putin' },
+        { text: 'Mando um checklist com cada etapa numerada e prazos cravados no minuto.', profile: 'napoleao' },
+        { text: 'Digo que é uma honra trabalhar comigo e espero lealdade e dedicação total.', profile: 'luis-xiv' },
+        { text: 'Falo que tem que ficar pronto até as 15h, senão vai rodar todo mundo.', profile: 'kim-jong-un' }
       ]
     },
     {
       id: 3,
-      text: 'Como você comemora quando finalmente vence um desafio complicado?',
+      text: 'Como você comemora quando finalmente resolve um desafio complicado?',
       options: [
-        { text: 'Organizo um banquete extravagante regado a arte e aplausos dos meus súditos.', profile: 'nero' },
-        { text: 'Desfilo triunfante, concedo favores públicos e já miro a próxima grande vitória.', profile: 'julio-cesar' },
-        { text: 'Documento o aprendizado, reformo os processos internos e planejo a expansão.', profile: 'napoleao' },
-        { text: 'Pego o espólio, passo o trator e já parto para a próxima batalha sem descanso.', profile: 'genghis-khan' }
+        { text: 'Solto um suspiro de alívio, fecho 40 abas abertas e vou comer um lanche em silêncio.', profile: 'dom-pedro-ii' },
+        { text: 'Posto foto nos stories fingindo costume, mas por dentro tô me achando o maioral.', profile: 'luis-xiv' },
+        { text: 'Fico noiado achando que esqueci de conferir algum detalhe minúsculo antes de relaxar.', profile: 'napoleao' },
+        { text: 'Nem comemoro. Mando um "tá pronto" seco e já passo pro próximo problema.', profile: 'putin' },
+        { text: 'Solto fogos, mando sticker no grupo e exijo que todos comemorem a minha genialidade.', profile: 'kim-jong-un' }
       ]
     },
     {
       id: 4,
-      text: 'Um amigo de confiança traz um feedback desconfortável sobre você. Sua reação:',
+      text: 'Alguém te manda uma crítica ou feedback que você achou desnecessário:',
       options: [
-        { text: 'Desconfio imediatamente de uma conspiração no grupo e fico de olho nele.', profile: 'julio-cesar' },
-        { text: 'Acho uma ingratidão descomunal e penso em cortar relações na hora com lágrimas nos olhos.', profile: 'nero' },
-        { text: 'Ignoro sumariamente. Fracos debatem sentimentos, fortes marcham adiante.', profile: 'genghis-khan' },
-        { text: 'Fico obcecado provando com dados que a análise dele continha erros metodológicos.', profile: 'napoleao' }
+        { text: 'Mando um "beleza, valeu", concordo só pra acabar logo o assunto e sigo a vida.', profile: 'dom-pedro-ii' },
+        { text: 'Fico ofendido no fundo da alma, guardo mágoa e passo a ignorar a pessoa.', profile: 'luis-xiv' },
+        { text: 'Debato item por item até a pessoa admitir que o argumento dela era fraco.', profile: 'napoleao' },
+        { text: 'Olho fixo pra mensagem, dou uma risadinha interna e não gasto uma gota de saliva.', profile: 'putin' },
+        { text: 'Bloqueio a pessoa na hora em todas as redes sociais pra ela aprender.', profile: 'kim-jong-un' }
       ]
     },
     {
       id: 5,
-      text: 'Qual é a sua relação com regras e burocracias?',
+      text: 'Qual é a sua relação com regras e processos no dia a dia?',
       options: [
-        { text: 'Eu crio as regras. O código sou eu.', profile: 'napoleao' },
-        { text: 'Regras são sugestões poéticas para quem não tem talento natural.', profile: 'nero' },
-        { text: 'Regras existem para manter os outros na linha enquanto eu cruzo a fronteira.', profile: 'julio-cesar' },
-        { text: 'Regra boa é linha reta: quem ficar na frente é atropelado.', profile: 'genghis-khan' }
+        { text: 'Sigo o básico pra ninguém encher o meu saco e não ter dor de cabeça.', profile: 'dom-pedro-ii' },
+        { text: 'Eu crio as regras, o sistema sou eu e quem não gostar que se mude.', profile: 'luis-xiv' },
+        { text: 'Regras são sagradas e todo mundo deveria seguir os manuais à risca.', profile: 'napoleao' },
+        { text: 'As regras existem pros outros; eu decido quando elas se aplicam.', profile: 'putin' },
+        { text: 'Se a regra me irritar hoje, amanhã eu invento um decreto novo e cancelo a anterior.', profile: 'kim-jong-un' }
       ]
     },
     {
       id: 6,
-      text: 'Se você pudesse escolher um monumento em sua homenagem:',
+      text: 'Se fossem fazer uma homenagem pra você:',
       options: [
-        { text: 'Um coliseu de mármore dourado com o meu busto tocando harpa.', profile: 'nero' },
-        { text: 'Um arco do triunfo imponente com o meu nome cravado para a eternidade.', profile: 'napoleao' },
-        { text: 'Uma estátua gigante a cavalo no meio de uma planície infinita.', profile: 'genghis-khan' },
-        { text: 'O mês do calendário batizado com o meu nome para que ninguém nunca me esqueça.', profile: 'julio-cesar' }
+        { text: 'Um cantinho com ar-condicionado, poltrona boa, café e zero pessoas me chamando.', profile: 'dom-pedro-ii' },
+        { text: 'Um palácio dourado com espelhos em todas as paredes e retratos meus.', profile: 'luis-xiv' },
+        { text: 'Uma avenida principal movimentada e perfeitamente sinalizada com meu nome.', profile: 'napoleao' },
+        { text: 'Não quero estátua nem festa, só quero que respeitem meu território.', profile: 'putin' },
+        { text: 'Um desfile militar épico com fogos de artifício e feriado nacional obrigatório.', profile: 'kim-jong-un' }
       ]
     }
   ]
