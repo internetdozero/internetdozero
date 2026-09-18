@@ -78,7 +78,7 @@ export const Header = React.memo(function Header({
             aria-label="Alternar tema"
             title={isDark ? t.header.themeLight : t.header.themeDark}
           >
-            {isDark ? <Sun className="w-4 h-4 icon-accent" /> : <Moon className="w-4 h-4 icon-accent" />}
+            {isDark ? <Moon className="w-4 h-4 icon-accent" /> : <Sun className="w-4 h-4 icon-accent" />}
           </button>
         </div>
       </div>
