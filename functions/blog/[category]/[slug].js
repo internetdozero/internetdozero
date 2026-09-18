@@ -78,7 +78,8 @@ export async function onRequestGet(context) {
 
   const shell = await context.next();
   const html = await shell.text();
-  const body = applyMetadata(html, { title, description, url, image: imageUrl, structuredData }).replace('<div id="root"></div>', `<div id="root">${articleMarkup(post)}</div>`);
+  const body = applyMetadata(html, { title, description, url, image: imageUrl, structuredData })
+    .replace('<div id="root"></div>', `<div id="root"><noscript>${articleMarkup(post)}</noscript></div>`);
 
   return new Response(body, { status: 200, headers: { 'Content-Type': 'text/html; charset=utf-8', 'Cache-Control': 'public, max-age=60, s-maxage=300, stale-while-revalidate=600' } });
 }

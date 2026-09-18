@@ -9,13 +9,33 @@ import { FeedbackModal } from './components/FeedbackModal';
 import { ErrorBoundary } from './components/ErrorBoundary';
 import { NotFound } from './components/NotFound';
 
-const BlogView = lazy(() => import('./modules/blog/BlogView').then((m) => ({ default: m.BlogView })));
-const AdminView = lazy(() => import('./modules/blog/AdminView').then((m) => ({ default: m.AdminView })));
-const ToolsView = lazy(() => import('./modules/tools/ToolsView').then((m) => ({ default: m.ToolsView })));
-const LinksView = lazy(() => import('./modules/links/LinksView').then((m) => ({ default: m.LinksView })));
-const QuizView = lazy(() => import('./modules/quiz/QuizView').then((m) => ({ default: m.QuizView })));
-const CommandPalette = lazy(() => import('./components/CommandPalette').then((m) => ({ default: m.CommandPalette })));
-const ModuleModal = lazy(() => import('./components/ModuleModal').then((m) => ({ default: m.ModuleModal })));
+function safeLazy(importFn) {
+  return lazy(async () => {
+    try {
+      return await importFn();
+    } catch (error) {
+      if (typeof window !== 'undefined') {
+        const reloadKey = 'idz_chunk_reload';
+        const last = sessionStorage.getItem(reloadKey);
+        const now = Date.now();
+        if (!last || now - Number(last) > 8000) {
+          sessionStorage.setItem(reloadKey, String(now));
+          window.location.reload();
+          return new Promise(() => {});
+        }
+      }
+      throw error;
+    }
+  });
+}
+
+const BlogView = safeLazy(() => import('./modules/blog/BlogView').then((m) => ({ default: m.BlogView })));
+const AdminView = safeLazy(() => import('./modules/blog/AdminView').then((m) => ({ default: m.AdminView })));
+const ToolsView = safeLazy(() => import('./modules/tools/ToolsView').then((m) => ({ default: m.ToolsView })));
+const LinksView = safeLazy(() => import('./modules/links/LinksView').then((m) => ({ default: m.LinksView })));
+const QuizView = safeLazy(() => import('./modules/quiz/QuizView').then((m) => ({ default: m.QuizView })));
+const CommandPalette = safeLazy(() => import('./components/CommandPalette').then((m) => ({ default: m.CommandPalette })));
+const ModuleModal = safeLazy(() => import('./components/ModuleModal').then((m) => ({ default: m.ModuleModal })));
 
 export function App() {
   const { theme, toggleTheme } = useTheme();
