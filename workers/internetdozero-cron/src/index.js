@@ -21,26 +21,20 @@ async function runPipeline(env, requestedTopic = '', options = {}) {
       throw new Error('No topics discovered');
     }
 
-    const candidateTopic = topics[0];
-    topic = await deduplicateTopics(env.DB, topics, { manual: Boolean(requestedTopic) });
-    if (!topic) {
-      topic = candidateTopic;
-      console.log('All topics were duplicates. Skipping execution.');
-      status = 'skipped';
-    } else {
-      console.log(`Generating article for topic: ${topic.title}`);
-      const rawArticle = await generateArticle(env, topic, options);
-      await validateArticleSources(rawArticle);
-      
-      console.log('Enriching article');
-      const enrichedArticle = await enrichArticle(env.DB, rawArticle, env.SITE_URL);
-      
-      console.log('Publishing article');
-      const result = await publishArticle(env.DB, enrichedArticle, env);
-      slug = result.slug;
-      status = 'success';
-      console.log(`Article published/drafted successfully with slug: ${slug}`);
-    }
+    topic = (await deduplicateTopics(env.DB, topics, { manual: Boolean(requestedTopic) })) || topics[0];
+
+    console.log(`Generating article for topic: ${topic.title}${topic.requiresReview ? ' [em revisão]' : ''}`);
+    const rawArticle = await generateArticle(env, topic, options);
+    await validateArticleSources(rawArticle);
+    
+    console.log('Enriching article');
+    const enrichedArticle = await enrichArticle(env.DB, rawArticle, env.SITE_URL);
+    
+    console.log('Publishing article');
+    const result = await publishArticle(env.DB, enrichedArticle, env, { requiresReview: Boolean(topic.requiresReview) });
+    slug = result.slug;
+    status = topic.requiresReview ? 'review' : 'success';
+    console.log(`Article generated successfully with slug: ${slug} (status: ${status}, published: ${result.published})`);
   } catch (err) {
     console.error('Error during pipeline execution:', err);
     status = 'error';

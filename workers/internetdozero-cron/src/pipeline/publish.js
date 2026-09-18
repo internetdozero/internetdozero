@@ -1,11 +1,12 @@
 import { findLicensedImage } from './image.js';
+import { postToBluesky } from './bluesky.js';
 
-export async function publishArticle(db, article, env) {
+export async function publishArticle(db, article, env, options = {}) {
   const id = crypto.randomUUID();
   const slug = slugify(article.title_pt);
   const words = article.sections_pt.reduce((acc, sec) => acc + (sec.content?.split(/\s+/).length || 0), 0);
   const readingTime = `${Math.ceil(words / 200)} min`;
-  const published = Number(env.AUTO_PUBLISH || '0');
+  const published = options.requiresReview ? 0 : Number(env.AUTO_PUBLISH || '0');
   const type = 'article';
   const author = env.AUTHOR || 'Eduardo S.';
   const createdAt = new Date().toISOString();
@@ -54,6 +55,16 @@ export async function publishArticle(db, article, env) {
     image?.image_license || null,
     image?.image_credit_url || null
   ).run();
+
+  if (published === 1) {
+    await postToBluesky({
+      title: article.title_pt,
+      subtitle: article.subtitle_pt,
+      category: article.category,
+      slug,
+      tags: article.tags_pt
+    }, env).catch(err => console.error('Bluesky broadcast error in publish:', err));
+  }
 
   return { id, slug, published };
 }
