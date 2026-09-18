@@ -242,27 +242,45 @@ export async function validateArticleSources(article) {
     ).map((url) => url.replace(/[.,;:]+$/, ''))
   )];
   for (const url of urls) {
-    let response = await fetch(url, {
-      method: 'HEAD',
-      redirect: 'follow',
-      signal: AbortSignal.timeout(10000)
-    });
-    if (response.status === 405 || response.status === 403) {
-      response = await fetch(url, {
-        headers: {
-          Accept: 'text/html,application/xhtml+xml',
-          'User-Agent': 'InternetDoZero/1.0 source-validator'
-        },
+    try {
+      let response = await fetch(url, {
+        method: 'HEAD',
         redirect: 'follow',
         signal: AbortSignal.timeout(10000)
       });
+      if (response.status === 405 || response.status === 403) {
+        response = await fetch(url, {
+          headers: {
+            Accept: 'text/html,application/xhtml+xml',
+            'User-Agent': 'InternetDoZero/1.0 source-validator'
+          },
+          redirect: 'follow',
+          signal: AbortSignal.timeout(10000)
+        });
+      }
+      if (response.status === 403) {
+        console.warn(`Source access denied by publisher; keeping link: ${url}`);
+        continue;
+      }
+      if (!response.ok) {
+        console.warn(`Source link returned ${response.status}; unwrapping link: ${url}`);
+        unwrapBrokenLink(article, url);
+      }
+    } catch (err) {
+      console.warn(`Source link check failed (${err.message}); unwrapping link: ${url}`);
+      unwrapBrokenLink(article, url);
     }
-    if (response.status === 403) {
-      console.warn(`Source access denied by publisher; keeping link: ${url}`);
-      continue;
-    }
-    if (!response.ok) throw new Error(`Source validation failed (${response.status}): ${url}`);
   }
   console.log(`Validated ${urls.length} article source link(s)`);
   return article;
+}
+
+function unwrapBrokenLink(article, brokenUrl) {
+  const escaped = brokenUrl.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  const markdownRegex = new RegExp(`\\[([^\\]]+)\\]\\(${escaped}\\)`, 'g');
+  for (const section of article.sections_pt || []) {
+    if (section.content) {
+      section.content = section.content.replace(markdownRegex, '$1');
+    }
+  }
 }
