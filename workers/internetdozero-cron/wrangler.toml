@@ -28,3 +28,7 @@ AUTO_PUBLISH = "1"
 # OPENROUTER_API_KEY
 # DEEPSEEK_API_KEY
 # CRON_SECRET
+# PEXELS_API_KEY (optional, curated landscape stock photos)
+# UNSPLASH_ACCESS_KEY (optional, high quality editorial photos)
+# PIXABAY_API_KEY (optional, photos & illustrations)
+

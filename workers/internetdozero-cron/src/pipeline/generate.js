@@ -39,7 +39,7 @@ Retorne estritamente JSON:
 "sections_pt":[{"id":"slug","title":"Título","content":"Markdown com links das fontes"}]}`;
 }
 
-async function attachArticleImage(article, topic) {
+async function attachArticleImage(article, topic, env) {
   if (!article) return article;
   try {
     const image = await findLicensedImage({
@@ -47,7 +47,7 @@ async function attachArticleImage(article, topic) {
       title: article.title_pt || topic.title,
       category: article.category || topic.category,
       tags: article.tags_pt || topic.suggestedTags
-    });
+    }, { db: env?.DB, env });
     if (image) {
       article.image_url = image.image_url;
       article.image_alt = image.image_alt;
@@ -96,7 +96,7 @@ export async function generateArticle(env, topic, { fallback = true } = {}) {
         const article = parseJson((await response.json()).choices?.[0]?.message?.content);
         if (article?.title_pt && article.sections_pt?.length) {
           console.log('Generated article with local Agy');
-          return await attachArticleImage(article, topic);
+          return await attachArticleImage(article, topic, env);
         }
         lastFailure = 'local Agy: invalid JSON';
         console.error('Local Agy returned no valid article JSON');
@@ -142,7 +142,7 @@ Use somente essas fontes para fatos atuais. Inclua links Markdown que sustentem 
       const article = parseJson(data.choices?.[0]?.message?.content);
       if (article?.title_pt && article.sections_pt?.length) {
         console.log(`Generated article with OpenRouter ${model}`);
-        return await attachArticleImage(article, topic);
+        return await attachArticleImage(article, topic, env);
       }
       lastFailure = `${model}: invalid JSON`;
     } catch (error) {
@@ -163,7 +163,7 @@ Use somente essas fontes para fatos atuais. Inclua links Markdown que sustentem 
       if (!response.ok) throw new Error(`${response.status}: ${await response.text()}`);
       const article = parseJson((await response.json()).choices?.[0]?.message?.content);
       if (article?.title_pt && article.sections_pt?.length) {
-        return await attachArticleImage(article, topic);
+        return await attachArticleImage(article, topic, env);
       }
       throw new Error('invalid JSON');
     } catch (error) {
@@ -192,7 +192,7 @@ Use somente essas fontes para fatos atuais. Inclua links Markdown que sustentem 
       if (!response.ok) throw new Error(`${response.status}: ${await response.text()}`);
       const article = parseJson((await response.json()).choices?.[0]?.message?.content);
       if (article?.title_pt && article.sections_pt?.length) {
-        return await attachArticleImage(article, topic);
+        return await attachArticleImage(article, topic, env);
       }
       throw new Error('invalid JSON');
     } catch (error) {

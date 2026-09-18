@@ -25,7 +25,7 @@ export async function publishArticle(db, article, env) {
         title: article.title_pt,
         category: article.category,
         tags: article.tags_pt
-      });
+      }, { db, env });
 
   const query = `
     INSERT INTO posts 
