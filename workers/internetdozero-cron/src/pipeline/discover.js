@@ -16,21 +16,31 @@ function parseJson(text) {
 }
 
 export async function discoverTopics(env) {
-  console.log('Discovering topics using Gemini with resilient fallback...');
-  const prompt = `Você é um analista de tendências digitais.
-Liste 3 tópicos quentes e atuais sobre tecnologia, internet, segurança ou cultura digital no Brasil hoje.
+  console.log('Discovering broad, current topics using Gemini Search Grounding...');
+  const prompt = `Você é o editor de um site brasileiro independente, curioso e útil.
+Pesquise no Google e liste 6 pautas quentes, verificáveis e úteis para pessoas comuns no Brasil hoje.
+Distribua as pautas entre pilares diferentes, no máximo uma por pilar: tecnologia e internet,
+segurança e privacidade, organização e produtividade, dinheiro e consumo, cultura e entretenimento,
+casa e vida prática, saúde e bem-estar, ideias e lazer.
+Prefira assuntos que ajudem o leitor a entender algo, tomar uma decisão ou viver melhor.
+Evite transformar tudo em notícia de tecnologia, repetir o mesmo acontecimento ou escolher manchetes
+sem utilidade. Não invente fatos: use a pesquisa para confirmar o contexto atual.
 Retorne um JSON estruturado exatamente assim:
 {
   "topics": [
     {
       "title": "título do tópico",
       "summary": "resumo do que está acontecendo",
-      "category": "Tecnologia",
+      "category": "Casa e vida prática",
+      "pillar": "casa-vida-pratica",
       "suggestedTags": ["tag1", "tag2"]
     }
   ]
 }
-A categoria DEVE ser uma destas: Tecnologia, Segurança, Organização, Cultura Digital.`;
+A categoria DEVE ser uma destas: Tecnologia e internet, Segurança e privacidade,
+Organização e produtividade, Dinheiro e consumo, Cultura e entretenimento,
+Casa e vida prática, Saúde e bem-estar, Ideias e lazer.
+O campo pillar deve identificar o pilar em letras minúsculas e hífens.`;
 
   for (const model of MODELS) {
     try {
@@ -39,7 +49,8 @@ A categoria DEVE ser uma destas: Tecnologia, Segurança, Organização, Cultura 
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          contents: [{ role: 'user', parts: [{ text: prompt }] }]
+          contents: [{ role: 'user', parts: [{ text: prompt }] }],
+          tools: [{ googleSearch: {} }]
         }),
         signal: AbortSignal.timeout(30000)
       });
@@ -91,12 +102,28 @@ function extractRssTopics(xml) {
       topics.push({
         title,
         summary: `Tópico em alta no Brasil: ${title}`,
-        category: 'Cultura Digital',
+        category: categorizeFallbackTopic(title),
+        pillar: normalizePillar(categorizeFallbackTopic(title)),
         suggestedTags: [title.toLowerCase().replace(/\s+/g, '-')]
       });
   }
 
   return topics;
+}
+
+function categorizeFallbackTopic(title) {
+  const value = title.toLowerCase();
+  if (/preço|inflação|salário|imposto|pix|banco|conta|compras|mercado/.test(value)) return 'Dinheiro e consumo';
+  if (/saúde|doença|vacina|hospital|médico|alimentação|exercício/.test(value)) return 'Saúde e bem-estar';
+  if (/filme|série|música|jogo|show|bbb|fazenda|ator|cantor/.test(value)) return 'Cultura e entretenimento';
+  if (/chuva|calor|casa|receita|trânsito|viagem|feriado/.test(value)) return 'Casa e vida prática';
+  return 'Cultura e entretenimento';
+}
+
+function normalizePillar(value) {
+  return String(value || 'geral').toLowerCase().normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '').replace(/\s+e\s+/g, '-')
+    .replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
 }
 
 function decodeXml(value) {
@@ -119,7 +146,8 @@ async function fallbackToPublicFeeds() {
       parse: data => (data.hits || []).map(item => ({
         title: item.title,
         summary: item.story_text || `Discussão em alta no Hacker News: ${item.title}`,
-        category: 'Tecnologia',
+        category: 'Tecnologia e internet',
+        pillar: 'tecnologia-internet',
         suggestedTags: ['tecnologia', 'internet']
       }))
     },
@@ -128,7 +156,8 @@ async function fallbackToPublicFeeds() {
       parse: data => (Array.isArray(data) ? data : []).map(item => ({
         title: item.title,
         summary: `Artigo em alta na comunidade de desenvolvimento: ${item.title}`,
-        category: 'Tecnologia',
+        category: 'Tecnologia e internet',
+        pillar: 'tecnologia-internet',
         suggestedTags: item.tag_list || ['programação', 'internet']
       }))
     }

@@ -1,13 +1,24 @@
 export async function deduplicateTopics(db, topics) {
-  console.log('Deduplicating topics against last 30 days of posts...');
+  console.log('Deduplicating topics and enforcing daily editorial diversity...');
   try {
     const { results } = await db.prepare(
-      "SELECT slug, title_pt, tags_pt FROM posts WHERE created_at > datetime('now', '-30 days')"
+      "SELECT slug, title_pt, tags_pt, category, created_at FROM posts WHERE created_at > datetime('now', '-30 days')"
     ).all();
 
     const existingPosts = results || [];
+    const recentPillars = new Set(
+      existingPosts
+        .filter((post) => new Date(post.created_at || 0).getTime() > Date.now() - 24 * 60 * 60 * 1000)
+        .map((post) => normalizePillar(post.category))
+    );
+    const seenPillars = new Set();
 
     for (const topic of topics) {
+      const pillar = normalizePillar(topic.pillar || topic.category);
+      if (recentPillars.has(pillar) || seenPillars.has(pillar)) {
+        console.log(`Skipping topic "${topic.title}" to preserve daily pillar diversity`);
+        continue;
+      }
       const topicWords = extractKeywords(topic.title);
       let isDuplicate = false;
 
@@ -35,8 +46,10 @@ export async function deduplicateTopics(db, topics) {
       }
 
       if (!isDuplicate) {
+        seenPillars.add(pillar);
         return topic;
       }
+
     }
 
     return null;
@@ -45,6 +58,12 @@ export async function deduplicateTopics(db, topics) {
     // If we fail to read DB, return the first topic as fallback
     return topics[0] || null;
   }
+}
+
+function normalizePillar(value) {
+  return String(value || 'geral').toLowerCase().normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '').replace(/\s+e\s+/g, '-')
+    .replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
 }
 
 function extractKeywords(text) {
