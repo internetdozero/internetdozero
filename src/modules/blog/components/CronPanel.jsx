@@ -27,6 +27,7 @@ export function CronPanel() {
   const [loading, setLoading] = useState(true);
   const [triggering, setTriggering] = useState(false);
   const [topic, setTopic] = useState('');
+  const [allowFallback, setAllowFallback] = useState(false);
 
   const fetchLogs = async () => {
     try {
@@ -42,7 +43,7 @@ export function CronPanel() {
   const trigger = async () => {
     setTriggering(true);
     try {
-      const res = await fetch('/api/admin/cron-trigger', { method: 'POST', credentials: 'same-origin', headers: { 'Content-Type': 'application/json', 'X-CSRF-Token': csrf() }, body: JSON.stringify({ topic: topic.trim() }) });
+      const res = await fetch('/api/admin/cron-trigger', { method: 'POST', credentials: 'same-origin', headers: { 'Content-Type': 'application/json', 'X-CSRF-Token': csrf() }, body: JSON.stringify({ topic: topic.trim(), fallback: allowFallback }) });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || 'Falha ao disparar');
       emitFeedback('success', topic.trim() ? 'Geração da pauta iniciada.' : 'Pipeline automático disparado.');
@@ -61,6 +62,10 @@ export function CronPanel() {
         <input value={topic} onChange={(event) => setTopic(event.target.value)} maxLength={180} placeholder="Ex.: como economizar na conta de luz" className="mt-2 w-full rounded-xl border border-zinc-200 bg-white px-3 py-2.5 text-sm outline-none transition-colors focus:border-emerald-500 dark:border-zinc-800 dark:bg-zinc-950" />
       </label>
       <p className="mt-2 text-[11px] leading-relaxed text-zinc-400">Preencha para gerar esse tema. Deixe vazio para a IA escolher uma pauta.</p>
+      <label className="mt-4 flex cursor-pointer items-center gap-2 text-xs text-zinc-600 dark:text-zinc-400">
+        <input type="checkbox" checked={allowFallback} onChange={(event) => setAllowFallback(event.target.checked)} className="h-4 w-4 accent-emerald-500" />
+        Permitir fallback para outros modelos se o Gemini local falhar
+      </label>
     </div>
     <div className="mt-5 grid grid-cols-2 gap-3">
       <div className="rounded-xl bg-zinc-50 p-3 dark:bg-zinc-950">

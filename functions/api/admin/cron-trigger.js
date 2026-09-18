@@ -22,7 +22,10 @@ export async function onRequestPost(context) {
     const response = await fetch(triggerUrl, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ topic: typeof payload.topic === 'string' ? payload.topic.trim() : '' }),
+      body: JSON.stringify({
+        topic: typeof payload.topic === 'string' ? payload.topic.trim() : '',
+        fallback: payload.fallback === true
+      }),
       signal: AbortSignal.timeout(90000),
     });
 
