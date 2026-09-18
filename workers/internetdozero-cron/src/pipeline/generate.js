@@ -211,9 +211,24 @@ export async function validateArticleSources(article) {
     ).map((url) => url.replace(/[.,;:]+$/, ''))
   )];
   for (const url of urls) {
-    let response = await fetch(url, { method: 'HEAD', redirect: 'follow', signal: AbortSignal.timeout(10000) });
+    let response = await fetch(url, {
+      method: 'HEAD',
+      redirect: 'follow',
+      signal: AbortSignal.timeout(10000)
+    });
     if (response.status === 405 || response.status === 403) {
-      response = await fetch(url, { headers: { Range: 'bytes=0-1024' }, redirect: 'follow', signal: AbortSignal.timeout(10000) });
+      response = await fetch(url, {
+        headers: {
+          Accept: 'text/html,application/xhtml+xml',
+          'User-Agent': 'InternetDoZero/1.0 source-validator'
+        },
+        redirect: 'follow',
+        signal: AbortSignal.timeout(10000)
+      });
+    }
+    if (response.status === 403) {
+      console.warn(`Source access denied by publisher; keeping link: ${url}`);
+      continue;
     }
     if (!response.ok) throw new Error(`Source validation failed (${response.status}): ${url}`);
   }
