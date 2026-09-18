@@ -61,9 +61,13 @@ export async function deduplicateTopics(db, topics) {
 }
 
 function normalizePillar(value) {
-  return String(value || 'geral').toLowerCase().normalize('NFD')
+  const normalized = String(value || 'geral').toLowerCase().normalize('NFD')
     .replace(/[\u0300-\u036f]/g, '').replace(/\s+e\s+/g, '-')
     .replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+  if (normalized === 'tecnologia' || normalized === 'tecnologia-internet') return 'tecnologia-internet';
+  if (normalized === 'seguranca' || normalized === 'seguranca-privacidade') return 'seguranca-privacidade';
+  if (normalized === 'organizacao' || normalized === 'organizacao-produtividade') return 'organizacao-produtividade';
+  return normalized;
 }
 
 function extractKeywords(text) {
