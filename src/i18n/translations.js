@@ -8,7 +8,7 @@ export const translations = {
       backToBlogTitle: 'Voltar para os textos',
       search: 'Procurar',
       searchTitle: 'Abrir busca rápida',
-      terminal: 'Console',
+      terminal: 'Índice',
       themeDark: 'Mudar para Modo Escuro',
       themeLight: 'Mudar para Modo Claro',
       langTitle: 'Alternar idioma (PT/EN)'
@@ -42,7 +42,7 @@ export const translations = {
       rights: 'Feito e hospedado por quem escreve aqui.',
       hubNav: 'Navegação',
       backToTop: 'Voltar ao Topo',
-      terminal: 'Console',
+      terminal: 'Índice',
       modules: 'Espaços'
     },
     command: {
@@ -109,7 +109,7 @@ export const translations = {
       backToBlogTitle: 'Return to the texts',
       search: 'Browse',
       searchTitle: 'Open quick search',
-      terminal: 'Console',
+      terminal: 'Index',
       themeDark: 'Switch to Dark Mode',
       themeLight: 'Switch to Light Mode',
       langTitle: 'Switch language (PT/EN)'
@@ -143,7 +143,7 @@ export const translations = {
       rights: 'Made and hosted by the person writing here.',
       hubNav: 'Navigation',
       backToTop: 'Back to Top',
-      terminal: 'Console',
+      terminal: 'Index',
       modules: 'Spaces'
     },
     command: {

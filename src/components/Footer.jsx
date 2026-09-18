@@ -1,5 +1,5 @@
 import React from 'react';
-import { Github, Terminal, Sparkles, Youtube, Mail } from 'lucide-react';
+import { Github, Youtube, Mail } from 'lucide-react';
 import { translations } from '../i18n/translations';
 
 function TikTokIcon({ className }) {
@@ -22,63 +22,56 @@ export const Footer = React.memo(function Footer({ onOpenArsenal, onGoHome, lang
   const isEn = lang === 'en';
 
   return (
-    <footer className="mt-20 border-t border-zinc-200 dark:border-zinc-800/80 bg-zinc-50 dark:bg-zinc-950 py-12 transition-colors duration-300">
+    <footer className="mt-20 border-t border-stone-200 dark:border-stone-800 bg-stone-50 dark:bg-stone-950 py-12 transition-colors duration-300">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-8 pb-8 border-b border-zinc-200 dark:border-zinc-800/60">
-          
-          {/* Left Brand info */}
+        <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-8 pb-8 border-b border-stone-200 dark:border-stone-800">
           <div className="space-y-2">
-            <div className="flex items-center gap-2">
-              <div className="w-6 h-6 rounded bg-zinc-900 border border-emerald-500/40 flex items-center justify-center font-mono font-bold text-emerald-500 text-xs">
-                0x
-              </div>
-              <span className="font-mono font-bold text-sm text-zinc-900 dark:text-zinc-100 uppercase tracking-wider">
+            <div className="flex items-baseline gap-2">
+              <span className="text-[11px] text-stone-400" aria-hidden="true">0x</span>
+              <span className="font-serif text-base font-semibold text-stone-900 dark:text-stone-100">
                 Internet do Zero
               </span>
             </div>
-            <p className="text-xs text-zinc-500 font-sans max-w-sm">
+            <p className="text-sm text-stone-500 max-w-sm">
               {t.footer.tagline}
             </p>
           </div>
 
-          {/* Center / Right Links */}
-          <div className="flex flex-wrap items-center gap-4 sm:gap-6 font-mono text-xs text-zinc-600 dark:text-zinc-400">
+          <div className="flex flex-wrap items-center gap-4 sm:gap-6 text-sm text-stone-600 dark:text-stone-400">
             <a
               href="mailto:contato@internetdozero.com.br"
-              className="group inline-flex items-center gap-2 rounded-xl border border-zinc-200/90 bg-white px-3 py-1.5 font-mono text-xs font-medium text-zinc-700 shadow-xs transition-all hover:border-emerald-500/50 hover:bg-emerald-500/5 hover:text-emerald-600 dark:border-zinc-800 dark:bg-zinc-900 dark:text-zinc-300 dark:hover:border-emerald-500/40 dark:hover:bg-emerald-500/10 dark:hover:text-emerald-400"
+              className="inline-flex items-center gap-2 hover:text-stone-900 hover:underline underline-offset-4 dark:hover:text-stone-100"
               title="Entrar em contato por e-mail"
             >
-              <Mail className="h-3.5 w-3.5 text-zinc-400 transition-colors group-hover:text-emerald-500" />
+              <Mail className="h-3.5 w-3.5" />
               <span className="select-all">contato@internetdozero.com.br</span>
             </a>
 
             <button
+              type="button"
               onClick={onOpenArsenal}
-              className="hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors flex items-center gap-1.5 cursor-pointer"
+              className="hover:text-stone-900 hover:underline underline-offset-4 dark:hover:text-stone-100 cursor-pointer"
             >
-              <Terminal className="w-3.5 h-3.5 text-emerald-500" />
-              <span>{t.footer.terminal}</span>
+              {t.footer.terminal}
             </button>
 
             <a
               href="/#modulos"
               onClick={(event) => { if (window.location.pathname !== '/') { event.preventDefault(); onGoHome?.(); setTimeout(() => document.getElementById('modulos')?.scrollIntoView({ behavior: 'smooth' }), 100); } }}
-              className="hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors flex items-center gap-1.5"
+              className="hover:text-stone-900 hover:underline underline-offset-4 dark:hover:text-stone-100"
             >
-              <Sparkles className="w-3.5 h-3.5 text-emerald-500" />
-              <span>{t.footer.modules}</span>
+              {t.footer.modules}
             </a>
           </div>
         </div>
 
-        {/* Bottom bar */}
-        <div className="pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs font-mono text-zinc-500">
+        <div className="pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-stone-500">
           <div>
             &copy; {new Date().getFullYear()} Internet do Zero.
           </div>
           <nav aria-label={isEn ? 'Social links' : 'Redes sociais'} className="flex items-center gap-3">
             {socialLinks.map(({ label, href, Icon }) => (
-              <a key={label} href={href} target="_blank" rel="noreferrer" aria-label={label} title={label} className="rounded-md p-1.5 text-zinc-500 transition-colors hover:bg-zinc-200 hover:text-emerald-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 dark:hover:bg-zinc-800 dark:hover:text-emerald-400">
+              <a key={label} href={href} target="_blank" rel="noreferrer" aria-label={label} title={label} className="rounded-sm p-1.5 text-stone-500 transition-colors hover:text-stone-900 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-stone-400 dark:hover:text-stone-100">
                 <Icon className="h-4 w-4" />
               </a>
             ))}
