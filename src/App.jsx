@@ -92,11 +92,11 @@ export function App() {
 
       <main className="flex-1">
         {currentView === 'admin' ? (
-          <Suspense fallback={<div className="flex items-center justify-center min-h-[60vh]"><span className="text-sm font-mono text-zinc-500 animate-pulse">Carregando…</span></div>}>
+          <Suspense fallback={<div className="flex items-center justify-center min-h-[60vh]"><span className="text-sm text-stone-500">Carregando…</span></div>}>
             <ErrorBoundary><AdminView onNavigate={navigate} /></ErrorBoundary>
           </Suspense>
         ) : currentView === 'blog' ? (
-          <Suspense fallback={<div className="flex items-center justify-center min-h-[60vh]"><span className="text-sm font-mono text-zinc-500 animate-pulse">Carregando…</span></div>}>
+          <Suspense fallback={<div className="flex items-center justify-center min-h-[60vh]"><span className="text-sm text-stone-500">Carregando…</span></div>}>
             <ErrorBoundary><BlogView
               postSlug={postSlug}
               postCategory={postCategory}
@@ -108,15 +108,15 @@ export function App() {
             /></ErrorBoundary>
           </Suspense>
         ) : currentView === 'tools' ? (
-          <Suspense fallback={<div className="flex min-h-[60vh] items-center justify-center"><span className="text-sm font-mono text-zinc-500 animate-pulse">Carregando…</span></div>}>
+          <Suspense fallback={<div className="flex min-h-[60vh] items-center justify-center"><span className="text-sm text-stone-500">Carregando…</span></div>}>
             <ErrorBoundary><ToolsView onNavigate={navigate} toolSlug={toolSlug} lang={lang} /></ErrorBoundary>
           </Suspense>
         ) : currentView === 'links' ? (
-          <Suspense fallback={<div className="flex min-h-[60vh] items-center justify-center"><span className="text-sm font-mono text-zinc-500 animate-pulse">Carregando…</span></div>}>
+          <Suspense fallback={<div className="flex min-h-[60vh] items-center justify-center"><span className="text-sm text-stone-500">Carregando…</span></div>}>
             <ErrorBoundary><LinksView onNavigate={navigate} lang={lang} /></ErrorBoundary>
           </Suspense>
         ) : currentView === 'quiz' ? (
-          <Suspense fallback={<div className="flex min-h-[60vh] items-center justify-center"><span className="text-sm font-mono text-zinc-500 animate-pulse">Carregando…</span></div>}>
+          <Suspense fallback={<div className="flex min-h-[60vh] items-center justify-center"><span className="text-sm text-stone-500">Carregando…</span></div>}>
             <ErrorBoundary><QuizView onNavigate={navigate} quizSlug={quizSlug} lang={lang} /></ErrorBoundary>
           </Suspense>
         ) : currentView === 'not-found' ? (

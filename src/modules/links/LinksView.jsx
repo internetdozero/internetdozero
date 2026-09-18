@@ -63,23 +63,21 @@ export function LinksView({ lang = 'pt', onNavigate }) {
       <button
         type="button"
         onClick={() => onNavigate('/')}
-        className="mb-10 inline-flex w-fit items-center gap-2 rounded-lg px-2 py-1.5 font-mono text-xs text-zinc-500 transition-colors hover:text-emerald-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500"
+        className="mb-10 inline-flex w-fit items-center gap-2 px-2 py-1.5 text-xs text-stone-500 transition-colors hover:text-stone-900 hover:underline underline-offset-4 focus-visible:outline-none dark:hover:text-stone-100"
       >
         <ArrowLeft className="h-3.5 w-3.5" />
         {isEn ? 'Back to home' : 'Voltar ao início'}
       </button>
 
       <section className="mb-10 text-center">
-        <div className="mx-auto mb-5 flex h-16 w-16 items-center justify-center rounded-2xl border border-emerald-500/40 bg-zinc-900 font-mono text-xl font-bold text-emerald-400 shadow-[0_0_28px_rgba(16,185,129,0.14)]">
-          0x
-        </div>
-        <p className="mb-3 font-mono text-[11px] uppercase tracking-[0.28em] text-emerald-500">
+        <p className="mb-3 text-[11px] text-stone-400">0x</p>
+        <p className="mb-3 text-sm text-stone-500">
           {isEn ? 'Internet do Zero' : 'Internet do Zero'}
         </p>
-        <h1 className="text-3xl font-bold tracking-tight text-zinc-100 sm:text-4xl">
+        <h1 className="font-serif text-3xl font-semibold tracking-tight text-stone-900 dark:text-stone-50 sm:text-4xl">
           {isEn ? 'Everything in one place.' : 'Tudo em um só lugar.'}
         </h1>
-        <p className="mx-auto mt-4 max-w-md text-sm leading-6 text-zinc-400 sm:text-base">
+        <p className="mx-auto mt-4 max-w-md text-sm leading-6 text-stone-500 sm:text-base">
           {isEn
             ? 'A personal corner for projects, tools, and whatever is worth sharing.'
             : 'Um canto pessoal para projetos, ferramentas e tudo que vale a pena compartilhar.'}
@@ -93,22 +91,22 @@ export function LinksView({ lang = 'pt', onNavigate }) {
             href={href}
             target="_blank"
             rel="noreferrer"
-            className="group flex items-center gap-4 rounded-2xl border border-zinc-800 bg-zinc-900/70 p-4 transition-all hover:-translate-y-0.5 hover:border-emerald-500/60 hover:bg-zinc-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 sm:p-5"
+            className="group flex items-center gap-4 rounded-sm border border-stone-200 bg-white p-4 transition-colors hover:border-stone-400 focus-visible:outline-none dark:border-stone-800 dark:bg-stone-900 sm:p-5"
           >
-            <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-zinc-700 bg-zinc-950 text-zinc-300 transition-colors group-hover:border-emerald-500/50 group-hover:text-emerald-400">
+            <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-sm border border-stone-200 text-stone-600 dark:border-stone-700 dark:text-stone-300">
               <Icon className="h-5 w-5" />
             </span>
             <span className="min-w-0 flex-1">
-              <span className="block font-mono text-sm font-bold text-zinc-100">{label}</span>
-              <span className="mt-1 block text-sm leading-5 text-zinc-400">{isEn ? descriptionEn : description}</span>
+              <span className="block text-sm font-medium text-stone-900 dark:text-stone-100">{label}</span>
+              <span className="mt-1 block text-sm leading-5 text-stone-500">{isEn ? descriptionEn : description}</span>
             </span>
-            <ArrowUpRight className="h-4 w-4 shrink-0 text-zinc-600 transition-colors group-hover:text-emerald-400" />
+            <ArrowUpRight className="h-4 w-4 shrink-0 text-stone-400 group-hover:text-stone-700 dark:group-hover:text-stone-200" />
           </a>
         ))}
       </div>
 
-      <p className="mt-10 text-center font-mono text-[11px] uppercase tracking-[0.18em] text-zinc-600">
-        {isEn ? '// made independently' : '// feito de forma independente'}
+      <p className="mt-10 text-center text-[11px] text-stone-400">
+        {isEn ? 'Made independently' : 'Feito de forma independente'}
       </p>
     </main>
   );

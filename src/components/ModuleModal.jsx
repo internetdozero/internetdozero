@@ -25,27 +25,27 @@ export function ModuleModal({ module, onClose, onOpenArsenal, lang = 'pt' }) {
       onClick={onClose}
     >
       <div role="dialog" aria-modal="true" aria-labelledby="module-modal-title"
-        className="w-full max-w-xl rounded-3xl bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 shadow-2xl overflow-hidden"
+        className="w-full max-w-xl rounded-sm bg-white dark:bg-stone-900 border border-stone-200 dark:border-stone-800 shadow-lg overflow-hidden"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Header */}
-        <div className="flex items-center justify-between p-6 border-b border-zinc-200 dark:border-zinc-800">
+        <div className="flex items-center justify-between p-6 border-b border-stone-200 dark:border-stone-800">
           <div className="flex items-center gap-3">
-            <div className="p-3 rounded-2xl bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20">
+            <div className="p-3 rounded-sm border border-stone-200 dark:border-stone-700 text-stone-700 dark:text-stone-300">
               <DynamicIcon name={module.icon} className="w-6 h-6" />
             </div>
             <div>
               <div className="flex items-center gap-2">
-                <h3 id="module-modal-title" className="text-xl font-bold font-mono text-zinc-900 dark:text-white">
+                <h3 id="module-modal-title" className="text-xl font-serif font-semibold text-stone-900 dark:text-stone-50">
                   {title}
                 </h3>
                 {badge && (
-                  <span className="px-2 py-0.5 text-xs font-mono rounded bg-zinc-100 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300 border border-zinc-300 dark:border-zinc-700">
+                  <span className="px-2 py-0.5 text-xs text-stone-500">
                     {badge}
                   </span>
                 )}
               </div>
-              <p className="text-xs font-mono text-emerald-600 dark:text-emerald-400">
+              <p className="text-xs text-stone-500">
                 {subtitle}
               </p>
             </div>
@@ -54,7 +54,7 @@ export function ModuleModal({ module, onClose, onOpenArsenal, lang = 'pt' }) {
             type="button"
             aria-label={isEn ? 'Close module' : 'Fechar módulo'}
             onClick={onClose}
-            className="p-2 rounded-lg text-zinc-400 hover:text-zinc-600 dark:hover:text-zinc-200 hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors"
+            className="p-2 rounded-sm text-stone-400 hover:text-stone-700 dark:hover:text-stone-200 hover:bg-stone-100 dark:hover:bg-stone-800 transition-colors"
           >
             <X className="w-5 h-5" />
           </button>
@@ -63,26 +63,25 @@ export function ModuleModal({ module, onClose, onOpenArsenal, lang = 'pt' }) {
         {/* Content Body */}
         <div className="p-6 space-y-5">
           <div>
-            <span className="text-xs font-mono text-zinc-400 uppercase tracking-wider block mb-1">
-              {isEn ? 'About Module' : 'Sobre o Módulo'}
+            <span className="text-xs text-stone-400 uppercase tracking-wider block mb-1">
+              {isEn ? 'About' : 'Sobre'}
             </span>
-            <p className="text-sm text-zinc-700 dark:text-zinc-300 font-sans leading-relaxed">
+            <p className="text-sm text-stone-700 dark:text-stone-300 leading-relaxed">
               {description}
             </p>
           </div>
 
           {/* Status & Stats */}
-          <div className="grid grid-cols-2 gap-3 p-4 rounded-2xl bg-zinc-50 dark:bg-zinc-950/60 border border-zinc-200 dark:border-zinc-800/80 font-mono text-xs">
+          <div className="grid grid-cols-2 gap-3 p-4 rounded-sm bg-stone-50 dark:bg-stone-950/60 border border-stone-200 dark:border-stone-800 text-xs">
             <div>
-              <span className="text-zinc-500 dark:text-zinc-500 block mb-0.5">{isEn ? 'Current Status' : 'Status Atual'}</span>
-              <span className="font-bold text-zinc-900 dark:text-zinc-100 flex items-center gap-1.5">
-                {module.status === 'online' && <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />}
+              <span className="text-stone-500 block mb-0.5">{isEn ? 'Status' : 'Estado'}</span>
+              <span className="font-medium text-stone-900 dark:text-stone-100 flex items-center gap-1.5">
                 {statusLabel}
               </span>
             </div>
             <div>
-              <span className="text-zinc-500 dark:text-zinc-500 block mb-0.5">{module.stats?.label || (isEn ? 'Version' : 'Versão')}</span>
-              <span className="font-bold text-emerald-600 dark:text-emerald-400">
+              <span className="text-stone-500 block mb-0.5">{module.stats?.label || (isEn ? 'Version' : 'Versão')}</span>
+              <span className="font-medium text-stone-800 dark:text-stone-200">
                 {module.stats?.value || 'v1.0'}
               </span>
             </div>
@@ -90,14 +89,14 @@ export function ModuleModal({ module, onClose, onOpenArsenal, lang = 'pt' }) {
 
           {/* Tags */}
           <div>
-            <span className="text-xs font-mono text-zinc-400 uppercase tracking-wider block mb-2">
-              {isEn ? 'Stack & Technologies' : 'Stack & Tecnologias'}
+            <span className="text-xs text-stone-400 uppercase tracking-wider block mb-2">
+              {isEn ? 'Tags' : 'Assuntos'}
             </span>
             <div className="flex flex-wrap gap-2">
               {tags.map((tag) => (
                 <span
                   key={tag}
-                  className="px-2.5 py-1 text-xs font-mono rounded-lg bg-zinc-100 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300 border border-zinc-200 dark:border-zinc-700/60"
+                  className="px-2.5 py-1 text-xs text-stone-600 dark:text-stone-400"
                 >
                   #{tag}
                 </span>
@@ -107,14 +106,14 @@ export function ModuleModal({ module, onClose, onOpenArsenal, lang = 'pt' }) {
         </div>
 
         {/* Modal Action Footer */}
-        <div className="p-6 bg-zinc-50 dark:bg-zinc-950 border-t border-zinc-200 dark:border-zinc-800 flex items-center justify-between">
+        <div className="p-6 bg-stone-50 dark:bg-stone-950 border-t border-stone-200 dark:border-stone-800 flex items-center justify-between">
           {module.id === 'arsenal' ? (
             <button
               onClick={() => {
                 onClose();
                 onOpenArsenal();
               }}
-              className="w-full inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 dark:bg-emerald-500 dark:hover:bg-emerald-400 text-white dark:text-black font-mono font-bold text-xs transition-colors"
+              className="w-full inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-sm bg-stone-900 hover:bg-stone-700 dark:bg-stone-100 dark:hover:bg-stone-200 text-white dark:text-stone-900 text-xs font-medium transition-colors"
             >
               <span>{isEn ? 'View Arsenal Commands' : 'Ver Comandos do Arsenal'}</span>
               <ArrowUpRight className="w-4 h-4" />
@@ -124,19 +123,19 @@ export function ModuleModal({ module, onClose, onOpenArsenal, lang = 'pt' }) {
               href={module.href}
               target="_blank"
               rel="noreferrer"
-              className="w-full inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 dark:bg-emerald-500 dark:hover:bg-emerald-400 text-white dark:text-black font-mono font-bold text-xs transition-colors"
+              className="w-full inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-sm bg-stone-900 hover:bg-stone-700 dark:bg-stone-100 dark:hover:bg-stone-200 text-white dark:text-stone-900 text-xs font-medium transition-colors"
             >
               <span>{isEn ? `Open ${title}` : `Acessar ${title}`}</span>
               <ExternalLink className="w-4 h-4" />
             </a>
           ) : (
-            <div className="w-full flex items-center justify-between text-xs font-mono text-zinc-500">
-              <span>{isEn ? 'Module under construction' : 'Módulo em fase de construção'}</span>
+            <div className="w-full flex items-center justify-between text-xs text-stone-500">
+              <span>{isEn ? 'Still in progress' : 'Ainda em construção'}</span>
               <button
                 onClick={onClose}
-                className="px-4 py-2 rounded-xl bg-zinc-200 dark:bg-zinc-800 text-zinc-800 dark:text-zinc-200 font-semibold cursor-pointer"
+                className="px-4 py-2 rounded-sm bg-stone-200 dark:bg-stone-800 text-stone-800 dark:text-stone-200 font-medium cursor-pointer"
               >
-                {isEn ? 'Back to Hub' : 'Voltar ao Hub'}
+                {isEn ? 'Back' : 'Voltar'}
               </button>
             </div>
           )}

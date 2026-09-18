@@ -54,7 +54,7 @@ export const translations = {
       themeAction: 'Trocar aparência',
       langAction: 'Trocar idioma',
       openBlog: 'Abrir textos',
-      openArsenal: 'Abrir console',
+      openArsenal: 'Perguntar ao índice',
       goHome: 'Voltar ao início',
       escToClose: 'ESC para fechar',
       selectItem: 'Use ↑ ↓ para navegar'
@@ -93,7 +93,7 @@ export const translations = {
       categories: 'Assuntos'
     },
     notFound: {
-      eyebrow: '404 // endereço perdido',
+      eyebrow: 'Página não encontrada',
       title: 'Essa página não existe.',
       description: 'Mas o resto do site está por aqui. Escolha um caminho e continue.',
       home: 'Voltar ao início',
