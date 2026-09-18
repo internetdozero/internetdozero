@@ -16,6 +16,7 @@
 - Cards de artigos relacionados agora exibem tag e miniatura da capa quando disponíveis.
 - Curtidas agora podem ser desfeitas no servidor e nunca ficam abaixo de zero.
 - Módulo de ferramentas atualizado para aparecer como disponível no hub.
+- Autenticação administrativa endurecida exclusivamente com PBKDF2 Web Crypto em produção.
 
 ## [1.1.0] — 2026-09-17
 
