@@ -21,7 +21,7 @@ export function SidebarThoughts({ thoughts = [], onSelectThought, onToggleLike, 
           </p>
         ) : (
           thoughts.map((thought) => {
-            const thoughtText = isEn && thought.content_en ? thought.content_en : thought.content;
+            const thoughtText = (isEn && thought.content_en) ? thought.content_en : (thought.content || thought.title_pt || thought.subtitle_pt || '');
             return (
               <div
                 key={thought.id}

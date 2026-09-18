@@ -3,7 +3,7 @@ import { Heart, MessageSquare, Terminal } from 'lucide-react';
 
 export function ThoughtCard({ thought, isLiked, onToggleLike, onSelect, lang = 'pt' }) {
   const isEn = lang === 'en';
-  const content = (isEn && thought.content_en) ? thought.content_en : thought.content;
+  const content = (isEn && thought.content_en) ? thought.content_en : (thought.content || thought.title_pt || thought.subtitle_pt || '');
 
   const formattedDate = new Date(thought.createdAt).toLocaleDateString(isEn ? 'en-US' : 'pt-BR', {
     day: '2-digit',
