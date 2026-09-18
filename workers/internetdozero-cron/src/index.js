@@ -5,7 +5,7 @@ import { enrichArticle } from './pipeline/enrich.js';
 import { publishArticle } from './pipeline/publish.js';
 import { logExecution } from './pipeline/log.js';
 
-async function runPipeline(env) {
+async function runPipeline(env, requestedTopic = '') {
   const startTime = Date.now();
   let topic = null;
   let slug = null;
@@ -14,7 +14,9 @@ async function runPipeline(env) {
 
   try {
     console.log('Starting execution pipeline');
-    const topics = await discoverTopics(env);
+    const topics = requestedTopic
+      ? [{ title: requestedTopic, summary: `Pauta definida manualmente pelo administrador: ${requestedTopic}`, category: 'Geral', pillar: 'geral', suggestedTags: [] }]
+      : await discoverTopics(env);
     if (!topics || topics.length === 0) {
       throw new Error('No topics discovered');
     }
@@ -51,7 +53,10 @@ export default {
   async fetch(request, env, ctx) {
     const url = new URL(request.url);
     if (url.pathname === '/trigger' && url.searchParams.get('secret') === env.CRON_SECRET) {
-      ctx.waitUntil(runPipeline(env));
+      const payload = request.method === 'POST'
+        ? await request.json().catch(() => ({}))
+        : {};
+      ctx.waitUntil(runPipeline(env, typeof payload.topic === 'string' ? payload.topic.trim() : ''));
       return new Response('Pipeline triggered', { status: 202 });
     }
     return new Response('Not Found', { status: 404 });

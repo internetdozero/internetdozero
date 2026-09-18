@@ -26,6 +26,7 @@ export function CronPanel() {
   const [logs, setLogs] = useState([]);
   const [loading, setLoading] = useState(true);
   const [triggering, setTriggering] = useState(false);
+  const [topic, setTopic] = useState('');
 
   const fetchLogs = async () => {
     try {
@@ -41,10 +42,11 @@ export function CronPanel() {
   const trigger = async () => {
     setTriggering(true);
     try {
-      const res = await fetch('/api/admin/cron-trigger', { method: 'POST', credentials: 'same-origin', headers: { 'X-CSRF-Token': csrf() } });
+      const res = await fetch('/api/admin/cron-trigger', { method: 'POST', credentials: 'same-origin', headers: { 'Content-Type': 'application/json', 'X-CSRF-Token': csrf() }, body: JSON.stringify({ topic: topic.trim() }) });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || 'Falha ao disparar');
-      emitFeedback('success', 'Pipeline disparado com sucesso.');
+      emitFeedback('success', topic.trim() ? 'Geração da pauta iniciada.' : 'Pipeline automático disparado.');
+      setTopic('');
       setTimeout(fetchLogs, 3000);
     } catch (err) { emitFeedback('error', err.message); } finally { setTriggering(false); }
   };
@@ -54,6 +56,12 @@ export function CronPanel() {
 
   return <Panel className="p-5">
     <PanelTitle icon={Bot} eyebrow="Automação" title="IA Autopilot" action={<button type="button" onClick={trigger} disabled={triggering} className={`${buttonClass} inline-flex items-center gap-1.5 rounded-lg bg-emerald-500 px-2.5 py-1.5 text-[11px] font-bold text-zinc-950 hover:bg-emerald-400 disabled:cursor-wait disabled:opacity-60`}><Play className="h-3.5 w-3.5" />{triggering ? 'Gerando…' : 'Gerar agora'}</button>} />
+    <div className="mt-5">
+      <label className="text-xs font-semibold text-zinc-600 dark:text-zinc-400">Tema manual <span className="font-normal text-zinc-400">/ opcional</span>
+        <input value={topic} onChange={(event) => setTopic(event.target.value)} maxLength={180} placeholder="Ex.: como economizar na conta de luz" className="mt-2 w-full rounded-xl border border-zinc-200 bg-white px-3 py-2.5 text-sm outline-none transition-colors focus:border-emerald-500 dark:border-zinc-800 dark:bg-zinc-950" />
+      </label>
+      <p className="mt-2 text-[11px] leading-relaxed text-zinc-400">Preencha para gerar esse tema. Deixe vazio para a IA escolher uma pauta.</p>
+    </div>
     <div className="mt-5 grid grid-cols-2 gap-3">
       <div className="rounded-xl bg-zinc-50 p-3 dark:bg-zinc-950">
         <p className="text-[10px] font-mono uppercase tracking-wider text-zinc-400">Último sucesso</p>

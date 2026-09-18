@@ -16,10 +16,13 @@ export async function onRequestPost(context) {
 
   try {
     const triggerUrl = `${CRON_WORKER_URL}/trigger?secret=${encodeURIComponent(CRON_SECRET)}`;
+    const payload = await context.request.clone().json().catch(() => ({}));
     
     // Article generation can take a long time, use 90s timeout
     const response = await fetch(triggerUrl, {
       method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ topic: typeof payload.topic === 'string' ? payload.topic.trim() : '' }),
       signal: AbortSignal.timeout(90000),
     });
 

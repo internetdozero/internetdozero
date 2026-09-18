@@ -57,7 +57,8 @@ O output deve ser estritamente no seguinte formato JSON:
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          contents: [{ role: 'user', parts: [{ text: articlePrompt }] }]
+          contents: [{ role: 'user', parts: [{ text: articlePrompt }] }],
+          tools: [{ googleSearch: {} }]
         }),
         signal: AbortSignal.timeout(45000)
       });
