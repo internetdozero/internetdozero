@@ -1,99 +1,99 @@
 export const linuxQuiz = {
   id: 'qual-distro-linux-e-a-sua-cara',
   title: 'Qual distro Linux é a sua cara?',
-  subtitle: 'Descubra qual sabor do pinguim reflete a sua paciência com bugs, terminais e o mundo real.',
-  badge: 'Tecnologia & Dev',
+  subtitle: 'Um teste comportamental do cotidiano para descobrir qual sistema operacional vive na sua alma.',
+  badge: 'Tecnologia & Comportamento',
   icon: 'Terminal',
-  disclaimer: 'Feito com carinho para quem já passou horas no terminal tentando configurar o som ou o Wi-Fi.',
+  disclaimer: 'Aviso: Nenhuma linha de terminal precisará ser digitada durante este teste.',
   profiles: {
     'arch': {
       name: 'Arch Linux',
-      subtitle: 'O Purista do "I use Arch btw"',
-      description: 'Você não quer facilidade; você quer controle absoluto sobre cada bit. Se a interface quebrar na sexta-feira às 23h, você abre um sorriso e vai ler a Arch Wiki com prazer masoquista.',
-      traits: ['Minimalista', 'Orgulhoso', 'Compila tudo', 'Lê a Wiki'],
-      quote: 'Se não foi você quem configurou o xorg.conf na unha, o sistema não é seu.'
+      subtitle: 'O Masoquista do Controle Total',
+      description: 'Você não quer facilidade; você quer fazer do seu jeito, mesmo que isso custe 8 horas do seu sábado com uma chave de fenda na mão. Tem orgulho de entender como cada engrenagem funciona e adora uma gambiarra artesanal avançada.',
+      traits: ['Faz tudo na mão', 'Odeia atalhos', 'Mochileiro sem roteiro', 'Curte um perrengue'],
+      quote: 'Se não fui eu que montei parafuso por parafuso, então não tá bem feito.'
     },
     'debian': {
       name: 'Debian Stable',
-      subtitle: 'A Rocha Inabalável do Universo',
-      description: 'Você preza a paz de espírito acima de tudo. Seus pacotes podem ser de 2021, mas o sistema vai continuar rodando firme e forte mesmo se um meteoro atingir o datacenter.',
-      traits: ['Estabilidade pura', 'Zero estresse', 'Sem modismos', 'Conservador'],
-      quote: 'Software novo traz bug novo. Prefiro o que já foi testado por monges tibetanos.'
+      subtitle: 'A Rocha Inabalável da Paz de Espírito',
+      description: 'Você preza a estabilidade acima de qualquer modinha passageira. Veste as mesmas roupas confortáveis há anos, pede o mesmo prato no restaurante e odeia quando mudam o botão de lugar. Se tá funcionando, não se mexe.',
+      traits: ['Conservador da paz', 'Zero estresse', 'Inimigo da novidade', 'Fiel ao clássico'],
+      quote: 'Em time que tá ganhando não se mexe há pelo menos cinco anos.'
     },
     'ubuntu': {
       name: 'Ubuntu',
-      subtitle: 'O Pragmático Sem Tempo a Perder',
-      description: 'Você tem trabalho pra entregar e boletos pra pagar. Quer plugar o pen drive, apertar "Avançar" e ter Wi-Fi, som e navegador funcionando em 5 minutos. Pragmatismo puro.',
-      traits: ['Prático', 'Focado em entregar', 'Zero frescura', 'Amigo do mouse'],
-      quote: 'Eu não quero saber como o kernel funciona, só quero abrir a IDE e codar.'
+      subtitle: 'O Pragmático da Conveniência',
+      description: 'Você tem vida, boletos pra pagar e zero tempo a perder consertando torneira. Quer apertar um botão, ver o negócio funcionando e ir viver sua vida. Paga pela facilidade sem peso na consciência: tempo é ouro.',
+      traits: ['Prático', 'Amigo do atalho', 'Sem frescura', 'Quer ver funcionando'],
+      quote: 'Eu não quero saber como a máquina funciona por dentro, só quero que ela faça o serviço.'
     },
     'nixos': {
       name: 'NixOS',
-      subtitle: 'O Filósofo da Pureza Declarativa',
-      description: 'Seu sistema inteiro está descrito em um arquivo de texto imutável. Se o computador explodir, você compra outro, roda um comando e reconstitui o cosmos em perfeita harmonia matemática.',
-      traits: ['Cérebro galáctico', 'Reprodutível', 'Imutável', 'Futurista'],
-      quote: 'Estado mutável é ilusão da matéria. Tudo deve ser uma função pura.'
+      subtitle: 'O Metódico do Cérebro Galáctico',
+      description: 'Sua vida é organizada em pastas, gavetas com etiquetas e planilhas com cores padronizadas. Se algo der errado, você tem um plano de contingência documentado em três vias para restaurar a harmonia do universo.',
+      traits: ['Metódico absoluto', 'Gavetas etiquetadas', 'Plano de contingência', 'Previsível'],
+      quote: 'O caos é apenas a falta de um método rigoroso bem documentado.'
     }
   },
   questions: [
     {
       id: 1,
-      text: 'O computador travou feio e não sobe mais a tela gráfica. Sua primeira atitude:',
+      text: 'Você comprou um móvel novo que veio desmontado numa caixa. O que você faz?',
       options: [
-        { text: 'Aperto Ctrl+Alt+F3, abro o tty e começo a debugar o journalctl com brilho nos olhos.', profile: 'arch' },
-        { text: 'Travou? Impossível. Meu sistema roda a mesma versão estável há quatro anos sem reiniciar.', profile: 'debian' },
-        { text: 'Reinicio segurando Shift, seleciono o kernel anterior no Grub e sigo a vida.', profile: 'ubuntu' },
-        { text: 'Faço rollback para a geração anterior no bootloader em dois segundos cravados.', profile: 'nixos' }
+        { text: 'Chamo um montador ou pago a taxa de montagem pra não esquentar a cabeça no fim de semana.', profile: 'ubuntu' },
+        { text: 'Sigo o manual religiosamente passo a passo, guardando cada parafuso extra num saquinho.', profile: 'debian' },
+        { text: 'Jogo o manual pro lado, pego minha caixa de ferramentas e monto do meu jeito na raça.', profile: 'arch' },
+        { text: 'Organizo todas as peças no chão em ordem alfabética e por tamanho antes de começar.', profile: 'nixos' }
       ]
     },
     {
       id: 2,
-      text: 'Qual é a sua relação com instalar programas e ferramentas novas?',
+      text: 'Como é o seu guarda-roupa no dia a dia?',
       options: [
-        { text: 'Se não estiver no repositório oficial com certificação de estabilidade decenal, nem olho.', profile: 'debian' },
-        { text: 'Instalo via AUR ou compilo direto do repositório git do desenvolvedor às 2 da manhã.', profile: 'arch' },
-        { text: 'Declaro a dependência no flake de configuração e o sistema resolve deterministicamente.', profile: 'nixos' },
-        { text: 'Procuro no instalador gráfico ou meto um Snap/Flatpak que já vem com tudo mastigado.', profile: 'ubuntu' }
+        { text: 'Tenho as mesmas 4 camisetas e 2 calças há anos. Enquanto não rasgar, tá valendo.', profile: 'debian' },
+        { text: 'Básico e prático: o que tiver limpo na gaveta eu visto sem perder tempo pensando.', profile: 'ubuntu' },
+        { text: 'Peças com bolsos funcionais e estilo próprio que só eu entendo a utilidade.', profile: 'arch' },
+        { text: 'Roupas exatamente iguais, todas dobradas no mesmo padrão milimétrico na gaveta.', profile: 'nixos' }
       ]
     },
     {
       id: 3,
-      text: 'Como é a personalização visual (rice) do seu ambiente de trabalho?',
+      text: 'Deu um barulho esquisito no motor do carro ou no chuveiro. Sua reação:',
       options: [
-        { text: 'Um tiling window manager em C com transparência calculada por script lua feito à mão.', profile: 'arch' },
-        { text: 'O tema padrão do sistema. Trocar papel de parede já consome ciclos de CPU desnecessários.', profile: 'debian' },
-        { text: 'Configuração declarativa que replica o ambiente com fontes e cores em qualquer máquina.', profile: 'nixos' },
-        { text: 'Tema escuro ativado nas opções do sistema e uma foto bonita de paisagem no fundo.', profile: 'ubuntu' }
+        { text: 'Ainda tá funcionando? Então deixa quieto. Barulho velho não mata ninguém.', profile: 'debian' },
+        { text: 'Levo direto no mecânico de confiança e falo: "só me entrega funcionando até as 18h".', profile: 'ubuntu' },
+        { text: 'Abro o capô no sábado de manhã e passo 6 horas desmontando até descobrir a origem.', profile: 'arch' },
+        { text: 'Consulto o histórico de manutenção na minha planilha e troco a peça preventiva no prazo.', profile: 'nixos' }
       ]
     },
     {
       id: 4,
-      text: 'Qual frase melhor define a sua filosofia de vida?',
+      text: 'Qual é o seu estilo na hora de cozinhar ou comer?',
       options: [
-        { text: 'Menos é mais, desde que eu tenha que configurar todo o resto sozinho.', profile: 'arch' },
-        { text: 'Em time que está ganhando não se mexe, nem se atualiza a versão do libc.', profile: 'debian' },
-        { text: 'Feito é melhor que perfeito. Me dê as ferramentas que eu faço acontecer.', profile: 'ubuntu' },
-        { text: 'O universo é um grafo acíclico dirigido de dependências que precisa fechar.', profile: 'nixos' }
+        { text: 'Abro o aplicativo de entrega, peço o que chegar mais rápido e almoço em paz.', profile: 'ubuntu' },
+        { text: 'Arroz, feijão, bife e ovo. Prato simples, gostoso e que nunca falha há décadas.', profile: 'debian' },
+        { text: 'Faço minha própria receita do zero, moendo temperos na mão e testando combinações.', profile: 'arch' },
+        { text: 'Cozinho com balança de precisão, sigo os gramas da receita e lavo a louça na mesma ordem.', profile: 'nixos' }
       ]
     },
     {
       id: 5,
-      text: 'O que você faz no fim de semana quando sobra um tempo livre?',
+      text: 'Como você planeja uma viagem de férias?',
       options: [
-        { text: 'Otimizo os tempos de compilação e troco de gerenciador de janelas pela 8ª vez.', profile: 'arch' },
-        { text: 'Desligo o computador. Máquina estável não precisa de carinho aos sábados.', profile: 'debian' },
-        { text: 'Jogo alguma coisa no Steam ou assisto uma série, o sistema tá pronto pra isso.', profile: 'ubuntu' },
-        { text: 'Refatoro minha árvore de módulos para eliminar redundâncias teóricas de empacotamento.', profile: 'nixos' }
+        { text: 'Vou pro mesmo lugar tranquilo de sempre, onde eu já conheço os caminhos e as pessoas.', profile: 'debian' },
+        { text: 'Compro o pacote com hotel e passagem, chego lá e decido os passeios na hora.', profile: 'ubuntu' },
+        { text: 'Mochila nas costas e sem roteiro fixo; se der perrengue no caminho, faz parte da graça.', profile: 'arch' },
+        { text: 'Itinerário com horários previstos em PDF, rotas de fuga e endereços salvos offline.', profile: 'nixos' }
       ]
     },
     {
       id: 6,
-      text: 'Se você pudesse mandar um recado para a humanidade sobre sistemas operacionais:',
+      text: 'Quando sai uma atualização visual grande no seu aplicativo favorito:',
       options: [
-        { text: 'Eu uso Arch, aliás (I use Arch btw).', profile: 'arch' },
-        { text: 'Parem de perseguir novidades quebradas; a verdadeira paz é o LTS.', profile: 'debian' },
-        { text: 'Use o que te deixa produtivo e vá tomar um café com pessoas reais.', profile: 'ubuntu' },
-        { text: 'Em 10 anos todo software do mundo será imutável e declarativo.', profile: 'nixos' }
+        { text: 'Odeio com todas as minhas forças. Pra que mudar o que já tava funcionando perfeitamente?', profile: 'debian' },
+        { text: 'Se tiver mais rápido tá ótimo; se não, me acostumo com o novo layout em dois dias.', profile: 'ubuntu' },
+        { text: 'Ativo a versão de testes na hora só pra ver as novidades, mesmo que venha com bug.', profile: 'arch' },
+        { text: 'Leio toda a lista de mudanças antes de aceitar e só atualizo se for estritamente seguro.', profile: 'nixos' }
       ]
     }
   ]
