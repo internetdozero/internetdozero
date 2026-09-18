@@ -12,6 +12,7 @@ database_id = "7267907f-dd50-4046-9b2a-3a5758efdc45"
 
 [vars]
 SITE_URL = "https://internetdozero.com"
+LOCAL_AI_MODEL = "gemini-3.8-flash-medium"
 AUTHOR = "Eduardo S."
 AUTO_PUBLISH = "1"
 

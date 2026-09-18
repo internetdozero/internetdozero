@@ -41,6 +41,39 @@ export async function generateArticle(env, topic) {
   const prompt = buildPrompt(topic);
   let lastFailure = 'no response';
 
+  if (env.LOCAL_AI_URL && env.LOCAL_AI_TOKEN) {
+    try {
+      const response = await fetch(`${env.LOCAL_AI_URL.replace(/\/$/, '')}/api/editorial/generate`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: 'Bearer ' + env.LOCAL_AI_TOKEN
+        },
+        body: JSON.stringify({
+          prompt,
+          model: env.LOCAL_AI_MODEL || 'gemini-3.8-flash-medium',
+          timeoutMs: 120000
+        }),
+        signal: AbortSignal.timeout(130000)
+      });
+      if (!response.ok) {
+        lastFailure = `local Agy: ${response.status}`;
+        console.error(`Local Agy failed: ${response.status} ${await response.text()}`);
+      } else {
+        const article = parseJson((await response.json()).choices?.[0]?.message?.content);
+        if (article?.title_pt && article.sections_pt?.length) {
+          console.log('Generated article with local Agy');
+          return article;
+        }
+        lastFailure = 'local Agy: invalid JSON';
+        console.error('Local Agy returned no valid article JSON');
+      }
+    } catch (error) {
+      lastFailure = `local Agy: ${error.message}`;
+      console.error(`Local Agy error: ${error.message}`);
+    }
+  }
+
   for (const model of MODELS) {
     try {
       const response = await fetch('https://openrouter.ai/api/v1/chat/completions', {
