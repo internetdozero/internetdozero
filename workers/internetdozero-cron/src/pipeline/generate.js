@@ -115,7 +115,72 @@ O output deve ser estritamente no seguinte formato JSON:
     }
   }
 
+  if (env.DEEPSEEK_API_KEY) {
+    const sources = await searchSources(topic.title);
+    const sourceContext = sources.map((source, index) =>
+      `[${index + 1}] ${source.title}\nData: ${source.date || 'não informada'}\nURL: ${source.url}\nResumo: ${source.summary}`
+    ).join('\n\n');
+    const deepseekPrompt = `${articlePrompt}
+
+FONTES PESQUISADAS E DISPONÍVEIS:
+${sourceContext || 'Nenhuma fonte foi encontrada. Não invente fontes nem fatos atuais.'}
+
+Use somente as fontes acima para fatos atuais. Inclua no texto links Markdown para as fontes
+que realmente sustentarem cada afirmação. Se as fontes forem insuficientes, escreva o artigo
+como contexto histórico claramente identificado, sem fingir que é uma notícia de hoje.`;
+
+    try {
+      const response = await fetch('https://api.deepseek.com/chat/completions', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${env.DEEPSEEK_API_KEY}` },
+        body: JSON.stringify({
+          model: 'deepseek-flash',
+          messages: [{ role: 'user', content: deepseekPrompt }],
+          stream: false
+        }),
+        signal: AbortSignal.timeout(60000)
+      });
+      if (!response.ok) throw new Error(`DeepSeek returned ${response.status}: ${await response.text()}`);
+      const data = await response.json();
+      const article = parseJson(data.choices?.[0]?.message?.content);
+      if (article?.title_pt && article.sections_pt?.length) {
+        console.log('Successfully generated article with DeepSeek');
+        return article;
+      }
+      throw new Error('DeepSeek returned no valid article JSON');
+    } catch (error) {
+      console.error(`DeepSeek article generation failed: ${error.message}`);
+    }
+  }
+
   throw new Error(`Failed to generate article with all available models (${lastFailure})`);
+}
+
+async function searchSources(topic) {
+  const url = `https://news.google.com/rss/search?q=${encodeURIComponent(`${topic} Brasil`)}&hl=pt-BR&gl=BR&ceid=BR:pt-419`;
+  try {
+    const response = await fetch(url, { signal: AbortSignal.timeout(15000) });
+    if (!response.ok) return [];
+    const xml = await response.text();
+    return [...xml.matchAll(/<item>([\s\S]*?)<\/item>/gi)].slice(0, 6).map((match) => {
+      const item = match[1];
+      return {
+        title: decodeXml(item.match(/<title>([\s\S]*?)<\/title>/i)?.[1]),
+        url: decodeXml(item.match(/<link>([\s\S]*?)<\/link>/i)?.[1]),
+        date: decodeXml(item.match(/<pubDate>([\s\S]*?)<\/pubDate>/i)?.[1]),
+        summary: decodeXml(item.match(/<description>([\s\S]*?)<\/description>/i)?.[1]).replace(/<[^>]+>/g, '')
+      };
+    }).filter((source) => source.title && source.url);
+  } catch (error) {
+    console.error(`News source search failed: ${error.message}`);
+    return [];
+  }
+}
+
+function decodeXml(value = '') {
+  return value.replace(/<!\[CDATA\[([\s\S]*?)\]\]>/g, '$1')
+    .replace(/&amp;/g, '&').replace(/&lt;/g, '<').replace(/&gt;/g, '>')
+    .replace(/&quot;/g, '"').replace(/&#39;|&apos;/g, "'").trim();
 }
 
 export async function validateArticleSources(article) {

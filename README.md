@@ -36,6 +36,7 @@ O blog oferece artigos, crônicas e notas com categorias, busca, sumário, comen
 Um Worker separado (`workers/internetdozero-cron`) pesquisa pautas e publica artigos no D1 em dois horários diários (08:00 e 20:00, horário de Brasília). O fluxo:
 
 - usa Gemini com Google Search Grounding para buscar pautas atuais;
+- mantém DeepSeek como fallback de redação quando a quota ou os modelos Gemini falharem, usando fontes recentes do Google News RSS;
 - informa a data de referência ao redator e diferencia fatos atuais de contexto histórico;
 - valida os links externos citados antes de salvar o artigo, interrompendo a publicação se uma fonte estiver inacessível;
 - distribui candidatos entre tecnologia, segurança, produtividade, dinheiro, cultura, casa, saúde e lazer;

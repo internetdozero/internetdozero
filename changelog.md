@@ -11,6 +11,7 @@
 - Documentada a publicação automática por `AUTO_PUBLISH`, o fluxo de rascunhos no painel e o endpoint manual protegido por `CRON_SECRET`.
 - O Worker passou a encaminhar as chamadas de descoberta e redação pelo `AI_GATEWAY_URL`, mantendo a chave Gemini somente como secret.
 - A geração passou a exigir data de referência explícita, confirmação de status atual e validação de links externos antes da publicação.
+- DeepSeek foi integrado como fallback do Gemini, com pesquisa de fontes atuais via Google News RSS antes da redação.
 
 ## [1.3.0] — 2026-09-17
 
