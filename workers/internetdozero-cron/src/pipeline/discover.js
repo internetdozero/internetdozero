@@ -16,6 +16,7 @@ function parseJson(text) {
 
 export async function discoverTopics(env) {
   console.log('Discovering broad, current topics using Gemini Search Grounding...');
+  let lastFailure = 'no response';
   const prompt = `Você é o editor de um site brasileiro independente, curioso e útil.
 Pesquise no Google e liste 6 pautas quentes, verificáveis e úteis para pessoas comuns no Brasil hoje.
 Distribua as pautas entre pilares diferentes, no máximo uma por pilar: tecnologia e internet,
@@ -46,7 +47,7 @@ O campo pillar deve identificar o pilar em letras minúsculas e hífens.`;
       const url = env.AI_GATEWAY_URL
         ? `${env.AI_GATEWAY_URL.replace(/\/$/, '')}/v1/models/${model}:generateContent`
         : `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${env.GEMINI_API_KEY}`;
-      const response = await fetch(url, {
+      const request = {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -57,10 +58,22 @@ O campo pillar deve identificar o pilar em letras minúsculas e hífens.`;
           tools: [{ googleSearch: {} }]
         }),
         signal: AbortSignal.timeout(30000)
-      });
+      };
+      let response = await fetch(url, request);
 
       if (!response.ok) {
+        lastFailure = `${model} via gateway: ${response.status}`;
         console.error(`Topic discovery model ${model} returned ${response.status}: ${await response.text()}`);
+        if (!env.AI_GATEWAY_URL) continue;
+        response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${env.GEMINI_API_KEY}`, {
+          ...request,
+          headers: { 'Content-Type': 'application/json' }
+        });
+        if (!response.ok) {
+          lastFailure = `${model} direct: ${response.status}`;
+          console.error(`Topic discovery direct fallback ${model} returned ${response.status}: ${await response.text()}`);
+          continue;
+        }
         continue;
       }
 
@@ -74,11 +87,12 @@ O campo pillar deve identificar o pilar em letras minúsculas e hífens.`;
         return result.topics;
       }
     } catch (error) {
+      lastFailure = `${model}: ${error.message}`;
       console.error(`Topic discovery model ${model} failed: ${error.message}`);
     }
   }
 
-  console.log('Gemini discover failed for all models, falling back to Google Trends RSS');
+  console.log(`Gemini discover failed for all models (${lastFailure}), falling back to Google Trends RSS`);
   return await fallbackToGoogleTrends();
 }
 

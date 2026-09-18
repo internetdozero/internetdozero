@@ -20,6 +20,7 @@ function parseJson(text) {
 export async function generateArticle(env, topic) {
   console.log(`Generating article for topic: ${topic.title}`);
   const referenceDate = new Date().toISOString().slice(0, 10);
+  let lastFailure = 'no response';
 
   const articlePrompt = `Você é o redator do blog internetdozero. Seu estilo é:
 - Didático e direto, sem jargões corporativos
@@ -68,7 +69,7 @@ O output deve ser estritamente no seguinte formato JSON:
       const url = env.AI_GATEWAY_URL
         ? `${env.AI_GATEWAY_URL.replace(/\/$/, '')}/v1/models/${model}:generateContent`
         : `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${env.GEMINI_API_KEY}`;
-      const res = await fetch(url, {
+      const request = {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -79,11 +80,22 @@ O output deve ser estritamente no seguinte formato JSON:
           tools: [{ googleSearch: {} }]
         }),
         signal: AbortSignal.timeout(45000)
-      });
+      };
+      let res = await fetch(url, request);
 
       if (!res.ok) {
+        lastFailure = `${model} via gateway: ${res.status}`;
         console.error(`Article generation model ${model} returned ${res.status}: ${await res.text()}`);
-        continue;
+        if (!env.AI_GATEWAY_URL) continue;
+        res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${env.GEMINI_API_KEY}`, {
+          ...request,
+          headers: { 'Content-Type': 'application/json' }
+        });
+        if (!res.ok) {
+          lastFailure = `${model} direct: ${res.status}`;
+          console.error(`Article generation direct fallback ${model} returned ${res.status}: ${await res.text()}`);
+          continue;
+        }
       }
 
       const data = await res.json();
@@ -95,13 +107,15 @@ O output deve ser estritamente no seguinte formato JSON:
         console.log(`Successfully generated article with model ${model}`);
         return article;
       }
+      lastFailure = `${model}: invalid JSON`;
       console.error(`Article generation model ${model} returned no valid article JSON`);
     } catch (error) {
+      lastFailure = `${model}: ${error.message}`;
       console.error(`Article generation model ${model} failed: ${error.message}`);
     }
   }
 
-  throw new Error('Failed to generate article with all available models');
+  throw new Error(`Failed to generate article with all available models (${lastFailure})`);
 }
 
 export async function validateArticleSources(article) {
