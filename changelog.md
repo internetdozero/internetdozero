@@ -1,5 +1,16 @@
 # Changelog
 
+## [Não versionado] — 2026-09-18
+
+### Autopilot editorial
+
+- Documentado o Worker de publicação automática, executado duas vezes por dia pelo Cloudflare Cron Triggers.
+- Atualizada a orientação editorial para pautas úteis e variadas, com Google Search Grounding e oito pilares de conteúdo.
+- Registrado o bloqueio de repetição de pilar em 24 horas e a deduplicação de temas em 30 dias.
+- Documentado o uso do Openverse com filtro de licenças CC0, CC BY, CC BY-SA e domínio público, incluindo créditos no artigo.
+- Documentada a publicação automática por `AUTO_PUBLISH`, o fluxo de rascunhos no painel e o endpoint manual protegido por `CRON_SECRET`.
+- Registrado que `AI_GATEWAY_URL` está configurado como reserva, mas ainda não é usado pelas chamadas atuais ao Gemini.
+
 ## [1.3.0] — 2026-09-17
 
 ### Adicionado

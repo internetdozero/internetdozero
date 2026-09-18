@@ -31,6 +31,19 @@ Rotas principais usam slugs em português; aliases em inglês também estão dis
 
 O blog oferece artigos, crônicas e notas com categorias, busca, sumário, comentários, curtidas e versões em português e inglês. O conteúdo publicado pode vir do Cloudflare D1 por meio das Pages Functions, com dados locais como fallback para desenvolvimento.
 
+### Autopilot editorial
+
+Um Worker separado (`workers/internetdozero-cron`) pesquisa pautas e publica artigos no D1 em dois horários diários (08:00 e 20:00, horário de Brasília). O fluxo:
+
+- usa Gemini com Google Search Grounding para buscar pautas atuais;
+- distribui candidatos entre tecnologia, segurança, produtividade, dinheiro, cultura, casa, saúde e lazer;
+- evita repetir o mesmo pilar nas últimas 24 horas e deduplica temas dos últimos 30 dias;
+- gera o artigo, relaciona ferramentas úteis do site e busca imagens no Openverse;
+- aceita somente imagens com licença CC0, CC BY, CC BY-SA ou domínio público, gravando autor, licença, fonte e crédito;
+- publica automaticamente quando `AUTO_PUBLISH=1`; rascunhos podem ser publicados pelo painel administrativo.
+
+O Worker usa o binding D1 `DB`, as variáveis `SITE_URL`, `AUTHOR` e `AUTO_PUBLISH`, e os secrets `GEMINI_API_KEY` e `CRON_SECRET`. A execução manual ocorre em `/trigger?secret=...` e deve ser feita somente com o segredo armazenado no ambiente seguro; nunca coloque esse valor no código ou em commits. O `AI_GATEWAY_URL` está reservado na configuração, mas as chamadas atuais ao Gemini ainda são diretas à API do Google.
+
 O sitemap fica em [`/sitemap.xml`](https://internetdozero.com.br/sitemap.xml) e inclui a home, o blog, os artigos publicados e as 10 ferramentas. O painel `/admin` é bloqueado pelo `robots.txt` e protegido por sessão HttpOnly, hash de senha e segredo configurável.
 
 ## Stack
@@ -89,6 +102,15 @@ npm test -- --run  # testes Vitest
 4. Faça o deploy com o build `npm run build` e saída `dist`.
 
 Para desenvolvimento local, o fallback de senha em texto puro só é habilitado explicitamente em `.dev.vars` com `ALLOW_PLAINTEXT_ADMIN_PASSWORD=true`. Esse arquivo não deve ser commitado.
+
+O Worker editorial tem configuração própria em `workers/internetdozero-cron/wrangler.toml`. Para publicar uma nova versão:
+
+```bash
+cd workers/internetdozero-cron
+npx wrangler deploy
+```
+
+Antes do primeiro deploy, configure `GEMINI_API_KEY` e `CRON_SECRET` como secrets do Worker. O cron não deve ser exposto sem autenticação.
 
 Mais detalhes de cada versão estão em [`changelog.md`](changelog.md).
 
