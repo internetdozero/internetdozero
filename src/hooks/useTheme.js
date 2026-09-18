@@ -6,9 +6,9 @@ export function useTheme() {
       let stored;
       try { stored = localStorage.getItem('idz_theme'); } catch (_) {}
       if (stored) return stored;
-      return 'dark'; // default to dark
+      return 'light';
     }
-    return 'dark';
+    return 'light';
   });
 
   useEffect(() => {
