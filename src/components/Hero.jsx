@@ -7,9 +7,6 @@ export function Hero({ onOpenArsenal, onScrollToGrid, lang = 'pt' }) {
   return (
     <section className="relative home-glow overflow-hidden pt-16 pb-10 md:pt-24 md:pb-14">
       <div className="relative mx-auto max-w-2xl px-4 text-center sm:px-6">
-        <p className="mb-4 inline-flex rounded-full bg-[color-mix(in_srgb,var(--icon)_14%,transparent)] px-3 py-1 text-sm icon-accent">
-          {t.hero.badgeCentral}
-        </p>
         <h1 className="font-serif text-4xl font-semibold tracking-tight text-stone-900 dark:text-stone-50 sm:text-5xl md:text-6xl">
           Internet do Zero
         </h1>
