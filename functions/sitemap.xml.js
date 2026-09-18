@@ -18,7 +18,16 @@ const toolSlugs = [
   'contador-de-texto',
   'gerador-de-qr-code',
   'comparador-de-texto',
-  'formatador-json'
+  'formatador-json',
+  'descompactador-de-arquivos',
+  'conversor-de-arquivos'
+];
+
+const quizSlugs = [
+  'que-ditador-voce-seria',
+  'qual-distro-linux-e-a-sua-cara',
+  'qual-fruta-voce-seria',
+  'que-tipo-de-politico-voce-seria'
 ];
 
 export async function onRequestGet(context) {
@@ -27,7 +36,9 @@ export async function onRequestGet(context) {
     { loc: `${SITE}/tools`, priority: '0.9', changefreq: 'weekly' },
     { loc: `${SITE}/blog`, priority: '0.8', changefreq: 'weekly' },
     { loc: `${SITE}/links`, priority: '0.5', changefreq: 'monthly' },
-    ...toolSlugs.map((slug) => ({ loc: `${SITE}/tools/${slug}`, priority: '0.8', changefreq: 'weekly' }))
+    { loc: `${SITE}/quiz`, priority: '0.9', changefreq: 'weekly' },
+    ...toolSlugs.map((slug) => ({ loc: `${SITE}/tools/${slug}`, priority: '0.8', changefreq: 'weekly' })),
+    ...quizSlugs.map((slug) => ({ loc: `${SITE}/quiz/${slug}`, priority: '0.8', changefreq: 'monthly' }))
   ];
 
   if (context.env?.DB) {
