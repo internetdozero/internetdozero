@@ -22,7 +22,7 @@ export const Footer = React.memo(function Footer({ onOpenArsenal, onGoHome, lang
   const isEn = lang === 'en';
 
   return (
-    <footer className="mt-20 border-t border-stone-200 dark:border-stone-800 bg-stone-50 dark:bg-stone-950 py-12 transition-colors duration-300">
+    <footer className="mt-20 border-t border-stone-200/80 dark:border-stone-800 bg-[#f7f1e8] dark:bg-stone-950 py-12 transition-colors duration-300">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-8 pb-8 border-b border-stone-200 dark:border-stone-800">
           <div className="space-y-2">

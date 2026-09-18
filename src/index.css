@@ -5,7 +5,7 @@
 @layer base {
   :root {
     --font-sans: 'Source Sans 3', system-ui, -apple-system, sans-serif;
-    --font-serif: 'Newsreader', 'Iowan Old Style', 'Palatino Linotype', serif;
+    --font-serif: 'Fraunces', 'Iowan Old Style', Georgia, serif;
     --font-mono: ui-monospace, 'Cascadia Code', 'SF Mono', Menlo, monospace;
     --icon: #a67c2a;
   }
@@ -16,6 +16,11 @@
 
 .icon-accent {
   color: var(--icon);
+}
+
+.home-glow {
+  background:
+    radial-gradient(900px 420px at 50% -10%, color-mix(in srgb, var(--icon) 22%, transparent), transparent 70%);
 }
 
 body {

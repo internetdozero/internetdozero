@@ -17,14 +17,14 @@ export const Header = React.memo(function Header({
   const t = translations[lang] || translations.pt;
 
   return (
-    <header className="sticky top-0 z-40 w-full border-b border-stone-200 bg-stone-50 dark:border-stone-800 dark:bg-stone-950 sm:bg-stone-50/90 sm:dark:bg-stone-950/90 sm:backdrop-blur-sm transition-colors duration-300">
+    <header className="sticky top-0 z-40 w-full border-b border-stone-200/70 bg-[#f7f1e8]/90 dark:border-stone-800 dark:bg-stone-950/90 sm:backdrop-blur-sm transition-colors duration-300">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
         <div className="flex min-w-0 items-center gap-3">
           <button
             onClick={onGoHome}
             className="flex min-w-0 items-center gap-2.5 group cursor-pointer text-left focus:outline-none"
           >
-            <span className="hidden text-[11px] text-stone-400 dark:text-stone-500 sm:inline" aria-hidden="true">
+            <span className="flex h-8 w-8 items-center justify-center rounded-full bg-[var(--icon)] text-[11px] font-semibold text-[#2a1f0e]" aria-hidden="true">
               0x
             </span>
             <span className="font-serif text-lg font-semibold tracking-tight text-stone-900 dark:text-stone-100 group-hover:underline underline-offset-4 decoration-stone-400">
@@ -49,7 +49,7 @@ export const Header = React.memo(function Header({
         <div className="flex items-center gap-1 sm:gap-2">
           <button
             onClick={() => onToggleLang(lang === 'pt' ? 'en' : 'pt')}
-            className="inline-flex items-center gap-1 rounded-sm px-2 py-1.5 text-xs font-medium text-stone-600 hover:text-stone-900 dark:text-stone-400 dark:hover:text-stone-100"
+            className="inline-flex items-center gap-1 rounded-full px-2.5 py-1.5 text-xs font-medium text-stone-600 hover:bg-white/80 dark:text-stone-400 dark:hover:bg-stone-900"
             aria-label={lang === 'pt' ? 'Mudar para inglês' : 'Mudar para português'}
             title={lang === 'pt' ? 'Mudar para English' : 'Mudar para Português'}
           >
@@ -58,7 +58,7 @@ export const Header = React.memo(function Header({
 
           <button
             onClick={onOpenCommand}
-            className="flex items-center gap-2 rounded-sm px-2 py-1.5 text-sm text-stone-600 hover:text-stone-900 dark:text-stone-400 dark:hover:text-stone-100"
+            className="flex items-center gap-2 rounded-full px-2.5 py-1.5 text-sm text-stone-600 hover:bg-white/80 dark:text-stone-400 dark:hover:bg-stone-900"
             title={t.header.searchTitle}
           >
             <Search className="w-4 h-4 icon-accent" />
@@ -67,14 +67,14 @@ export const Header = React.memo(function Header({
 
           <button
             onClick={onOpenArsenal}
-            className="hidden md:inline-flex items-center rounded-sm px-2 py-1.5 text-sm text-stone-600 hover:text-stone-900 hover:underline underline-offset-4 dark:text-stone-400 dark:hover:text-stone-100"
+            className="hidden md:inline-flex items-center rounded-full px-3 py-1.5 text-sm text-stone-600 hover:bg-white/80 dark:text-stone-400 dark:hover:bg-stone-900"
           >
             {t.header.terminal}
           </button>
 
           <button
             onClick={toggleTheme}
-            className="p-2 rounded-sm text-stone-600 hover:text-stone-900 dark:text-stone-400 dark:hover:text-stone-100"
+            className="p-2 rounded-full text-stone-600 hover:bg-white/80 dark:text-stone-400 dark:hover:bg-stone-900"
             aria-label="Alternar tema"
             title={isDark ? t.header.themeLight : t.header.themeDark}
           >

@@ -77,7 +77,7 @@ export function App() {
   const handleCloseModule = useCallback(() => setSelectedModule(null), []);
 
   return (
-    <div className="min-h-screen flex flex-col bg-stone-50 dark:bg-stone-950 text-stone-900 dark:text-stone-100 transition-colors duration-300">
+    <div className="min-h-screen flex flex-col bg-[#f7f1e8] dark:bg-stone-950 text-stone-900 dark:text-stone-100 transition-colors duration-300">
       <Header
         theme={theme}
         toggleTheme={toggleTheme}

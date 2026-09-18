@@ -20,11 +20,11 @@ export const ModuleCard = React.memo(function ModuleCard({ module, onSelect, lan
       type="button"
       onClick={() => onSelect(module)}
       aria-label={`${lang === 'en' ? 'Open' : 'Abrir'} ${title}`}
-      className="group relative flex flex-col justify-between p-6 rounded-sm bg-white dark:bg-stone-900 border border-stone-200 dark:border-stone-800 border-l-[3px] border-l-[var(--icon)] hover:bg-stone-50 dark:hover:bg-stone-900/80 transition-colors cursor-pointer text-left overflow-hidden"
+      className="group relative flex flex-col justify-between p-6 rounded-3xl bg-white/90 dark:bg-stone-900 border border-stone-200/80 dark:border-stone-800 shadow-sm hover:-translate-y-0.5 hover:shadow-md transition-all cursor-pointer text-left overflow-hidden"
     >
       <div className="flex-1">
         <div className="flex items-center justify-between gap-2 mb-4">
-          <span className="text-[11px] tracking-wide uppercase text-stone-500">
+          <span className="text-[11px] text-stone-500">
             {category}
           </span>
           <span className="inline-flex items-center gap-1.5 text-xs text-stone-500 whitespace-nowrap">
@@ -35,7 +35,7 @@ export const ModuleCard = React.memo(function ModuleCard({ module, onSelect, lan
         </div>
 
         <div className="flex items-start gap-4 mb-3">
-          <div className="p-2 rounded-sm border border-stone-200 dark:border-stone-700 shrink-0">
+          <div className="p-2.5 rounded-2xl bg-[color-mix(in_srgb,var(--icon)_16%,transparent)] shrink-0">
             <DynamicIcon name={module.icon} className="w-5 h-5" />
           </div>
           <div className="min-w-0">

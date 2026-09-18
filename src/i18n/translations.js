@@ -14,10 +14,10 @@ export const translations = {
       langTitle: 'Alternar idioma (PT/EN)'
     },
     hero: {
-      badgeCentral: 'um canto na internet',
+      badgeCentral: 'oi, entra',
       subtitle: 'Aqui tem textos, ferramentas e quizzes. Depois entram vídeo, música, jogos e o que mais eu for fazendo.',
-      btnModules: 'Por onde começar',
-      btnConsole: 'Perguntar ao índice',
+      btnModules: 'Dar uma olhada',
+      btnConsole: 'Procurar',
       statFocus: 'Aberto',
       statModulesCount: 'textos, tools, quizzes',
       statContent: 'Em breve',
@@ -28,8 +28,8 @@ export const translations = {
       statStatusVal: '0x'
     },
     hub: {
-      modulesTitle: 'Por onde começar',
-      modulesDesc: 'Ainda tem pouca coisa por aqui. Comece pelos textos e volte depois para ver o que apareceu.',
+      modulesTitle: 'O que tem por agora',
+      modulesDesc: 'Começa pelos textos se quiser. Ou pula direto numa ferramenta.',
       systemPillarsTitle: 'O que eu faço por aqui',
       systemPillarsDesc: 'Escrevo, construo algumas coisas e publico quando acho que vale a pena.',
       modulesEyebrow: 'Temporada de estreia',
@@ -115,10 +115,10 @@ export const translations = {
       langTitle: 'Switch language (PT/EN)'
     },
     hero: {
-      badgeCentral: 'a corner of the internet',
+      badgeCentral: 'hey, come in',
       subtitle: 'Writing, tools, and quizzes for now. Video, music, games, and whatever else I make as it shows up.',
-      btnModules: 'Where to start',
-      btnConsole: 'Ask the index',
+      btnModules: 'Have a look',
+      btnConsole: 'Search',
       statFocus: 'Open',
       statModulesCount: 'texts, tools, quizzes',
       statContent: 'Soon',
@@ -129,8 +129,8 @@ export const translations = {
       statStatusVal: '0x'
     },
     hub: {
-      modulesTitle: 'Where to start',
-      modulesDesc: 'There is not much here yet. Start with the texts and come back later to see what showed up.',
+      modulesTitle: 'What’s here now',
+      modulesDesc: 'Start with the writing if you want. Or jump into a tool.',
       systemPillarsTitle: 'What I do here',
       systemPillarsDesc: 'I write, build a few things, and publish them when they feel worth sharing.',
       modulesEyebrow: 'First edition',
