@@ -98,25 +98,17 @@ export function StatusRadar({ lang = 'pt' }) {
   }, [history]);
 
   return (
-    <section className="my-12 p-6 sm:p-8 rounded-3xl bg-zinc-900/90 dark:bg-zinc-950/90 border border-zinc-300 dark:border-zinc-800 text-zinc-100 font-mono shadow-xl overflow-hidden">
-      {/* Terminal Title Bar */}
-      <div className="flex items-center justify-between pb-4 mb-4 border-b border-zinc-800">
-        <div className="flex items-center gap-3">
-          <div className="flex gap-1.5">
-            <span className="w-3 h-3 rounded-full bg-red-500/80 inline-block" />
-            <span className="w-3 h-3 rounded-full bg-yellow-500/80 inline-block" />
-            <span className="w-3 h-3 rounded-full bg-emerald-500/80 inline-block" />
-          </div>
-          <div className="flex items-center gap-2 text-xs text-zinc-400 font-medium">
-            <Terminal className="w-3.5 h-3.5 text-emerald-400" />
-            <span>console@internetdozero:~</span>
-          </div>
+    <section className="my-12 p-6 sm:p-8 rounded-sm bg-white dark:bg-stone-900 border border-stone-200 dark:border-stone-800 text-stone-800 dark:text-stone-200 overflow-hidden">
+      <div className="flex items-center justify-between pb-4 mb-4 border-b border-stone-200 dark:border-stone-800">
+        <div className="flex items-center gap-2 text-xs text-stone-500 font-medium">
+          <Terminal className="w-3.5 h-3.5" />
+          <span>{isEn ? 'Ask the index' : 'Pergunte ao índice'}</span>
         </div>
 
         <button
-          onClick={() => setHistory([{ type: 'system', text: isEn ? 'Console reset.' : 'Console reiniciado.' }])}
-          className="p-1.5 rounded-lg text-zinc-400 hover:text-zinc-200 hover:bg-zinc-800 transition-colors text-xs flex items-center gap-1 cursor-pointer"
-          title={isEn ? "Clear terminal" : "Limpar terminal"}
+          onClick={() => setHistory([{ type: 'system', text: isEn ? 'Cleared.' : 'Limpo.' }])}
+          className="p-1.5 rounded-sm text-stone-400 hover:text-stone-800 dark:hover:text-stone-200 transition-colors text-xs flex items-center gap-1 cursor-pointer"
+          title={isEn ? "Clear" : "Limpar"}
         >
           <Trash2 className="w-3.5 h-3.5" />
           <span className="hidden sm:inline">{isEn ? 'Clear' : 'Limpar'}</span>
@@ -128,13 +120,13 @@ export function StatusRadar({ lang = 'pt' }) {
         {history.map((line, idx) => (
           <div key={idx}>
             {line.type === 'system' && (
-              <p className="text-zinc-400">{line.text}</p>
+              <p className="text-stone-500">{line.text}</p>
             )}
             {line.type === 'user' && (
-              <p className="text-emerald-400 font-bold">{line.text}</p>
+              <p className="text-stone-900 dark:text-stone-100 font-medium">{line.text}</p>
             )}
             {line.type === 'output' && (
-              <pre className="text-zinc-200 whitespace-pre-wrap font-mono pl-2 border-l border-emerald-500/40 my-1">
+              <pre className="text-stone-700 dark:text-stone-300 whitespace-pre-wrap font-mono pl-2 border-l border-stone-300 dark:border-stone-700 my-1">
                 {line.text}
               </pre>
             )}
@@ -146,18 +138,18 @@ export function StatusRadar({ lang = 'pt' }) {
       </div>
 
       {/* Interactive Input Form */}
-      <form onSubmit={handleCommand} className="mt-4 pt-3 border-t border-zinc-800/80 flex items-center gap-2">
-        <span className="text-emerald-400 font-bold text-sm">$</span>
+      <form onSubmit={handleCommand} className="mt-4 pt-3 border-t border-stone-200 dark:border-stone-800 flex items-center gap-2">
+        <span className="text-stone-400 text-sm">›</span>
         <input
           type="text"
           value={input}
           onChange={(e) => setInput(e.target.value)}
           placeholder={isEn ? 'Try: help, modules, blog…' : 'Tente: help, modulos, blog…'}
-          className="flex-1 bg-transparent text-xs sm:text-sm text-zinc-100 placeholder-zinc-500 focus:outline-none font-mono"
+          className="flex-1 bg-transparent text-xs sm:text-sm text-stone-800 dark:text-stone-100 placeholder-stone-400 focus:outline-none"
         />
         <button
           type="submit"
-          className="p-2 rounded-lg bg-emerald-500/20 text-emerald-400 hover:bg-emerald-500 hover:text-black transition-colors cursor-pointer"
+          className="p-2 rounded-sm text-stone-500 hover:text-stone-900 dark:hover:text-stone-100 transition-colors cursor-pointer"
           title={isEn ? "Execute command" : "Executar comando"}
         >
           <CornerDownLeft className="w-4 h-4" />

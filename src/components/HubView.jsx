@@ -4,7 +4,6 @@ import { ModuleCard } from './ModuleCard';
 import { StatusRadar } from './StatusRadar';
 import { DynamicIcon } from './DynamicIcon';
 import { modulesData, systemPillars } from '../data/modules';
-import { LayoutGrid } from 'lucide-react';
 import { translations } from '../i18n/translations';
 import { useSeo } from '../hooks/useSeo';
 
@@ -57,15 +56,15 @@ export function HubView({ onSelectModule, lang = 'pt' }) {
             return (
               <div
                 key={pillar.title_pt || pillar.title}
-                className="p-6 rounded-2xl bg-white dark:bg-zinc-900/40 border border-zinc-200 dark:border-zinc-800/80 backdrop-blur-sm"
+                className="p-6 rounded-sm bg-white dark:bg-stone-900 border border-stone-200 dark:border-stone-800"
               >
-                <div className="w-10 h-10 rounded-xl bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20 flex items-center justify-center mb-4">
+                <div className="w-10 h-10 rounded-sm border border-stone-200 dark:border-stone-700 text-stone-700 dark:text-stone-300 flex items-center justify-center mb-4">
                   <DynamicIcon name={pillar.icon} className="w-5 h-5" />
                 </div>
-                <h3 className="font-mono font-bold text-base text-zinc-900 dark:text-white mb-2">
+                <h3 className="font-serif font-semibold text-base text-stone-900 dark:text-stone-50 mb-2">
                   {title}
                 </h3>
-                <p className="text-sm text-zinc-600 dark:text-zinc-400 font-sans leading-relaxed">
+                <p className="text-sm text-stone-600 dark:text-stone-400 leading-relaxed">
                   {desc}
                 </p>
               </div>
@@ -79,12 +78,11 @@ export function HubView({ onSelectModule, lang = 'pt' }) {
         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-8">
           <div>
             <div className="flex items-center gap-2 mb-1">
-              <LayoutGrid className="w-4 h-4 text-emerald-500" />
-              <span className="text-xs font-mono font-bold tracking-widest text-emerald-600 dark:text-emerald-400 uppercase">
+              <span className="text-xs tracking-wide uppercase text-stone-500">
                 {t.hub.modulesEyebrow}
               </span>
             </div>
-            <h2 className="text-2xl sm:text-3xl font-bold font-mono text-zinc-900 dark:text-white">
+            <h2 className="text-2xl sm:text-3xl font-serif font-semibold text-stone-900 dark:text-stone-50">
               {t.hub.modulesTitle}
             </h2>
           </div>
@@ -94,10 +92,10 @@ export function HubView({ onSelectModule, lang = 'pt' }) {
               <button
                 key={cat.id}
                 onClick={() => setActiveCategory(cat.id)}
-                className={`px-3 py-1.5 rounded-xl text-xs font-mono transition-all cursor-pointer ${
+                className={`px-3 py-1.5 rounded-sm text-xs transition-colors cursor-pointer ${
                   activeCategory === cat.id
-                    ? 'bg-emerald-600 dark:bg-emerald-500 text-white dark:text-black font-bold shadow-xs'
-                    : 'bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 text-zinc-600 dark:text-zinc-400 hover:border-emerald-500/40 hover:text-zinc-900 dark:hover:text-zinc-100'
+                    ? 'bg-stone-900 dark:bg-stone-100 text-stone-50 dark:text-stone-900'
+                    : 'border border-stone-200 dark:border-stone-800 text-stone-600 dark:text-stone-400 hover:border-stone-400 hover:text-stone-900 dark:hover:text-stone-100'
                 }`}
               >
                 {cat.label}

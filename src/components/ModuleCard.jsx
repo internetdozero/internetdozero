@@ -15,78 +15,64 @@ export const ModuleCard = React.memo(function ModuleCard({ module, onSelect, lan
   const badge = (lang === 'en' && module.badge_en) ? module.badge_en : (module.badge_pt || module.badge);
   const tags = (lang === 'en' && module.tags_en) ? module.tags_en : (module.tags_pt || module.tags);
 
-  const statusBadgeClasses = isOnline
-    ? 'bg-emerald-100 text-emerald-800 dark:bg-emerald-950/80 dark:text-emerald-300 border-emerald-300 dark:border-emerald-700/50'
-    : isInProgress
-    ? 'bg-amber-100 text-amber-800 dark:bg-amber-950/80 dark:text-amber-300 border-amber-300 dark:border-amber-700/50'
-    : 'bg-zinc-100 text-zinc-600 dark:bg-zinc-900 dark:text-zinc-400 border-zinc-300 dark:border-zinc-800';
-
   return (
     <button
       type="button"
       onClick={() => onSelect(module)}
       aria-label={`${lang === 'en' ? 'Open' : 'Abrir'} ${title}`}
-      className="group relative flex flex-col justify-between p-6 rounded-2xl bg-white dark:bg-zinc-900/60 border border-zinc-200 dark:border-zinc-800/80 hover:border-emerald-500/60 dark:hover:border-emerald-500/60 transition-all duration-300 hover:shadow-[0_0_30px_rgba(16,185,129,0.12)] cursor-pointer hover:-translate-y-1 overflow-hidden"
+      className="group relative flex flex-col justify-between p-6 rounded-sm bg-white dark:bg-stone-900 border border-stone-200 dark:border-stone-800 hover:border-stone-400 dark:hover:border-stone-600 transition-colors cursor-pointer text-left overflow-hidden"
     >
-      {/* Corner subtle glow on hover */}
-      <div className="absolute top-0 right-0 w-32 h-32 bg-emerald-500/0 group-hover:bg-emerald-500/10 rounded-bl-full blur-2xl transition-all pointer-events-none" />
-
       <div className="flex-1">
-        {/* Top bar: Category + Status */}
         <div className="flex items-center justify-between gap-2 mb-4">
-          <span className="text-[11px] font-mono font-medium tracking-wider uppercase text-zinc-500 dark:text-zinc-500">
+          <span className="text-[11px] tracking-wide uppercase text-stone-500">
             {category}
           </span>
-          <span className={`inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-mono font-medium border whitespace-nowrap ${statusBadgeClasses}`}>
-            {isOnline && <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />}
-            {isInProgress && <span className="w-1.5 h-1.5 rounded-full bg-amber-500" />}
+          <span className="inline-flex items-center gap-1.5 text-xs text-stone-500 whitespace-nowrap">
+            {isInProgress && <span className="w-1.5 h-1.5 rounded-full bg-stone-400" />}
             {isPlanned && <Clock className="w-3 h-3" />}
-            {statusLabel}
+            {isOnline ? statusLabel : statusLabel}
           </span>
         </div>
 
-        {/* Icon & Title */}
         <div className="flex items-start gap-4 mb-3">
-          <div className="p-3 rounded-xl bg-zinc-100 dark:bg-zinc-800/90 border border-zinc-200 dark:border-zinc-700/60 text-emerald-600 dark:text-emerald-400 group-hover:bg-emerald-500 group-hover:text-black dark:group-hover:text-black transition-all shrink-0">
-            <DynamicIcon name={module.icon} className="w-6 h-6" />
+          <div className="p-2 rounded-sm border border-stone-200 dark:border-stone-700 text-stone-700 dark:text-stone-300 shrink-0">
+            <DynamicIcon name={module.icon} className="w-5 h-5" />
           </div>
           <div className="min-w-0">
             <div className="flex flex-wrap items-baseline gap-x-2 gap-y-1">
-              <h3 className="text-lg font-bold font-mono text-zinc-900 dark:text-white group-hover:text-emerald-600 dark:group-hover:text-emerald-400 transition-colors">
+              <h3 className="text-lg font-serif font-semibold text-stone-900 dark:text-stone-50 group-hover:underline underline-offset-4">
                 {title}
               </h3>
               {badge && (
-                <span className="px-1.5 py-0.5 text-[10px] font-mono rounded bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-300 border border-zinc-300 dark:border-zinc-700 whitespace-nowrap">
+                <span className="text-[10px] text-stone-500">
                   {badge}
                 </span>
               )}
             </div>
-            <p className="text-xs font-mono text-emerald-600 dark:text-emerald-500 mt-1 truncate">
+            <p className="text-xs text-stone-500 mt-1 truncate">
               {subtitle}
             </p>
           </div>
         </div>
 
-        {/* Description */}
-        <p className="text-sm text-zinc-600 dark:text-zinc-400 font-sans leading-relaxed line-clamp-3">
+        <p className="text-sm text-stone-600 dark:text-stone-400 leading-relaxed line-clamp-3">
           {description}
         </p>
       </div>
 
-      {/* Bottom bar: Tags + Action */}
-      <div className="mt-5 pt-4 border-t border-zinc-100 dark:border-zinc-800/60 flex items-center justify-between gap-3">
+      <div className="mt-5 pt-4 border-t border-stone-100 dark:border-stone-800 flex items-center justify-between gap-3">
         <div className="flex flex-wrap gap-1.5">
           {tags.map((tag) => (
             <span
               key={tag}
-              className="text-[11px] font-mono px-2 py-0.5 rounded bg-zinc-100 dark:bg-zinc-800/60 text-zinc-600 dark:text-zinc-400"
+              className="text-[11px] text-stone-500"
             >
-              #{tag}
+              {tag}
             </span>
           ))}
         </div>
 
-        <div className="flex items-center gap-1 text-xs font-mono font-medium text-emerald-600 dark:text-emerald-400 group-hover:translate-x-0.5 transition-transform">
+        <div className="flex items-center gap-1 text-xs text-stone-500 group-hover:text-stone-900 dark:group-hover:text-stone-200">
           <span>{lang === 'en' ? 'Open' : 'Abrir'}</span>
           <ArrowUpRight className="w-4 h-4" />
         </div>
