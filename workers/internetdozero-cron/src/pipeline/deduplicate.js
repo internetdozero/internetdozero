@@ -1,4 +1,7 @@
 export async function deduplicateTopics(db, topics, { manual = false } = {}) {
+  if (manual && topics && topics.length > 0) {
+    return topics[0];
+  }
   console.log('Deduplicating topics and enforcing daily editorial diversity...');
   try {
     const { results } = await db.prepare(
