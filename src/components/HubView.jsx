@@ -46,22 +46,23 @@ export function HubView({ onSelectModule, lang = 'pt' }) {
         lang={lang}
       />
 
-      {/* System Pillars */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {systemPillars.map((pillar) => {
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <p className="mb-6 text-xs uppercase tracking-wider text-stone-500">{t.hub.systemPillarsTitle}</p>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-0 md:divide-x divide-stone-200 dark:divide-stone-800 border-y border-stone-200 dark:border-stone-800">
+          {systemPillars.map((pillar, index) => {
             const title = (lang === 'en' && pillar.title_en) ? pillar.title_en : (pillar.title_pt || pillar.title);
             const desc = (lang === 'en' && pillar.desc_en) ? pillar.desc_en : (pillar.desc_pt || pillar.desc);
 
             return (
               <div
                 key={pillar.title_pt || pillar.title}
-                className="p-6 rounded-sm bg-white dark:bg-stone-900 border border-stone-200 dark:border-stone-800"
+                className="p-6 md:p-8"
               >
-                <div className="w-10 h-10 rounded-sm border border-stone-200 dark:border-stone-700 flex items-center justify-center mb-4">
+                <div className="mb-4 flex items-center gap-3">
+                  <span className="font-serif text-sm icon-accent tabular-nums">0{index + 1}</span>
                   <DynamicIcon name={pillar.icon} className="w-5 h-5" />
                 </div>
-                <h3 className="font-serif font-semibold text-base text-stone-900 dark:text-stone-50 mb-2">
+                <h3 className="font-serif text-xl font-semibold text-stone-900 dark:text-stone-50 mb-2">
                   {title}
                 </h3>
                 <p className="text-sm text-stone-600 dark:text-stone-400 leading-relaxed">
@@ -85,6 +86,7 @@ export function HubView({ onSelectModule, lang = 'pt' }) {
             <h2 className="text-2xl sm:text-3xl font-serif font-semibold text-stone-900 dark:text-stone-50">
               {t.hub.modulesTitle}
             </h2>
+            <p className="mt-2 max-w-lg text-sm text-stone-500">{t.hub.modulesDesc}</p>
           </div>
 
           <div className="flex flex-wrap items-center gap-2">

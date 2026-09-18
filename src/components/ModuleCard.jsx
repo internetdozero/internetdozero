@@ -20,7 +20,7 @@ export const ModuleCard = React.memo(function ModuleCard({ module, onSelect, lan
       type="button"
       onClick={() => onSelect(module)}
       aria-label={`${lang === 'en' ? 'Open' : 'Abrir'} ${title}`}
-      className="group relative flex flex-col justify-between p-6 rounded-sm bg-white dark:bg-stone-900 border border-stone-200 dark:border-stone-800 hover:border-stone-400 dark:hover:border-stone-600 transition-colors cursor-pointer text-left overflow-hidden"
+      className="group relative flex flex-col justify-between p-6 rounded-sm bg-white dark:bg-stone-900 border border-stone-200 dark:border-stone-800 border-l-[3px] border-l-[var(--icon)] hover:bg-stone-50 dark:hover:bg-stone-900/80 transition-colors cursor-pointer text-left overflow-hidden"
     >
       <div className="flex-1">
         <div className="flex items-center justify-between gap-2 mb-4">
@@ -74,7 +74,7 @@ export const ModuleCard = React.memo(function ModuleCard({ module, onSelect, lan
 
         <div className="flex items-center gap-1 text-xs text-stone-500 group-hover:text-stone-900 dark:group-hover:text-stone-200">
           <span>{lang === 'en' ? 'Open' : 'Abrir'}</span>
-          <ArrowUpRight className="w-4 h-4" />
+          <ArrowUpRight className="w-4 h-4 icon-accent" />
         </div>
       </div>
     </button>

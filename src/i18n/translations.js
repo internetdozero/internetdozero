@@ -14,18 +14,18 @@ export const translations = {
       langTitle: 'Alternar idioma (PT/EN)'
     },
     hero: {
-      badgeCentral: 'site pessoal',
-      subtitle: 'Um site meu para publicar coisas, testar ideias e aprender fazendo.',
+      badgeCentral: 'um canto na internet',
+      subtitle: 'Textos, ferramentas e quizzes hoje. Vídeo, música, jogos e código quando existirem. Um lugar meu — sem nicho, sem fita.',
       btnModules: 'Por onde começar',
       btnConsole: 'Perguntar ao índice',
-      statFocus: 'Agora',
-      statModulesCount: '2 espaços',
-      statContent: 'Publicação',
-      statContentVal: 'textos e guias',
-      statHobbies: 'Em breve',
-      statHobbiesVal: 'quizzes',
-      statStatus: 'Estado',
-      statStatusVal: 'online'
+      statFocus: 'Aberto',
+      statModulesCount: 'textos, tools, quizzes',
+      statContent: 'Em breve',
+      statContentVal: 'vídeo, música, jogos',
+      statHobbies: 'Feito',
+      statHobbiesVal: 'à mão, no browser',
+      statStatus: 'Selo',
+      statStatusVal: '0x'
     },
     hub: {
       modulesTitle: 'Por onde começar',
@@ -115,18 +115,18 @@ export const translations = {
       langTitle: 'Switch language (PT/EN)'
     },
     hero: {
-      badgeCentral: 'personal site',
-      subtitle: 'A site of my own to publish things, test ideas, and learn by doing.',
+      badgeCentral: 'a corner of the internet',
+      subtitle: 'Writing, tools, and quizzes today. Video, music, games, and code when they exist. A place of my own — no niche, no ribbon.',
       btnModules: 'Where to start',
       btnConsole: 'Ask the index',
-      statFocus: 'Now',
-      statModulesCount: '2 spaces',
-      statContent: 'Publishing',
-      statContentVal: 'texts & guides',
-      statHobbies: 'Coming soon',
-      statHobbiesVal: 'quizzes',
-      statStatus: 'State',
-      statStatusVal: 'online'
+      statFocus: 'Open',
+      statModulesCount: 'texts, tools, quizzes',
+      statContent: 'Soon',
+      statContentVal: 'video, music, games',
+      statHobbies: 'Made',
+      statHobbiesVal: 'by hand, in the browser',
+      statStatus: 'Mark',
+      statStatusVal: '0x'
     },
     hub: {
       modulesTitle: 'Where to start',
