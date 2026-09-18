@@ -53,7 +53,7 @@ function applyMetadata(html, { title, description, url, image, structuredData })
 
 export async function onRequestGet(context) {
   const { slug } = context.params;
-  const row = await context.env.DB?.prepare(`SELECT * FROM posts WHERE published = 1 AND slug = ? LIMIT 1`).bind(slug).first();
+  const row = await context.env.DB?.prepare(`SELECT * FROM posts WHERE published = 1 AND (slug = ? OR id = ?) LIMIT 1`).bind(slug, slug).first();
   if (!row) return context.next();
 
   const post = parse(row);
