@@ -1,5 +1,22 @@
+const MODELS = [
+  'gemini-3.5-flash-lite',
+  'gemini-3.1-flash-lite',
+  'gemini-flash-lite-latest',
+  'gemini-3.7-flash'
+];
+
+function parseJson(text) {
+  if (!text) return null;
+  const clean = text.replace(/```(?:json)?\s*/gi, '').replace(/```\s*$/gi, '').trim();
+  try {
+    return JSON.parse(clean);
+  } catch (_) {
+    return null;
+  }
+}
+
 export async function discoverTopics(env) {
-  console.log('Discovering topics using Gemini...');
+  console.log('Discovering topics using Gemini with resilient fallback...');
   const prompt = `Você é um analista de tendências digitais.
 Liste 3 tópicos quentes e atuais sobre tecnologia, internet, segurança ou cultura digital no Brasil hoje.
 Retorne um JSON estruturado exatamente assim:
@@ -15,33 +32,32 @@ Retorne um JSON estruturado exatamente assim:
 }
 A categoria DEVE ser uma destas: Tecnologia, Segurança, Organização, Cultura Digital.`;
 
-  try {
-    const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${env.GEMINI_API_KEY}`;
-    const response = await fetch(url, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        contents: [{ role: 'user', parts: [{ text: prompt }] }],
-        tools: [{ google_search: {} }],
-        generationConfig: { response_mime_type: 'application/json' }
-      }),
-      signal: AbortSignal.timeout(45000)
-    });
+  for (const model of MODELS) {
+    try {
+      const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${env.GEMINI_API_KEY}`;
+      const response = await fetch(url, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          contents: [{ role: 'user', parts: [{ text: prompt }] }]
+        }),
+        signal: AbortSignal.timeout(30000)
+      });
 
-    if (!response.ok) {
-      throw new Error(`Gemini API error: ${response.status} - ${await response.text()}`);
-    }
+      if (!response.ok) continue;
 
-    const data = await response.json();
-    const text = data.candidates?.[0]?.content?.parts?.[0]?.text;
-    if (!text) throw new Error('Invalid Gemini response structure');
-
-    const result = JSON.parse(text);
-    return result.topics;
-  } catch (err) {
-    console.error('Error with Gemini discover, falling back to Google Trends RSS:', err);
-    return await fallbackToGoogleTrends();
+      const data = await response.json();
+      const text = data.candidates?.[0]?.content?.parts?.[0]?.text;
+      const result = parseJson(text);
+      if (result?.topics?.length) {
+        console.log(`Discovered topics using model ${model}`);
+        return result.topics;
+      }
+    } catch (_) {}
   }
+
+  console.log('Gemini discover failed for all models, falling back to Google Trends RSS');
+  return await fallbackToGoogleTrends();
 }
 
 async function fallbackToGoogleTrends() {

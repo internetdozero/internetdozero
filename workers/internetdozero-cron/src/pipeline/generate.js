@@ -1,43 +1,24 @@
-export async function generateArticle(env, topic) {
-  console.log(`Generating outline for topic: ${topic.title}`);
-  
-  // Step 1: Research outline with grounding
-  const outlinePrompt = `Pesquise sobre o tópico: "${topic.title}".
-Crie um esboço detalhado para um artigo de blog sobre isso.
-Inclua fatos reais, fontes verificáveis e eventos recentes.
-O esboço deve ter os pontos principais a serem abordados, mas mantenha-se em tópicos gerais, não escreva o artigo completo ainda.
-Resuma também o contexto: ${topic.summary}`;
+const MODELS = [
+  'gemini-3.5-flash-lite',
+  'gemini-3.1-flash-lite',
+  'gemini-flash-lite-latest',
+  'gemini-3.7-flash'
+];
 
-  let outline = "";
+function parseJson(text) {
+  if (!text) return null;
+  const clean = text.replace(/```(?:json)?\s*/gi, '').replace(/```\s*$/gi, '').trim();
   try {
-    const outlineUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${env.GEMINI_API_KEY}`;
-    const outlineRes = await fetch(outlineUrl, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        contents: [{ role: 'user', parts: [{ text: outlinePrompt }] }],
-        tools: [{ google_search: {} }]
-      }),
-      signal: AbortSignal.timeout(60000)
-    });
-    
-    if (!outlineRes.ok) throw new Error(`Gemini outline error: ${outlineRes.status}`);
-    const outlineData = await outlineRes.json();
-    outline = outlineData.candidates?.[0]?.content?.parts?.[0]?.text || topic.summary;
-  } catch (err) {
-    console.error('Error generating outline, falling back to topic summary:', err);
-    outline = topic.summary;
+    return JSON.parse(clean);
+  } catch (_) {
+    return null;
   }
+}
 
-  console.log(`Generating full article based on outline`);
-  // Step 2: Full article generation
-  const articlePrompt = `Baseado no seguinte esboço e fatos:
-${outline}
+export async function generateArticle(env, topic) {
+  console.log(`Generating article for topic: ${topic.title}`);
 
-Escreva um artigo completo sobre "${topic.title}".
-A categoria sugerida é "${topic.category}". As tags sugeridas são: ${topic.suggestedTags.join(', ')}.
-
-Você é o redator do blog internetdozero. Seu estilo é:
+  const articlePrompt = `Você é o redator do blog internetdozero. Seu estilo é:
 - Didático e direto, sem jargões corporativos
 - Tom de conversa, como explicar algo para um amigo inteligente
 - Usa analogias concretas do cotidiano
@@ -53,33 +34,45 @@ REGRAS ABSOLUTAS:
 - Tenha opinião cautelosa, não fique em cima do muro
 - O tom é humano, não robótico
 
+Escreva um artigo completo sobre "${topic.title}".
+Contexto e resumo: ${topic.summary}
+Categoria: ${topic.category}
+Tags sugeridas: ${(topic.suggestedTags || []).join(', ')}
+
 O output deve ser estritamente no seguinte formato JSON:
 {
   "title_pt": "...",
   "subtitle_pt": "...",
-  "category": "...",
+  "category": "${topic.category}",
   "tags_pt": ["..."],
   "sections_pt": [
     { "id": "slug-da-secao", "title": "Título", "content": "Markdown..." }
   ]
 }`;
 
-  const articleUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${env.GEMINI_API_KEY}`;
-  const articleRes = await fetch(articleUrl, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      contents: [{ role: 'user', parts: [{ text: articlePrompt }] }],
-      generationConfig: { response_mime_type: 'application/json' }
-    }),
-    signal: AbortSignal.timeout(60000)
-  });
+  for (const model of MODELS) {
+    try {
+      const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${env.GEMINI_API_KEY}`;
+      const res = await fetch(url, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          contents: [{ role: 'user', parts: [{ text: articlePrompt }] }]
+        }),
+        signal: AbortSignal.timeout(45000)
+      });
 
-  if (!articleRes.ok) throw new Error(`Gemini article error: ${articleRes.status}`);
-  const articleData = await articleRes.json();
-  const articleText = articleData.candidates?.[0]?.content?.parts?.[0]?.text;
-  
-  if (!articleText) throw new Error('No content generated for article');
-  
-  return JSON.parse(articleText);
+      if (!res.ok) continue;
+
+      const data = await res.json();
+      const text = data.candidates?.[0]?.content?.parts?.[0]?.text;
+      const article = parseJson(text);
+      if (article && article.title_pt && article.sections_pt?.length) {
+        console.log(`Successfully generated article with model ${model}`);
+        return article;
+      }
+    } catch (_) {}
+  }
+
+  throw new Error('Failed to generate article with all available models');
 }
