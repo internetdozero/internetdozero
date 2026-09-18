@@ -10,6 +10,13 @@ binding = "DB"
 database_name = "internetdozero"
 database_id = "7267907f-dd50-4046-9b2a-3a5758efdc45"
 
+[[queues.producers]]
+queue = "internetdozero-editorial"
+binding = "internetdozero_editorial"
+
+[[queues.consumers]]
+queue = "internetdozero-editorial"
+
 [vars]
 SITE_URL = "https://internetdozero.com"
 LOCAL_AI_URL = "https://ai.internetdozero.com.br"

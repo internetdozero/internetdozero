@@ -51,23 +51,34 @@ async function runPipeline(env, requestedTopic = '', options = {}) {
 }
 
 export default {
-  async fetch(request, env, ctx) {
+  async fetch(request, env) {
     const url = new URL(request.url);
     if (url.pathname === '/trigger' && url.searchParams.get('secret') === env.CRON_SECRET) {
       const payload = request.method === 'POST'
         ? await request.json().catch(() => ({}))
         : {};
-      ctx.waitUntil(runPipeline(
-        env,
-        typeof payload.topic === 'string' ? payload.topic.trim() : '',
-        { fallback: payload.fallback !== false }
-      ));
+      await env.internetdozero_editorial.send({
+        topic: typeof payload.topic === 'string' ? payload.topic.trim() : '',
+        fallback: payload.fallback !== false
+      });
       return new Response('Pipeline triggered', { status: 202 });
     }
     return new Response('Not Found', { status: 404 });
   },
 
-  async scheduled(event, env, ctx) {
-    ctx.waitUntil(runPipeline(env));
+  async scheduled(_event, env) {
+    await env.internetdozero_editorial.send({ topic: '', fallback: true });
+  },
+
+  async queue(batch, env) {
+    for (const message of batch.messages) {
+      try {
+        await runPipeline(env, message.body.topic || '', { fallback: message.body.fallback !== false });
+        message.ack();
+      } catch (error) {
+        console.error('Queued pipeline execution failed:', error);
+        message.retry();
+      }
+    }
   }
 };
