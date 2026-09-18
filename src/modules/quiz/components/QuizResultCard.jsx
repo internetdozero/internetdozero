@@ -16,13 +16,13 @@ export function QuizResultCard({ quiz, resultProfile, onRestart, onGoCatalog }) 
   return (
     <div className="max-w-2xl mx-auto py-8">
       {/* Result Card */}
-      <div className="p-6 sm:p-10 rounded-3xl bg-white dark:bg-zinc-900/70 border border-emerald-500/30 dark:border-emerald-500/30 shadow-xl backdrop-blur-md relative overflow-hidden">
+      <div className="p-6 sm:p-10 rounded-3xl bg-white dark:bg-zinc-900/70 border border-stone-500/30 dark:border-stone-500/30 shadow-xl backdrop-blur-md relative overflow-hidden">
         {/* Glow accent */}
-        <div className="absolute top-0 right-0 w-48 h-48 bg-emerald-500/10 rounded-full blur-3xl pointer-events-none" />
+        <div className="absolute top-0 right-0 w-48 h-48 bg-stone-500/10 rounded-full blur-3xl pointer-events-none" />
 
         <div className="relative z-10">
           <div className="flex items-center justify-between gap-2 mb-6">
-            <span className="text-xs font-mono font-bold tracking-wider uppercase text-emerald-600 dark:text-emerald-400">
+            <span className="text-xs font-mono font-bold tracking-wider uppercase text-stone-600 dark:text-stone-400">
               Seu Diagnóstico Oficial
             </span>
             <span className="text-xs font-mono px-2.5 py-1 rounded-full bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400">
@@ -34,7 +34,7 @@ export function QuizResultCard({ quiz, resultProfile, onRestart, onGoCatalog }) 
             {resultProfile.name}
           </h2>
 
-          <p className="text-base font-mono font-medium text-emerald-600 dark:text-emerald-400 mb-6">
+          <p className="text-base font-mono font-medium text-stone-600 dark:text-stone-400 mb-6">
             {resultProfile.subtitle}
           </p>
 
@@ -44,7 +44,7 @@ export function QuizResultCard({ quiz, resultProfile, onRestart, onGoCatalog }) 
 
           {resultProfile.quote && (
             <div className="p-4 rounded-2xl bg-zinc-50 dark:bg-zinc-800/60 border border-zinc-200 dark:border-zinc-700/60 mb-6 flex items-start gap-3">
-              <Quote className="w-5 h-5 text-emerald-500 shrink-0 mt-0.5" />
+              <Quote className="w-5 h-5 text-stone-500 shrink-0 mt-0.5" />
               <p className="text-sm font-mono italic text-zinc-600 dark:text-zinc-300">
                 "{resultProfile.quote}"
               </p>
@@ -54,7 +54,7 @@ export function QuizResultCard({ quiz, resultProfile, onRestart, onGoCatalog }) 
           {/* Breakdown para empates ou diagnosticos compostos */}
           {resultProfile.breakdown && resultProfile.breakdown.length > 0 && (
             <div className="mb-6">
-              <span className="block text-xs font-mono font-semibold uppercase tracking-wider text-emerald-600 dark:text-emerald-400 mb-3">
+              <span className="block text-xs font-mono font-semibold uppercase tracking-wider text-stone-600 dark:text-stone-400 mb-3">
                 Por que cada um?
               </span>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
@@ -64,7 +64,7 @@ export function QuizResultCard({ quiz, resultProfile, onRestart, onGoCatalog }) 
                     className="p-4 rounded-2xl bg-zinc-50/80 dark:bg-zinc-800/40 border border-zinc-200/80 dark:border-zinc-700/60"
                   >
                     <div className="flex items-center gap-2 mb-2">
-                      <span className="w-2 h-2 rounded-full bg-emerald-500" />
+                      <span className="w-2 h-2 rounded-full bg-stone-500" />
                       <h4 className="text-xs font-mono font-bold text-zinc-900 dark:text-zinc-100">
                         {item.title}
                       </h4>
@@ -77,7 +77,7 @@ export function QuizResultCard({ quiz, resultProfile, onRestart, onGoCatalog }) 
                         {item.traits.slice(0, 2).map((t) => (
                           <span
                             key={t}
-                            className="text-[10px] font-mono px-2 py-0.5 rounded-md bg-emerald-500/10 text-emerald-700 dark:text-emerald-300 border border-emerald-500/20"
+                            className="text-[10px] font-mono px-2 py-0.5 rounded-md bg-stone-500/10 text-stone-700 dark:text-stone-300 border border-stone-500/20"
                           >
                             {t}
                           </span>
@@ -94,7 +94,7 @@ export function QuizResultCard({ quiz, resultProfile, onRestart, onGoCatalog }) 
           {!resultProfile.breakdown && resultProfile.why && (
             <div className="p-4 rounded-2xl bg-zinc-50/80 dark:bg-zinc-800/40 border border-zinc-200/80 dark:border-zinc-700/60 mb-6">
               <div className="flex items-center gap-2 mb-1.5">
-                <span className="w-2 h-2 rounded-full bg-emerald-500" />
+                <span className="w-2 h-2 rounded-full bg-stone-500" />
                 <span className="text-xs font-mono font-bold text-zinc-900 dark:text-zinc-100">
                   Por que esse diagnóstico?
                 </span>
@@ -114,9 +114,9 @@ export function QuizResultCard({ quiz, resultProfile, onRestart, onGoCatalog }) 
               {resultProfile.traits.map((trait) => (
                 <span
                   key={trait}
-                  className="inline-flex items-center gap-1.5 px-3 py-1 rounded-xl text-xs font-mono font-medium bg-emerald-500/10 text-emerald-700 dark:text-emerald-300 border border-emerald-500/20"
+                  className="inline-flex items-center gap-1.5 px-3 py-1 rounded-xl text-xs font-mono font-medium bg-stone-500/10 text-stone-700 dark:text-stone-300 border border-stone-500/20"
                 >
-                  <Sparkles className="w-3 h-3 text-emerald-500" />
+                  <Sparkles className="w-3 h-3 text-stone-500" />
                   {trait}
                 </span>
               ))}
@@ -127,7 +127,7 @@ export function QuizResultCard({ quiz, resultProfile, onRestart, onGoCatalog }) 
           <div className="pt-6 border-t border-zinc-200/80 dark:border-zinc-800 flex flex-wrap items-center justify-between gap-4">
             <button
               onClick={handleCopy}
-              className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs font-mono font-bold bg-emerald-500 text-zinc-950 hover:bg-emerald-400 transition-all cursor-pointer shadow-xs"
+              className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs font-mono font-bold bg-stone-500 text-zinc-950 hover:bg-stone-400 transition-all cursor-pointer shadow-xs"
             >
               {copied ? <Check className="w-4 h-4 text-zinc-950" /> : <Share2 className="w-4 h-4" />}
               <span>{copied ? 'Copiado para o clipboard!' : 'Copiar Resultado'}</span>

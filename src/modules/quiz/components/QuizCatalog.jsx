@@ -14,7 +14,7 @@ export function QuizCatalog({ onNavigate }) {
     <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
       {/* Hero */}
       <div className="text-center max-w-3xl mx-auto mb-16">
-        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-mono font-medium bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20 mb-4">
+        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-mono font-medium bg-stone-500/10 text-stone-600 dark:text-stone-400 border border-stone-500/20 mb-4">
           <BrainCircuit className="w-3.5 h-3.5" />
           <span>Área Interativa & Testes</span>
         </div>
@@ -33,11 +33,11 @@ export function QuizCatalog({ onNavigate }) {
           return (
             <div
               key={quiz.id}
-              className="group relative flex flex-col justify-between p-6 sm:p-8 rounded-2xl bg-white dark:bg-zinc-900/50 border border-zinc-200/80 dark:border-zinc-800/80 shadow-xs hover:border-emerald-500/50 hover:shadow-lg transition-all duration-300 backdrop-blur-sm"
+              className="group relative flex flex-col justify-between p-6 sm:p-8 rounded-2xl bg-white dark:bg-zinc-900/50 border border-zinc-200/80 dark:border-zinc-800/80 shadow-xs hover:border-stone-500/50 hover:shadow-lg transition-all duration-300 backdrop-blur-sm"
             >
               <div>
                 <div className="flex items-center justify-between gap-3 mb-5">
-                  <div className="w-12 h-12 rounded-xl bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20 flex items-center justify-center transition-transform group-hover:scale-105">
+                  <div className="w-12 h-12 rounded-xl bg-stone-500/10 text-stone-600 dark:text-stone-400 border border-stone-500/20 flex items-center justify-center transition-transform group-hover:scale-105">
                     <IconComponent className="w-6 h-6" />
                   </div>
                   <span className="text-xs font-mono font-medium px-2.5 py-1 rounded-lg bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-300">
@@ -45,7 +45,7 @@ export function QuizCatalog({ onNavigate }) {
                   </span>
                 </div>
 
-                <h2 className="text-xl sm:text-2xl font-bold font-mono text-zinc-900 dark:text-white mb-2 group-hover:text-emerald-600 dark:group-hover:text-emerald-400 transition-colors">
+                <h2 className="text-xl sm:text-2xl font-bold font-mono text-zinc-900 dark:text-white mb-2 group-hover:text-stone-600 dark:group-hover:text-stone-400 transition-colors">
                   {quiz.title}
                 </h2>
                 <p className="text-sm text-zinc-600 dark:text-zinc-400 font-sans leading-relaxed mb-4">
@@ -67,7 +67,7 @@ export function QuizCatalog({ onNavigate }) {
 
                 <button
                   onClick={() => onNavigate(`/quiz/${quiz.id}`)}
-                  className="inline-flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-mono font-bold bg-zinc-900 text-white dark:bg-emerald-500 dark:text-zinc-950 hover:bg-emerald-600 dark:hover:bg-emerald-400 transition-all cursor-pointer shadow-xs group-hover:translate-x-0.5"
+                  className="inline-flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-mono font-bold bg-zinc-900 text-white dark:bg-stone-500 dark:text-zinc-950 hover:bg-stone-600 dark:hover:bg-stone-400 transition-all cursor-pointer shadow-xs group-hover:translate-x-0.5"
                 >
                   <span>Iniciar Quiz</span>
                   <ArrowRight className="w-3.5 h-3.5" />

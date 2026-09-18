@@ -44,7 +44,7 @@ export function QuizView({ onNavigate, quizSlug, lang = 'pt' }) {
         </p>
         <button
           onClick={() => onNavigate('/quiz')}
-          className="px-4 py-2 rounded-xl text-xs font-mono font-bold bg-emerald-500 text-zinc-950 hover:bg-emerald-400 transition-colors"
+          className="px-4 py-2 rounded-xl text-xs font-mono font-bold bg-stone-500 text-zinc-950 hover:bg-stone-400 transition-colors"
         >
           Ver todos os quizzes
         </button>

@@ -93,11 +93,11 @@ export function ImageCompressor({ lang = 'pt' }) {
       <div className="border-b border-zinc-200 p-5 dark:border-zinc-800 sm:p-7">
         <div className="flex items-start justify-between gap-4">
           <div>
-            <p className="font-mono text-[11px] font-bold uppercase tracking-[0.2em] text-emerald-500">compressor local</p>
+            <p className="font-mono text-[11px] font-bold uppercase tracking-[0.2em] text-stone-500">compressor local</p>
             <h2 id="compressor-title" className="mt-2 font-mono text-xl font-bold text-zinc-900 dark:text-white sm:text-2xl">{isEn ? 'Image compressor' : 'Compressor de imagens'}</h2>
             <p className="mt-2 text-sm leading-relaxed text-zinc-500 dark:text-zinc-400">{isEn ? 'Make images lighter without sending them anywhere.' : 'Deixe suas imagens mais leves sem enviar nada para lugar nenhum.'}</p>
           </div>
-          <ShieldCheck className="mt-1 h-5 w-5 shrink-0 text-emerald-500" aria-label={isEn ? 'Local processing' : 'Processamento local'} />
+          <ShieldCheck className="mt-1 h-5 w-5 shrink-0 text-stone-500" aria-label={isEn ? 'Local processing' : 'Processamento local'} />
         </div>
       </div>
 
@@ -105,8 +105,8 @@ export function ImageCompressor({ lang = 'pt' }) {
         <div>
           <input ref={inputRef} type="file" accept="image/*" className="sr-only" onChange={(event) => selectFile(event.target.files?.[0])} />
           {!file ? (
-            <button type="button" onClick={() => inputRef.current?.click()} onDragOver={(event) => event.preventDefault()} onDrop={(event) => { event.preventDefault(); selectFile(event.dataTransfer.files?.[0]); }} className="flex min-h-56 w-full flex-col items-center justify-center rounded-2xl border border-dashed border-zinc-300 bg-zinc-50 px-6 text-center transition-colors hover:border-emerald-500 hover:bg-emerald-500/5 dark:border-zinc-700 dark:bg-zinc-950/50 dark:hover:border-emerald-500">
-              <Upload className="mb-3 h-7 w-7 text-emerald-500" />
+            <button type="button" onClick={() => inputRef.current?.click()} onDragOver={(event) => event.preventDefault()} onDrop={(event) => { event.preventDefault(); selectFile(event.dataTransfer.files?.[0]); }} className="flex min-h-56 w-full flex-col items-center justify-center rounded-2xl border border-dashed border-zinc-300 bg-zinc-50 px-6 text-center transition-colors hover:border-stone-500 hover:bg-stone-500/5 dark:border-zinc-700 dark:bg-zinc-950/50 dark:hover:border-stone-500">
+              <Upload className="mb-3 h-7 w-7 text-stone-500" />
               <span className="font-mono text-sm font-bold text-zinc-800 dark:text-zinc-200">{isEn ? '1. Choose or drop an image' : '1. Escolha ou arraste uma imagem'}</span>
               <span className="mt-2 text-xs text-zinc-500">PNG, JPEG ou WebP · até 20 MB</span>
             </button>
@@ -118,13 +118,13 @@ export function ImageCompressor({ lang = 'pt' }) {
                   <img src={previewUrl} alt={isEn ? 'Original image preview' : 'Prévia da imagem original'} width="1200" height="896" className="max-h-80 w-full object-contain" />
                 </div>
                 {result && <div className="bg-zinc-100 dark:bg-zinc-950">
-                  <p className="border-b border-zinc-200 px-4 py-2 font-mono text-[10px] font-bold uppercase tracking-[0.16em] text-emerald-500 dark:border-zinc-800">{isEn ? 'Result preview' : 'Prévia do resultado'}</p>
+                  <p className="border-b border-zinc-200 px-4 py-2 font-mono text-[10px] font-bold uppercase tracking-[0.16em] text-stone-500 dark:border-zinc-800">{isEn ? 'Result preview' : 'Prévia do resultado'}</p>
                   <img src={result.url} alt={isEn ? 'Compressed image preview' : 'Prévia da imagem comprimida'} width={result.width} height={result.height} className="max-h-80 w-full object-contain" />
                 </div>}
               </div>
               <div className="flex flex-wrap items-center justify-between gap-3 border-t border-zinc-200 p-4 dark:border-zinc-800">
-                <div className="flex min-w-0 items-center gap-2"><FileImage className="h-4 w-4 shrink-0 text-emerald-500" /><span className="truncate text-xs text-zinc-600 dark:text-zinc-400">{file.name} · {formatBytes(file.size)}</span></div>
-                <button type="button" onClick={chooseAnother} className="inline-flex items-center gap-1.5 text-xs font-semibold text-zinc-500 hover:text-emerald-500"><RotateCcw className="h-3.5 w-3.5" />{isEn ? 'Choose another' : 'Trocar imagem'}</button>
+                <div className="flex min-w-0 items-center gap-2"><FileImage className="h-4 w-4 shrink-0 text-stone-500" /><span className="truncate text-xs text-zinc-600 dark:text-zinc-400">{file.name} · {formatBytes(file.size)}</span></div>
+                <button type="button" onClick={chooseAnother} className="inline-flex items-center gap-1.5 text-xs font-semibold text-zinc-500 hover:text-stone-500"><RotateCcw className="h-3.5 w-3.5" />{isEn ? 'Choose another' : 'Trocar imagem'}</button>
               </div>
             </div>
           )}
@@ -132,17 +132,17 @@ export function ImageCompressor({ lang = 'pt' }) {
         </div>
 
         <div className="space-y-5 rounded-2xl border border-zinc-200 bg-zinc-50 p-4 dark:border-zinc-800 dark:bg-zinc-950/50">
-          <p className="font-mono text-[11px] font-bold uppercase tracking-[0.16em] text-emerald-500">2. {isEn ? 'Adjust output' : 'Ajuste a saída'}</p>
-          <label className="block text-xs font-semibold text-zinc-600 dark:text-zinc-400">{isEn ? 'Output format' : 'Formato de saída'}<select value={format} onChange={(event) => changeFormat(event.target.value)} className="mt-2 w-full rounded-xl border border-zinc-200 bg-white px-3 py-2.5 text-xs text-zinc-800 outline-none transition-colors focus:border-emerald-500 focus-visible:ring-2 focus-visible:ring-emerald-500/30 dark:border-zinc-800 dark:bg-zinc-900 dark:text-zinc-200"><option value="webp">WebP — menor arquivo</option><option value="jpeg">JPEG — compatível</option><option value="png">PNG — mantém transparência</option></select></label>
-          <label className={`block text-xs font-semibold text-zinc-600 dark:text-zinc-400 ${format === 'png' ? 'opacity-50' : ''}`}>{isEn ? 'Quality' : 'Qualidade'}<input type="range" min="0.4" max="1" step="0.05" value={quality} disabled={format === 'png'} onChange={(event) => changeQuality(event.target.value)} className="mt-3 w-full accent-emerald-500" /><span className="mt-1 block text-right font-mono text-[11px] text-zinc-500">{format === 'png' ? (isEn ? 'Not applicable' : 'Não se aplica') : `${Math.round(quality * 100)}%`}</span></label>
+          <p className="font-mono text-[11px] font-bold uppercase tracking-[0.16em] text-stone-500">2. {isEn ? 'Adjust output' : 'Ajuste a saída'}</p>
+          <label className="block text-xs font-semibold text-zinc-600 dark:text-zinc-400">{isEn ? 'Output format' : 'Formato de saída'}<select value={format} onChange={(event) => changeFormat(event.target.value)} className="mt-2 w-full rounded-xl border border-zinc-200 bg-white px-3 py-2.5 text-xs text-zinc-800 outline-none transition-colors focus:border-stone-500 focus-visible:ring-2 focus-visible:ring-stone-500/30 dark:border-zinc-800 dark:bg-zinc-900 dark:text-zinc-200"><option value="webp">WebP — menor arquivo</option><option value="jpeg">JPEG — compatível</option><option value="png">PNG — mantém transparência</option></select></label>
+          <label className={`block text-xs font-semibold text-zinc-600 dark:text-zinc-400 ${format === 'png' ? 'opacity-50' : ''}`}>{isEn ? 'Quality' : 'Qualidade'}<input type="range" min="0.4" max="1" step="0.05" value={quality} disabled={format === 'png'} onChange={(event) => changeQuality(event.target.value)} className="mt-3 w-full accent-stone-500" /><span className="mt-1 block text-right font-mono text-[11px] text-zinc-500">{format === 'png' ? (isEn ? 'Not applicable' : 'Não se aplica') : `${Math.round(quality * 100)}%`}</span></label>
           <div className="border-t border-zinc-200 pt-5 dark:border-zinc-800">
             <p className="mb-3 font-mono text-[11px] font-bold uppercase tracking-[0.16em] text-zinc-500">3. {isEn ? 'Generate file' : 'Gere o arquivo'}</p>
-            <button type="button" disabled={!file || isCompressing || Boolean(result)} onClick={compress} className="w-full rounded-xl bg-emerald-500 px-4 py-3 text-sm font-bold text-zinc-950 transition-colors hover:bg-emerald-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 focus-visible:ring-offset-2 focus-visible:ring-offset-zinc-950 disabled:cursor-not-allowed disabled:opacity-40">{isCompressing ? (isEn ? 'Compressing…' : 'Comprimindo…') : result ? (isEn ? 'File generated' : 'Arquivo gerado') : (isEn ? 'Compress and generate' : 'Comprimir e gerar')}</button>
-            {result && <a href={result.url} download={result.name} onClick={downloadResult} className="mt-3 flex w-full items-center justify-center gap-2 rounded-xl border border-emerald-500/40 px-4 py-3 text-sm font-bold text-emerald-600 transition-colors hover:bg-emerald-500/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 dark:text-emerald-400"><Download className="h-4 w-4" />{isEn ? 'Download result' : 'Baixar resultado'}</a>}
+            <button type="button" disabled={!file || isCompressing || Boolean(result)} onClick={compress} className="w-full rounded-xl bg-stone-500 px-4 py-3 text-sm font-bold text-zinc-950 transition-colors hover:bg-stone-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-stone-500 focus-visible:ring-offset-2 focus-visible:ring-offset-zinc-950 disabled:cursor-not-allowed disabled:opacity-40">{isCompressing ? (isEn ? 'Compressing…' : 'Comprimindo…') : result ? (isEn ? 'File generated' : 'Arquivo gerado') : (isEn ? 'Compress and generate' : 'Comprimir e gerar')}</button>
+            {result && <a href={result.url} download={result.name} onClick={downloadResult} className="mt-3 flex w-full items-center justify-center gap-2 rounded-xl border border-stone-500/40 px-4 py-3 text-sm font-bold text-stone-600 transition-colors hover:bg-stone-500/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-stone-500 dark:text-stone-400"><Download className="h-4 w-4" />{isEn ? 'Download result' : 'Baixar resultado'}</a>}
           </div>
         </div>
       </div>
-      {result && <div className="border-t border-zinc-200 px-5 py-4 text-xs text-zinc-500 dark:border-zinc-800 sm:px-7"><strong className={result.size < file.size ? 'text-emerald-500' : result.size > file.size ? 'text-amber-500' : 'text-zinc-500'}>{result.size < file.size ? `${Math.round((1 - result.size / file.size) * 100)}% menor` : result.size > file.size ? `${Math.round((result.size / file.size - 1) * 100)}% maior` : 'Mesmo tamanho'}</strong> · {formatBytes(file.size)} → {formatBytes(result.size)} · {result.width} × {result.height}px</div>}
+      {result && <div className="border-t border-zinc-200 px-5 py-4 text-xs text-zinc-500 dark:border-zinc-800 sm:px-7"><strong className={result.size < file.size ? 'text-stone-500' : result.size > file.size ? 'text-amber-500' : 'text-zinc-500'}>{result.size < file.size ? `${Math.round((1 - result.size / file.size) * 100)}% menor` : result.size > file.size ? `${Math.round((result.size / file.size - 1) * 100)}% maior` : 'Mesmo tamanho'}</strong> · {formatBytes(file.size)} → {formatBytes(result.size)} · {result.width} × {result.height}px</div>}
     </section>
   );
 }

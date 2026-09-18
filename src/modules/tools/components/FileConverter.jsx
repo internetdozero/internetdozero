@@ -85,7 +85,7 @@ export function FileConverter({ lang = 'pt' }) {
   return (
     <div className="mt-8 space-y-6">
       <div className="rounded-2xl border border-zinc-200 bg-white p-6 dark:border-zinc-800 dark:bg-zinc-900/60 shadow-xs">
-        <div className="flex items-center gap-3 text-xs font-mono text-emerald-600 dark:text-emerald-400 mb-6">
+        <div className="flex items-center gap-3 text-xs font-mono text-stone-600 dark:text-stone-400 mb-6">
           <ShieldCheck className="h-4 w-4 shrink-0" />
           <span>{isEn ? '100% In-Browser Conversion — Zero server uploads' : 'Conversão 100% no navegador — Nenhum arquivo é enviado para servidores'}</span>
         </div>
@@ -94,7 +94,7 @@ export function FileConverter({ lang = 'pt' }) {
           <div
             onDragOver={(e) => e.preventDefault()}
             onDrop={handleDrop}
-            className="border-2 border-dashed border-zinc-300 dark:border-zinc-700 rounded-2xl p-10 text-center hover:border-emerald-500 transition-colors"
+            className="border-2 border-dashed border-zinc-300 dark:border-zinc-700 rounded-2xl p-10 text-center hover:border-stone-500 transition-colors"
           >
             <FileUp className="h-12 w-12 mx-auto text-zinc-400 dark:text-zinc-600 mb-4" />
             <p className="font-mono text-base font-bold text-zinc-900 dark:text-white mb-1">
@@ -112,7 +112,7 @@ export function FileConverter({ lang = 'pt' }) {
             <button
               type="button"
               onClick={() => fileInputRef.current?.click()}
-              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl font-mono text-xs font-bold bg-emerald-500 text-zinc-950 hover:bg-emerald-400 transition-all cursor-pointer shadow-xs"
+              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl font-mono text-xs font-bold bg-stone-500 text-zinc-950 hover:bg-stone-400 transition-all cursor-pointer shadow-xs"
             >
               <RefreshCw className="h-4 w-4" />
               <span>{isEn ? 'Choose file to convert' : 'Escolher arquivo para converter'}</span>
@@ -137,7 +137,7 @@ export function FileConverter({ lang = 'pt' }) {
                 <h3 className="font-mono text-base font-bold text-zinc-900 dark:text-white mt-0.5 truncate max-w-md">
                   {file.name}
                 </h3>
-                <p className="text-xs font-mono text-emerald-600 dark:text-emerald-400 mt-0.5">
+                <p className="text-xs font-mono text-stone-600 dark:text-stone-400 mt-0.5">
                   .{conversionInfo.sourceExt.toUpperCase()} • {formatBytes(file.size)}
                 </p>
               </div>
@@ -167,8 +167,8 @@ export function FileConverter({ lang = 'pt' }) {
                       onClick={() => { setTargetExt(tgt); setConvertedBlob(null); }}
                       className={`px-4 py-2 rounded-xl text-xs font-mono font-bold transition-all cursor-pointer border ${
                         isSelected
-                          ? 'bg-emerald-500 text-zinc-950 border-emerald-500 shadow-xs'
-                          : 'bg-zinc-100 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300 border-zinc-200 dark:border-zinc-700 hover:border-emerald-500/50'
+                          ? 'bg-stone-500 text-zinc-950 border-stone-500 shadow-xs'
+                          : 'bg-zinc-100 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300 border-zinc-200 dark:border-zinc-700 hover:border-stone-500/50'
                       }`}
                     >
                       .{tgt.toUpperCase()}
@@ -182,8 +182,8 @@ export function FileConverter({ lang = 'pt' }) {
             <div className="pt-4 border-t border-zinc-200 dark:border-zinc-800 flex flex-wrap items-center justify-between gap-4">
               <div className="flex items-center gap-2 text-xs font-mono text-zinc-500">
                 <span>.{conversionInfo.sourceExt}</span>
-                <ArrowRight className="h-3.5 w-3.5 text-emerald-500" />
-                <span className="text-emerald-600 dark:text-emerald-400 font-bold">.{targetExt}</span>
+                <ArrowRight className="h-3.5 w-3.5 text-stone-500" />
+                <span className="text-stone-600 dark:text-stone-400 font-bold">.{targetExt}</span>
               </div>
 
               {!convertedBlob ? (
@@ -191,7 +191,7 @@ export function FileConverter({ lang = 'pt' }) {
                   type="button"
                   onClick={handleConvert}
                   disabled={isConverting}
-                  className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl font-mono text-xs font-bold bg-emerald-500 text-zinc-950 hover:bg-emerald-400 transition-all cursor-pointer shadow-xs disabled:opacity-50"
+                  className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl font-mono text-xs font-bold bg-stone-500 text-zinc-950 hover:bg-stone-400 transition-all cursor-pointer shadow-xs disabled:opacity-50"
                 >
                   <RefreshCw className={`h-4 w-4 ${isConverting ? 'animate-spin' : ''}`} />
                   <span>{isConverting ? (isEn ? 'Converting...' : 'Convertendo...') : (isEn ? 'Convert File Now' : 'Converter Arquivo Agora')}</span>
@@ -200,7 +200,7 @@ export function FileConverter({ lang = 'pt' }) {
                 <button
                   type="button"
                   onClick={handleDownload}
-                  className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl font-mono text-xs font-bold bg-emerald-500 text-zinc-950 hover:bg-emerald-400 transition-all cursor-pointer shadow-xs animate-pulse"
+                  className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl font-mono text-xs font-bold bg-stone-500 text-zinc-950 hover:bg-stone-400 transition-all cursor-pointer shadow-xs animate-pulse"
                 >
                   <Download className="h-4 w-4" />
                   <span>{isEn ? `Download .${targetExt.toUpperCase()} (${formatBytes(convertedBlob.size)})` : `Baixar .${targetExt.toUpperCase()} (${formatBytes(convertedBlob.size)})`}</span>
@@ -209,15 +209,15 @@ export function FileConverter({ lang = 'pt' }) {
             </div>
 
             {convertedBlob && (
-              <div className="p-4 rounded-xl border border-emerald-500/30 bg-emerald-500/10 text-emerald-700 dark:text-emerald-300 flex items-center justify-between gap-3 text-xs font-mono">
+              <div className="p-4 rounded-xl border border-stone-500/30 bg-stone-500/10 text-stone-700 dark:text-stone-300 flex items-center justify-between gap-3 text-xs font-mono">
                 <div className="flex items-center gap-2">
-                  <Check className="h-4 w-4 text-emerald-500" />
+                  <Check className="h-4 w-4 text-stone-500" />
                   <span>{isEn ? 'File converted successfully!' : 'Arquivo convertido com sucesso!'}</span>
                 </div>
                 <button
                   type="button"
                   onClick={handleDownload}
-                  className="underline font-bold hover:text-emerald-900 dark:hover:text-white cursor-pointer"
+                  className="underline font-bold hover:text-stone-900 dark:hover:text-white cursor-pointer"
                 >
                   {isEn ? 'Click to download' : 'Clique para baixar'}
                 </button>

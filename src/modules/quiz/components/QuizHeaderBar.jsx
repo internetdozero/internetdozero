@@ -10,7 +10,7 @@ export function QuizHeaderBar({ onBack, title, currentStep, totalSteps, badge })
         <div className="flex items-center gap-3">
           <button
             onClick={onBack}
-            className="inline-flex items-center gap-2 text-xs font-mono font-medium text-zinc-600 dark:text-zinc-400 hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors cursor-pointer"
+            className="inline-flex items-center gap-2 text-xs font-mono font-medium text-zinc-600 dark:text-zinc-400 hover:text-stone-600 dark:hover:text-stone-400 transition-colors cursor-pointer"
           >
             <ArrowLeft className="w-4 h-4" />
             <span>Voltar</span>
@@ -24,7 +24,7 @@ export function QuizHeaderBar({ onBack, title, currentStep, totalSteps, badge })
 
         <div className="flex items-center gap-3">
           {badge && (
-            <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-mono font-semibold bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20">
+            <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-mono font-semibold bg-stone-500/10 text-stone-600 dark:text-stone-400 border border-stone-500/20">
               <Sparkles className="w-3 h-3" />
               {badge}
             </span>
@@ -40,7 +40,7 @@ export function QuizHeaderBar({ onBack, title, currentStep, totalSteps, badge })
       {totalSteps > 0 && (
         <div className="mt-3 w-full bg-zinc-200 dark:bg-zinc-800 h-1.5 rounded-full overflow-hidden">
           <div
-            className="bg-emerald-500 h-full transition-all duration-300 ease-out"
+            className="bg-stone-500 h-full transition-all duration-300 ease-out"
             style={{ width: `${progressPercent}%` }}
           />
         </div>

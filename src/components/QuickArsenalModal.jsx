@@ -59,7 +59,7 @@ export function QuickArsenalModal({ isOpen, onClose }) {
         {/* Modal Header */}
         <div className="flex items-center justify-between px-6 py-5 border-b border-zinc-200 dark:border-zinc-800">
           <div className="flex items-center gap-3">
-            <div className="p-2.5 rounded-xl bg-emerald-500/10 text-emerald-500 border border-emerald-500/20">
+            <div className="p-2.5 rounded-xl bg-stone-500/10 text-stone-500 border border-stone-500/20">
               <Terminal className="w-5 h-5" />
             </div>
             <div>
@@ -88,13 +88,13 @@ export function QuickArsenalModal({ isOpen, onClose }) {
             return (
               <div 
                 key={tool.name}
-                className="p-4 rounded-2xl bg-zinc-50 dark:bg-zinc-950/60 border border-zinc-200 dark:border-zinc-800/80 hover:border-emerald-500/40 transition-all font-mono"
+                className="p-4 rounded-2xl bg-zinc-50 dark:bg-zinc-950/60 border border-zinc-200 dark:border-zinc-800/80 hover:border-stone-500/40 transition-all font-mono"
               >
                 <div className="flex items-start justify-between gap-4 mb-2">
                   <div className="flex items-center gap-2.5">
-                    <Icon className="w-4 h-4 text-emerald-500 shrink-0" />
+                    <Icon className="w-4 h-4 text-stone-500 shrink-0" />
                     <span className="font-bold text-sm text-zinc-900 dark:text-zinc-100">{tool.name}</span>
-                    <span className="px-2 py-0.5 text-[10px] rounded-full bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20">
+                    <span className="px-2 py-0.5 text-[10px] rounded-full bg-stone-500/10 text-stone-600 dark:text-stone-400 border border-stone-500/20">
                       {tool.category}
                     </span>
                   </div>
@@ -106,7 +106,7 @@ export function QuickArsenalModal({ isOpen, onClose }) {
 
                 {/* Command Bar */}
                 <div className="flex items-center justify-between px-3 py-2 rounded-xl bg-zinc-100 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 text-xs">
-                  <code className="text-emerald-600 dark:text-emerald-400 font-semibold truncate">
+                  <code className="text-stone-600 dark:text-stone-400 font-semibold truncate">
                     $ {tool.cmd}
                   </code>
                   <button
@@ -116,8 +116,8 @@ export function QuickArsenalModal({ isOpen, onClose }) {
                   >
                     {isCopied ? (
                       <>
-                        <Check className="w-3.5 h-3.5 text-emerald-500" />
-                        <span className="text-emerald-500">Copiado</span>
+                        <Check className="w-3.5 h-3.5 text-stone-500" />
+                        <span className="text-stone-500">Copiado</span>
                       </>
                     ) : (
                       <>
@@ -137,7 +137,7 @@ export function QuickArsenalModal({ isOpen, onClose }) {
           <span>Ambiente CLI & Automação</span>
           <button
             onClick={onClose}
-            className="px-4 py-2 rounded-xl bg-zinc-900 dark:bg-zinc-800 text-white text-xs font-semibold hover:bg-emerald-600 dark:hover:bg-emerald-500 dark:hover:text-black transition-colors cursor-pointer"
+            className="px-4 py-2 rounded-xl bg-zinc-900 dark:bg-zinc-800 text-white text-xs font-semibold hover:bg-stone-600 dark:hover:bg-stone-500 dark:hover:text-black transition-colors cursor-pointer"
           >
             Fechar
           </button>

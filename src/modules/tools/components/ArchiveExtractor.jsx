@@ -114,7 +114,7 @@ export function ArchiveExtractor({ lang = 'pt' }) {
   return (
     <div className="mt-8 space-y-6">
       <div className="rounded-2xl border border-zinc-200 bg-white p-6 dark:border-zinc-800 dark:bg-zinc-900/60 shadow-xs">
-        <div className="flex items-center gap-3 text-xs font-mono text-emerald-600 dark:text-emerald-400 mb-6">
+        <div className="flex items-center gap-3 text-xs font-mono text-stone-600 dark:text-stone-400 mb-6">
           <ShieldCheck className="h-4 w-4 shrink-0" />
           <span>{isEn ? '100% Client-Side WebAssembly — No files leave your computer' : 'Processamento 100% local via WebAssembly — Nenhum arquivo é enviado para servidores'}</span>
         </div>
@@ -123,7 +123,7 @@ export function ArchiveExtractor({ lang = 'pt' }) {
           <div
             onDragOver={(e) => e.preventDefault()}
             onDrop={handleDrop}
-            className="border-2 border-dashed border-zinc-300 dark:border-zinc-700 rounded-2xl p-10 text-center hover:border-emerald-500 transition-colors"
+            className="border-2 border-dashed border-zinc-300 dark:border-zinc-700 rounded-2xl p-10 text-center hover:border-stone-500 transition-colors"
           >
             <FolderArchive className="h-12 w-12 mx-auto text-zinc-400 dark:text-zinc-600 mb-4" />
             <p className="font-mono text-base font-bold text-zinc-900 dark:text-white mb-1">
@@ -141,7 +141,7 @@ export function ArchiveExtractor({ lang = 'pt' }) {
             <button
               type="button"
               onClick={() => fileInputRef.current?.click()}
-              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl font-mono text-xs font-bold bg-emerald-500 text-zinc-950 hover:bg-emerald-400 transition-all cursor-pointer shadow-xs"
+              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl font-mono text-xs font-bold bg-stone-500 text-zinc-950 hover:bg-stone-400 transition-all cursor-pointer shadow-xs"
             >
               <Upload className="h-4 w-4" />
               <span>{isEn ? 'Select file from computer' : 'Selecionar arquivo do computador'}</span>
@@ -151,7 +151,7 @@ export function ArchiveExtractor({ lang = 'pt' }) {
 
         {isLoading && (
           <div className="py-12 text-center space-y-3">
-            <Loader2 className="h-8 w-8 mx-auto animate-spin text-emerald-500" />
+            <Loader2 className="h-8 w-8 mx-auto animate-spin text-stone-500" />
             <p className="font-mono text-sm text-zinc-800 dark:text-zinc-200">{statusMessage}</p>
             <p className="text-xs text-zinc-500 font-mono">{isEn ? 'Large archives might take a few moments...' : 'Arquivos pesados podem levar alguns instantes para decodificar...'}</p>
           </div>
@@ -169,7 +169,7 @@ export function ArchiveExtractor({ lang = 'pt' }) {
             <div className="flex flex-wrap items-center justify-between gap-4 pb-4 border-b border-zinc-200 dark:border-zinc-800">
               <div>
                 <h3 className="font-mono text-base font-bold text-zinc-900 dark:text-white flex items-center gap-2">
-                  <ArchiveIcon className="h-4 w-4 text-emerald-500" />
+                  <ArchiveIcon className="h-4 w-4 text-stone-500" />
                   {selectedFile.name}
                 </h3>
                 <p className="text-xs font-mono text-zinc-500 dark:text-zinc-400 mt-1">
@@ -189,7 +189,7 @@ export function ArchiveExtractor({ lang = 'pt' }) {
                 <button
                   type="button"
                   onClick={handleDownloadAll}
-                  className="inline-flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-mono font-bold bg-emerald-500 text-zinc-950 hover:bg-emerald-400 transition-colors cursor-pointer shadow-xs"
+                  className="inline-flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-mono font-bold bg-stone-500 text-zinc-950 hover:bg-stone-400 transition-colors cursor-pointer shadow-xs"
                 >
                   <Download className="h-3.5 w-3.5" />
                   <span>{isEn ? 'Download All' : 'Baixar Todos'}</span>
@@ -216,7 +216,7 @@ export function ArchiveExtractor({ lang = 'pt' }) {
                     <button
                       type="button"
                       onClick={() => handleDownloadSingle(item)}
-                      className="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-xs font-mono bg-zinc-100 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300 hover:bg-emerald-500 hover:text-zinc-950 transition-colors cursor-pointer shrink-0"
+                      className="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-xs font-mono bg-zinc-100 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300 hover:bg-stone-500 hover:text-zinc-950 transition-colors cursor-pointer shrink-0"
                     >
                       <Download className="h-3 w-3" />
                       <span>{isEn ? 'Save' : 'Salvar'}</span>

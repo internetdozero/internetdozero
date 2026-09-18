@@ -29,7 +29,7 @@ export function ToolHeaderBar({ onBack, title, toolSlug, lang = 'pt' }) {
       <button
         type="button"
         onClick={onBack}
-        className="inline-flex items-center gap-2 font-mono text-xs text-zinc-500 transition-colors hover:text-emerald-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500"
+        className="inline-flex items-center gap-2 font-mono text-xs text-zinc-500 transition-colors hover:text-stone-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-stone-500"
       >
         <ArrowLeft className="h-3.5 w-3.5" />
         <span>{isEn ? 'All tools' : 'Todas as ferramentas'}</span>
@@ -39,13 +39,13 @@ export function ToolHeaderBar({ onBack, title, toolSlug, lang = 'pt' }) {
         <button
           type="button"
           onClick={handleShare}
-          className="inline-flex items-center gap-1.5 rounded-xl border border-zinc-200 bg-white px-3 py-1.5 font-mono text-xs font-semibold text-zinc-700 shadow-xs transition-colors hover:border-emerald-500 hover:text-emerald-600 dark:border-zinc-800 dark:bg-zinc-900 dark:text-zinc-300 dark:hover:border-emerald-500 dark:hover:text-emerald-400 cursor-pointer"
+          className="inline-flex items-center gap-1.5 rounded-xl border border-zinc-200 bg-white px-3 py-1.5 font-mono text-xs font-semibold text-zinc-700 shadow-xs transition-colors hover:border-stone-500 hover:text-stone-600 dark:border-zinc-800 dark:bg-zinc-900 dark:text-zinc-300 dark:hover:border-stone-500 dark:hover:text-stone-400 cursor-pointer"
           title={isEn ? 'Share or copy tool link' : 'Compartilhar ou copiar link da ferramenta'}
         >
           {copied ? (
             <>
-              <Check className="h-3.5 w-3.5 text-emerald-500" />
-              <span className="text-emerald-600 dark:text-emerald-400">{isEn ? 'Link copied!' : 'Link copiado!'}</span>
+              <Check className="h-3.5 w-3.5 text-stone-500" />
+              <span className="text-stone-600 dark:text-stone-400">{isEn ? 'Link copied!' : 'Link copiado!'}</span>
             </>
           ) : (
             <>

@@ -171,7 +171,7 @@ export function QuizPlayer({ quiz, onGoCatalog }) {
       <div className="space-y-8">
         {/* Question Card */}
         <div>
-          <span className="text-xs font-mono font-semibold text-emerald-600 dark:text-emerald-400 uppercase tracking-wider block mb-2">
+          <span className="text-xs font-mono font-semibold text-stone-600 dark:text-stone-400 uppercase tracking-wider block mb-2">
             Pergunta {currentStep + 1} de {totalSteps}
           </span>
           <h2 className="text-2xl sm:text-3xl font-bold font-mono text-zinc-900 dark:text-white leading-snug">
@@ -192,15 +192,15 @@ export function QuizPlayer({ quiz, onGoCatalog }) {
                   isTransitioning ? 'cursor-default' : 'cursor-pointer'
                 } ${
                   isSelected
-                    ? 'border-emerald-500 bg-emerald-500/10 dark:bg-emerald-500/15 text-zinc-900 dark:text-white shadow-xs'
-                    : 'border-zinc-200/80 dark:border-zinc-800/80 bg-white dark:bg-zinc-900/60 text-zinc-700 dark:text-zinc-300 hover:border-emerald-500/50 hover:bg-zinc-50 dark:hover:bg-zinc-800/60'
+                    ? 'border-stone-500 bg-stone-500/10 dark:bg-stone-500/15 text-zinc-900 dark:text-white shadow-xs'
+                    : 'border-zinc-200/80 dark:border-zinc-800/80 bg-white dark:bg-zinc-900/60 text-zinc-700 dark:text-zinc-300 hover:border-stone-500/50 hover:bg-zinc-50 dark:hover:bg-zinc-800/60'
                 }`}
               >
                 <div className="flex items-start gap-3.5">
                   <span className={`w-7 h-7 rounded-xl font-mono text-xs font-bold flex items-center justify-center shrink-0 border transition-colors ${
                     isSelected
-                      ? 'bg-emerald-500 text-zinc-950 border-emerald-500'
-                      : 'bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400 border-zinc-200 dark:border-zinc-700 group-hover:border-emerald-500/40 group-hover:text-emerald-600 dark:group-hover:text-emerald-400'
+                      ? 'bg-stone-500 text-zinc-950 border-stone-500'
+                      : 'bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400 border-zinc-200 dark:border-zinc-700 group-hover:border-stone-500/40 group-hover:text-stone-600 dark:group-hover:text-stone-400'
                   }`}>
                     {String.fromCharCode(65 + idx)}
                   </span>
@@ -210,7 +210,7 @@ export function QuizPlayer({ quiz, onGoCatalog }) {
                 </div>
 
                 {isSelected && (
-                  <CheckCircle2 className="w-5 h-5 text-emerald-500 shrink-0 mt-1" />
+                  <CheckCircle2 className="w-5 h-5 text-stone-500 shrink-0 mt-1" />
                 )}
               </button>
             );

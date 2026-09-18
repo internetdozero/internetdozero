@@ -28,10 +28,10 @@ export function FeedbackModal() {
 
   return (
     <div className="fixed inset-x-0 bottom-5 z-[100] flex justify-center px-4 pointer-events-none" role={success ? 'status' : 'alert'} aria-live="polite">
-      <div className={`pointer-events-auto flex w-full max-w-md items-center gap-3 rounded-2xl border px-4 py-3.5 bg-zinc-950/95 shadow-2xl backdrop-blur-md ${success ? 'border-emerald-500/60' : 'border-red-500/60'}`}>
-        <Icon className={`h-5 w-5 shrink-0 ${success ? 'text-emerald-400' : 'text-red-400'}`} aria-hidden="true" />
+      <div className={`pointer-events-auto flex w-full max-w-md items-center gap-3 rounded-2xl border px-4 py-3.5 bg-zinc-950/95 shadow-2xl backdrop-blur-md ${success ? 'border-stone-500/60' : 'border-red-500/60'}`}>
+        <Icon className={`h-5 w-5 shrink-0 ${success ? 'text-stone-400' : 'text-red-400'}`} aria-hidden="true" />
         <p className="min-w-0 flex-1 text-sm text-white leading-snug">{feedback.message}</p>
-        <button type="button" onClick={() => setFeedback(null)} className="rounded-lg p-1 text-zinc-400 hover:bg-white/10 hover:text-white focus:outline-none focus:ring-2 focus:ring-emerald-400" aria-label="Fechar feedback">
+        <button type="button" onClick={() => setFeedback(null)} className="rounded-lg p-1 text-zinc-400 hover:bg-white/10 hover:text-white focus:outline-none focus:ring-2 focus:ring-stone-400" aria-label="Fechar feedback">
           <X className="h-4 w-4" />
         </button>
       </div>
