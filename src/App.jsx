@@ -13,25 +13,28 @@ const BlogView = lazy(() => import('./modules/blog/BlogView').then((m) => ({ def
 const AdminView = lazy(() => import('./modules/blog/AdminView').then((m) => ({ default: m.AdminView })));
 const ToolsView = lazy(() => import('./modules/tools/ToolsView').then((m) => ({ default: m.ToolsView })));
 const LinksView = lazy(() => import('./modules/links/LinksView').then((m) => ({ default: m.LinksView })));
+const QuizView = lazy(() => import('./modules/quiz/QuizView').then((m) => ({ default: m.QuizView })));
 const CommandPalette = lazy(() => import('./components/CommandPalette').then((m) => ({ default: m.CommandPalette })));
 const ModuleModal = lazy(() => import('./components/ModuleModal').then((m) => ({ default: m.ModuleModal })));
 
 export function App() {
   const { theme, toggleTheme } = useTheme();
-  const { view: currentView, postSlug, postCategory, blogCategories, blogCategory, toolSlug, navigate } = useRouter();
+  const { view: currentView, postSlug, postCategory, blogCategories, blogCategory, toolSlug, quizSlug, navigate } = useRouter();
   const { lang, setLang, toggleLang } = useLanguage();
   const [isCommandOpen, setIsCommandOpen] = useState(false);
   const [selectedModule, setSelectedModule] = useState(null);
 
   useEffect(() => {
     window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
-  }, [currentView, postSlug, toolSlug]);
+  }, [currentView, postSlug, toolSlug, quizSlug]);
 
   const handleSelectModule = useCallback((m) => {
     if (m.id === 'blog') {
       navigate('/blog');
     } else if (m.id === 'tools') {
       navigate('/tools');
+    } else if (m.id === 'quizzes' || m.id === 'quiz') {
+      navigate('/quiz');
     } else {
       setSelectedModule(m);
     }
@@ -91,6 +94,10 @@ export function App() {
         ) : currentView === 'links' ? (
           <Suspense fallback={<div className="flex min-h-[60vh] items-center justify-center"><span className="text-sm font-mono text-zinc-500 animate-pulse">Carregando…</span></div>}>
             <ErrorBoundary><LinksView onNavigate={navigate} lang={lang} /></ErrorBoundary>
+          </Suspense>
+        ) : currentView === 'quiz' ? (
+          <Suspense fallback={<div className="flex min-h-[60vh] items-center justify-center"><span className="text-sm font-mono text-zinc-500 animate-pulse">Carregando…</span></div>}>
+            <ErrorBoundary><QuizView onNavigate={navigate} quizSlug={quizSlug} lang={lang} /></ErrorBoundary>
           </Suspense>
         ) : currentView === 'not-found' ? (
           <NotFound onGoHome={handleGoHome} onGoBlog={() => navigate('/blog')} lang={lang} />

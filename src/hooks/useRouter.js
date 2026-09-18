@@ -20,6 +20,11 @@ export function useRouter() {
       return { view: 'tools', toolSlug: toolAliases[requestedToolSlug] || requestedToolSlug, postSlug: null, postCategory: null };
     }
 
+    if (path === '/quiz' || path.startsWith('/quiz/') || path === '/quizzes' || path.startsWith('/quizzes/')) {
+      const requestedQuizSlug = path.split('/').filter(Boolean)[1] || null;
+      return { view: 'quiz', quizSlug: requestedQuizSlug, postSlug: null, postCategory: null };
+    }
+
     if (path.startsWith('/blog')) {
       if (path === '/blog/categorias') return { view: 'blog', postSlug: null, postCategory: null, blogCategories: true, blogCategory: null };
       const segments = path.replace(/\/+$/, '').split('/');
@@ -61,6 +66,7 @@ export function useRouter() {
     blogCategories: route.blogCategories,
     blogCategory: route.blogCategory,
     toolSlug: route.toolSlug,
+    quizSlug: route.quizSlug,
     navigate
   };
 }
