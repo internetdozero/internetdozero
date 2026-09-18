@@ -4,12 +4,14 @@ export const ditadorQuiz = {
   subtitle: 'De monarcas antigos a ditadores atuais: descubra qual figura histórica tem o seu temperamento.',
   badge: 'Sátira Histórica & Atual',
   icon: 'Crown',
-  disclaimer: 'Aviso: Este teste é 100% zoeira e entretenimento. Não apoiamos nenhum regime autoritário nem demissões em massa.',
+  tieBreakerSubtitle: 'O Triunvirato Inesperado (Empate Técnico)',
+  tieBreakerQuote: (p1, p2) => `50% ${p1.name}, 50% ${p2.name}: uma aliança geopolítica improvável onde ninguém cede um milímetro.`,
   profiles: {
     'dom-pedro-ii': {
       name: 'Dom Pedro II',
       subtitle: 'O Monarca que Só Queria Paz e Café',
       description: 'Você é o líder relutante por excelência. Não quer pompa, puxa-saco nem confusão com ninguém. Se assumiu a bronca, foi porque se deixasse na mão dos outros a coisa desandava. Quando uma crise acaba, você só sente aquele alívio gostoso, fecha as abas e vai comer ou ler em paz.',
+      why: 'Você assume as rédeas por necessidade e pragmatismo, mas seu maior desejo é resolver tudo logo pra poder tomar um café em paz.',
       traits: ['Só queria paz', 'Alívio pós-crise', 'Pragmatismo sereno', 'Zero frescura'],
       quote: 'Se vocês fizerem a parte de vocês direitinho, eu posso finalmente ir tomar meu café em silêncio.'
     },
@@ -17,6 +19,7 @@ export const ditadorQuiz = {
       name: 'Luís XIV (O Rei Sol)',
       subtitle: 'O Monarca da Vaidade e do Drama',
       description: 'L\'État, c\'est moi! Você adora ser o centro das atenções, acha que seu bom gosto salva qualquer ambiente e espera reconhecimento imediato. Se você ajudou em 5% do trabalho, seu nome tem que estar na capa com fonte dourada.',
+      why: 'Você valoriza reconhecimento, estética e impacto visual: espera que todos percebam e aplaudam o seu toque de classe.',
       traits: ['Autoestima infinita', 'Exige aplausos', 'Dramático', 'L\'État c\'est moi'],
       quote: 'O projeto sou eu. Sem o meu toque de classe, isso aqui seria apenas uma planilha sem alma.'
     },
@@ -24,6 +27,7 @@ export const ditadorQuiz = {
       name: 'Napoleão Bonaparte',
       subtitle: 'O Neurótico do Controle e das Planilhas',
       description: 'Você reorganiza tudo na madrugada porque o padrão não estava do seu agrado. Manda textão com tópicos e checklists e não descansa enquanto não provar matematicamente que o seu método é o único viável no planeta.',
+      why: 'Você tem obsessão por método, organização e estratégia: quer tudo documentado, milimetrado e executado com precisão cirúrgica.',
       traits: ['Workaholic', 'Neurótico por ordem', 'Manda textão', 'Odeia enrolação'],
       quote: 'Não existe problema que um bom checklist e 4 xícaras de café não resolvam antes do meio-dia.'
     },
@@ -31,6 +35,7 @@ export const ditadorQuiz = {
       name: 'Vladimir Putin',
       subtitle: 'O Líder Frio do Olhar Enigmático',
       description: 'Zero sorrisos, zero textão e zero paciência pra chilique. Você não bate boca na internet: você apenas visualiza a mensagem, não responde nada e deixa a outra pessoa em pânico recalculando a rota sozinha.',
+      why: 'Você prefere o silêncio intimidador e a economia de movimentos: resolve tudo nos bastidores sem gastar saliva à toa.',
       traits: ['Frieza de gelo', 'Visualiza e não responde', 'Zero mimimi', 'Olhar intimidador'],
       quote: 'Quem fala muito entrega pouco. Eu apenas observo em silêncio e resolvo.'
     },
@@ -38,6 +43,7 @@ export const ditadorQuiz = {
       name: 'Kim Jong Un',
       subtitle: 'O Ditador Pop dos Foguetes',
       description: 'Se as coisas não saem do seu jeitinho no prazo, você já quer explodir o grupo do zap, banir os membros e começar tudo do zero. Espalhafatoso, impaciente e pronto pra tocar o terror se contrariado.',
+      why: 'Você é intenso, impaciente e radical: se o plano desviar um milímetro do seu padrão, a vontade imediata é resetar o tabuleiro inteiro.',
       traits: ['Ameaça banir', 'Pavio curtíssimo', 'Espalhafatoso', '8 ou 80'],
       quote: 'Ou a gente faz do meu jeito agora, ou eu cancelo tudo e não se fala mais nisso.'
     }

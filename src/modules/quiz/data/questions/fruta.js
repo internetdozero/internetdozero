@@ -5,11 +5,14 @@ export const frutaQuiz = {
   badge: 'Comportamento & Humor',
   icon: 'Apple',
   disclaimer: 'Aviso: Zero calorias e 100% de precisão sobre a sua vibe nas reuniões de família.',
+  tieBreakerSubtitle: 'Salada Mista Inesperada (Empate Técnico)',
+  tieBreakerQuote: (p1, p2) => `50% ${p1.name}, 50% ${p2.name}: uma vitamina mista potente com zero drama e personalidade em dobro.`,
   profiles: {
     'abacaxi': {
       name: 'Abacaxi',
       subtitle: 'O Difícil de Acessar, Maravilhoso de Conviver',
       description: 'Você tem cara fechada e postura reservada. Quem não te conhece acha que você é metido ou inacessível, mas é só sua casca de proteção contra gente folgada. Quem tem paciência de conquistar sua confiança descobre a pessoa mais doce, leal e vibrante do mundo.',
+      why: 'Você tem casca grossa pra se proteger de intimidade forçada e gente folgada, mas é extremamente leal e acolhedor com quem ganha seu respeito.',
       traits: ['Cara de bravo', 'Coração de ouro', 'Super seletivo', 'Odeia intimidade forçada'],
       quote: 'Não sou antipático, sou apenas uma fruta que exige respeito antes de ser descascada.'
     },
@@ -17,6 +20,7 @@ export const frutaQuiz = {
       name: 'Maracujá',
       subtitle: 'O Zen / Inimigo do Estresse',
       description: 'O mundo pode estar desabando em chamas e você continua calmo, bebendo uma água gelada e pensando "no final tudo se ajeita". Nada te tira do sério, você tem uma energia tranquilizadora e é o amigo que todo mundo procura pra não surtar em dias de caos.',
+      why: 'Você mantém a calma mesmo com o mundo caindo ao redor, odeia drama desnecessário e prefere respirar fundo antes de agir.',
       traits: ['Pressão 12 por 8', 'Zen absoluto', 'Não esquenta a cabeça', 'Calmaria ambulante'],
       quote: 'Pra que se desesperar agora se a gente pode resolver isso com calma amanhã depois do café?'
     },
@@ -24,6 +28,7 @@ export const frutaQuiz = {
       name: 'Limão Tahiti',
       subtitle: 'O Sarcasmo Cirúrgico Essencial',
       description: 'Você tem a língua afiada, odeia clichê e não tem paciência pra gente sonsa. Puro, seu excesso de sinceridade pode arder um pouco nos ouvidos alheios, mas sem a sua presença qualquer conversa ou projeto fica morno, chocho e sem graça.',
+      why: 'Você não suporta conversa mole, enrolação ou falsidade, preferindo mandar a real na lata com humor ácido e sinceridade cortante.',
       traits: ['Sincero até demais', 'Humor ácido', 'Anti-mimimi', 'Dá o toque de mestre'],
       quote: 'Eu não sou grosso, eu só tenho preguiça biológica de fingir que acho graça em conversa mole.'
     },
@@ -31,6 +36,7 @@ export const frutaQuiz = {
       name: 'Melancia',
       subtitle: 'O Coração Gigante da Galera',
       description: 'Você é expansivo, acolhedor e não sabe falar baixo nem se quisesse. Ri alto, abraça todo mundo e adora juntar a turma pra comer e fazer bagunça. Onde você chega o ambiente se alegra, porque sua energia é naturalmente refrescante e contagiante.',
+      why: 'Você é expansivo, agregador e caloroso: gosta de juntar a turma toda, celebrar e levantar o astral do ambiente sem cerimônia.',
       traits: ['Inimigo da tristeza', 'Riso frouxo', 'Espaçoso no bom sentido', 'Acolhedor'],
       quote: 'Quanto mais gente melhor! Chega pra cá que onde come um, comem dez rindo alto!'
     },
@@ -38,6 +44,7 @@ export const frutaQuiz = {
       name: 'Banana Prata',
       subtitle: 'O Alicerce da Paz & Eficiência',
       description: 'Você é a pessoa mais prática e tranquila que existe. Não cria drama por bobagem, não inventa problema onde não tem e segura qualquer perrengue sem fazer tempestade em copo d\'água. É o porto seguro que todo mundo quer por perto no dia a dia.',
+      why: 'Você foca na praticidade pura e no bom senso: odeia criar problema onde não existe e só quer resolver a parada logo pra ficar em paz.',
       traits: ['Zero drama', 'Super confiável', 'Prático', 'Amigo pra toda hora'],
       quote: 'Pra que complicar o que é simples? Vamos resolver logo isso pra gente ficar em paz.'
     }

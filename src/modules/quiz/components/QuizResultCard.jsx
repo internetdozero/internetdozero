@@ -51,6 +51,60 @@ export function QuizResultCard({ quiz, resultProfile, onRestart, onGoCatalog }) 
             </div>
           )}
 
+          {/* Breakdown para empates ou diagnosticos compostos */}
+          {resultProfile.breakdown && resultProfile.breakdown.length > 0 && (
+            <div className="mb-6">
+              <span className="block text-xs font-mono font-semibold uppercase tracking-wider text-emerald-600 dark:text-emerald-400 mb-3">
+                Por que cada um?
+              </span>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                {resultProfile.breakdown.map((item, idx) => (
+                  <div
+                    key={idx}
+                    className="p-4 rounded-2xl bg-zinc-50/80 dark:bg-zinc-800/40 border border-zinc-200/80 dark:border-zinc-700/60"
+                  >
+                    <div className="flex items-center gap-2 mb-2">
+                      <span className="w-2 h-2 rounded-full bg-emerald-500" />
+                      <h4 className="text-xs font-mono font-bold text-zinc-900 dark:text-zinc-100">
+                        {item.title}
+                      </h4>
+                    </div>
+                    <p className="text-xs text-zinc-600 dark:text-zinc-300 leading-relaxed mb-3">
+                      {item.why}
+                    </p>
+                    {item.traits && (
+                      <div className="flex flex-wrap gap-1.5">
+                        {item.traits.slice(0, 2).map((t) => (
+                          <span
+                            key={t}
+                            className="text-[10px] font-mono px-2 py-0.5 rounded-md bg-emerald-500/10 text-emerald-700 dark:text-emerald-300 border border-emerald-500/20"
+                          >
+                            {t}
+                          </span>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* Justificativa para diagnostico solo */}
+          {!resultProfile.breakdown && resultProfile.why && (
+            <div className="p-4 rounded-2xl bg-zinc-50/80 dark:bg-zinc-800/40 border border-zinc-200/80 dark:border-zinc-700/60 mb-6">
+              <div className="flex items-center gap-2 mb-1.5">
+                <span className="w-2 h-2 rounded-full bg-emerald-500" />
+                <span className="text-xs font-mono font-bold text-zinc-900 dark:text-zinc-100">
+                  Por que esse diagnóstico?
+                </span>
+              </div>
+              <p className="text-xs text-zinc-600 dark:text-zinc-300 leading-relaxed">
+                {resultProfile.why}
+              </p>
+            </div>
+          )}
+
           {/* Traits */}
           <div className="mb-8">
             <span className="block text-xs font-mono text-zinc-500 dark:text-zinc-400 mb-2.5">

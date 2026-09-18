@@ -4,12 +4,14 @@ export const linuxQuiz = {
   subtitle: 'Um teste comportamental do cotidiano para descobrir qual filosofia de sistema vive na sua alma.',
   badge: 'Tecnologia & Hábitos',
   icon: 'Terminal',
-  disclaimer: 'Aviso: Nenhuma linha de terminal precisará ser digitada durante este teste.',
+  tieBreakerSubtitle: 'O Híbrido Inesperado (Empate Técnico)',
+  tieBreakerQuote: (p1, p2) => `50% ${p1.name}, 50% ${p2.name}: dual-boot na mente e paz de espírito no coração.`,
   profiles: {
     'arch': {
       name: 'Arch Linux',
       subtitle: 'O Automatizador Implacável',
       description: 'Você odeia intermediários, burocracia e ter que fazer a mesma coisa duas vezes na mão. Se uma tarefa é repetitiva, você gasta meia hora criando uma automação ou atalho esperto pra nunca mais ter que clicar naquilo na vida. Seu ambiente é enxuto, direto ao ponto e não tem um byte de gordura inútil.',
+      why: 'Você busca eliminar atrito e odeia esforço repetitivo: prefere automatizar logo o fluxo pra não ter que fazer na mão nunca mais.',
       traits: ['Automação pura', 'Odeia bloatware', 'Corta todo atrito', 'Direto ao ponto'],
       quote: 'Se eu tiver que dar mais de dois cliques pra fazer isso de novo, eu crio um script agora.'
     },
@@ -17,6 +19,7 @@ export const linuxQuiz = {
       name: 'Debian Stable',
       subtitle: 'A Rocha Inabalável da Paz Zen',
       description: 'Você descobriu o segredo da longevidade: não mexer no que está funcionando. Seus métodos, ferramentas e rotinas foram testados pelo tempo. Você dorme com a tranquilidade absoluta de quem sabe que o seu ambiente nunca vai quebrar do nada na sexta-feira.',
+      why: 'Você prioriza estabilidade máxima e paz de espírito: sua regra de ouro é nunca mexer no que já está funcionando.',
       traits: ['Paz de espírito', 'Zero sustos', 'Não mexe no que tá bom', 'À prova de apocalipse'],
       quote: 'Novidade demais é sinônimo de bug novo. Fico com o clássico que nunca me deixou na mão.'
     },
@@ -24,6 +27,7 @@ export const linuxQuiz = {
       name: 'Ubuntu',
       subtitle: 'O Pragmático do Padrão de Fábrica',
       description: 'Você tem mais o que fazer na vida do que ficar filosofando sobre como a ferramenta funciona por baixo do capô. Quer plugar, ver rodando de primeira e focar no que realmente interessa. Se a maioria das pessoas usa e qualquer dúvida tem resposta pronta no Google, você tá no céu.',
+      why: 'Você foca na entrega e na compatibilidade: quer soluções padronizadas que funcionem de primeira sem reinventar a roda.',
       traits: ['Pragmático', 'Padrão de fábrica', 'Sem tempo a perder', 'Foco na entrega'],
       quote: 'Eu não quero reinventar a roda, só quero que ela gire pra eu chegar onde preciso.'
     },
@@ -31,6 +35,7 @@ export const linuxQuiz = {
       name: 'Fedora',
       subtitle: 'O Vanguarda Polido da Indústria',
       description: 'Você gosta de tecnologia moderna, limpa e bem acabada. Não quer gambiarra improvisada, mas também tem pavor de ficar preso no passado. Quer o que há de mais recente, com padrão de qualidade e aprovado pelas boas práticas corporativas.',
+      why: 'Você gosta de tecnologias modernas e recursos recentes, com acabamento refinado e padrão de engenharia corporativa.',
       traits: ['Moderno e polido', 'Padrões da indústria', 'Sempre atualizado', 'Elegante'],
       quote: 'Dá pra ter tecnologia de ponta com estabilidade e elegância, sem precisar apelar pra gambiarra.'
     },
@@ -38,6 +43,7 @@ export const linuxQuiz = {
       name: 'Linux Mint',
       subtitle: 'O Café com Leite do Conforto',
       description: 'Você gosta de acolhimento, usabilidade clássica e odeia quando inventam moda com menus esquisitos. Quer o bom e velho menuIniciar no cantinho, ícones claros e a sensação gostosa de que a tecnologia tá ali pra te servir sem cobrar taxa de aprendizado.',
+      why: 'Você preza pela tranquilidade e usabilidade sem atritos: o computador tem que te servir com conforto e simplicidade.',
       traits: ['Conforto clássico', 'Amigável', 'Zero frescura', 'Sem estresse'],
       quote: 'Computador bom é aquele que a minha vó e eu usamos sem precisar ler manual.'
     },
@@ -45,6 +51,7 @@ export const linuxQuiz = {
       name: 'Gentoo',
       subtitle: 'O Alquimista dos Detalhes Extremos',
       description: 'Você não aceita nada genérico feito pra massa. Quer entender cada milissegundo de execução, cada ingrediente da receita e ajustar a voltagem de cada parâmetro na unha. Seus amigos acham que você é louco, mas seu orgulho de construir tudo da raiz é imbatível.',
+      why: 'Você quer entender cada engrenagem da raiz até o topo e otimizar cada detalhe no seu ritmo, sem aceitar pacotes genéricos.',
       traits: ['Perfeccionismo radical', 'Otimização ao extremo', 'Entende tudo da raiz', 'Paciência infinita'],
       quote: 'Se vem pré-compilado pros outros, não foi otimizado pro meu silício.'
     },
@@ -52,6 +59,7 @@ export const linuxQuiz = {
       name: 'NixOS',
       subtitle: 'O Cérebro Galáctico da Imutabilidade',
       description: 'Sua vida é organizada em arquivos declarativos. Se o mundo explodir, você roda uma função pura e reconstrói o cosmos no mesmo estado imutável. Tem pavor de desordem e ama saber que nada no seu universo pode sair do trilho sem aviso.',
+      why: 'Você ama determinismo e controle declarativo: se um estado não pode ser reproduzido com perfeição matemática, você não confia.',
       traits: ['Imutável', 'Reprodutível', 'Mente matemática', 'Zero acasos'],
       quote: 'O acaso não existe. Tudo no universo deveria ser uma função pura determinística.'
     },
@@ -59,6 +67,7 @@ export const linuxQuiz = {
       name: 'Kali Linux',
       subtitle: 'O Mr. Robot de Condomínio',
       description: 'Você adora um mistério, um capuz preto no quarto escuro e a sensação de estar sempre dois passos à frente de todo mundo. Desconfia de Wi-Fi público, checa permissões de aplicativo como quem desarma bomba e tem prazer em encontrar brechas que ninguém viu.',
+      why: 'Você tem olhar investigativo e audita tudo ao redor: adora encontrar brechas, brecar vulnerabilidades e se antecipar.',
       traits: ['Capuz preto', 'Desconfiado', 'Caçador de brechas', 'Vibe hacker'],
       quote: 'Não existe sistema 100% seguro, só gente que ainda não foi auditada por mim.'
     }

@@ -93,18 +93,38 @@ export function QuizPlayer({ quiz, onGoCatalog }) {
       const tieKeyB = `${secondKey}+${firstKey}`;
 
       if (quiz.tieBreakers && (quiz.tieBreakers[tieKeyA] || quiz.tieBreakers[tieKeyB])) {
-        return quiz.tieBreakers[tieKeyA] || quiz.tieBreakers[tieKeyB];
+        const customTie = quiz.tieBreakers[tieKeyA] || quiz.tieBreakers[tieKeyB];
+        const p1 = quiz.profiles[firstKey];
+        const p2 = quiz.profiles[secondKey];
+        if (customTie && !customTie.breakdown && p1 && p2) {
+          return {
+            ...customTie,
+            breakdown: [
+              { title: `Por que ${p1.name}?`, why: p1.why || p1.description, traits: p1.traits },
+              { title: `Por que ${p2.name}?`, why: p2.why || p2.description, traits: p2.traits }
+            ]
+          };
+        }
+        return customTie;
       }
 
       const p1 = quiz.profiles[firstKey];
       const p2 = quiz.profiles[secondKey];
       if (p1 && p2) {
+        const quote = typeof quiz.tieBreakerQuote === 'function'
+          ? quiz.tieBreakerQuote(p1, p2)
+          : `50% ${p1.name}, 50% ${p2.name}: o equilíbrio perfeito entre duas forças da natureza.`;
+
         return {
           name: `${p1.name} & ${p2.name}`,
-          subtitle: 'O Híbrido Inesperado (Empate Técnico)',
-          description: `Sua personalidade não cabe em uma caixinha só! Você tem exatamente a mesma intensidade de ${p1.name} e ${p2.name}. Dependendo do dia da semana ou do nível de estresse, você transita perfeitamente entre essas duas forças da natureza.`,
+          subtitle: quiz.tieBreakerSubtitle || 'O Híbrido Inesperado (Empate Técnico)',
+          description: `Sua personalidade não cabe em uma caixinha só! Você empatou com a mesma intensidade de ${p1.name} e ${p2.name}. Dependendo do dia ou da situação, você transita perfeitamente entre essas duas forças.`,
+          breakdown: [
+            { title: `Por que ${p1.name}?`, why: p1.why || p1.description, traits: p1.traits },
+            { title: `Por que ${p2.name}?`, why: p2.why || p2.description, traits: p2.traits }
+          ],
           traits: [...new Set([...(p1.traits || []), ...(p2.traits || [])])].slice(0, 4),
-          quote: `50% ${p1.name}, 50% ${p2.name}: dual-boot na mente e paz de espírito no coração.`
+          quote
         };
       }
     }

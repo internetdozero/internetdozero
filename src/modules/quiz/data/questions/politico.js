@@ -4,12 +4,14 @@ export const politicoQuiz = {
   subtitle: 'Um raio-x satírico da política brasileira para descobrir qual arquétipo do poder mora em você.',
   badge: 'Sátira Política',
   icon: 'Landmark',
-  disclaimer: 'Aviso: Qualquer semelhança com sessões do plenário, emendas de relator ou café frio na repartição é mera caricatura.',
+  tieBreakerSubtitle: 'A Coalizão dos Opostos (Empate Técnico)',
+  tieBreakerQuote: (p1, p2) => `50% ${p1.name}, 50% ${p2.name}: a verdadeira harmonia republicana onde todo mundo sai contemplado.`,
   profiles: {
     'servidor-cansado': {
       name: 'O Servidor Efetivo Cansado',
       subtitle: 'O Mestre da Paz & do Bolo na Copa',
       description: 'Você passou no concurso em 2008 e seu único objetivo de vida é cumprir o expediente, comer um pedaço de bolo com café às 15h30 e não se meter na guerra dos comissionados. Não quer saber quem ganhou a eleição nem quem vai discursar, contanto que o vale caia no dia 1º e ninguém encha seu saco.',
+      why: 'Você busca estabilidade e paz interior acima de vaidades passageiras: foca no seu trabalho, odeia inventação de moda e preza pelo café sagrado.',
       traits: ['Só quer bater o ponto', 'Amigo do cafezinho', 'Foge de comissão', 'Paz acima de tudo'],
       quote: 'Seja lá o que vocês forem inventar de projeto, por favor não me peçam pra abrir processo novo.'
     },
@@ -17,6 +19,7 @@ export const politicoQuiz = {
       name: 'O Articulador do Centrão',
       subtitle: 'O Mestre da Governabilidade & Jantar Sigiloso',
       description: 'Voz mansa, terno sob medida e mensagens temporárias no WhatsApp. Você nunca levanta o tom de voz, chama qualquer lobby de "harmonia republicana" e sabe exatamente onde estão todos os recursos sem colocar a sua assinatura em uma única folha comprometedora.',
+      why: 'Você entende que a política é a arte da negociação e do pragmatismo: resolve conflitos nos bastidores com conversa suave e foco no resultado.',
       traits: ['Mensagem temporária', 'Voz aveludada', 'Jantar sigiloso', 'Sempre na base aliada'],
       quote: 'Não se trata de interesse pessoal, nobres colegas... trata-se da estabilidade e governabilidade.'
     },
@@ -24,6 +27,7 @@ export const politicoQuiz = {
       name: 'O Deputado de TikTok',
       subtitle: 'O Rei do Reels & da Indignação Seletiva',
       description: 'Você chega na reunião já apontando a câmera do celular, faz cara de choque e grita que o sistema tem medo da sua coragem. Vive de corte de podcast, indireta pra bancada rival e engajamento. A verdade pouco importa, o que vale é a visualização nos primeiros três segundos.',
+      why: 'Você tem talento natural para mobilizar emoções e capturar atenção em massa: sabe que narrativa e corte de impacto valem mais que mil relatórios.',
       traits: ['Celular na vertical', 'Grita no microfone', 'Corte de podcast', 'Indignação lucrativa'],
       quote: 'Vocês viram isso aqui, meu povo? Eles não querem que você saiba a verdade! Compartilhem antes que derrubem!'
     },
@@ -31,6 +35,7 @@ export const politicoQuiz = {
       name: 'O Coronel Tradicional',
       subtitle: 'O Pai dos Pobres & do Churrasco',
       description: 'Sabe o nome da avó de cada morador do município, distribui abraço com tapinha nas costas, come pastel com caldo de cana na feira e jura de pés juntos que é amigo do povo. Não entende nada de planilha nem de lei, mas ganha qualquer eleição no carisma e na base da amizade.',
+      why: 'Você valoriza a presença física, o calor humano e a lealdade cara a cara: resolve qualquer atrito no aperto de mão e no carisma popular.',
       traits: ['Tapinha nas costas', 'Pastel na feira', 'Amigo de todo mundo', 'Promete até chuva'],
       quote: 'Aqui quem fala é o coração, minha gente! Podem contar com o amigo de vocês pra qualquer perrengue.'
     },
@@ -38,6 +43,7 @@ export const politicoQuiz = {
       name: 'O Tecnocrata do Excel',
       subtitle: 'O Faria Limer da Gestão Pública',
       description: 'Usa termos em inglês numa audiência sobre buraco na rua, veste colete térmico no calor de 32 graus e jura que um dashboard interativo vai resolver o problema da saúde. Acha que a repartição pública tem que virar uma startup unicórnio com metas de sprint quinzenais.',
+      why: 'Você acredita piamente em métricas, indicadores de performance e processos otimizados: quer transformar o caos orgânico em um dashboard limpo.',
       traits: ['Colete puffer', 'Termos em inglês', 'Planilha com gráficos', 'Quer privatizar a calçada'],
       quote: 'Precisamos pivotar o mindset da gestão e aplicar um benchmark ágil no orçamento público.'
     }
