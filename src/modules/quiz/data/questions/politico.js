@@ -1,99 +1,112 @@
 export const politicoQuiz = {
   id: 'que-tipo-de-politico-voce-seria',
   title: 'Que tipo de político você seria?',
-  subtitle: 'Um teste de alta voltagem cômica para descobrir o seu arquétipo nos corredores do poder.',
-  badge: 'Sátira & Brasília',
+  subtitle: 'Um raio-x satírico da política brasileira para descobrir qual arquétipo do poder mora em você.',
+  badge: 'Sátira Política',
   icon: 'Landmark',
-  disclaimer: 'Qualquer semelhança com sessões do plenário, emendas secretas ou discursos inflamados é mera coincidência caricata.',
+  disclaimer: 'Aviso: Qualquer semelhança com sessões do plenário, emendas de relator ou café frio na repartição é mera caricatura.',
   profiles: {
-    'corrupto-elegante': {
-      name: 'O Articulador de Colarinho Branco',
-      subtitle: 'Elegância, Jantar Caro & Diálogo Institucional',
-      description: 'Você nunca levanta a voz e jamais assina documentos comprometedores na primeira via. Opera com mensagens temporárias, sabe quem são os donos de todos os cartórios e chama qualquer lobby de "harmonia republicana".',
-      traits: ['Voz aveludada', 'Terno sob medida', 'Jantares sigilosos', 'Nunca viu nada'],
-      quote: 'Não se trata de interesse próprio, mas da estabilidade e governabilidade da nação.'
+    'servidor-cansado': {
+      name: 'O Servidor Efetivo Cansado',
+      subtitle: 'O Mestre da Paz & do Bolo na Copa',
+      description: 'Você passou no concurso em 2008 e seu único objetivo de vida é cumprir o expediente, comer um pedaço de bolo com café às 15h30 e não se meter na guerra dos comissionados. Não quer saber quem ganhou a eleição nem quem vai discursar, contanto que o vale caia no dia 1º e ninguém encha seu saco.',
+      traits: ['Só quer bater o ponto', 'Amigo do cafezinho', 'Foge de comissão', 'Paz acima de tudo'],
+      quote: 'Seja lá o que vocês forem inventar de projeto, por favor não me peçam pra abrir processo novo.'
     },
-    'populista-palanque': {
-      name: 'O Falastrão de Palanque',
-      subtitle: 'Abraço em Feira Livre & Promessas Divinas',
-      description: 'Microfone na mão, camisa amassada e saliva no ar. Você promete ponte onde não tem rio, chora lembrando da infância difícil e posta vídeo indignado no almoço. O povo te ama porque você fala o que dá na telha.',
-      traits: ['Garganta de ouro', 'Vídeos inflamados', 'Choro ensaiado', 'Promete o impossível'],
-      quote: 'Eu vim de baixo, meu povo! Eles lá em cima têm medo da nossa voz!'
+    'centrao-elegante': {
+      name: 'O Articulador do Centrão',
+      subtitle: 'O Mestre da Governabilidade & Jantar Sigiloso',
+      description: 'Voz mansa, terno sob medida e mensagens temporárias no WhatsApp. Você nunca levanta o tom de voz, chama qualquer lobby de "harmonia republicana" e sabe exatamente onde estão todos os recursos sem colocar a sua assinatura em uma única folha comprometedora.',
+      traits: ['Mensagem temporária', 'Voz aveludada', 'Jantar sigiloso', 'Sempre na base aliada'],
+      quote: 'Não se trata de interesse pessoal, nobres colegas... trata-se da estabilidade e governabilidade.'
     },
-    'parasita-baixo-clero': {
-      name: 'O Fantasma do Baixo Clero',
-      subtitle: 'Presente no Café, Invisível no Plenário',
-      description: 'Ninguém sabe exatamente o que você defende nem qual foi o último projeto que apresentou, mas seu gabinete emprega metade dos primos da sua cidade natal. Você só vota com a maioria e garante o cafezinho.',
-      traits: ['Invisibilidade tática', 'Vota com a manada', 'Bate o ponto na quarta', 'Parente nomeado'],
-      quote: 'Em briga de cacique, o cupim sobrevive comendo a madeira do plenário.'
+    'indignado-tiktok': {
+      name: 'O Deputado de TikTok',
+      subtitle: 'O Rei do Reels & da Indignação Seletiva',
+      description: 'Você chega na reunião já apontando a câmera do celular, faz cara de choque e grita que o sistema tem medo da sua coragem. Vive de corte de podcast, indireta pra bancada rival e engajamento. A verdade pouco importa, o que vale é a visualização nos primeiros três segundos.',
+      traits: ['Celular na vertical', 'Grita no microfone', 'Corte de podcast', 'Indignação lucrativa'],
+      quote: 'Vocês viram isso aqui, meu povo? Eles não querem que você saiba a verdade! Compartilhem antes que derrubem!'
     },
-    'idealista-ingenuo': {
-      name: 'O Idealista Incorruptível',
-      subtitle: 'Lê a Constituição & Chora no Gabinete',
-      description: 'Você entrou na política achando que ia reformar a galáxia com argumentos técnicos e planilhas éticas. No primeiro dia descobre que seu projeto de lei foi trocado por um asfaltamento de beco.',
-      traits: ['Puro coração', 'Iludido pela ética', 'Estuda os regimentos', 'Derrotado por 99 a 1'],
-      quote: 'Mas companheiros... o artigo 5º da Carta Magna estabelece claramente o interesse público!'
+    'coronel-interior': {
+      name: 'O Coronel Tradicional',
+      subtitle: 'O Pai dos Pobres & do Churrasco',
+      description: 'Sabe o nome da avó de cada morador do município, distribui abraço com tapinha nas costas, come pastel com caldo de cana na feira e jura de pés juntos que é amigo do povo. Não entende nada de planilha nem de lei, mas ganha qualquer eleição no carisma e na base da amizade.',
+      traits: ['Tapinha nas costas', 'Pastel na feira', 'Amigo de todo mundo', 'Promete até chuva'],
+      quote: 'Aqui quem fala é o coração, minha gente! Podem contar com o amigo de vocês pra qualquer perrengue.'
+    },
+    'faria-limer': {
+      name: 'O Tecnocrata do Excel',
+      subtitle: 'O Faria Limer da Gestão Pública',
+      description: 'Usa termos em inglês numa audiência sobre buraco na rua, veste colete térmico no calor de 32 graus e jura que um dashboard interativo vai resolver o problema da saúde. Acha que a repartição pública tem que virar uma startup unicórnio com metas de sprint quinzenais.',
+      traits: ['Colete puffer', 'Termos em inglês', 'Planilha com gráficos', 'Quer privatizar a calçada'],
+      quote: 'Precisamos pivotar o mindset da gestão e aplicar um benchmark ágil no orçamento público.'
     }
   },
   questions: [
     {
       id: 1,
-      text: 'Como você prepara o seu primeiro dia de mandato?',
+      text: 'Primeiro dia oficial do seu mandato. Qual é a sua prioridade absoluta?',
       options: [
-        { text: 'Gravo uma live indignado na porta do prédio prometendo cortar todos os privilégios.', profile: 'populista-palanque' },
-        { text: 'Marco um almoço discreto num restaurante de frutos do mar com as lideranças do orçamento.', profile: 'corrupto-elegante' },
-        { text: 'Descubro onde fica o melhor café, quem controla o cafezinho e garanto uma cadeira no fundão.', profile: 'parasita-baixo-clero' },
-        { text: 'Chego às 7h com três pastas de propostas legislativas revisadas por juristas alemães.', profile: 'idealista-ingenuo' }
+        { text: 'Descobrir onde fica a melhor cafeteira do prédio e garantir que ninguém mude o horário do meu almoço.', profile: 'servidor-cansado' },
+        { text: 'Marcar um almoço discreto num restaurante caro de frutos do mar com as lideranças da mesa.', profile: 'centrao-elegante' },
+        { text: 'Gravar um vídeo indignado na porta do plenário com cara de bravo prometendo quebrar o sistema.', profile: 'indignado-tiktok' },
+        { text: 'Mandar distribuir salgadinho e refrigerante pra quem veio da minha cidade me prestigiar na posse.', profile: 'coronel-interior' },
+        { text: 'Apresentar uma apresentação de slides em inglês com 40 gráficos propondo cortar gastos operacionais.', profile: 'faria-limer' }
       ]
     },
     {
       id: 2,
-      text: 'Um repórter investigativo te para no corredor com uma pergunta capciosa. Sua resposta:',
+      text: 'Um repórter investigativo te aborda no corredor com uma pergunta desconfortável. Você:',
       options: [
-        { text: 'Apresento 15 certidões negativas e explico a lisura do processo durante duas horas.', profile: 'idealista-ingenuo' },
-        { text: 'Olho pra câmera, aponto o dedo e digo que a imprensa comprada persegue o trabalhador.', profile: 'populista-palanque' },
-        { text: 'Sorrio cordialmente, digo que respeito o papel da imprensa e entro no elevador privativo.', profile: 'corrupto-elegante' },
-        { text: 'Coloco o celular no ouvido fingindo atender uma ligação de urgência e ando rápido.', profile: 'parasita-baixo-clero' }
+        { text: 'Falo "rapaz, eu sou só o servidor que carrega a pasta, pergunta ali pro comissionado" e saio andando.', profile: 'servidor-cansado' },
+        { text: 'Sorrio com calma, digo que respeito a liberdade de imprensa e entro no elevador privativo blindado.', profile: 'centrao-elegante' },
+        { text: 'Pego meu próprio celular, filmo o repórter e grito que a mídia tradicional está tentando me censurar.', profile: 'indignado-tiktok' },
+        { text: 'Puxo o repórter pro abraço, chamo pelo apelido e convido pra tomar um café na minha cidade natal.', profile: 'coronel-interior' },
+        { text: 'Peço pra ele checar os números no portal da transparência porque os dados são autoexplicativos.', profile: 'faria-limer' }
       ]
     },
     {
       id: 3,
-      text: 'Você tem uma verba orçamentária expressiva para destinar. O que faz?',
+      text: 'Você tem uma verba expressiva para destinar para a sua região. O que faz?',
       options: [
-        { text: 'Destino 100% para um hospital modelo sem desvio e fiscalizo os recibos pessoalmente.', profile: 'idealista-ingenuo' },
-        { text: 'Mando fazer uma praça gigante com meu nome quase disfarçado numa placa de bronze.', profile: 'populista-palanque' },
-        { text: 'Articulo um consórcio de municípios parceiros com fornecedores muito bem recomendados.', profile: 'corrupto-elegante' },
-        { text: 'Mando asfaltar a rua da fazenda do meu cunhado e digo que é rota de escoamento rural.', profile: 'parasita-baixo-clero' }
+        { text: 'Destino pro básico que já tá no sistema pra não me darem trabalho extra de prestação de contas.', profile: 'servidor-cansado' },
+        { text: 'Articulo um consórcio regional muito bem alinhado com empresas parceiras de total confiança.', profile: 'centrao-elegante' },
+        { text: 'Mando colocar outdoors gigantes com a minha cara anunciando a maior verba da história do universo.', profile: 'indignado-tiktok' },
+        { text: 'Mando asfaltar a estrada que passa na porta dos meus amigos e inauguro com churrasco comunitário.', profile: 'coronel-interior' },
+        { text: 'Lanço um aplicativo mobile com blockchain e inteligência artificial pra modernizar os semáforos.', profile: 'faria-limer' }
       ]
     },
     {
       id: 4,
-      text: 'Qual é a sua moeda de troca favorita em uma negociação de votação?',
+      text: 'Como você se comporta durante uma votação tensa e demorada no plenário?',
       options: [
-        { text: 'Cargos estratégicos em estatais e emendas de relator sem carimbo nominal.', profile: 'corrupto-elegante' },
-        { text: 'Voto no que me mandarem, contanto que ninguém tire o meu gabinete e meu carro oficial.', profile: 'parasita-baixo-clero' },
-        { text: 'Um palanque garantido no próximo ano e apoio explícito nos carros de som locais.', profile: 'populista-palanque' },
-        { text: 'Eu não negocio princípios! O bem comum não tem preço!', profile: 'idealista-ingenuo' }
+        { text: 'Fico no cantinho lendo notícia no celular, torcendo pro quórum fechar logo pra eu ir pra casa.', profile: 'servidor-cansado' },
+        { text: 'Circulo discretamente conversando no ouvido de quatro pessoas e fecho o acordo na última curva.', profile: 'centrao-elegante' },
+        { text: 'Fico berrando no microfone, gesticulando pra câmera e mandando print pro grupo de transmissão.', profile: 'indignado-tiktok' },
+        { text: 'Voto com a bancada do meu amigo presidente e aproveito pra marcar um churrasco no fim de semana.', profile: 'coronel-interior' },
+        { text: 'Abro o notebook com uma planilha cheia de macros para calcular o impacto fiscal de cada emenda.', profile: 'faria-limer' }
       ]
     },
     {
       id: 5,
-      text: 'Chegou o período eleitoral. Qual é a sua estratégia principal de campanha?',
+      text: 'Qual é o seu combustível emocional em ano de campanha eleitoral?',
       options: [
-        { text: 'Comer pastel na feira com pinga de cana, abraçar velhinhas e beijar criancinha.', profile: 'populista-palanque' },
-        { text: 'Garantir o apoio dos 12 prefeitos da região e operar as bases com tranquilidade.', profile: 'corrupto-elegante' },
-        { text: 'Pegar carona na coligação do candidato forte e torcer pelo quociente eleitoral.', profile: 'parasita-baixo-clero' },
-        { text: 'Distribuir panfletos de 10 páginas com meu plano de governo detalhado em tópicos.', profile: 'idealista-ingenuo' }
+        { text: 'O desespero de saber que os comissionados vão mudar e eu vou ter que aturar chefe novo.', profile: 'servidor-cansado' },
+        { text: 'O xadrez silencioso de garantir que, vença quem vencer, eu continuarei no centro do poder.', profile: 'centrao-elegante' },
+        { text: 'A adrenalina de ganhar 100 mil seguidores na semana prometendo prender todo mundo.', profile: 'indignado-tiktok' },
+        { text: 'O calor humano do povo na rua cantando meu jingle e balançando bandeira no caminhão.', profile: 'coronel-interior' },
+        { text: 'Apresentar meu plano de governo elaborado por consultorias internacionais com metas de produtividade.', profile: 'faria-limer' }
       ]
     },
     {
       id: 6,
-      text: 'Quando o mandato terminar, qual legado você espera deixar?',
+      text: 'Qual legado você quer deixar quando sua trajetória na vida pública terminar?',
       options: [
-        { text: 'A certeza de que lutei pelo povo e a oposição morre de inveja do meu carisma.', profile: 'populista-palanque' },
-        { text: 'Um patrimônio imobiliário blindado e o respeito das pessoas certas nos bastidores.', profile: 'corrupto-elegante' },
-        { text: 'Aposentadoria especial parlamentar e uma pensão vitalícia sem dores de cabeça.', profile: 'parasita-baixo-clero' },
-        { text: 'A consciência limpa de quem não se vendeu, mesmo voltando a pé pra casa de ônibus.', profile: 'idealista-ingenuo' }
+        { text: 'Uma folha de ponto perfeitamente preenchida e uma aposentadoria tranquila sem processo na justiça.', profile: 'servidor-cansado' },
+        { text: 'Um patrimônio respeitável, as pessoas certas na minha lista de contatos e a ficha totalmente limpa.', profile: 'centrao-elegante' },
+        { text: 'Milhões de inscritos no YouTube e a fama de ter sido o mais polêmico e destemido do país.', profile: 'indignado-tiktok' },
+        { text: 'Um viaduto, uma praça e um estádio municipal com o meu sobrenome pra família lembrar com orgulho.', profile: 'coronel-interior' },
+        { text: 'Ter trazido o modelo de governança corporativa de Wall Street para a câmara municipal.', profile: 'faria-limer' }
       ]
     }
   ]
