@@ -25,6 +25,7 @@ function normalizeStoredPost(post) {
   const titleEn = post.title_en || post.content_en || '';
   return {
     ...post,
+    content: post.content || titlePt || post.subtitle_pt || '',
     slug: post.slug || slugify(titlePt) || post.id,
     slug_en: post.slug_en || (titleEn ? slugify(titleEn) : slugify(titlePt) || post.id),
     category: post.category || post.tags_pt?.[0] || post.tags?.[0] || 'Geral'
@@ -94,15 +95,15 @@ export const blogApi = {
   getCategories: () => {
     if (isMockMode()) return Promise.resolve(mockBlogCategories);
     return api('/api/categories').then((categories) => {
-    blogApi.saveCategories(categories);
-    return categories;
-  }).catch(() => {
-    if (!import.meta.env.DEV) throw new Error('Não foi possível carregar as categorias.');
-    try {
-      const stored = JSON.parse(localStorage.getItem(CATEGORIES_KEY) || 'null');
-      if (Array.isArray(stored) && stored.length) return stored;
-    } catch (_) {}
-    return [];
+      blogApi.saveCategories(categories);
+      return categories;
+    }).catch(() => {
+      if (!import.meta.env.DEV) throw new Error('Não foi possível carregar as categorias.');
+      try {
+        const stored = JSON.parse(localStorage.getItem(CATEGORIES_KEY) || 'null');
+        if (Array.isArray(stored) && stored.length) return stored;
+      } catch (_) {}
+      return [];
     });
   },
 
@@ -227,23 +228,8 @@ export const blogApi = {
     if (!import.meta.env.DEV) throw new Error('Comentários indisponíveis no momento.');
     const posts = await blogApi.getPosts();
     const strip = (s) => s.replace(/<[^>]*>/g, '');
-    const newComment = {
-      id: `c-${Date.now()}`,
-      author: strip(author.trim()) || 'Visitante Anônimo',
-      text: strip(text.trim()),
-      createdAt: new Date().toISOString()
-    };
-
-    const updatedPosts = posts.map((p) => {
-      if (p.id === postId) {
-        return {
-          ...p,
-          comments: [...(p.comments || []), newComment]
-        };
-      }
-      return p;
-    });
-
+    const newComment = { id: `c-${Date.now()}`, author: strip(author.trim()) || 'Visitante Anônimo', text: strip(text.trim()), createdAt: new Date().toISOString() };
+    const updatedPosts = posts.map((p) => (p.id === postId ? { ...p, comments: [...(p.comments || []), newComment] } : p));
     blogApi.savePosts(updatedPosts);
     return { newComment, posts: updatedPosts };
   }

@@ -1,7 +1,7 @@
 import { json, serverError } from '../_lib/response';
 
 function parsePost(row) {
-  return { ...row, likes: Number(row.likes || 0), comments: [], commentsCount: Number(row.comments_count || 0), tags_pt: JSON.parse(row.tags_pt || '[]'), createdAt: row.created_at, readingTime: row.reading_time };
+  return { ...row, content: row.title_pt || row.subtitle_pt || '', likes: Number(row.likes || 0), comments: [], commentsCount: Number(row.comments_count || 0), tags_pt: JSON.parse(row.tags_pt || '[]'), createdAt: row.created_at, readingTime: row.reading_time };
 }
 
 export async function onRequestGet(context) {
