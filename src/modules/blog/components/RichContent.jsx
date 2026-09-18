@@ -12,13 +12,13 @@ export function RichContent({ content = '' }) {
   const lines = content.replace(/\r\n/g, '\n').trim().split('\n');
 
   const renderInline = (text) => {
-    // Parser seguro para: links [texto](url), negrito **texto**, e código `código`
+    // Parser seguro para links, negrito, itálico e código inline.
     const parts = [];
     let remaining = text;
     let key = 0;
 
     // Expressão regular para links [label](href)
-    const tokenRegex = /(\[[^\]]+\]\([^)]+\)|\*\*[^*]+\*\*|`[^`]+`)/;
+    const tokenRegex = /(\[[^\]]+\]\([^)]+\)|\*\*[^*]+\*\*|\*[^*]+\*|`[^`]+`)/;
 
     while (remaining) {
       const match = remaining.match(tokenRegex);
@@ -56,6 +56,12 @@ export function RichContent({ content = '' }) {
           <strong key={key++} className="font-bold text-zinc-900 dark:text-zinc-100">
             {token.slice(2, -2)}
           </strong>
+        );
+      } else if (token.startsWith('*') && token.endsWith('*')) {
+        parts.push(
+          <em key={key++} className="italic">
+            {token.slice(1, -1)}
+          </em>
         );
       } else if (token.startsWith('`') && token.endsWith('`')) {
         parts.push(
