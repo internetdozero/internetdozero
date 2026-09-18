@@ -81,7 +81,7 @@ export function CronPanel() {
       {logs.map((log) => <div key={log.id} className="flex items-center gap-3 rounded-xl border border-transparent p-2.5 transition-colors hover:border-zinc-200 hover:bg-zinc-50 dark:hover:border-zinc-800 dark:hover:bg-zinc-950">
         {log.status === 'success' ? <CheckCircle2 className="h-4 w-4 shrink-0 text-emerald-500" /> : log.status === 'error' ? <XCircle className="h-4 w-4 shrink-0 text-red-500" /> : <Clock className="h-4 w-4 shrink-0 text-amber-500" />}
         <div className="min-w-0 flex-1">
-          <p className="truncate text-sm font-medium text-zinc-700 dark:text-zinc-300">{log.topic || 'Sem tema'}</p>
+          <p className="truncate text-sm font-medium text-zinc-700 dark:text-zinc-300">{log.topic || 'Execução automática'}</p>
           <p className="mt-0.5 text-[11px] text-zinc-400">{formatDate(log.ran_at)} · {log.duration_ms ? `${(log.duration_ms / 1000).toFixed(1)}s` : '—'}{log.slug ? ` · ${log.slug}` : ''}</p>
           {log.error_message && <p className="mt-1 truncate text-[11px] text-red-400">{log.error_message}</p>}
         </div>

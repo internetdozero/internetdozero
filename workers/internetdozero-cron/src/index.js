@@ -21,8 +21,10 @@ async function runPipeline(env, requestedTopic = '', options = {}) {
       throw new Error('No topics discovered');
     }
 
+    const candidateTopic = topics[0];
     topic = await deduplicateTopics(env.DB, topics);
     if (!topic) {
+      topic = candidateTopic;
       console.log('All topics were duplicates. Skipping execution.');
       status = 'skipped';
     } else {
