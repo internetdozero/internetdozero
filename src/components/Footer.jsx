@@ -6,11 +6,16 @@ function TikTokIcon({ className }) {
   return <svg aria-hidden="true" className={className} viewBox="0 0 24 24" fill="currentColor"><path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.37-3.39-3.46-5.73-.11-1.52.31-3.04 1.14-4.31 1.19-1.84 3.41-3.04 5.6-3.16.01 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 3.02 3.47 2.87 1.03-.02 2.04-.6 2.58-1.48.18-.31.4-.63.41-.99.1-1.76.06-3.51.07-5.27.01-3.96-.01-7.91.02-11.86z" /></svg>;
 }
 
+function BlueskyIcon({ className }) {
+  return <svg aria-hidden="true" className={className} viewBox="0 0 568 501" fill="currentColor"><path d="M123.12 35.78C197.88 -2.48 262.9 33.6 284 80.84C305.1 33.6 370.12 -2.48 444.88 35.78C496.88 62.38 568 126.96 568 245.92C568 269.86 564.08 344.86 512.44 388.94C455.56 437.5 379.88 444.74 344.88 442.22C324.96 440.8 300.94 430.34 284 416.74C267.06 430.34 243.04 440.8 223.12 442.22C188.12 444.74 112.44 437.5 55.56 388.94C3.92 344.86 0 269.86 0 245.92C0 126.96 71.12 62.38 123.12 35.78Z" /></svg>;
+}
+
 function XIcon({ className }) {
   return <svg aria-hidden="true" className={className} viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817-5.964 6.817H1.684l7.73-8.835L1.254 2.25H8.08l4.713 6.231 5.45-6.231Zm-1.161 17.52h1.833L7.084 4.126H5.117L17.083 19.77Z" /></svg>;
 }
 
 const socialLinks = [
+  { label: 'Bluesky', href: 'https://bsky.app/profile/internetdozero.bsky.social', Icon: BlueskyIcon },
   { label: 'GitHub', href: 'https://github.com/internetdozero', Icon: Github },
   { label: 'YouTube', href: 'https://www.youtube.com/@internetdozero', Icon: Youtube },
   { label: 'TikTok', href: 'https://www.tiktok.com/@internetdozero', Icon: TikTokIcon },
@@ -27,7 +32,7 @@ export const Footer = React.memo(function Footer({ onOpenArsenal, onGoHome, lang
         <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-8 pb-8 border-b border-stone-200 dark:border-stone-800">
           <div className="space-y-2">
             <div className="flex items-baseline gap-2">
-              <span className="text-[11px] text-stone-400" aria-hidden="true">0x</span>
+              <span className="flex h-6 w-6 items-center justify-center rounded-full bg-[var(--icon)] text-[10px] font-semibold text-[#2a1f0e]" aria-hidden="true">0x</span>
               <span className="font-serif text-base font-semibold text-stone-900 dark:text-stone-100">
                 Internet do Zero
               </span>
