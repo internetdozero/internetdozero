@@ -47,7 +47,13 @@ export async function generateArticle(env, topic) {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          Authorization: 'Bearer ' + env.LOCAL_AI_TOKEN
+          Authorization: 'Bearer ' + env.LOCAL_AI_TOKEN,
+          ...(env.LOCAL_AI_ACCESS_CLIENT_ID && env.LOCAL_AI_ACCESS_CLIENT_SECRET
+            ? {
+                'CF-Access-Client-Id': env.LOCAL_AI_ACCESS_CLIENT_ID,
+                'CF-Access-Client-Secret': env.LOCAL_AI_ACCESS_CLIENT_SECRET
+              }
+            : {})
         },
         body: JSON.stringify({
           prompt,
