@@ -69,23 +69,83 @@ async function fallbackToGoogleTrends() {
     if (!response.ok) throw new Error('Failed to fetch Google Trends');
     const xml = await response.text();
     
-    // Minimal regex parsing for XML RSS titles
-    const itemRegex = /<item>[\s\S]*?<title><!\[CDATA\[(.*?)\]\]><\/title>[\s\S]*?<\/item>/g;
-    const topics = [];
-    let match;
-    let count = 0;
-    while ((match = itemRegex.exec(xml)) !== null && count < 3) {
-      topics.push({
-        title: match[1],
-        summary: `Tópico em alta no Brasil: ${match[1]}`,
-        category: 'Cultura Digital',
-        suggestedTags: [match[1].toLowerCase().replace(/\s+/g, '-')]
-      });
-      count++;
-    }
-    return topics;
+    const topics = extractRssTopics(xml);
+    if (topics.length) return topics;
+    throw new Error('Google Trends returned no usable topics');
   } catch (err) {
-    console.error('Fallback failed:', err);
-    return [];
+    console.error('Google Trends fallback failed:', err);
+    return await fallbackToPublicFeeds();
   }
+}
+
+function extractRssTopics(xml) {
+  const topics = [];
+  const itemRegex = /<item\b[^>]*>([\s\S]*?)<\/item>/gi;
+  let match;
+
+  while ((match = itemRegex.exec(xml)) !== null && topics.length < 3) {
+    const titleMatch = match[1].match(/<title\b[^>]*>([\s\S]*?)<\/title>/i);
+    const title = decodeXml(titleMatch?.[1]);
+    if (!title) continue;
+
+      topics.push({
+        title,
+        summary: `Tópico em alta no Brasil: ${title}`,
+        category: 'Cultura Digital',
+        suggestedTags: [title.toLowerCase().replace(/\s+/g, '-')]
+      });
+  }
+
+  return topics;
+}
+
+function decodeXml(value) {
+  if (!value) return '';
+  return value
+    .replace(/<!\[CDATA\[([\s\S]*?)\]\]>/g, '$1')
+    .replace(/&amp;/g, '&')
+    .replace(/&lt;/g, '<')
+    .replace(/&gt;/g, '>')
+    .replace(/&quot;/g, '"')
+    .replace(/&#39;|&apos;/g, "'")
+    .replace(/\s+/g, ' ')
+    .trim();
+}
+
+async function fallbackToPublicFeeds() {
+  const feeds = [
+    {
+      url: 'https://hn.algolia.com/api/v1/search?tags=front_page&hitsPerPage=5',
+      parse: data => (data.hits || []).map(item => ({
+        title: item.title,
+        summary: item.story_text || `Discussão em alta no Hacker News: ${item.title}`,
+        category: 'Tecnologia',
+        suggestedTags: ['tecnologia', 'internet']
+      }))
+    },
+    {
+      url: 'https://dev.to/api/articles?top=1&per_page=5',
+      parse: data => (Array.isArray(data) ? data : []).map(item => ({
+        title: item.title,
+        summary: `Artigo em alta na comunidade de desenvolvimento: ${item.title}`,
+        category: 'Tecnologia',
+        suggestedTags: item.tag_list || ['programação', 'internet']
+      }))
+    }
+  ];
+
+  for (const feed of feeds) {
+    try {
+      const response = await fetch(feed.url, { signal: AbortSignal.timeout(15000) });
+      if (!response.ok) continue;
+      const topics = feed.parse(await response.json())
+        .filter(topic => topic.title)
+        .slice(0, 3);
+      if (topics.length) return topics;
+    } catch (err) {
+      console.error(`Public feed fallback failed for ${feed.url}:`, err);
+    }
+  }
+
+  return [];
 }
