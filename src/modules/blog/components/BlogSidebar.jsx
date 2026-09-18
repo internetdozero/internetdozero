@@ -29,7 +29,7 @@ export function BlogSidebar({
           onClick={() => setSidebarTab('index')}
           className={`flex-1 py-1.5 px-2 rounded-lg flex items-center justify-center gap-1.5 transition-all cursor-pointer ${
             sidebarTab === 'index'
-              ? 'bg-white dark:bg-zinc-800 text-emerald-600 dark:text-emerald-400 font-bold shadow-xs'
+              ? 'bg-white dark:bg-zinc-800 text-stone-600 dark:text-stone-400 font-bold shadow-xs'
               : 'text-zinc-500 hover:text-zinc-800 dark:hover:text-zinc-300'
           }`}
         >
@@ -41,7 +41,7 @@ export function BlogSidebar({
           onClick={() => setSidebarTab('thoughts')}
           className={`flex-1 py-1.5 px-2 rounded-lg flex items-center justify-center gap-1.5 transition-all cursor-pointer ${
             sidebarTab === 'thoughts'
-              ? 'bg-white dark:bg-zinc-800 text-emerald-600 dark:text-emerald-400 font-bold shadow-xs'
+              ? 'bg-white dark:bg-zinc-800 text-stone-600 dark:text-stone-400 font-bold shadow-xs'
               : 'text-zinc-500 hover:text-zinc-800 dark:hover:text-zinc-300'
           }`}
         >
@@ -53,7 +53,7 @@ export function BlogSidebar({
           onClick={() => setSidebarTab('topics')}
           className={`flex-1 py-1.5 px-2 rounded-lg flex items-center justify-center gap-1.5 transition-all cursor-pointer ${
             sidebarTab === 'topics'
-              ? 'bg-white dark:bg-zinc-800 text-emerald-600 dark:text-emerald-400 font-bold shadow-xs'
+              ? 'bg-white dark:bg-zinc-800 text-stone-600 dark:text-stone-400 font-bold shadow-xs'
               : 'text-zinc-500 hover:text-zinc-800 dark:hover:text-zinc-300'
           }`}
         >

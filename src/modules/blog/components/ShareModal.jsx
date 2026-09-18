@@ -62,7 +62,7 @@ export function ShareModal({ isOpen, onClose, post, isEn = false }) {
         {/* Header do Modal */}
         <div className="flex items-center justify-between px-5 py-4 border-b border-zinc-200 dark:border-zinc-800">
           <div className="flex items-center gap-2">
-            <Share2 className="w-4 h-4 text-emerald-500" />
+            <Share2 className="w-4 h-4 text-stone-500" />
             <h3 className="font-mono font-bold text-sm text-zinc-900 dark:text-white uppercase tracking-wider">
               {isEn ? 'Share Article' : 'Compartilhar Publicação'}
             </h3>
@@ -79,7 +79,7 @@ export function ShareModal({ isOpen, onClose, post, isEn = false }) {
           {/* Card Preview Estilizado */}
           <div className="p-4 rounded-xl bg-zinc-50 dark:bg-zinc-950 border border-zinc-200/80 dark:border-zinc-800/80 space-y-2">
             <div className="flex items-center justify-between text-[10px] font-mono text-zinc-400">
-              <span className="text-emerald-600 dark:text-emerald-400 font-bold">0x // Internet do Zero</span>
+              <span className="text-stone-600 dark:text-stone-400 font-bold">0x // Internet do Zero</span>
               <span>{getPostReadingTime(post)}</span>
             </div>
             <h4 className="font-mono font-bold text-sm text-zinc-900 dark:text-zinc-100 line-clamp-2">
@@ -117,7 +117,7 @@ export function ShareModal({ isOpen, onClose, post, isEn = false }) {
                   onClick={handleNativeShare}
                   className="flex items-center justify-center gap-2 px-3 py-2.5 rounded-xl font-mono text-xs font-medium bg-zinc-100 dark:bg-zinc-800 text-zinc-800 dark:text-zinc-200 hover:bg-zinc-200 dark:hover:bg-zinc-700 transition-all cursor-pointer col-span-2 sm:col-span-1"
                 >
-                  <Smartphone className="w-3.5 h-3.5 text-emerald-500" />
+                  <Smartphone className="w-3.5 h-3.5 text-stone-500" />
                   <span>{isEn ? 'More Apps' : 'Mais Apps'}</span>
                 </button>
               )}
@@ -140,8 +140,8 @@ export function ShareModal({ isOpen, onClose, post, isEn = false }) {
                 onClick={handleCopy}
                 className={`inline-flex items-center gap-1.5 px-4 py-2 rounded-xl font-mono font-bold text-xs transition-all cursor-pointer shadow-xs ${
                   copied
-                    ? 'bg-emerald-600 text-white'
-                    : 'bg-emerald-600 hover:bg-emerald-500 text-white'
+                    ? 'bg-stone-600 text-white'
+                    : 'bg-stone-600 hover:bg-stone-500 text-white'
                 }`}
               >
                 {copied ? <Check className="w-3.5 h-3.5" /> : <Copy className="w-3.5 h-3.5" />}

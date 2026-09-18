@@ -40,7 +40,7 @@ export function ArticleIndexPanel({
       {/* Header do Painel */}
       <div className="pb-3 mb-3 border-b border-zinc-200 dark:border-zinc-800 flex items-center justify-between">
         <div className="flex items-center gap-2">
-          <BookOpen className="w-4 h-4 text-emerald-500" />
+          <BookOpen className="w-4 h-4 text-stone-500" />
           <h3 className="font-bold uppercase tracking-wider text-zinc-900 dark:text-zinc-100">
             {isEn ? 'Article Index' : 'Índice de Artigos'}
           </h3>
@@ -67,7 +67,7 @@ export function ArticleIndexPanel({
           value={indexSearch}
           onChange={(e) => setIndexSearch(e.target.value)}
           placeholder={isEn ? "Filter index..." : "Filtrar índice..."}
-          className="w-full pl-8 pr-3 py-1.5 rounded-lg bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 text-xs placeholder-zinc-500 focus:outline-none focus:border-emerald-500 font-mono transition-colors"
+          className="w-full pl-8 pr-3 py-1.5 rounded-lg bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 text-xs placeholder-zinc-500 focus:outline-none focus:border-stone-500 font-mono transition-colors"
         />
       </div>
 
@@ -81,7 +81,7 @@ export function ArticleIndexPanel({
           Object.entries(groupedArticles).map(([category, items]) => (
             <div key={category} className="space-y-1.5">
               <div className="text-[10px] uppercase font-bold text-zinc-400 dark:text-zinc-500 tracking-wider flex items-center gap-1.5 px-1">
-                <Bookmark className="w-3 h-3 text-emerald-500/80" />
+                <Bookmark className="w-3 h-3 text-stone-500/80" />
                 <span>{category}</span>
                 <span className="opacity-50">({items.length})</span>
               </div>
@@ -100,7 +100,7 @@ export function ArticleIndexPanel({
                       }}
                       className={`w-full text-left p-2 rounded-lg transition-all group flex flex-col gap-1 cursor-pointer border ${
                         isSelected
-                          ? 'bg-emerald-500/10 dark:bg-emerald-500/15 border-emerald-500/40 text-emerald-700 dark:text-emerald-300 font-medium'
+                          ? 'bg-stone-500/10 dark:bg-stone-500/15 border-stone-500/40 text-stone-700 dark:text-stone-300 font-medium'
                           : 'bg-white/40 dark:bg-zinc-900/40 border-transparent hover:border-zinc-200 dark:hover:border-zinc-800 text-zinc-700 dark:text-zinc-300 hover:text-zinc-950 dark:hover:text-white'
                       }`}
                     >

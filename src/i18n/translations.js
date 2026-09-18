@@ -155,7 +155,7 @@ export const translations = {
       themeAction: 'Change appearance',
       langAction: 'Change language',
       openBlog: 'Open texts',
-      openArsenal: 'Open console',
+      openArsenal: 'Ask the index',
       goHome: 'Back to the start',
       escToClose: 'ESC to close',
       selectItem: 'Use ↑ ↓ to move'

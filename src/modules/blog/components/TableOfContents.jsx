@@ -23,7 +23,7 @@ export function TableOfContents({ sections = [], onBack, activeSectionId, onSele
         <div className="pt-2 border-t border-zinc-200 dark:border-zinc-800/80">
           <button
             onClick={() => setIsOpen(!isOpen)}
-            className="w-full flex items-center justify-between font-bold text-zinc-800 dark:text-zinc-200 hover:text-emerald-500 transition-colors py-1 cursor-pointer"
+            className="w-full flex items-center justify-between font-bold text-zinc-800 dark:text-zinc-200 hover:text-stone-500 transition-colors py-1 cursor-pointer"
           >
             <span className="uppercase tracking-wider text-[11px]">{t.blog.tableOfContents}</span>
             {isOpen ? <ChevronUp className="w-3.5 h-3.5" /> : <ChevronDown className="w-3.5 h-3.5" />}
@@ -39,7 +39,7 @@ export function TableOfContents({ sections = [], onBack, activeSectionId, onSele
                       onClick={() => onSelectSection(sec.id)}
                       className={`text-left transition-all cursor-pointer block leading-snug py-0.5 ${
                         isActive
-                          ? 'text-emerald-600 dark:text-emerald-400 font-semibold translate-x-0.5'
+                          ? 'text-stone-600 dark:text-stone-400 font-semibold translate-x-0.5'
                           : 'text-zinc-600 dark:text-zinc-400 hover:text-zinc-950 dark:hover:text-zinc-200'
                       }`}
                     >

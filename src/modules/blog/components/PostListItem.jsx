@@ -19,19 +19,19 @@ export function PostListItem({ post, isLiked, onToggleLike, onSelect, lang = 'pt
   return (
     <article
       onClick={() => onSelect(post)}
-      className="group py-6 border-b border-zinc-200 dark:border-zinc-800/80 hover:border-emerald-500/40 transition-colors cursor-pointer"
+      className="group py-6 border-b border-zinc-200 dark:border-zinc-800/80 hover:border-stone-500/40 transition-colors cursor-pointer"
     >
       <div className="flex flex-col gap-4 sm:flex-row">
         {cover && <img src={cover} alt={title} loading="lazy" decoding="async" width="1200" height="896" className="aspect-[16/9] w-full shrink-0 rounded-xl object-cover sm:w-40" />}
         <div className="min-w-0 flex-1">
       <div className="flex flex-col sm:flex-row sm:items-baseline justify-between gap-1 mb-2">
         <div className="flex items-center gap-2">
-          <span className="inline-flex items-center rounded-full border border-emerald-500/30 bg-emerald-500/10 px-2 py-0.5 text-[10px] font-mono font-bold uppercase tracking-wide text-emerald-600 dark:text-emerald-400">
+          <span className="inline-flex items-center rounded-full border border-stone-500/30 bg-stone-500/10 px-2 py-0.5 text-[10px] font-mono font-bold uppercase tracking-wide text-stone-600 dark:text-stone-400">
             {isArticle ? (isEn ? 'ARTICLE' : 'ARTIGO') : (isEn ? 'STORY' : 'HISTÓRIA')}
           </span>
           {post.bilingual && (
             <span className="inline-flex items-center gap-1 text-[10px] font-mono text-zinc-500">
-              <Globe className="w-3 h-3 text-emerald-500" />
+              <Globe className="w-3 h-3 text-stone-500" />
               <span>PT/EN</span>
             </span>
           )}
@@ -47,7 +47,7 @@ export function PostListItem({ post, isLiked, onToggleLike, onSelect, lang = 'pt
         </div>
       </div>
 
-      <h3 className="text-lg sm:text-xl font-bold font-mono text-zinc-900 dark:text-white group-hover:text-emerald-600 dark:group-hover:text-emerald-400 transition-colors leading-snug mb-2">
+      <h3 className="text-lg sm:text-xl font-serif font-semibold text-zinc-900 dark:text-white group-hover:text-stone-600 dark:group-hover:text-stone-400 transition-colors leading-snug mb-2">
         {title}
       </h3>
 
@@ -88,7 +88,7 @@ export function PostListItem({ post, isLiked, onToggleLike, onSelect, lang = 'pt
             <span>{post.commentsCount ?? post.comments?.length ?? 0}</span>
           </span>
 
-          <ArrowRight className="w-4 h-4 text-emerald-500 opacity-0 group-hover:opacity-100 group-hover:translate-x-1 transition-all" />
+          <ArrowRight className="w-4 h-4 text-stone-500 opacity-0 group-hover:opacity-100 group-hover:translate-x-1 transition-all" />
         </div>
       </div>
         </div>

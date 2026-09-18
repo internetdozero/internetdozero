@@ -21,15 +21,15 @@ export function FeaturedPost({ post, isLiked, onToggleLike, onSelect, lang = 'pt
   return (
     <article
       onClick={() => onSelect(post)}
-      className="group relative p-6 sm:p-8 rounded-3xl bg-gradient-to-br from-white via-zinc-50 to-zinc-100 dark:from-zinc-900/90 dark:via-zinc-900/60 dark:to-zinc-950 border border-zinc-200 dark:border-zinc-800 hover:border-emerald-500/50 transition-all duration-300 shadow-xs hover:shadow-xl cursor-pointer overflow-hidden mb-10"
+      className="group relative p-6 sm:p-8 rounded-3xl bg-gradient-to-br from-white via-zinc-50 to-zinc-100 dark:from-zinc-900/90 dark:via-zinc-900/60 dark:to-zinc-950 border border-zinc-200 dark:border-zinc-800 hover:border-stone-500/50 transition-all duration-300 shadow-xs hover:shadow-xl cursor-pointer overflow-hidden mb-10"
     >
       {cover && <img src={cover} alt={post.image_alt || title} decoding="async" width="1200" height="896" className="mb-6 h-[clamp(220px,32vw,420px)] w-full rounded-2xl object-cover" />}
-      <div className="absolute top-0 right-0 w-64 h-64 bg-emerald-500/5 group-hover:bg-emerald-500/10 rounded-full blur-3xl transition-all pointer-events-none" />
+      <div className="absolute top-0 right-0 w-64 h-64 bg-stone-500/5 group-hover:bg-stone-500/10 rounded-full blur-3xl transition-all pointer-events-none" />
 
       {/* Header bar */}
       <div className="flex flex-wrap items-center justify-between gap-2 mb-4">
         <div className="flex items-center gap-2">
-          <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-mono font-bold bg-emerald-500 text-white dark:text-zinc-950 shadow-xs">
+          <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-mono font-bold bg-stone-500 text-white dark:text-zinc-950 shadow-xs">
             <Sparkles className="w-3.5 h-3.5" />
             <span>{isEn ? 'Featured' : 'Destaque'}</span>
           </span>
@@ -46,7 +46,7 @@ export function FeaturedPost({ post, isLiked, onToggleLike, onSelect, lang = 'pt
       </div>
 
       {/* Title & Subtitle */}
-      <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold font-mono text-zinc-900 dark:text-white group-hover:text-emerald-600 dark:group-hover:text-emerald-400 transition-colors leading-tight mb-3">
+      <h2 className="text-2xl sm:text-3xl md:text-4xl font-serif font-semibold text-zinc-900 dark:text-white group-hover:text-stone-600 dark:group-hover:text-stone-400 transition-colors leading-tight mb-3">
         {title}
       </h2>
 
@@ -88,7 +88,7 @@ export function FeaturedPost({ post, isLiked, onToggleLike, onSelect, lang = 'pt
             <span>{post.commentsCount ?? post.comments?.length ?? 0}</span>
           </span>
 
-          <span className="inline-flex items-center gap-1 font-bold text-emerald-600 dark:text-emerald-400 group-hover:translate-x-1 transition-transform">
+          <span className="inline-flex items-center gap-1 font-bold text-stone-600 dark:text-stone-400 group-hover:translate-x-1 transition-transform">
             <span>{isEn ? 'Read Article' : 'Ler Artigo'}</span>
             <ArrowRight className="w-4 h-4" />
           </span>

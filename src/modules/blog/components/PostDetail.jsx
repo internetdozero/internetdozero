@@ -95,7 +95,7 @@ export function PostDetail({ post, isLiked, onToggleLike, onAddComment, postLang
               <span className="text-[11px]">{t.blog.share}:</span>
               <button
                 onClick={() => setIsShareOpen(true)}
-                className="p-1.5 rounded-lg bg-zinc-100 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 text-zinc-600 dark:text-zinc-300 hover:border-emerald-500/50 hover:text-emerald-500 transition-colors cursor-pointer"
+                className="p-1.5 rounded-lg bg-zinc-100 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 text-zinc-600 dark:text-zinc-300 hover:border-stone-500/50 hover:text-stone-500 transition-colors cursor-pointer"
                 title={t.blog.share}
               >
                 <Share2 className="w-3.5 h-3.5" />
@@ -104,7 +104,7 @@ export function PostDetail({ post, isLiked, onToggleLike, onAddComment, postLang
           </div>
 
           <div className="pt-6 pb-6">
-            <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold font-mono text-zinc-900 dark:text-white tracking-tight leading-tight mb-4">
+            <h1 className="text-3xl sm:text-4xl lg:text-5xl font-serif font-semibold text-zinc-900 dark:text-white tracking-tight leading-tight mb-4">
               {title}
             </h1>
 
@@ -120,7 +120,7 @@ export function PostDetail({ post, isLiked, onToggleLike, onAddComment, postLang
               <span>{t.blog.authorLabel} @{post.author || 'eduardo'}</span>
               <span>/</span>
               <span className="flex items-center gap-1">
-                <Clock className="w-3 h-3 text-emerald-500" />
+                <Clock className="w-3 h-3 text-stone-500" />
                 {getPostReadingTime(post)} {t.blog.readingTime}
               </span>
             </div>
@@ -145,12 +145,12 @@ export function PostDetail({ post, isLiked, onToggleLike, onAddComment, postLang
               {relatedPosts.map((related) => {
                 const relatedCover = getArticleCover(related);
                 const relatedTags = (isEn && related.tags_en) ? related.tags_en : (related.tags_pt || related.tags || []);
-                return <button key={related.id} type="button" onClick={() => onSelectPost?.(related)} className="group flex min-h-[112px] gap-3 rounded-xl border border-zinc-200 p-3 text-left transition-colors hover:border-emerald-500/50 dark:border-zinc-800">
+                return <button key={related.id} type="button" onClick={() => onSelectPost?.(related)} className="group flex min-h-[112px] gap-3 rounded-xl border border-zinc-200 p-3 text-left transition-colors hover:border-stone-500/50 dark:border-zinc-800">
                   {relatedCover && <img src={relatedCover} alt="" loading="lazy" decoding="async" width="72" height="56" className="h-14 w-[72px] shrink-0 rounded-lg object-cover" />}
                   <span className="flex min-w-0 flex-1 flex-col">
                     {relatedTags[0] && <span className="mb-1 w-fit max-w-full truncate rounded-full bg-zinc-100 px-2 py-0.5 text-[10px] font-mono text-zinc-500 dark:bg-zinc-900 dark:text-zinc-400">{relatedTags[0]}</span>}
-                    <span className="line-clamp-2 text-sm font-bold text-zinc-800 group-hover:text-emerald-500 dark:text-zinc-200">{isEn && related.title_en ? related.title_en : related.title_pt}</span>
-                    <span className="mt-auto inline-flex items-center gap-1 pt-2 text-xs font-mono text-emerald-500">{isEn ? 'Read' : 'Ler'} <ArrowRight className="h-3 w-3 transition-transform group-hover:translate-x-1" /></span>
+                    <span className="line-clamp-2 text-sm font-bold text-zinc-800 group-hover:text-stone-500 dark:text-zinc-200">{isEn && related.title_en ? related.title_en : related.title_pt}</span>
+                    <span className="mt-auto inline-flex items-center gap-1 pt-2 text-xs font-mono text-stone-500">{isEn ? 'Read' : 'Ler'} <ArrowRight className="h-3 w-3 transition-transform group-hover:translate-x-1" /></span>
                   </span>
                 </button>;
               })}
@@ -165,9 +165,9 @@ export function PostDetail({ post, isLiked, onToggleLike, onAddComment, postLang
 
             <button
               onClick={() => setIsShareOpen(true)}
-              className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-zinc-100 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 text-zinc-600 dark:text-zinc-400 hover:border-emerald-500/40 hover:text-emerald-500 transition-all cursor-pointer"
+              className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-zinc-100 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 text-zinc-600 dark:text-zinc-400 hover:border-stone-500/40 hover:text-stone-500 transition-all cursor-pointer"
             >
-              <Share2 className="w-4 h-4 text-emerald-500" />
+              <Share2 className="w-4 h-4 text-stone-500" />
               <span>{t.blog.share}</span>
             </button>
           </div>

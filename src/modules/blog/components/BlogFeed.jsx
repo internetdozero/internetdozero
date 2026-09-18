@@ -23,7 +23,7 @@ export function BlogFeed({
           {activeTab === 'thought' ? t.blog.notesTitle : t.blog.feedTitle}
         </h2>
         {activeTag && (
-          <span className="text-xs font-mono text-emerald-600 dark:text-emerald-400">
+          <span className="text-xs font-mono text-stone-600 dark:text-stone-400">
             {isEn ? 'Filter: #' : 'Filtro: #'}{activeTag}
           </span>
         )}

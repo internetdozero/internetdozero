@@ -18,13 +18,13 @@ export function BlogCategoriesView({ categories = [], posts = [], onBack, onSele
 
   return (
     <div className="mx-auto max-w-[1600px] px-4 py-10 sm:px-6 lg:px-10">
-      <button type="button" onClick={onBack} className="mb-10 inline-flex items-center gap-2 text-xs font-mono text-zinc-500 hover:text-emerald-500 hover:underline">
+      <button type="button" onClick={onBack} className="mb-10 inline-flex items-center gap-2 text-xs font-mono text-zinc-500 hover:text-stone-500 hover:underline">
         <ArrowLeft className="h-3.5 w-3.5" />
         {isEn ? 'Back to texts' : 'Voltar aos textos'}
       </button>
 
       <header className="max-w-2xl border-b border-zinc-200 pb-8 dark:border-zinc-800">
-        <p className="mb-3 inline-flex items-center gap-2 font-mono text-xs font-semibold uppercase tracking-widest text-emerald-500">
+        <p className="mb-3 inline-flex items-center gap-2 font-mono text-xs font-semibold uppercase tracking-widest text-stone-500">
           <FolderOpen className="h-3.5 w-3.5" />
           {isEn ? 'Browse by topic' : 'Navegar por assunto'}
         </p>
@@ -41,10 +41,10 @@ export function BlogCategoriesView({ categories = [], posts = [], onBack, onSele
           const details = categoryDetails[category] || { icon: FolderOpen, pt: 'Textos reunidos sobre este assunto.', en: 'Texts collected around this topic.' };
           const Icon = details.icon;
           return (
-          <button key={category} type="button" onClick={() => onSelectCategory(category)} className="group flex min-h-40 flex-col justify-between rounded-2xl border border-zinc-200 bg-white p-5 text-left transition-colors hover:border-emerald-500/60 dark:border-zinc-800 dark:bg-zinc-900/60">
-              <span className="flex h-9 w-9 items-center justify-center rounded-xl border border-emerald-500/20 bg-emerald-500/10 text-emerald-500"><Icon className="h-4 w-4" /></span>
+          <button key={category} type="button" onClick={() => onSelectCategory(category)} className="group flex min-h-40 flex-col justify-between rounded-2xl border border-zinc-200 bg-white p-5 text-left transition-colors hover:border-stone-500/60 dark:border-zinc-800 dark:bg-zinc-900/60">
+              <span className="flex h-9 w-9 items-center justify-center rounded-xl border border-stone-500/20 bg-stone-500/10 text-stone-500"><Icon className="h-4 w-4" /></span>
               <span>
-                <span className="block font-mono text-lg font-bold text-zinc-900 group-hover:text-emerald-500 dark:text-zinc-100">{category}</span>
+                <span className="block font-serif text-lg font-semibold text-zinc-900 group-hover:text-stone-500 dark:text-zinc-100">{category}</span>
                 <span className="mt-1 block text-xs leading-relaxed text-zinc-500 dark:text-zinc-400">{isEn ? details.en : details.pt}</span>
               </span>
             <span className="flex items-center justify-between text-xs text-zinc-500">

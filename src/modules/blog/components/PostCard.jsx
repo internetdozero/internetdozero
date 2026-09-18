@@ -12,12 +12,12 @@ export function PostCard({ post, isLiked, onToggleLike, onSelect, lang = 'pt' })
   return (
     <article
       onClick={() => onSelect(post)}
-      className="group p-6 rounded-2xl bg-white dark:bg-zinc-900/60 border border-zinc-200 dark:border-zinc-800/80 hover:border-emerald-500/50 transition-all shadow-xs cursor-pointer flex flex-col justify-between"
+      className="group p-6 rounded-2xl bg-white dark:bg-zinc-900/60 border border-zinc-200 dark:border-zinc-800/80 hover:border-stone-500/50 transition-all shadow-xs cursor-pointer flex flex-col justify-between"
     >
       <div>
         <div className="flex flex-wrap items-center justify-between gap-2 mb-3">
           <div className="flex items-center gap-2">
-            <span className="px-2.5 py-0.5 rounded-full text-xs font-mono font-medium bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20">
+            <span className="px-2.5 py-0.5 rounded-full text-xs font-mono font-medium bg-stone-500/10 text-stone-600 dark:text-stone-400 border border-stone-500/20">
               {isArticle ? (isEn ? '📰 Article' : '📰 Artigo') : (isEn ? '📖 Story' : '📖 História')}
             </span>
           </div>
@@ -28,7 +28,7 @@ export function PostCard({ post, isLiked, onToggleLike, onSelect, lang = 'pt' })
           </div>
         </div>
 
-        <h3 className="text-lg sm:text-xl font-bold font-mono text-zinc-900 dark:text-white group-hover:text-emerald-600 dark:group-hover:text-emerald-400 transition-colors mb-2">
+        <h3 className="text-lg sm:text-xl font-serif font-semibold text-zinc-900 dark:text-white group-hover:text-stone-600 dark:group-hover:text-stone-400 transition-colors mb-2">
           {title}
         </h3>
 
@@ -74,7 +74,7 @@ export function PostCard({ post, isLiked, onToggleLike, onSelect, lang = 'pt' })
           </span>
         </div>
 
-        <span className="text-emerald-600 dark:text-emerald-400 font-bold group-hover:translate-x-1 transition-transform inline-flex items-center gap-1">
+        <span className="text-stone-600 dark:text-stone-400 font-bold group-hover:translate-x-1 transition-transform inline-flex items-center gap-1">
           <span>{isEn ? 'Read' : 'Ler'}</span>
           <ArrowRight className="w-3.5 h-3.5" />
         </span>

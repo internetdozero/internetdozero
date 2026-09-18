@@ -43,7 +43,7 @@ export function RichContent({ content = '' }) {
               href={href}
               target={href.startsWith('http') ? '_blank' : undefined}
               rel="noopener noreferrer"
-              className="text-emerald-500 hover:text-emerald-400 no-underline font-medium transition-colors cursor-pointer"
+              className="text-stone-500 hover:text-stone-400 no-underline font-medium transition-colors cursor-pointer"
             >
               {label}
             </a>
@@ -65,7 +65,7 @@ export function RichContent({ content = '' }) {
         );
       } else if (token.startsWith('`') && token.endsWith('`')) {
         parts.push(
-          <code key={key++} className="px-1.5 py-0.5 rounded bg-zinc-100 dark:bg-zinc-800 text-emerald-600 dark:text-emerald-400 font-mono text-xs">
+          <code key={key++} className="px-1.5 py-0.5 rounded bg-zinc-100 dark:bg-zinc-800 text-stone-600 dark:text-stone-400 font-mono text-xs">
             {token.slice(1, -1)}
           </code>
         );
@@ -102,7 +102,7 @@ export function RichContent({ content = '' }) {
     {blocks.map((block, idx) => {
       if (block.type === 'p') return <p key={idx}>{renderInline(block.text)}</p>;
       const List = block.type === 'ol' ? 'ol' : 'ul';
-      return <List key={idx} className={`${block.type === 'ol' ? 'list-decimal' : 'list-disc'} space-y-3 pl-6 marker:text-emerald-500`}>
+      return <List key={idx} className={`${block.type === 'ol' ? 'list-decimal' : 'list-disc'} space-y-3 pl-6 marker:text-stone-500`}>
         {block.items.map((item, itemIndex) => <li key={itemIndex} className="pl-1">{renderInline(item)}</li>)}
       </List>;
     })}

@@ -6,7 +6,7 @@ export function SidebarThoughts({ thoughts = [], onSelectThought, onToggleLike, 
     <div className="p-5 rounded-2xl bg-white dark:bg-zinc-900/60 border border-zinc-200 dark:border-zinc-800 shadow-xs">
       <div className="flex items-center justify-between pb-3 mb-4 border-b border-zinc-100 dark:border-zinc-800">
         <div className="flex items-center gap-2">
-          <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+          <span className="w-2 h-2 rounded-full bg-stone-500 animate-pulse" />
           <h3 className="font-mono font-bold text-xs uppercase tracking-wider text-zinc-900 dark:text-zinc-100">
             {isEn ? 'Quick Thoughts' : 'Pensamentos Rápidos'}
           </h3>
@@ -26,10 +26,10 @@ export function SidebarThoughts({ thoughts = [], onSelectThought, onToggleLike, 
               <div
                 key={thought.id}
                 onClick={() => onSelectThought(thought)}
-                className="group p-3 rounded-xl bg-zinc-50 dark:bg-zinc-950/60 border border-zinc-200/80 dark:border-zinc-800/60 hover:border-emerald-500/40 transition-all cursor-pointer"
+                className="group p-3 rounded-xl bg-zinc-50 dark:bg-zinc-950/60 border border-zinc-200/80 dark:border-zinc-800/60 hover:border-stone-500/40 transition-all cursor-pointer"
               >
                 <div className="flex items-center justify-between text-[10px] font-mono text-zinc-400 mb-1.5">
-                  <span className="text-emerald-600 dark:text-emerald-400 font-semibold">@{thought.author}</span>
+                  <span className="text-stone-600 dark:text-stone-400 font-semibold">@{thought.author}</span>
                   <span>{new Date(thought.createdAt).toLocaleDateString(isEn ? 'en-US' : 'pt-BR', { hour: '2-digit', minute: '2-digit' })}</span>
                 </div>
                 <p className="text-xs text-zinc-700 dark:text-zinc-300 font-sans leading-relaxed mb-2">

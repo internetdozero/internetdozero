@@ -22,8 +22,8 @@ export function PostComments({ comments = [], commentsCount = null, onAddComment
   return (
     <section className="mt-12 pt-8 border-t border-zinc-200 dark:border-zinc-800">
       <div className="flex items-center gap-2 mb-6">
-        <MessageSquare className="w-5 h-5 text-emerald-500" />
-        <h3 className="text-xl font-bold font-mono text-zinc-900 dark:text-white">
+        <MessageSquare className="w-5 h-5 text-stone-500" />
+        <h3 className="text-xl font-serif font-semibold text-zinc-900 dark:text-white">
           {t.blog.commentsCount} ({commentsCount ?? comments.length})
         </h3>
       </div>
@@ -37,7 +37,7 @@ export function PostComments({ comments = [], commentsCount = null, onAddComment
             value={author}
             onChange={(e) => setAuthor(e.target.value)}
             placeholder={isEn ? "E.g. Guest or @handle" : "Ex: Visitante ou @seuuser"}
-            className="w-full px-3 py-2 rounded-xl bg-white dark:bg-zinc-950 border border-zinc-300 dark:border-zinc-800 text-sm font-sans focus:outline-none focus:border-emerald-500 transition-colors"
+            className="w-full px-3 py-2 rounded-xl bg-white dark:bg-zinc-950 border border-zinc-300 dark:border-zinc-800 text-sm font-sans focus:outline-none focus:border-stone-500 transition-colors"
           />
         </div>
 
@@ -49,14 +49,14 @@ export function PostComments({ comments = [], commentsCount = null, onAddComment
             value={text}
             onChange={(e) => setText(e.target.value)}
             placeholder={t.blog.commentPlaceholder}
-            className="w-full px-3 py-2 rounded-xl bg-white dark:bg-zinc-950 border border-zinc-300 dark:border-zinc-800 text-sm font-sans focus:outline-none focus:border-emerald-500 transition-colors resize-none"
+            className="w-full px-3 py-2 rounded-xl bg-white dark:bg-zinc-950 border border-zinc-300 dark:border-zinc-800 text-sm font-sans focus:outline-none focus:border-stone-500 transition-colors resize-none"
           />
         </div>
 
         <button
           type="submit"
           disabled={isSubmitting || !text.trim()}
-          className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-mono font-bold text-xs transition-all disabled:opacity-50 cursor-pointer shadow-xs"
+          className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-stone-600 hover:bg-stone-500 text-white font-mono font-bold text-xs transition-all disabled:opacity-50 cursor-pointer shadow-xs"
         >
           <Send className="w-3.5 h-3.5" />
           <span>{isSubmitting ? (isEn ? 'Sending...' : 'Enviando...') : t.blog.sendComment}</span>
@@ -76,7 +76,7 @@ export function PostComments({ comments = [], commentsCount = null, onAddComment
               className="p-4 rounded-xl bg-white dark:bg-zinc-900/40 border border-zinc-200 dark:border-zinc-800/60"
             >
               <div className="flex items-center justify-between mb-2">
-                <span className="font-mono text-xs font-bold text-emerald-600 dark:text-emerald-400 flex items-center gap-1.5">
+                <span className="font-mono text-xs font-bold text-stone-600 dark:text-stone-400 flex items-center gap-1.5">
                   <User className="w-3.5 h-3.5" />
                   {comment.author}
                 </span>
