@@ -15,7 +15,7 @@ export const translations = {
     },
     hero: {
       badgeCentral: 'um canto na internet',
-      subtitle: 'Textos, ferramentas e quizzes hoje. Vídeo, música, jogos e código quando existirem. Um lugar meu — sem nicho, sem fita.',
+      subtitle: 'Aqui tem textos, ferramentas e quizzes. Depois entram vídeo, música, jogos e o que mais eu for fazendo.',
       btnModules: 'Por onde começar',
       btnConsole: 'Perguntar ao índice',
       statFocus: 'Aberto',
@@ -116,7 +116,7 @@ export const translations = {
     },
     hero: {
       badgeCentral: 'a corner of the internet',
-      subtitle: 'Writing, tools, and quizzes today. Video, music, games, and code when they exist. A place of my own — no niche, no ribbon.',
+      subtitle: 'Writing, tools, and quizzes for now. Video, music, games, and whatever else I make as it shows up.',
       btnModules: 'Where to start',
       btnConsole: 'Ask the index',
       statFocus: 'Open',
