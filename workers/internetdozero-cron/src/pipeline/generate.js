@@ -36,7 +36,7 @@ Retorne estritamente JSON:
 "sections_pt":[{"id":"slug","title":"Título","content":"Markdown com links das fontes"}]}`;
 }
 
-export async function generateArticle(env, topic) {
+export async function generateArticle(env, topic, { fallback = true } = {}) {
   console.log(`Generating article for topic: ${topic.title}`);
   const prompt = buildPrompt(topic);
   let lastFailure = 'no response';
@@ -78,6 +78,10 @@ export async function generateArticle(env, topic) {
       lastFailure = `local Agy: ${error.message}`;
       console.error(`Local Agy error: ${error.message}`);
     }
+  }
+
+  if (!fallback) {
+    throw new Error(`Local Agy failed and fallbacks are disabled (${lastFailure})`);
   }
 
   const sources = await searchSources(topic.title);

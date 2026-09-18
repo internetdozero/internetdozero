@@ -5,7 +5,7 @@ import { enrichArticle } from './pipeline/enrich.js';
 import { publishArticle } from './pipeline/publish.js';
 import { logExecution } from './pipeline/log.js';
 
-async function runPipeline(env, requestedTopic = '') {
+async function runPipeline(env, requestedTopic = '', options = {}) {
   const startTime = Date.now();
   let topic = null;
   let slug = null;
@@ -27,7 +27,7 @@ async function runPipeline(env, requestedTopic = '') {
       status = 'skipped';
     } else {
       console.log(`Generating article for topic: ${topic.title}`);
-      const rawArticle = await generateArticle(env, topic);
+      const rawArticle = await generateArticle(env, topic, options);
       await validateArticleSources(rawArticle);
       
       console.log('Enriching article');
@@ -57,7 +57,11 @@ export default {
       const payload = request.method === 'POST'
         ? await request.json().catch(() => ({}))
         : {};
-      ctx.waitUntil(runPipeline(env, typeof payload.topic === 'string' ? payload.topic.trim() : ''));
+      ctx.waitUntil(runPipeline(
+        env,
+        typeof payload.topic === 'string' ? payload.topic.trim() : '',
+        { fallback: payload.fallback !== false }
+      ));
       return new Response('Pipeline triggered', { status: 202 });
     }
     return new Response('Not Found', { status: 404 });
