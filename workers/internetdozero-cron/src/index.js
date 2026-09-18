@@ -1,6 +1,6 @@
 import { discoverTopics } from './pipeline/discover.js';
 import { deduplicateTopics } from './pipeline/deduplicate.js';
-import { generateArticle } from './pipeline/generate.js';
+import { generateArticle, validateArticleSources } from './pipeline/generate.js';
 import { enrichArticle } from './pipeline/enrich.js';
 import { publishArticle } from './pipeline/publish.js';
 import { logExecution } from './pipeline/log.js';
@@ -28,6 +28,7 @@ async function runPipeline(env, requestedTopic = '') {
     } else {
       console.log(`Generating article for topic: ${topic.title}`);
       const rawArticle = await generateArticle(env, topic);
+      await validateArticleSources(rawArticle);
       
       console.log('Enriching article');
       const enrichedArticle = await enrichArticle(env.DB, rawArticle, env.SITE_URL);

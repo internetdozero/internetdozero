@@ -17,6 +17,7 @@ function parseJson(text) {
 
 export async function generateArticle(env, topic) {
   console.log(`Generating article for topic: ${topic.title}`);
+  const referenceDate = new Date().toISOString().slice(0, 10);
 
   const articlePrompt = `Você é o redator do blog internetdozero. Seu estilo é:
 - Didático e direto, sem jargões corporativos
@@ -33,6 +34,13 @@ REGRAS ABSOLUTAS:
 - Seções podem ter tamanhos diferentes (2 a 5 parágrafos cada)
 - Tenha opinião cautelosa, não fique em cima do muro
 - O tom é humano, não robótico
+- A data de referência desta pauta é ${referenceDate}. Escreva considerando esse dia, não o seu
+  conhecimento antigo. Antes de afirmar que algo é recente, atual, aprovado, em votação ou vigente,
+  confirme o status na pesquisa.
+- Diferencie claramente fato atual, contexto histórico e previsão. Para cada fato temporal relevante,
+  use a data exata (dia/mês/ano) e nunca trate uma notícia antiga como novidade.
+- Não invente leis, projetos, órgãos, empresas, estudos, números ou links. Só cite entidades que a
+  pesquisa confirmou e prefira a fonte oficial correspondente. Se não conseguir confirmar, não cite.
 - Não faça propaganda de ferramentas do site. Só mencione uma ferramenta se ela resolver diretamente
   uma tarefa concreta do leitor; em temas de política, sociedade, notícias ou análise geral, não inclua
   recomendações artificiais nem frases promocionais.
@@ -84,4 +92,33 @@ O output deve ser estritamente no seguinte formato JSON:
   }
 
   throw new Error('Failed to generate article with all available models');
+}
+
+export async function validateArticleSources(article) {
+  const urls = [...new Set(
+    (article.sections_pt || [])
+      .flatMap((section) => String(section.content || '').match(/https?:\/\/[^\s)]+/g) || [])
+      .map((url) => url.replace(/[.,;:]+$/, ''))
+  )];
+
+  for (const url of urls) {
+    let response = await fetch(url, {
+      method: 'HEAD',
+      redirect: 'follow',
+      signal: AbortSignal.timeout(10000)
+    });
+    if (response.status === 405 || response.status === 403) {
+      response = await fetch(url, {
+        headers: { Range: 'bytes=0-1024' },
+        redirect: 'follow',
+        signal: AbortSignal.timeout(10000)
+      });
+    }
+    if (!response.ok) {
+      throw new Error(`Source validation failed (${response.status}): ${url}`);
+    }
+  }
+
+  console.log(`Validated ${urls.length} article source link(s)`);
+  return article;
 }
