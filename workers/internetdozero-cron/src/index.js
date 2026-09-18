@@ -22,7 +22,7 @@ async function runPipeline(env, requestedTopic = '', options = {}) {
     }
 
     const candidateTopic = topics[0];
-    topic = await deduplicateTopics(env.DB, topics);
+    topic = await deduplicateTopics(env.DB, topics, { manual: Boolean(requestedTopic) });
     if (!topic) {
       topic = candidateTopic;
       console.log('All topics were duplicates. Skipping execution.');

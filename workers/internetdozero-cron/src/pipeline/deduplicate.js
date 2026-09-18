@@ -1,8 +1,8 @@
-export async function deduplicateTopics(db, topics) {
+export async function deduplicateTopics(db, topics, { manual = false } = {}) {
   console.log('Deduplicating topics and enforcing daily editorial diversity...');
   try {
     const { results } = await db.prepare(
-      "SELECT slug, title_pt, tags_pt, category, created_at FROM posts WHERE created_at > datetime('now', '-30 days')"
+      "SELECT slug, title_pt, tags_pt, category, created_at FROM posts WHERE published = 1 AND created_at > datetime('now', '-30 days')"
     ).all();
 
     const existingPosts = results || [];
@@ -15,7 +15,7 @@ export async function deduplicateTopics(db, topics) {
 
     for (const topic of topics) {
       const pillar = normalizePillar(topic.pillar || topic.category);
-      if (recentPillars.has(pillar) || seenPillars.has(pillar)) {
+      if ((!manual && recentPillars.has(pillar)) || seenPillars.has(pillar)) {
         console.log(`Skipping topic "${topic.title}" to preserve daily pillar diversity`);
         continue;
       }
