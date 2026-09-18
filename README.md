@@ -33,22 +33,14 @@ O blog oferece artigos, crônicas e notas com categorias, busca, sumário, comen
 
 ### Autopilot editorial
 
-Um Worker separado (`workers/internetdozero-cron`) pesquisa pautas e publica artigos no D1 em dois horários diários (08:00 e 20:00, horário de Brasília). O fluxo:
+Um Cloudflare Worker autônomo (`workers/internetdozero-cron`) gerencia a pesquisa, redação e publicação editorial diretamente no banco D1:
 
-- tenta primeiro o Agy local com Gemini, quando o computador estiver disponível;
-- usa GPT-5.6 Luna pela OpenRouter para redigir com fontes do Google News RSS, sem pesquisa web paga;
-- mantém DeepSeek como fallback econômico e usa Perplexity Sonar somente quando o RSS não trouxer fontes suficientes;
-- informa a data de referência ao redator e diferencia fatos atuais de contexto histórico;
-- valida os links externos citados antes de salvar o artigo, interrompendo a publicação se uma fonte estiver inacessível;
-- distribui candidatos entre tecnologia, segurança, produtividade, dinheiro, cultura, casa, saúde e lazer;
-- evita repetir o mesmo pilar nas últimas 24 horas e deduplica temas dos últimos 30 dias;
-- gera o artigo, relaciona ferramentas úteis do site e busca imagens no Openverse;
-- aceita somente imagens com licença CC0, CC BY, CC BY-SA ou domínio público, gravando autor, licença, fonte e crédito;
-- publica automaticamente quando `AUTO_PUBLISH=1`; rascunhos podem ser publicados pelo painel administrativo.
+- **Descoberta & Pautas:** Monitora fontes abertas e garante diversidade temática com deduplicação editorial.
+- **Redação com IA:** Síntese de conteúdo factual e didático, com validação e integridade de fontes citadas.
+- **Acervo Visual Aberto:** Busca e anexa fotografias de alta resolução sob licenças abertas (Creative Commons / Domínio Público) com atribuição completa de créditos.
+- **Publicação:** Suporta publicação direta ou envio para a fila de rascunhos gerenciável via painel `/admin`.
 
-O Worker usa o binding D1 `DB`, as variáveis `SITE_URL`, `AUTHOR` e `AUTO_PUBLISH`, e os secrets `OPENROUTER_API_KEY`, `DEEPSEEK_API_KEY` e `CRON_SECRET`. A execução manual ocorre em `/trigger?secret=...` e deve ser feita somente com o segredo armazenado no ambiente seguro; nunca coloque esse valor no código ou em commits.
-
-O sitemap fica em [`/sitemap.xml`](https://internetdozero.com.br/sitemap.xml) e inclui a home, o blog, os artigos publicados e as 10 ferramentas. O painel `/admin` é bloqueado pelo `robots.txt` e protegido por sessão HttpOnly, hash de senha e segredo configurável.
+O sitemap fica em [`/sitemap.xml`](https://internetdozero.com.br/sitemap.xml) e inclui a home, o blog, os artigos publicados e as ferramentas. O painel `/admin` é bloqueado pelo `robots.txt` e protegido por sessão segura, hash de senha e controle de CSRF.
 
 ## Stack
 
@@ -114,7 +106,7 @@ cd workers/internetdozero-cron
 npx wrangler deploy
 ```
 
-Antes do primeiro deploy, configure `OPENROUTER_API_KEY`, `DEEPSEEK_API_KEY` e `CRON_SECRET` como secrets do Worker. O cron não deve ser exposto sem autenticação.
+Antes do primeiro deploy, configure as variáveis de ambiente e segredos necessários no Cloudflare Worker. O endpoint não deve ser exposto sem autenticação.
 
 Mais detalhes de cada versão estão em [`changelog.md`](changelog.md).
 
