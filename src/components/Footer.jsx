@@ -76,12 +76,6 @@ export const Footer = React.memo(function Footer({ onOpenArsenal, onGoHome, lang
           <div>
             &copy; {new Date().getFullYear()} Internet do Zero.
           </div>
-          <div className="flex items-center gap-2">
-            <span className="w-2 h-2 rounded-full bg-emerald-500" />
-            <span className="text-zinc-500 dark:text-zinc-400">
-              {isEn ? '// all systems operational' : '// todos os sistemas operacionais'}
-            </span>
-          </div>
           <nav aria-label={isEn ? 'Social links' : 'Redes sociais'} className="flex items-center gap-3">
             {socialLinks.map(({ label, href, Icon }) => (
               <a key={label} href={href} target="_blank" rel="noreferrer" aria-label={label} title={label} className="rounded-md p-1.5 text-zinc-500 transition-colors hover:bg-zinc-200 hover:text-emerald-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 dark:hover:bg-zinc-800 dark:hover:text-emerald-400">
