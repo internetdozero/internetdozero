@@ -17,3 +17,6 @@ wrangler.toml
 in
 bin/
 tasks/
+.agents/
+.claude/
+skills-lock.json
