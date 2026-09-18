@@ -117,7 +117,7 @@ export function PostDetail({ post, isLiked, onToggleLike, onAddComment, postLang
             <div className="flex flex-wrap items-center gap-2 text-xs font-mono text-zinc-500">
               <span>{new Date(post.createdAt).toLocaleDateString(isEn ? 'en-US' : 'pt-BR', { day: '2-digit', month: 'short', year: 'numeric' })}</span>
               <span>/</span>
-              <span>{t.blog.authorLabel} @{post.author || 'senhor'}</span>
+              <span>{t.blog.authorLabel} @{post.author || 'eduardo'}</span>
               <span>/</span>
               <span className="flex items-center gap-1">
                 <Clock className="w-3 h-3 text-emerald-500" />

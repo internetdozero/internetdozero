@@ -20,7 +20,7 @@ export function ThoughtCard({ thought, isLiked, onToggleLike, onSelect, lang = '
             <Terminal className="w-3.5 h-3.5" />
           </span>
           <span className="font-mono text-xs font-semibold text-emerald-600 dark:text-emerald-400">
-            @{thought.author || 'senhor'}
+            @{thought.author || 'eduardo'}
           </span>
           <span className="text-zinc-300 dark:text-zinc-700 font-mono text-xs">•</span>
           <span className="text-zinc-500 text-xs font-mono">{formattedDate}</span>
