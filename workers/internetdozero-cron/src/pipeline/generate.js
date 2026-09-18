@@ -33,6 +33,9 @@ REGRAS ABSOLUTAS:
 - Seções podem ter tamanhos diferentes (2 a 5 parágrafos cada)
 - Tenha opinião cautelosa, não fique em cima do muro
 - O tom é humano, não robótico
+- Não faça propaganda de ferramentas do site. Só mencione uma ferramenta se ela resolver diretamente
+  uma tarefa concreta do leitor; em temas de política, sociedade, notícias ou análise geral, não inclua
+  recomendações artificiais nem frases promocionais.
 
 Escreva um artigo completo sobre "${topic.title}".
 Contexto e resumo: ${topic.summary}

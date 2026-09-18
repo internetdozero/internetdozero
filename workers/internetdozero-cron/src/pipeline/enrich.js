@@ -1,16 +1,16 @@
 const TOOLS_MAP = [
-  { slug: 'compressor-de-imagem', keywords: ['imagem', 'foto', 'otimização', 'webp', 'comprimir', 'compressão'] },
-  { slug: 'gerador-de-senhas', keywords: ['senha', 'segurança', 'autenticação', 'password', 'acesso'] },
-  { slug: 'masterizador-de-audio', keywords: ['áudio', 'audio', 'música', 'masterização', 'som', 'equalização'] },
-  { slug: 'remover-metadados', keywords: ['metadados', 'exif', 'privacidade', 'foto', 'rastreamento'] },
-  { slug: 'cortador-de-audio', keywords: ['áudio', 'audio', 'cortar', 'editar', 'música', 'podcast'] },
-  { slug: 'extrator-de-audio', keywords: ['vídeo', 'video', 'áudio', 'audio', 'extrair', 'converter', 'mp3'] },
-  { slug: 'contador-de-texto', keywords: ['texto', 'palavras', 'caracteres', 'contagem', 'escrita'] },
-  { slug: 'gerador-de-qr-code', keywords: ['qr code', 'código', 'compartilhar', 'link', 'digitalizar'] },
-  { slug: 'comparador-de-texto', keywords: ['diff', 'comparar', 'texto', 'código', 'diferença'] },
-  { slug: 'formatador-json', keywords: ['json', 'formatar', 'validar', 'dados', 'api'] },
-  { slug: 'descompactador-de-arquivos', keywords: ['zip', 'rar', '7z', 'descompactar', 'extrair', 'arquivo'] },
-  { slug: 'conversor-de-arquivos', keywords: ['converter', 'arquivo', 'formato', 'mídia'] }
+  { slug: 'compressor-de-imagem', keywords: ['webp', 'jpeg', 'png', 'comprimir imagem', 'comprimir foto'] },
+  { slug: 'gerador-de-senhas', keywords: ['criar senha', 'gerar senha', 'senha forte', 'gerenciador de senhas', 'autenticação de conta'] },
+  { slug: 'masterizador-de-audio', keywords: ['masterizar áudio', 'masterização', 'equalização', 'mixagem'] },
+  { slug: 'remover-metadados', keywords: ['metadados exif', 'remover metadados', 'privacidade de foto', 'dados exif'] },
+  { slug: 'cortador-de-audio', keywords: ['cortar áudio', 'editar áudio', 'cortar música', 'editar podcast'] },
+  { slug: 'extrator-de-audio', keywords: ['extrair áudio', 'converter vídeo em mp3', 'áudio de vídeo'] },
+  { slug: 'contador-de-texto', keywords: ['contar palavras', 'contagem de caracteres', 'limite de palavras'] },
+  { slug: 'gerador-de-qr-code', keywords: ['gerar qr code', 'código qr', 'qr code para link'] },
+  { slug: 'comparador-de-texto', keywords: ['comparar textos', 'diferenças entre textos', 'comparar código'] },
+  { slug: 'formatador-json', keywords: ['formatar json', 'validar json', 'json de api'] },
+  { slug: 'descompactador-de-arquivos', keywords: ['descompactar zip', 'descompactar rar', 'abrir arquivo 7z'] },
+  { slug: 'conversor-de-arquivos', keywords: ['converter arquivo', 'converter formato', 'converter mídia'] }
 ];
 
 export async function enrichArticle(db, article, siteUrl) {
@@ -18,26 +18,19 @@ export async function enrichArticle(db, article, siteUrl) {
   const enrichedArticle = { ...article };
   
   const injectedSlugs = new Set();
-  const toolPhrases = [
-    (name, url) => `\n\nSe precisar, o internetdozero tem um [${name}](${url}) que funciona direto no navegador, sem upload.`,
-    (name, url) => `\n\nAliás, temos um [${name}](${url}) aqui no site que pode ajudar com isso — roda 100% no seu navegador.`
-  ];
 
   for (let i = 0; i < enrichedArticle.sections_pt.length; i++) {
-    if (injectedSlugs.size >= 2) break;
+    if (injectedSlugs.size >= 1) break;
     const section = enrichedArticle.sections_pt[i];
 
     for (const tool of TOOLS_MAP) {
       if (injectedSlugs.has(tool.slug)) continue;
-      const match = tool.keywords.some(kw =>
-        section.content.toLowerCase().includes(kw)
-      );
+      const match = tool.keywords.some((kw) => section.content.toLowerCase().includes(kw));
 
       if (match) {
         const name = tool.slug.replace(/-/g, ' ');
         const url = `${siteUrl}/tools/${tool.slug}`;
-        const phrase = toolPhrases[injectedSlugs.size % toolPhrases.length];
-        section.content += phrase(name, url);
+        section.content += `\n\nSe fizer sentido para este caso, o [${name}](${url}) é uma opção prática — direto no navegador.`;
         injectedSlugs.add(tool.slug);
         console.log(`Injected tool ${tool.slug} into section ${section.id}`);
         break;
