@@ -42,7 +42,7 @@ Um Worker separado (`workers/internetdozero-cron`) pesquisa pautas e publica art
 - aceita somente imagens com licença CC0, CC BY, CC BY-SA ou domínio público, gravando autor, licença, fonte e crédito;
 - publica automaticamente quando `AUTO_PUBLISH=1`; rascunhos podem ser publicados pelo painel administrativo.
 
-O Worker usa o binding D1 `DB`, as variáveis `SITE_URL`, `AUTHOR` e `AUTO_PUBLISH`, e os secrets `GEMINI_API_KEY` e `CRON_SECRET`. A execução manual ocorre em `/trigger?secret=...` e deve ser feita somente com o segredo armazenado no ambiente seguro; nunca coloque esse valor no código ou em commits. O `AI_GATEWAY_URL` está reservado na configuração, mas as chamadas atuais ao Gemini ainda são diretas à API do Google.
+O Worker usa o binding D1 `DB`, as variáveis `SITE_URL`, `AUTHOR` e `AUTO_PUBLISH`, e os secrets `GEMINI_API_KEY` e `CRON_SECRET`. A execução manual ocorre em `/trigger?secret=...` e deve ser feita somente com o segredo armazenado no ambiente seguro; nunca coloque esse valor no código ou em commits. Quando configurado, o `AI_GATEWAY_URL` encaminha as chamadas ao Gemini pelo AI Gateway, mantendo a chave apenas no header `x-goog-api-key`; sem ele, o endpoint direto é usado como fallback de compatibilidade.
 
 O sitemap fica em [`/sitemap.xml`](https://internetdozero.com.br/sitemap.xml) e inclui a home, o blog, os artigos publicados e as 10 ferramentas. O painel `/admin` é bloqueado pelo `robots.txt` e protegido por sessão HttpOnly, hash de senha e segredo configurável.
 

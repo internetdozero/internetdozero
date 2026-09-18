@@ -44,10 +44,15 @@ O campo pillar deve identificar o pilar em letras minúsculas e hífens.`;
 
   for (const model of MODELS) {
     try {
-      const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${env.GEMINI_API_KEY}`;
+      const url = env.AI_GATEWAY_URL
+        ? `${env.AI_GATEWAY_URL.replace(/\/$/, '')}/v1/models/${model}:generateContent`
+        : `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${env.GEMINI_API_KEY}`;
       const response = await fetch(url, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: {
+          'Content-Type': 'application/json',
+          ...(env.AI_GATEWAY_URL ? { 'x-goog-api-key': env.GEMINI_API_KEY } : {})
+        },
         body: JSON.stringify({
           contents: [{ role: 'user', parts: [{ text: prompt }] }],
           tools: [{ googleSearch: {} }]
