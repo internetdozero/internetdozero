@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useMemo } from 'react';
+import React, { useState, useCallback, useMemo, useRef, useEffect } from 'react';
 import { QuizHeaderBar } from './QuizHeaderBar';
 import { QuizResultCard } from './QuizResultCard';
 import { ArrowLeft, CheckCircle2 } from 'lucide-react';
@@ -17,10 +17,15 @@ export function QuizPlayer({ quiz, onGoCatalog }) {
   const [selectedAnswers, setSelectedAnswers] = useState({});
   const [isCompleted, setIsCompleted] = useState(false);
   const [sessionKey, setSessionKey] = useState(0);
+  const [isTransitioning, setIsTransitioning] = useState(false);
+  const advanceTimerRef = useRef(null);
+
+  useEffect(() => {
+    return () => clearTimeout(advanceTimerRef.current);
+  }, []);
 
   // Embaralha as alternativas de cada pergunta na inicializacao para nao haver ordem viciada
   const preparedQuestions = useMemo(() => {
-    // Referencia sessionKey para reembaralhar em cada reinicio do quiz
     if (sessionKey < 0) return [];
     return quiz.questions.map((q) => ({
       ...q,
@@ -32,30 +37,29 @@ export function QuizPlayer({ quiz, onGoCatalog }) {
   const currentQuestion = preparedQuestions[currentStep];
 
   const handleSelectOption = useCallback((option) => {
-    setSelectedAnswers((prev) => {
-      const updated = { ...prev, [currentStep]: option };
-      return updated;
-    });
+    if (isTransitioning) return;
+    setIsTransitioning(true);
+    setSelectedAnswers((prev) => ({ ...prev, [currentStep]: option }));
 
-    // Auto-advance with smooth timing
-    if (currentStep < totalSteps - 1) {
-      setTimeout(() => {
-        setCurrentStep((s) => s + 1);
-      }, 200);
-    } else {
-      setTimeout(() => {
-        setIsCompleted(true);
-      }, 250);
-    }
-  }, [currentStep, totalSteps]);
+    clearTimeout(advanceTimerRef.current);
+    const isLast = currentStep >= totalSteps - 1;
+    advanceTimerRef.current = setTimeout(() => {
+      if (isLast) setIsCompleted(true);
+      else setCurrentStep((s) => s + 1);
+      setIsTransitioning(false);
+    }, isLast ? 250 : 200);
+  }, [currentStep, totalSteps, isTransitioning]);
 
   const handlePrevious = useCallback(() => {
-    if (currentStep > 0) {
-      setCurrentStep((s) => s - 1);
-    }
-  }, [currentStep]);
+    if (isTransitioning) return;
+    clearTimeout(advanceTimerRef.current);
+    setIsTransitioning(false);
+    if (currentStep > 0) setCurrentStep((s) => s - 1);
+  }, [currentStep, isTransitioning]);
 
   const handleRestart = useCallback(() => {
+    clearTimeout(advanceTimerRef.current);
+    setIsTransitioning(false);
     setSelectedAnswers({});
     setCurrentStep(0);
     setIsCompleted(false);
@@ -176,14 +180,17 @@ export function QuizPlayer({ quiz, onGoCatalog }) {
         </div>
 
         {/* Options */}
-        <div className="space-y-3">
+        <div className={`space-y-3 ${isTransitioning ? 'pointer-events-none' : ''}`}>
           {currentQuestion.options.map((option, idx) => {
             const isSelected = currentSelection?.text === option.text;
             return (
               <button
                 key={idx}
+                disabled={isTransitioning}
                 onClick={() => handleSelectOption(option)}
-                className={`w-full text-left p-4 sm:p-5 rounded-2xl border transition-all duration-200 cursor-pointer flex items-start justify-between gap-4 group ${
+                className={`w-full text-left p-4 sm:p-5 rounded-2xl border transition-all duration-200 flex items-start justify-between gap-4 group ${
+                  isTransitioning ? 'cursor-default' : 'cursor-pointer'
+                } ${
                   isSelected
                     ? 'border-emerald-500 bg-emerald-500/10 dark:bg-emerald-500/15 text-zinc-900 dark:text-white shadow-xs'
                     : 'border-zinc-200/80 dark:border-zinc-800/80 bg-white dark:bg-zinc-900/60 text-zinc-700 dark:text-zinc-300 hover:border-emerald-500/50 hover:bg-zinc-50 dark:hover:bg-zinc-800/60'
