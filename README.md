@@ -35,8 +35,9 @@ O blog oferece artigos, crônicas e notas com categorias, busca, sumário, comen
 
 Um Worker separado (`workers/internetdozero-cron`) pesquisa pautas e publica artigos no D1 em dois horários diários (08:00 e 20:00, horário de Brasília). O fluxo:
 
-- usa OpenRouter com Perplexity Sonar e pesquisa web para buscar pautas atuais e redigir;
-- mantém DeepSeek como fallback de redação, usando fontes recentes do Google News RSS;
+- tenta primeiro o Agy local com Gemini, quando o computador estiver disponível;
+- usa GPT-5.6 Luna pela OpenRouter para redigir com fontes do Google News RSS, sem pesquisa web paga;
+- mantém DeepSeek como fallback econômico e usa Perplexity Sonar somente quando o RSS não trouxer fontes suficientes;
 - informa a data de referência ao redator e diferencia fatos atuais de contexto histórico;
 - valida os links externos citados antes de salvar o artigo, interrompendo a publicação se uma fonte estiver inacessível;
 - distribui candidatos entre tecnologia, segurança, produtividade, dinheiro, cultura, casa, saúde e lazer;

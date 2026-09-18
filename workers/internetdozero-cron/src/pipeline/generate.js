@@ -1,4 +1,4 @@
-const MODELS = ['perplexity/sonar', 'perplexity/sonar-pro'];
+const MODELS = ['openai/gpt-5.6-luna'];
 
 function parseJson(text) {
   if (!text) return null;
@@ -74,6 +74,11 @@ export async function generateArticle(env, topic) {
     }
   }
 
+  const sources = await searchSources(topic.title);
+  const sourceContext = formatSources(sources);
+  const sourcedPrompt = `${prompt}\n\nFONTES RSS DISPONÍVEIS:\n${sourceContext || 'Nenhuma fonte encontrada.'}\n
+Use somente essas fontes para fatos atuais. Inclua links Markdown que sustentem as afirmações.`;
+
   for (const model of MODELS) {
     try {
       const response = await fetch('https://openrouter.ai/api/v1/chat/completions', {
@@ -85,10 +90,9 @@ export async function generateArticle(env, topic) {
           'X-Title': 'Internet do Zero'
         },
         body: JSON.stringify({
-          model: `${model}:online`,
-          messages: [{ role: 'user', content: prompt }],
+          model,
+          messages: [{ role: 'user', content: sourcedPrompt }],
           max_tokens: 5000,
-          plugins: [{ id: 'web', max_results: 6 }]
         }),
         signal: AbortSignal.timeout(60000)
       });
@@ -111,12 +115,7 @@ export async function generateArticle(env, topic) {
   }
 
   if (env.DEEPSEEK_API_KEY) {
-    const sources = await searchSources(topic.title);
-    const sourceContext = sources.map((source, index) =>
-      `[${index + 1}] ${source.title}\nData: ${source.date || 'não informada'}\nURL: ${source.url}\nResumo: ${source.summary}`
-    ).join('\n\n');
-    const deepseekPrompt = `${prompt}\n\nFONTES PESQUISADAS:\n${sourceContext || 'Nenhuma fonte encontrada.'}
-Use somente essas fontes para fatos atuais e inclua links que sustentem as afirmações.`;
+    const deepseekPrompt = sourcedPrompt;
     try {
       const response = await fetch('https://api.deepseek.com/chat/completions', {
         method: 'POST',
@@ -132,7 +131,40 @@ Use somente essas fontes para fatos atuais e inclua links que sustentem as afirm
       console.error(`DeepSeek fallback failed: ${error.message}`);
     }
   }
+
+  if (env.OPENROUTER_API_KEY && sources.length < 2) {
+    try {
+      const response = await fetch('https://openrouter.ai/api/v1/chat/completions', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: 'Bearer ' + env.OPENROUTER_API_KEY,
+          'HTTP-Referer': env.SITE_URL,
+          'X-Title': 'Internet do Zero'
+        },
+        body: JSON.stringify({
+          model: 'perplexity/sonar:online',
+          messages: [{ role: 'user', content: prompt }],
+          max_tokens: 5000,
+          plugins: [{ id: 'web', max_results: 6 }]
+        }),
+        signal: AbortSignal.timeout(60000)
+      });
+      if (!response.ok) throw new Error(`${response.status}: ${await response.text()}`);
+      const article = parseJson((await response.json()).choices?.[0]?.message?.content);
+      if (article?.title_pt && article.sections_pt?.length) return article;
+      throw new Error('invalid JSON');
+    } catch (error) {
+      console.error(`Sonar research fallback failed: ${error.message}`);
+    }
+  }
   throw new Error(`Failed to generate article with all available models (${lastFailure})`);
+}
+
+function formatSources(sources) {
+  return sources.map((source, index) =>
+    `[${index + 1}] ${source.title}\nData: ${source.date || 'não informada'}\nURL: ${source.url}\nResumo: ${source.summary}`
+  ).join('\n\n');
 }
 
 async function searchSources(topic) {

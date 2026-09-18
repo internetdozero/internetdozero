@@ -1,4 +1,4 @@
-const MODELS = ['perplexity/sonar', 'perplexity/sonar-pro'];
+const MODELS = ['perplexity/sonar'];
 
 function parseJson(text) {
   if (!text) return null;
