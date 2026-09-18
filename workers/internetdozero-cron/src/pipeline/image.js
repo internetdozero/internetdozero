@@ -1,6 +1,23 @@
 const OPENVERSE_URL = 'https://api.openverse.org/v1/images/';
 const ALLOWED_LICENSES = new Set(['cc0', 'by', 'by-sa', 'pdm']);
 
+const POLITICAL_INSTITUTIONS = [
+  { match: /\b(stf|supremo tribunal federal|judiciario|ministro do stf|julgamento|togados)\b/i, term: 'Supremo Tribunal Federal' },
+  { match: /\b(senado|senador|senado federal)\b/i, term: 'Senado Federal Brasil' },
+  { match: /\b(camara dos deputados|deputado|congresso nacional|parlamento)\b/i, term: 'Congresso Nacional Brasil' },
+  { match: /\b(planalto|presidente|governo federal|ministerio)\b/i, term: 'Palacio do Planalto Brasil' },
+  { match: /\b(tse|tribunal superior eleitoral|urna eletronica|eleicoes)\b/i, term: 'Tribunal Superior Eleitoral' },
+  { match: /\b(stj|superior tribunal de justica)\b/i, term: 'Superior Tribunal de Justica Brasil' }
+];
+
+function detectInstitutionalQuery(text) {
+  if (!text) return null;
+  for (const inst of POLITICAL_INSTITUTIONS) {
+    if (inst.match.test(text)) return inst.term;
+  }
+  return null;
+}
+
 const CATEGORY_FALLBACKS = {
   seguranca: 'cybersecurity server network lock privacy',
   privacidade: 'digital privacy encryption security code',
@@ -289,6 +306,24 @@ export async function findLicensedImage(queryOrParams, optionsOrCategory = {}) {
   const env = options.env || {};
   const usedUrls = await getRecentUsedUrls(db);
 
+  // 1. Institutional Brazilian detection (STF, Congresso, Senado, Planalto, TSE)
+  const fullTextContext = `${title} ${category} ${tags.join(' ')} ${query}`;
+  const instTerm = detectInstitutionalQuery(fullTextContext);
+
+  if (instTerm) {
+    console.log(`Detected Brazilian public institution topic: "${instTerm}". Prioritizing Wikimedia Commons.`);
+    const wikiCandidates = (await fetchWikimediaCommons(instTerm)).filter((c) => !usedUrls.has(c.url));
+    const chosenWiki = pickRandomCandidate(wikiCandidates);
+    if (chosenWiki) return formatResult(chosenWiki, title);
+
+    let openverseCandidates = (await fetchOpenverse(instTerm, { wideOnly: true })).filter((c) => !usedUrls.has(c.url));
+    if (openverseCandidates.length === 0) {
+      openverseCandidates = (await fetchOpenverse(instTerm, { wideOnly: false })).filter((c) => !usedUrls.has(c.url));
+    }
+    const chosenOpenverse = pickRandomCandidate(openverseCandidates);
+    if (chosenOpenverse) return formatResult(chosenOpenverse, title);
+  }
+
   const candidates = [];
   if (query && query.trim()) candidates.push(query.trim());
   const tagWords = tags.slice(0, 3).map((t) => cleanKeywords(t)).filter(Boolean).join(' ');
@@ -300,31 +335,31 @@ export async function findLicensedImage(queryOrParams, optionsOrCategory = {}) {
   for (const q of candidates) {
     if (!q) continue;
 
-    // 1. Premium free providers if keys are configured
-    if (env.PEXELS_API_KEY) {
+    // Premium free providers if keys are configured (skip if institutional topic to avoid foreign courts)
+    if (!instTerm && env.PEXELS_API_KEY) {
       const pexels = (await fetchPexels(q, env.PEXELS_API_KEY)).filter((c) => !usedUrls.has(c.url));
       const chosen = pickRandomCandidate(pexels);
       if (chosen) return formatResult(chosen, title);
     }
 
-    if (env.UNSPLASH_ACCESS_KEY) {
+    if (!instTerm && env.UNSPLASH_ACCESS_KEY) {
       const unsplash = (await fetchUnsplash(q, env.UNSPLASH_ACCESS_KEY)).filter((c) => !usedUrls.has(c.url));
       const chosen = pickRandomCandidate(unsplash);
       if (chosen) return formatResult(chosen, title);
     }
 
-    if (env.PIXABAY_API_KEY) {
+    if (!instTerm && env.PIXABAY_API_KEY) {
       const pixabay = (await fetchPixabay(q, env.PIXABAY_API_KEY)).filter((c) => !usedUrls.has(c.url));
       const chosen = pickRandomCandidate(pixabay);
       if (chosen) return formatResult(chosen, title);
     }
 
-    // 2. Open Commons: Wikimedia Commons (great for culture, TV, personalities, history, tech)
+    // Open Commons: Wikimedia Commons
     const wikimedia = (await fetchWikimediaCommons(q)).filter((c) => !usedUrls.has(c.url));
     const chosenWiki = pickRandomCandidate(wikimedia);
     if (chosenWiki) return formatResult(chosenWiki, title);
 
-    // 3. Openverse (Wide first, then any safe aspect ratio)
+    // Openverse (Wide first, then any safe aspect ratio)
     let openverse = (await fetchOpenverse(q, { wideOnly: true })).filter((c) => !usedUrls.has(c.url));
     if (openverse.length === 0) {
       openverse = (await fetchOpenverse(q, { wideOnly: false })).filter((c) => !usedUrls.has(c.url));
