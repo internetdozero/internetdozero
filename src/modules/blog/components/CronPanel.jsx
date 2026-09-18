@@ -32,23 +32,43 @@ export function CronPanel() {
   const fetchLogs = async () => {
     try {
       const res = await fetch('/api/admin/cron-log', { credentials: 'same-origin' });
-      if (!res.ok) return;
+      if (!res.ok) return [];
       const data = await res.json();
-      setLogs(data.items || []);
-    } catch (_) {} finally { setLoading(false); }
+      const items = data.items || [];
+      setLogs(items);
+      return items;
+    } catch (_) { return []; } finally { setLoading(false); }
   };
 
   useEffect(() => { fetchLogs(); }, []);
 
   const trigger = async () => {
+    const previousLogIds = new Set(logs.map((log) => log.id));
+    const requestedTopic = topic.trim();
     setTriggering(true);
     try {
-      const res = await fetch('/api/admin/cron-trigger', { method: 'POST', credentials: 'same-origin', headers: { 'Content-Type': 'application/json', 'X-CSRF-Token': csrf() }, body: JSON.stringify({ topic: topic.trim(), fallback: allowFallback }) });
+      const res = await fetch('/api/admin/cron-trigger', { method: 'POST', credentials: 'same-origin', headers: { 'Content-Type': 'application/json', 'X-CSRF-Token': csrf() }, body: JSON.stringify({ topic: requestedTopic, fallback: allowFallback }) });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || 'Falha ao disparar');
-      emitFeedback('success', topic.trim() ? 'Geração da pauta iniciada.' : 'Pipeline automático disparado.');
+      emitFeedback('success', 'Execução enfileirada. Aguardando o resultado…');
       setTopic('');
-      setTimeout(fetchLogs, 3000);
+      const startedAt = Date.now();
+      let result = null;
+      while (Date.now() - startedAt < 120000) {
+        await new Promise((resolve) => setTimeout(resolve, 2500));
+        const items = await fetchLogs();
+        result = items.find((log) => !previousLogIds.has(log.id));
+        if (result) break;
+      }
+      if (!result) {
+        emitFeedback('error', 'A execução foi enfileirada, mas ainda não terminou. Atualize os registros em alguns instantes.');
+      } else if (result.status === 'success') {
+        emitFeedback('success', requestedTopic ? 'Artigo gerado e publicado.' : 'Pipeline concluído com sucesso.');
+      } else if (result.status === 'skipped') {
+        emitFeedback('error', `A pauta foi pulada: ${result.topic || 'já existe uma pauta semelhante'}.`);
+      } else {
+        emitFeedback('error', result.error_message || 'A geração falhou. Nenhum fallback foi usado.');
+      }
     } catch (err) { emitFeedback('error', err.message); } finally { setTriggering(false); }
   };
 
